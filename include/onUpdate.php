@@ -9,6 +9,7 @@ function xoops_module_update_tad_themes(&$module, $old_version) {
 		if(!chk_chk4()) go_update4();
 		if(!chk_chk5()) go_update5();
 		if(!chk_chk6()) go_update6();
+		if(!chk_chk7()) go_update7();
 
 	  mk_dir(XOOPS_ROOT_PATH."/uploads/tad_themes");
     return true;
@@ -137,6 +138,23 @@ function go_update6(){
 	$xoopsDB->queryF($sql) or redirect_header(XOOPS_URL."/modules/system/admin.php?fct=modulesadmin",30,  mysql_error());  
 }
 
+//新增hash_filename欄位
+function chk_chk7(){
+	global $xoopsDB;
+	$sql="select count(`hash_filename`) from ".$xoopsDB->prefix("tad_themes_files_center");
+	$result=$xoopsDB->query($sql);
+	if(empty($result)) return false;
+	return true;
+}
+
+
+function go_update7(){
+	global $xoopsDB;
+	$sql="ALTER TABLE ".$xoopsDB->prefix("tad_themes_files_center")."
+  ADD `hash_filename` varchar(255) NOT NULL default '',
+  ADD `sub_dir` varchar(255) NOT NULL default ''";
+	$xoopsDB->queryF($sql) or redirect_header(XOOPS_URL."/modules/system/admin.php?fct=modulesadmin",30,  mysql_error());
+}
 
 //建立目錄
 function mk_dir($dir=""){

@@ -44,17 +44,19 @@ CREATE TABLE `tad_themes` (
 ) ENGINE=MyISAM ;
 
 CREATE TABLE `tad_themes_files_center` (
-  `files_sn` smallint(5) unsigned NOT NULL AUTO_INCREMENT COMMENT '檔案流水號',
-  `col_name` varchar(120) NOT NULL default '' COMMENT '欄位名稱',
-  `col_sn` smallint(5) unsigned NOT NULL default 0 COMMENT '欄位編號',
-  `sort` smallint(5) unsigned NOT NULL default 0 COMMENT '排序',
-  `kind` enum('img','file') NOT NULL default 'img' COMMENT '檔案種類',
-  `file_name` varchar(255) NOT NULL default '' COMMENT '檔案名稱',
-  `file_type` varchar(255) NOT NULL default '' COMMENT '檔案類型',
-  `file_size` int(10) unsigned NOT NULL default 0 COMMENT '檔案大小',
-  `description` text NOT NULL COMMENT '檔案說明',
-  `counter` mediumint(8) unsigned NOT NULL COMMENT '下載人次',
-  `original_filename` varchar(255) NOT NULL COMMENT '檔案名稱',
+  `files_sn` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `col_name` varchar(255) NOT NULL default '',
+  `col_sn` smallint(5) unsigned NOT NULL default '0',
+  `sort` smallint(5) unsigned NOT NULL default '1',
+  `kind` enum('img','file') NOT NULL default 'img',
+  `file_name` varchar(255) NOT NULL default '',
+  `file_type` varchar(255) NOT NULL default '',
+  `file_size` int(10) unsigned NOT NULL default '0',
+  `description` text NOT NULL,
+  `counter` mediumint(8) unsigned NOT NULL default '0',
+  `original_filename` varchar(255) NOT NULL default '',
+  `hash_filename` varchar(255) NOT default '',
+  `sub_dir` varchar(255) NOT NULL default '',
   PRIMARY KEY (`files_sn`),
   UNIQUE KEY `col_name` (`col_name`,`col_sn`,`sort`)
 )  ENGINE=MyISAM;

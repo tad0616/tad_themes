@@ -9,7 +9,6 @@
 $xoopsOption['template_main'] = "tad_themes_adm_main_tpl.html";
 include_once "header.php";
 include_once "../function.php";
-//include_once "up_file.php";
 
 include_once XOOPS_ROOT_PATH."/modules/tadtools/TadUpFiles.php" ;
 $TadUpFilesSlide=new TadUpFiles("tad_themes","/{$xoopsConfig['theme_set']}/slide",NULL,"","/thumbs");
@@ -359,7 +358,7 @@ function tad_themes_form(){
 }
 
 
-function change_css_bootstrap($theme_width,$theme_left_width){
+function change_css_bootstrap($theme_width="",$theme_left_width=""){
 
   $main="
   function change_css(){
@@ -418,7 +417,7 @@ function change_css_bootstrap($theme_width,$theme_left_width){
         $('#lb_width').val({$theme_left_width});
       }
       if($('#rb_width').val()==theme_width_org){
-        $('#rb_width').val(${$theme_left_width});
+        $('#rb_width').val({$theme_left_width});
       }
     }
 
@@ -680,7 +679,7 @@ function get_img($path='',$url="",$img='',$col_name="logo",$col_sn='',$width='',
   if(!is_dir($path))return;
 
   $sql = "select files_sn,file_name,original_filename from ".$xoopsDB->prefix("tad_themes_files_center")." where col_name='{$col_name}' and col_sn='{$col_sn}'";
-
+//die($sql);
   $result=$xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error()."<br>".$sql);
   while(list($files_sn,$file_name,$original_filename)=$xoopsDB->fetchRow($result)){
     $db_files[$files_sn]=$file_name;
@@ -688,30 +687,28 @@ function get_img($path='',$url="",$img='',$col_name="logo",$col_sn='',$width='',
   }
   
   $img=basename($img);
+  //die($img);
   
   $main="";
   if($dh = opendir($path)){
-//if($col_name=="logo")echo "<div>opendir {$path}</div>";
     while(($file = readdir($dh)) !== false){
       if($file=="." or $file=="..")continue;
       $type=filetype($path."/".$file);
-//if($col_name=="logo")echo "<div>opendir {$path}/{$file}={$type}</div>";
+
       if($type!="dir"){
         if(!in_array($file,$db_files)){
           import_file($path."/".$file,$col_name,$col_sn,$width);
-//if($col_name=="logo")echo "<div>import_file {$path}/{$file}={$col_name}_{$col_sn}</div>";
         }
         
         if($return){
           $selected=($img==$file)?"selected='selected'":"";
           $main.="<option value='{$url}/{$file}' $selected>{$show_name[$file]}</option>";
-//if($col_name=="logo")echo "<div>option {$url}/{$file}={$selected}</div>";
         }  
       }
     }
     closedir($dh);
   }
-//if($col_name=="logo")exit;
+//die($main);
   if($return)  return $main;
 }
 
@@ -1098,6 +1095,5 @@ switch($op){
 }
 
 /*-----------秀出結果區--------------*/
-echo $main;
 include_once 'footer.php';
 ?>
