@@ -15,5 +15,7 @@ define("_MI_TADTHEMES_ADMENU1", "Theme configuration");
 define("_MI_TADTHEMES_ADMENU2", "Menu configuration");
 define("_MI_TADTHEMES_BNAME1","responsive slider");
 define("_MI_TADTHEMES_BDESC1","responsive slider block");
+define("_MI_TADTHEMES_AUTO_MENU","Main menu dropdown?");
+define("_MI_TADTHEMES_AUTO_MENU_DESC","Does display main menu dropdown?");
 
 ?>

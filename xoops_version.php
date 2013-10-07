@@ -1,5 +1,4 @@
 <?php
-
 $modversion = array();
 
 //---模組基本資訊---//
@@ -60,12 +59,12 @@ $modversion['onUninstall'] = "include/onUninstall.php";
 
 //---偏好設定---//
 $modversion['config'] = array();
-//$modversion['config'][0]['name']	= '偏好設定名稱（英文）';
-//$modversion['config'][0]['title']	= '偏好設定標題（常數）';
-//$modversion['config'][0]['description']	= '偏好設定說明（常數）';
-//$modversion['config'][0]['formtype']	= '輸入表單類型';
-//$modversion['config'][0]['valuetype']	= '輸入值類型';
-//$modversion['config'][0]['default']	= 預設值;
+$modversion['config'][0]['name']	= 'auto_mainmenu';
+$modversion['config'][0]['title']	= '_MI_TADTHEMES_AUTO_MENU';
+$modversion['config'][0]['description']	= '_MI_TADTHEMES_AUTO_MENU_DESC';
+$modversion['config'][0]['formtype']	= 'yesno';
+$modversion['config'][0]['valuetype']	= 'int';
+$modversion['config'][0]['default']	= 1;
 
 
 //---搜尋---//

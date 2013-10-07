@@ -55,7 +55,7 @@ CREATE TABLE `tad_themes_files_center` (
   `description` text NOT NULL,
   `counter` mediumint(8) unsigned NOT NULL default '0',
   `original_filename` varchar(255) NOT NULL default '',
-  `hash_filename` varchar(255) NOT default '',
+  `hash_filename` varchar(255) NOT NULL default '',
   `sub_dir` varchar(255) NOT NULL default '',
   PRIMARY KEY (`files_sn`),
   UNIQUE KEY `col_name` (`col_name`,`col_sn`,`sort`)
