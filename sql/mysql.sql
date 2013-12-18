@@ -53,7 +53,7 @@ CREATE TABLE `tad_themes_files_center` (
   `file_type` varchar(255) NOT NULL default '',
   `file_size` int(10) unsigned NOT NULL default '0',
   `description` text NOT NULL,
-  `counter` mediumint(8) unsigned NOT NULL default '0',
+  `counter` mediumint(8) unsigned NOT NULL default 0,
   `original_filename` varchar(255) NOT NULL default '',
   `hash_filename` varchar(255) NOT NULL default '',
   `sub_dir` varchar(255) NOT NULL default '',
