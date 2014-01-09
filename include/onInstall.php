@@ -1,10 +1,11 @@
 <?php
 function xoops_module_install_tad_themes(&$module) {
-	
+
 	mk_dir(XOOPS_ROOT_PATH."/uploads/tad_themes");
 
 	return true;
 }
+
 
 //建立目錄
 function mk_dir($dir=""){

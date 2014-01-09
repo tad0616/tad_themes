@@ -2,6 +2,7 @@ CREATE TABLE `tad_themes` (
   `theme_id` smallint(6) unsigned NOT NULL AUTO_INCREMENT COMMENT '佈景編號',
   `theme_name` varchar(255) NOT NULL default '' COMMENT '佈景名稱',
   `theme_type` varchar(255) NOT NULL default '' COMMENT '版面類型',
+  `theme_width` varchar(255) NOT NULL default '' COMMENT '頁面寬度',
   `lb_width` varchar(255) NOT NULL default '' COMMENT '左區塊寬度',
   `rb_width` varchar(255) NOT NULL default '' COMMENT '右區塊寬度',
   `clb_width` varchar(255) NOT NULL default '' COMMENT '中左區塊寬度',
@@ -40,6 +41,9 @@ CREATE TABLE `tad_themes` (
   `navbar_bg_top` varchar(255) NOT NULL COMMENT 'navbar漸層色top',
   `navbar_bg_bottom` varchar(255) NOT NULL COMMENT 'navbar漸層色bottom',
   `navbar_hover` varchar(255) NOT NULL COMMENT 'navbar覆蓋色塊',
+  `navbar_color` varchar(255) NOT NULL default '#FFFFFF' COMMENT 'navbar文字顏色',
+  `navbar_color_hover` varchar(255) NOT NULL default 'yellow' COMMENT 'navbar文字移過顏色',
+  `navbar_icon` varchar(255) NOT NULL default '' COMMENT 'navbar 圖示色調',
   PRIMARY KEY (`theme_id`)
 ) ENGINE=MyISAM ;
 

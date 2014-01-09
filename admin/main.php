@@ -45,6 +45,34 @@ define("_THEME_UPLOADS_BT_BG_URL",$Bt_bgPath['url']);
 
 /*-----------function區--------------*/
 
+//自動存入佈景
+function auto_import_theme(){
+  global $xoopsDB,$xoopsConfig;
+  if(empty($xoopsConfig['theme_set']))return;
+  $theme_name=$xoopsConfig['theme_set'];
+  if(!file_exists(XOOPS_ROOT_PATH."/themes/{$theme_name}/config.php")){
+    return;
+  }
+
+  include_once XOOPS_ROOT_PATH."/themes/{$theme_name}/config.php";
+  $default_background=!empty($theme_default_background)?XOOPS_URL."/themes/{$theme_name}/images/bg/{$theme_default_background}":"";
+  $bt_bg_img=!empty($theme_bt_bg_img)?XOOPS_URL."/themes/{$theme_name}/images/bt_bg/{$theme_bt_bg_img}":"";
+
+  //此處增加7+4項by hc
+  $sql = "insert into ".$xoopsDB->prefix("tad_themes")."
+  (`theme_name` , `theme_type` , `lb_width` , `rb_width` , `clb_width` , `crb_width` , `lb_color` , `cb_color` , `rb_color` , `margin_top` , `margin_bottom` , `bg_img` , `bg_color`  , `bg_repeat`  , `bg_attachment`  , `bg_position`  , `logo_img` , `logo_top` , `logo_right` , `logo_bottom` , `logo_left` , `theme_enable` , `slide_width` , `slide_height` , `font_size` , `font_color` , `link_color` , `hover_color` , `theme_kind`,`block_config` , `bt_text` , `bt_text_padding` , `bt_bg_color` , `bt_bg_img` , `bt_bg_repeat` , `bt_radius` , `navbar_pos` , `navbar_bg_top` , `navbar_bg_bottom` , `navbar_hover` , `navbar_color` , `navbar_color_hover` , `navbar_icon`)
+  values('{$theme_name}' , 'theme_type_1' , '{$theme_left_width}' , '{$theme_right_width}' , '49%' , '49%' , '#F4F4F4' , '#FFFFFF' , '#F4F4F4' , '0' , '0' , '{$default_background}' , '#FFFFFF' , '' , '' , 'left top' , '' , '' , '' , '' , '' , '1' , '{$theme_slide_width}' , '{$theme_slide_height}' , '11pt' , '#202020' , '#3333CC' , '#FF3300' , '{$theme_kind}', 'right' , '{$theme_bt_bg_img}' , '{$theme_bt_text_padding}' , '{$theme_bt_bg_color}' , '{$bt_bg_img}' , '0' ,'1','not-use','#54b4eb','#2fa4e7','#1684c2','#ffffff','#ffff00','icon-white')";
+  $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+
+  //取得最後新增資料的流水編號
+  $theme_id=$xoopsDB->getInsertId();
+
+  $sql = "select * from ".$xoopsDB->prefix("tad_themes")." where theme_id='{$theme_id}'";
+  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  $data=$xoopsDB->fetchArray($result);
+  return $data;
+}
+
 //tad_themes編輯表單
 function tad_themes_form(){
   global $xoopsDB,$xoopsUser,$xoopsConfig ,$xoopsTpl,$TadUpFilesSlide,$TadUpFilesBg,$TadUpFilesLogo,$TadUpFilesBt_bg;
@@ -57,6 +85,14 @@ function tad_themes_form(){
 
   //設定「theme_id」欄位預設值
   $theme_id=(!isset($DBV['theme_id']))?0:$DBV['theme_id'];
+  if(empty($theme_id)){
+    $DBV=auto_import_theme();
+  }
+
+
+  import_img(_THEME_BG_PATH,"bg",$DBV['theme_id']);
+  import_img(_THEME_LOGO_PATH,"logo",$DBV['theme_id']);
+  import_img(_THEME_BT_BG_PATH,"bt_bg",$DBV['theme_id']);
 
   //設定「theme_name」欄位預設值
   $theme_name=(!isset($DBV['theme_name']))?$xoopsConfig['theme_set']:$DBV['theme_name'];
@@ -80,6 +116,9 @@ function tad_themes_form(){
 
   //設定「theme_type」欄位預設值
   $theme_type=(!isset($DBV['theme_type']))?"theme_type_1":$DBV['theme_type'];
+
+  //設定「theme_width」欄位預設值
+  $theme_width=(!isset($DBV['theme_width']))?$theme_width:$DBV['theme_width'];
 
   //設定「lb_width」欄位預設值
   $lb_width=(!isset($DBV['lb_width']))?$theme_left_width:$DBV['lb_width'];
@@ -197,6 +236,12 @@ function tad_themes_form(){
 
   //設定「navbar_hover」欄位預設值
   $navbar_hover=(!isset($DBV['navbar_hover']))?'#1684c2':$DBV['navbar_hover'];
+  //設定「navbar_color」欄位預設值
+  $navbar_color=(!isset($DBV['navbar_color']))?'#FFFFFF':$DBV['navbar_color'];
+  //設定「navbar_color_hover」欄位預設值
+  $navbar_color_hover=(!isset($DBV['navbar_color_hover']))?'#FFFF00':$DBV['navbar_color_hover'];
+  //設定「navbar_icon」欄位預設值
+  $navbar_icon=(!isset($DBV['navbar_icon']))?'icon-white':$DBV['navbar_icon'];
   //新增navbar設定by hc 結束
 
   $op=(empty($theme_id))?"insert_tad_themes":"update_tad_themes";
@@ -210,38 +255,19 @@ function tad_themes_form(){
     <input type='hidden' name='margin_top' value='0' id='margin_top' >
     <input type='hidden' name='margin_bottom'  value='0' id='margin_bottom'>";
 
-    $use_slide="
-    <div class='row-fluid'>
-      <!--是否使用滑動圖片 -->
-      <div class='span2 text-right'>
-        "._MA_TADTHEMES_SLIDE_ENABLE."
-      </div>
-      <div class='span10'>
-        <label class='radio inline'>
-          <input type='radio' name='slide_h' value='300' onClick=\"$('#slide_height').val(300);change_css();\" ".chk($slide_height,300,1).">"._YES."
-        </label>
-
-        <label class='radio inline'>
-          <input type='radio' name='slide_h' value='0'  onClick=\"$('#slide_height').val(0);change_css();\" ".chk($slide_height,0,0).">"._NO."
-        </label>
-
-        <input type='hidden' name='slide_height' id='slide_height' value='$slide_height'>
-      </div>
-    </div>
-    ";
   }else{
     $theme_kind_txt=_MA_TADTHEMES_THEME_KIND_HTML;
     $chang_css=change_css($theme_width,$theme_left_width);
     $theme_unit="px";
     $margin_setup="
       <div class='row-fluid'>
-        <!--離上邊界距離-->
+        <!--"._MA_TADTHEMES_MARGIN_TOP."-->
         <div class='span2 text-right'>"._MA_TADTHEMES_MARGIN_TOP."</div>
         <div class='span4'>
           <input type='text' name='margin_top' class='span6' value='{$margin_top}' id='margin_top'  onChange='change_css();'>px
         </div>
 
-        <!--離下邊界距離-->
+        <!--"._MA_TADTHEMES_MARGIN_BOTTOM."-->
         <div class='span2 text-right'>"._MA_TADTHEMES_MARGIN_BOTTOM."</div>
         <div class='span4'>
           <input type='text' name='margin_bottom' class='span6' value='{$margin_bottom}' id='margin_bottom'  onChange='change_css();'>px
@@ -249,17 +275,6 @@ function tad_themes_form(){
       </div>
     ";
 
-    $use_slide="
-    <div class='row-fluid'>
-      <!--是否使用滑動圖片 -->
-      <div class='span2 text-right'>
-        "._MA_TADTHEMES_SLIDE_HEIGHT."
-      </div>
-      <div class='span10'>
-        <input type='text' name='slide_height' class='span6' value='{$slide_height}' id='slide_height' onChange='change_css();'>
-      </div>
-    </div>
-    ";
   }
 
 
@@ -279,6 +294,8 @@ function tad_themes_form(){
   $xoopsTpl->assign('theme_kind',$theme_kind);
   $xoopsTpl->assign('theme_kind_txt',$theme_kind_txt);
   $xoopsTpl->assign('theme_type',$theme_type);
+
+  $xoopsTpl->assign('theme_width',$theme_width);
   $xoopsTpl->assign('lb_width',$lb_width);
   $xoopsTpl->assign('theme_unit',$theme_unit);
   $xoopsTpl->assign('lb_color',$lb_color);
@@ -304,9 +321,6 @@ function tad_themes_form(){
   $TadUpFilesSlide->set_col("slide",$theme_id);
   $xoopsTpl->assign('upform_slide',$TadUpFilesSlide->upform(true,"slide",NULL,true));
 
-  //$xoopsTpl->assign('get_logo_img1',get_img(_THEME_UPLOADS_LOGO_PATH,_THEME_UPLOADS_LOGO_URL,$logo_img,"logo",$theme_id));
-  //$xoopsTpl->assign('get_logo_img2',get_img(_THEME_LOGO_PATH,_THEME_LOGO_URL,$logo_img,"logo",$theme_id));
-
   $TadUpFilesLogo->set_col("logo",$theme_id);
   $xoopsTpl->assign('all_logo',$TadUpFilesLogo->get_file_for_smarty());
   $xoopsTpl->assign('logo_img',$logo_img);
@@ -320,8 +334,6 @@ function tad_themes_form(){
   $TadUpFilesLogo->set_col("logo",$theme_id);
   //$xoopsTpl->assign('list_del_file_logo',$TadUpFilesLogo->list_del_file());
 
-  //$xoopsTpl->assign('get_bt_bg_img1',get_img(_THEME_BT_BG_PATH,_THEME_BT_BG_URL,$bt_bg_img,"bt_bg",$theme_id));
-  //$xoopsTpl->assign('get_bt_bg_img2',get_img(_THEME_UPLOADS_BT_BG_PATH,_THEME_UPLOADS_BT_BG_URL,$bt_bg_img,"bt_bg",$theme_id));
 
   $TadUpFilesBt_bg->set_col("bt_bg",$theme_id);
   $xoopsTpl->assign('all_bt_bg',$TadUpFilesBt_bg->get_file_for_smarty());
@@ -340,11 +352,15 @@ function tad_themes_form(){
   $xoopsTpl->assign('navbar_bg_top',$navbar_bg_top);
   $xoopsTpl->assign('navbar_bg_bottom',$navbar_bg_bottom);
   $xoopsTpl->assign('navbar_hover',$navbar_hover);
+  $xoopsTpl->assign('navbar_color',$navbar_color);
+  $xoopsTpl->assign('navbar_color_hover',$navbar_color_hover);
+  $xoopsTpl->assign('navbar_icon',$navbar_icon);
   $xoopsTpl->assign('clb_width',$clb_width);
   $xoopsTpl->assign('crb_width',$crb_width);
   $xoopsTpl->assign('theme_id',$theme_id);
   $xoopsTpl->assign('theme_name',$theme_name);
   $xoopsTpl->assign('slide_width',$slide_width);
+  $xoopsTpl->assign('slide_height',$slide_height);
   $xoopsTpl->assign('op',$op);
 
 }
@@ -520,7 +536,8 @@ function change_css($theme_width,$theme_left_width){
   function change_css(){
     var theme_width_org = $theme_width;
     var theme_width = Math.round(theme_width_org/4);
-    var preview_width = Math.round(theme_width_org/2);
+    //var preview_width = Math.round(theme_width_org/2);
+    var preview_width = $('#preview_width').width();
     var theme_div_width= theme_width+11;
     var slide_height_org = $('#slide_height').val();
     var slide_height= Math.round(slide_height_org/4);
@@ -664,232 +681,41 @@ function change_css($theme_width,$theme_left_width){
 }
 
 
-//取得圖片選項
-function get_img($path='',$url="",$img='',$col_name="logo",$col_sn='',$width='',$return=true){
-  global $xoopsConfig,$xoopsDB;
-  if(empty($path))return;
-  if(!is_dir($path))return;
-
-  $sql = "select files_sn,file_name,original_filename from ".$xoopsDB->prefix("tad_themes_files_center")." where col_name='{$col_name}' and col_sn='{$col_sn}'";
-//die($sql);
-  $result=$xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error()."<br>".$sql);
-  while(list($files_sn,$file_name,$original_filename)=$xoopsDB->fetchRow($result)){
-    $db_files[$files_sn]=$file_name;
-    $show_name[$file_name]=$original_filename;
-  }
-
-  $img=basename($img);
-  //die($img);
-
-  $main="";
-  if($dh = opendir($path)){
-    while(($file = readdir($dh)) !== false){
-      if($file=="." or $file=="..")continue;
-      $type=filetype($path."/".$file);
-
-      if($type!="dir"){
-        if(!in_array($file,$db_files)){
-          import_file($path."/".$file,$col_name,$col_sn,$width);
-        }
-
-        if($return){
-          $selected=($img==$file)?"selected='selected'":"";
-          $main.="<option value='{$url}/{$file}' $selected>{$show_name[$file]}</option>";
-        }
-      }
-    }
-    closedir($dh);
-  }
-//die($main);
-  if($return)  return $main;
-}
-
-
-
-//匯入圖檔
-function import_file($file_name='',$col_name="",$col_sn="",$main_width="",$thumb_width="90"){
-  global $xoopsDB,$xoopsUser,$xoopsModule,$xoopsConfig;
-
-  $TadUpFiles=new TadUpFiles("tad_themes","/{$xoopsConfig['theme_set']}/{$col_name}",NULL,"","/thumbs");
-
-  $TadUpFiles->set_col($col_name,$col_sn,$sort);
-  //取消上傳時間限制
-  set_time_limit(0);
-  //設置上傳大小
-  ini_set('memory_limit', '80M');
-  //取得檔名
-  $file=basename($file_name);
-
-  $path=XOOPS_ROOT_PATH."/uploads/tad_themes/{$xoopsConfig['theme_set']}/{$col_name}";
-  $import_file="{$path}/{$file}";
-  $thumb_name=XOOPS_ROOT_PATH."/uploads/tad_themes/{$xoopsConfig['theme_set']}/{$col_name}/thumbs/{$file}";
-
-  //自動排序
-  $sort=$TadUpFiles->auto_sort();
-  //取得附檔
-  $ext=strtolower(strrchr($file, "."));
-
-  //判斷檔案種類
-  if($ext==".jpg" or $ext==".jpeg" or $ext==".png" or $ext==".gif"){
-    $kind="img";
-  }else{
-    $kind="file";
-  }
-  $type=mime_content_type($file_name);
-  $size=filesize($file_name);
-
-//做縮圖
-  if(!empty($main_width))thumbnail($file_name,$import_file,$type,$main_width);
-  if(!empty($thumb_width)){
-    thumbnail($file_name,$thumb_name,$type,$thumb_width);
-  }
-  //匯入資料庫
-  $sql = "insert into ".$xoopsDB->prefix("tad_themes_files_center")." (`col_name`,`col_sn`,`sort`,`kind`,`file_name`,`file_type`,`file_size`,`description`,`original_filename`) values('$col_name','$col_sn','$sort','{$kind}','{$file}','{$type}','{$size}','{$file}','{$file}')";
-  $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-}
-
-
-
-//做縮圖
-function thumbnail($filename="",$thumb_name="",$type="image/jpeg",$width="120"){
-
-  ini_set('memory_limit', '50M');
-  // Get new sizes
-  list($old_width, $old_height) = getimagesize($filename);
-  if($old_width > $width){
-    $percent=($old_width>$old_height)?round($width/$old_width,2):round($width/$old_height,2);
-
-    $newwidth = ($old_width>$old_height)?$width:$old_width * $percent;
-    $newheight = ($old_width>$old_height)?$old_height * $percent:$width;
-
-    // Load
-    $thumb = imagecreatetruecolor($newwidth, $newheight);
-    if($type=="image/jpeg" or $type=="image/jpg" or $type=="image/pjpg" or $type=="image/pjpeg"){
-      $source = imagecreatefromjpeg($filename);
-      $type="image/jpeg";
-    }elseif($type=="image/png"){
-      $source = imagecreatefrompng($filename);
-      $type="image/png";
-    }elseif($type=="image/gif"){
-      $source = imagecreatefromgif($filename);
-      $type="image/gif";
-    }
-
-    // Resize
-    imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $old_width, $old_height);
-
-    header("Content-type: $type");
-    if($type=="image/jpeg"){
-     imagejpeg($thumb,$thumb_name);
-    }elseif($type=="image/png"){
-     imagepng($thumb,$thumb_name);
-    }elseif($type=="image/gif"){
-     imagegif($thumb,$thumb_name);
-    }
-    return;
-    exit;
-  }else{
-    copy($filename,$thumb_name);
-  }
-}
-
-
-if(!function_exists('mime_content_type')) {
-
-  function mime_content_type($filename) {
-
-  $mime_types = array(
-
-      'txt' => 'text/plain',
-      'htm' => 'text/html',
-      'html' => 'text/html',
-      'php' => 'text/html',
-      'css' => 'text/css',
-      'js' => 'application/javascript',
-      'json' => 'application/json',
-      'xml' => 'application/xml',
-      'swf' => 'application/x-shockwave-flash',
-      'flv' => 'video/x-flv',
-
-      // images
-      'png' => 'image/png',
-      'jpe' => 'image/jpeg',
-      'jpeg' => 'image/jpeg',
-      'jpg' => 'image/jpeg',
-      'gif' => 'image/gif',
-      'bmp' => 'image/bmp',
-      'ico' => 'image/vnd.microsoft.icon',
-      'tiff' => 'image/tiff',
-      'tif' => 'image/tiff',
-      'svg' => 'image/svg+xml',
-      'svgz' => 'image/svg+xml',
-
-      // archives
-      'zip' => 'application/zip',
-      'rar' => 'application/x-rar-compressed',
-      'exe' => 'application/x-msdownload',
-      'msi' => 'application/x-msdownload',
-      'cab' => 'application/vnd.ms-cab-compressed',
-
-      // audio/video
-      'mp3' => 'audio/mpeg',
-      'qt' => 'video/quicktime',
-      'mov' => 'video/quicktime',
-
-      // adobe
-      'pdf' => 'application/pdf',
-      'psd' => 'image/vnd.adobe.photoshop',
-      'ai' => 'application/postscript',
-      'eps' => 'application/postscript',
-      'ps' => 'application/postscript',
-
-      // ms office
-      'doc' => 'application/msword',
-      'rtf' => 'application/rtf',
-      'xls' => 'application/vnd.ms-excel',
-      'ppt' => 'application/vnd.ms-powerpoint',
-
-      // open office
-      'odt' => 'application/vnd.oasis.opendocument.text',
-      'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
-      );
-
-      $ext = strtolower(array_pop(explode('.',$filename)));
-      if (array_key_exists($ext, $mime_types)) {
-          return $mime_types[$ext];
-      }
-      elseif (function_exists('finfo_open')) {
-          $finfo = finfo_open(FILEINFO_MIME);
-          $mimetype = finfo_file($finfo, $filename);
-          finfo_close($finfo);
-          return $mimetype;
-      }
-      else {
-          return 'application/octet-stream';
-      }
-  }
-}
-
 //新增資料到tad_themes中
 function insert_tad_themes(){
   global $xoopsDB,$xoopsUser,$TadUpFilesSlide,$TadUpFilesBg,$TadUpFilesLogo,$TadUpFilesBt_bg,$xoopsConfig;
 
 
   $myts =& MyTextSanitizer::getInstance();
+  $_POST['theme_width']=$myts->addSlashes($_POST['theme_width']);
   $_POST['lb_width']=$myts->addSlashes($_POST['lb_width']);
   $_POST['rb_width']=$myts->addSlashes($_POST['rb_width']);
   $_POST['clb_width']=$myts->addSlashes($_POST['clb_width']);
   $_POST['crb_width']=$myts->addSlashes($_POST['crb_width']);
   $_POST['slide_width']=$myts->addSlashes($_POST['slide_width']);
   $_POST['slide_height']=$myts->addSlashes($_POST['slide_height']);
+  
+  //導覽列自動邊距調整
+  if($_POST['theme_kind']=="html"){
+    if($_POST['navbar_pos']=="navbar-fixed-top" and $_POST['margin_top'] <= 53){
+      $_POST['margin_top']=53;
+      $_POST['margin_bottom']=0;
+    }elseif($_POST['navbar_pos']=="navbar-fixed-bottom" and $_POST['margin_bottom'] <= 53){
+      $_POST['margin_bottom']=53;
+      $_POST['margin_top']=0;
+    }else{
+      $_POST['margin_bottom']=0;
+      $_POST['margin_top']=0;
+    }
+  }
 
   $sql="update ".$xoopsDB->prefix("tad_themes")." set `theme_enable`='0'";
   $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
-//此處增加7+4項by hc
+  //此處增加7+4項by hc
   $sql = "insert into ".$xoopsDB->prefix("tad_themes")."
-  (`theme_name` , `theme_type` , `lb_width` , `rb_width` , `clb_width` , `crb_width` , `lb_color` , `cb_color` , `rb_color` , `margin_top` , `margin_bottom` , `bg_img` , `bg_color`  , `bg_repeat`  , `bg_attachment`  , `bg_position`  , `logo_img` , `logo_top` , `logo_right` , `logo_bottom` , `logo_left` , `theme_enable` , `slide_width` , `slide_height` , `font_size` , `font_color` , `link_color` , `hover_color` , `theme_kind`,`block_config` , `bt_text` , `bt_text_padding` , `bt_bg_color` , `bt_bg_img` , `bt_bg_repeat` , `bt_radius` , `navbar_pos` , `navbar_bg_top` , `navbar_bg_bottom` , `navbar_hover`)
-  values('{$_POST['theme_name']}' , '{$_POST['theme_type']}' , '{$_POST['lb_width']}' , '{$_POST['rb_width']}' , '{$_POST['clb_width']}' , '{$_POST['crb_width']}' , '{$_POST['lb_color']}' , '{$_POST['cb_color']}' , '{$_POST['rb_color']}' , '{$_POST['margin_top']}' , '{$_POST['margin_bottom']}' , '{$_POST['bg_img']}' , '{$_POST['bg_color']}' , '{$_POST['bg_repeat']}' , '{$_POST['bg_attachment']}' , '{$_POST['bg_position']}' , '{$_POST['logo_img']}' , '{$_POST['logo_top']}' , '{$_POST['logo_right']}' , '{$_POST['logo_bottom']}' , '{$_POST['logo_left']}' , '1' , '{$_POST['slide_width']}' , '{$_POST['slide_height']}' , '{$_POST['font_size']}' , '{$_POST['font_color']}' , '{$_POST['link_color']}' , '{$_POST['hover_color']}' , '{$_POST['theme_kind']}', '{$_POST['block_config']}' , '{$_POST['bt_text']}' , '{$_POST['bt_text_padding']}' , '{$_POST['bt_bg_color']}' , '{$_POST['bt_bg_img']}' , '{$_POST['bt_bg_repeat']}' ,'{$_POST['bt_radius']}','{$_POST['navbar_pos']}','{$_POST['navbar_bg_top']}','{$_POST['navbar_bg_bottom']}','{$_POST['navbar_hover']}')";
+  (`theme_name` , `theme_type` , `theme_width` , `lb_width` , `rb_width` , `clb_width` , `crb_width` , `lb_color` , `cb_color` , `rb_color` , `margin_top` , `margin_bottom` , `bg_img` , `bg_color`  , `bg_repeat`  , `bg_attachment`  , `bg_position`  , `logo_img` , `logo_top` , `logo_right` , `logo_bottom` , `logo_left` , `theme_enable` , `slide_width` , `slide_height` , `font_size` , `font_color` , `link_color` , `hover_color` , `theme_kind`,`block_config` , `bt_text` , `bt_text_padding` , `bt_bg_color` , `bt_bg_img` , `bt_bg_repeat` , `bt_radius` , `navbar_pos` , `navbar_bg_top` , `navbar_bg_bottom` , `navbar_hover` , `navbar_color` , `navbar_color_hover` , `navbar_icon`)
+  values('{$_POST['theme_name']}' , '{$_POST['theme_type']}', '{$_POST['theme_width']}' , '{$_POST['lb_width']}' , '{$_POST['rb_width']}' , '{$_POST['clb_width']}' , '{$_POST['crb_width']}' , '{$_POST['lb_color']}' , '{$_POST['cb_color']}' , '{$_POST['rb_color']}' , '{$_POST['margin_top']}' , '{$_POST['margin_bottom']}' , '{$_POST['bg_img']}' , '{$_POST['bg_color']}' , '{$_POST['bg_repeat']}' , '{$_POST['bg_attachment']}' , '{$_POST['bg_position']}' , '{$_POST['logo_img']}' , '{$_POST['logo_top']}' , '{$_POST['logo_right']}' , '{$_POST['logo_bottom']}' , '{$_POST['logo_left']}' , '1' , '{$_POST['slide_width']}' , '{$_POST['slide_height']}' , '{$_POST['font_size']}' , '{$_POST['font_color']}' , '{$_POST['link_color']}' , '{$_POST['hover_color']}' , '{$_POST['theme_kind']}', '{$_POST['block_config']}' , '{$_POST['bt_text']}' , '{$_POST['bt_text_padding']}' , '{$_POST['bt_bg_color']}' , '{$_POST['bt_bg_img']}' , '{$_POST['bt_bg_repeat']}' ,'{$_POST['bt_radius']}','{$_POST['navbar_pos']}','{$_POST['navbar_bg_top']}','{$_POST['navbar_bg_bottom']}','{$_POST['navbar_hover']}','{$_POST['navbar_color']}','{$_POST['navbar_color_hover']}','{$_POST['navbar_icon']}')";
   $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
   //取得最後新增資料的流水編號
@@ -910,9 +736,9 @@ function insert_tad_themes(){
   $TadUpFilesBt_bg->set_col('bt_bg',$theme_id);
   $TadUpFilesBt_bg->upload_file('bt_bg');
 
+
   return $theme_id;
 }
-
 
 
 //更新tad_themes某一筆資料
@@ -921,17 +747,32 @@ function update_tad_themes($theme_id=""){
 
 
   $myts =& MyTextSanitizer::getInstance();
+  $_POST['theme_width']=$myts->addSlashes($_POST['theme_width']);
   $_POST['lb_width']=$myts->addSlashes($_POST['lb_width']);
   $_POST['rb_width']=$myts->addSlashes($_POST['rb_width']);
   $_POST['clb_width']=$myts->addSlashes($_POST['clb_width']);
   $_POST['crb_width']=$myts->addSlashes($_POST['crb_width']);
   $_POST['slide_width']=$myts->addSlashes($_POST['slide_width']);
   $_POST['slide_height']=$myts->addSlashes($_POST['slide_height']);
-
+  
+  //導覽列自動邊距調整
+  if($_POST['theme_kind']=="html"){
+    if($_POST['navbar_pos']=="navbar-fixed-top" and $_POST['margin_top'] <= 53){
+      $_POST['margin_top']=53;
+      $_POST['margin_bottom']=0;
+    }elseif($_POST['navbar_pos']=="navbar-fixed-bottom" and $_POST['margin_bottom'] <= 53){
+      $_POST['margin_bottom']=53;
+      $_POST['margin_top']=0;
+    }else{
+      $_POST['margin_bottom']=0;
+      $_POST['margin_top']=0;
+    }
+  }
 
   $sql = "update ".$xoopsDB->prefix("tad_themes")." set
    `theme_name` = '{$_POST['theme_name']}' ,
    `theme_type` = '{$_POST['theme_type']}' ,
+   `theme_width` = '{$_POST['theme_width']}' ,
    `lb_width` = '{$_POST['lb_width']}' ,
    `rb_width` = '{$_POST['rb_width']}' ,
    `clb_width` = '{$_POST['clb_width']}' ,
@@ -969,10 +810,13 @@ function update_tad_themes($theme_id=""){
   `navbar_pos` = '{$_POST['navbar_pos']}' ,
   `navbar_bg_top` = '{$_POST['navbar_bg_top']}' ,
   `navbar_bg_bottom` = '{$_POST['navbar_bg_bottom']}' ,
-  `navbar_hover` = '{$_POST['navbar_hover']}'
+  `navbar_hover` = '{$_POST['navbar_hover']}' ,
+  `navbar_color` = '{$_POST['navbar_color']}' ,
+  `navbar_color_hover` = '{$_POST['navbar_color_hover']}' ,
+  `navbar_icon` = '{$_POST['navbar_icon']}'
 
   where theme_id='$theme_id'";
-//die($sql);
+  //die($sql);
   $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
 
@@ -1048,6 +892,59 @@ function mk_dir($dir=""){
 }
 
 
+//取得圖片選項
+function import_img($path='',$col_name="logo",$col_sn=''){
+  global $xoopsDB;
+  if(empty($path))return;
+  if(!is_dir($path))return;
+
+  $db_files=array();
+  $sql = "select files_sn,file_name,original_filename from ".$xoopsDB->prefix("tad_themes_files_center")." where col_name='{$col_name}' and col_sn='{$col_sn}'";
+  $result=$xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error()."<br>".$sql);
+  while(list($files_sn,$file_name,$original_filename)=$xoopsDB->fetchRow($result)){
+    $db_files[$files_sn]=$original_filename;
+  }
+
+  if($dh = opendir($path)){
+    while(($file = readdir($dh)) !== false){
+      if($file=="." or $file=="..")continue;
+      $type=filetype($path."/".$file);
+
+      if($type!="dir"){
+        if(!in_array($file,$db_files)){
+          //die($path."/".$file.", ".$col_name.", ".$col_sn);
+          import_file($path."/".$file, $col_name, $col_sn);
+        }
+      }
+    }
+    closedir($dh);
+  }
+}
+
+
+
+//匯入圖檔
+function import_file($file_name='',$col_name="",$col_sn="",$main_width="",$thumb_width="90"){
+  global $xoopsDB,$xoopsUser,$xoopsModule,$xoopsConfig,$TadUpFilesSlide,$TadUpFilesBg,$TadUpFilesLogo,$TadUpFilesBt_bg;
+
+  if($col_name=="slide"){
+    $TadUpFilesSlide->set_col($col_name,$col_sn);
+    $TadUpFilesSlide->import_one_file($file_name,NULL,$main_width,$thumb_width,NULL,$file);
+  }elseif($col_name=="bg"){
+    $TadUpFilesBg->set_col($col_name,$col_sn);
+    $TadUpFilesBg->import_one_file($file_name,NULL,$main_width,$thumb_width,NULL,$file);
+  }elseif($col_name=="logo"){
+    $TadUpFilesLogo->set_col($col_name,$col_sn);
+    $TadUpFilesLogo->import_one_file($file_name,NULL,$main_width,$thumb_width,NULL,$file);
+  }elseif($col_name=="bt_bg"){
+    $TadUpFilesBt_bg->set_col($col_name,$col_sn);
+    $TadUpFilesBt_bg->import_one_file($file_name,NULL,$main_width,$thumb_width,NULL,$file);
+  }
+
+}
+
+
+
 /*-----------執行動作判斷區----------*/
 $op = (!isset($_REQUEST['op']))? "":$_REQUEST['op'];
 $theme_id= (!isset($_REQUEST['theme_id']))? "":intval($_REQUEST['theme_id']);
@@ -1081,6 +978,7 @@ switch($op){
   //預設動作
   default:
   tad_themes_form();
+
   break;
 
 

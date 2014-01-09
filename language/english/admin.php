@@ -9,21 +9,18 @@ include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.ph
 
 //需加入模組語系
 define("_TAD_NEED_TADTOOLS","This module need tadtools module. You can download tadtools from <a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad's web</a>.");
-
-define("_MA_TADTHEMES_THEME_ID","Theme ID");
-define("_MA_TADTHEMES_THEME_NAME","Theme Name");
+define("_MA_TADTHEMES_THEME_BASE","Theme Setup");
 define("_MA_TADTHEMES_THEME_KIND","Theme Kind");
 define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP","（XOOPS bootstrap themes)");
 define("_MA_TADTHEMES_THEME_KIND_HTML","(XOOPS themes)");
 define("_MA_TADTHEMES_THEME_TYPE","Theme Type");
+define("_MA_TADTHEMES_THEME_WIDTH","Theme width");
 define("_MA_TADTHEMES_LB_WIDTH","Left zone width");
 define("_MA_TADTHEMES_CB_WIDTH","Center zone width :");
 define("_MA_TADTHEMES_RB_WIDTH","right zone width");
 define("_MA_TADTHEMES_LB_COLOR","Left zone color");
 define("_MA_TADTHEMES_CB_COLOR","Center zone color");
 define("_MA_TADTHEMES_RB_COLOR","right zone color");
-define("_MA_TADTHEMES_CLB_WIDTH","Center left zone width");
-define("_MA_TADTHEMES_CRB_WIDTH","Center right zone width");
 define("_MA_TADTHEMES_MARGIN_TOP","margin-top");
 define("_MA_TADTHEMES_MARGIN_BOTTOM","margin-bottom");
 define("_MA_TADTHEMES_BG_IMG","background-image");
@@ -46,10 +43,9 @@ define("_MA_TADTHEMES_BG_POSITION_CT","center top");
 define("_MA_TADTHEMES_BG_POSITION_CB","center bottom");
 define("_MA_TADTHEMES_NONE","none");
 define("_MA_TADTHEMES_LOGO_IMG","logo");
-define("_MA_TADTHEMES_THEME_ENABLE","Enable");
 define("_MA_TADTHEMES_SLIDE_WIDTH","Slide Width");
 define("_MA_TADTHEMES_SLIDE_HEIGHT","Slide Height");
-define("_MA_TADTHEMES_SLIDE_ENABLE","Enable Slide?");
+define("_MA_TADTHEMES_SLIDE_DESC","Slide Width =0 (hide slide)<br>Slide Height = 0(auto height)");
 define("_MA_TAD_THEMES_FORM","Theme Setup");
 
 define("_MA_TAD_THEMES_NOT_TAD_THEME","Defaut Theme \"%s\" can't compatible with Tad Theme.<div>\"%s\" not founded.</div>");
@@ -83,28 +79,14 @@ define("_MA_TADTHEMES_NOTICE2","<ul style='line-height:2em;'>
   <li>When you delete pictures, all from the background deleted, do not just delete FTP photo!</li>
   </ul>");
 define("_MA_TADTHEMES_LOGO_PLACE","Logo position");
-define("_MA_TADTHEMES_LOGO_PLACE_TOP","Top");
-define("_MA_TADTHEMES_LOGO_PLACE_BOTTOM","Bottom");
-define("_MA_TADTHEMES_LOGO_PLACE_LEFT","Left");
-define("_MA_TADTHEMES_LOGO_PLACE_RIGHT","Right");
 
 define("_MA_TADTHEMES_FONT_SIZE","font size");
 define("_MA_TADTHEMES_FONT_COLOR","font color");
 define("_MA_TADTHEMES_LINK_COLOR","link color");
 define("_MA_TADTHEMES_HOVER_COLOR","hover color");
-define("_MA_TADTHEMES_SELECT_TO_DEL","Select images to delete:");
-define("_MA_TADTHEMES_SELECT","Select default ");
 define("_MA_TADTHEMES_COL","");
-
-
-//dropdown.php
-define("_MA_TADTHEMES_MENUID","Menu ID");
-define("_MA_TADTHEMES_OF_LEVEL","Menu Level");
-define("_MA_TADTHEMES_POSITION","Sort");
 define("_MA_TADTHEMES_ITEMNAME","Name");
 define("_MA_TADTHEMES_ITEMURL","URL");
-define("_MA_TADTHEMES_MEMBERSONLY","Need Login");
-define("_MA_TADTHEMES_STATUS","Status");
 define("_MA_TADTHEMES_ADDITEM","Add item in %s");
 define("_MA_TADTHEMES_SAVE_SORT","Drag sort");
 define("_MA_TADTHEMES_ROOT","Root");
@@ -120,7 +102,6 @@ define("_MA_TADTHEMES_BLOCK_TITLE_RADIUS_N","None");
 
 define("_MA_TADTHEMES_NAVBAR","Navbar");
 define("_MA_TADTHEMES_NAVBAR_POSITION","Navbar position");
-define("_MA_TADTHEMES_NAVBAR_POSITION_DESC","school2012 use the navigation toolbar Note: <li> sliding below the picture of the original toolbar will not appear </ li> <li> position above or below the lock is locked, you need to set the distance from the upper or lower boundary at least 53px </ li>");
 define("_MA_TADTHEMES_NAVBAR_POSITION_1","Top fixed");
 define("_MA_TADTHEMES_NAVBAR_POSITION_2","Bottom fixed");
 define("_MA_TADTHEMES_NAVBAR_POSITION_3","Top");
@@ -128,4 +109,8 @@ define("_MA_TADTHEMES_NAVBAR_POSITION_4","By theme setup");
 define("_MA_TADTHEMES_NAVBAR_BG_COLOR","Color");
 define("_MA_TADTHEMES_NAVBAR_HOVER_COLOR","Background Color");
 define("_MA_TADTHEMES_TARGET_BLANK","_blank");
+define("_MA_TADTHEMES_NAVBAR_COLOR","Text Color");
+define("_MA_TADTHEMES_NAVBAR_COLOR_HOVER","Text hover Color");
+define("_MA_TADTHEMES_NAVBAR_ICON_WHITE","white icon");
+define("_MA_TADTHEMES_NAVBAR_ICON_BLACK","black icon");
 ?>
