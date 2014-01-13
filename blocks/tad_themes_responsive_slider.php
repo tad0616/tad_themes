@@ -1,9 +1,4 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2011-12-31
-// $Id:$
-// ------------------------------------------------------------------------- //
 
 //區塊主函式
 function tad_themes_responsive_slider($options){
@@ -12,6 +7,7 @@ function tad_themes_responsive_slider($options){
   $sql="select * from ".$xoopsDB->prefix("tad_themes")." where `theme_name`='{$xoopsConfig['theme_set']}'";
   $result = $xoopsDB->query($sql);
   $data=$xoopsDB->fetchArray($result);
+  if(empty($data))return;
   foreach($data as $k=>$v){
     $$k=$v;
   }
@@ -24,7 +20,7 @@ function tad_themes_responsive_slider($options){
     if(!empty($logo_right))$logo_place.="right:{$logo_right}px;";
     if(!empty($logo_bottom))$logo_place.="bottom:{$logo_bottom}px;";
     if(!empty($logo_left))$logo_place.="left:{$logo_left}px;";
-    $block="<a href='".XOOPS_URL."' alt='{$xoopsConfig['xoops_sitename']}' title='{$xoopsConfig['xoops_sitename']}'><img src='{$logo_img}' style='position:absolute;z-index:500;{$logo_place}'></a>";
+    $block="<a href='".XOOPS_URL."' alt='{$xoopsConfig['sitename']}' title='{$xoopsConfig['sitename']}'><img src='{$logo_img}' style='position:absolute;z-index:500;{$logo_place}'></a>";
   }
 
   if(file_exists(XOOPS_ROOT_PATH."/modules/tadtools/ResponsiveSlides.php")){
@@ -45,8 +41,7 @@ function tad_themes_responsive_slider($options){
       $url=XOOPS_URL;
       if($description){
         preg_match_all("/\](.*)\[/", $description, $matches);
-        $url=$matches[1][0];
-        if(empty($url))$url=XOOPS_URL;
+        $url=isset($matches[1][0])?$matches[1][0]:XOOPS_URL;
         $description=str_replace("[url]{$url}[/url]", "", $description);
       }
 
