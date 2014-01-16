@@ -12,6 +12,7 @@ function xoops_module_update_tad_themes(&$module, $old_version) {
     if(!chk_chk7()) go_update7();
     if(!chk_chk8()) go_update8();
     if(!chk_chk9()) go_update9();
+    if(!chk_chk10()) go_update10();
 
     mk_dir(XOOPS_ROOT_PATH."/uploads/tad_themes");
     return true;
@@ -29,7 +30,7 @@ function chk_chk1(){
 
 function go_update1(){
   global $xoopsDB;
-  $sql="ALTER TABLE ".$xoopsDB->prefix("tad_themes")." ADD `theme_kind` varchar(255) NOT NULL default'html'";
+  $sql="ALTER TABLE ".$xoopsDB->prefix("tad_themes")." ADD `theme_kind` varchar(255) NOT NULL default 'html'";
   $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL."/modules/system/admin.php?fct=modulesadmin",30,  mysql_error());
 }
 
@@ -196,6 +197,22 @@ function go_update9(){
   $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL."/modules/system/admin.php?fct=modulesadmin",30,  mysql_error());
 
   $sql="update ".$xoopsDB->prefix("tad_themes")." set `theme_width`=12 where theme_kind='bootstrap'";
+  $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL."/modules/system/admin.php?fct=modulesadmin",30,  mysql_error());
+}
+
+
+//新增導覽列logo圖欄位
+function chk_chk10(){
+  global $xoopsDB;
+  $sql="select count(`navlogo_img`) from ".$xoopsDB->prefix("tad_themes");
+  $result=$xoopsDB->query($sql);
+  if(empty($result)) return false;
+  return true;
+}
+
+function go_update10(){
+  global $xoopsDB;
+  $sql="ALTER TABLE ".$xoopsDB->prefix("tad_themes")." ADD `navlogo_img` varchar(255) NOT NULL default '' after logo_img";
   $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL."/modules/system/admin.php?fct=modulesadmin",30,  mysql_error());
 }
 

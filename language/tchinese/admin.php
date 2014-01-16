@@ -43,6 +43,7 @@ define("_MA_TADTHEMES_BG_POSITION_CT","上中");
 define("_MA_TADTHEMES_BG_POSITION_CB","下中");
 define("_MA_TADTHEMES_NONE","無");
 define("_MA_TADTHEMES_LOGO_IMG","logo圖");
+define("_MA_TADTHEMES_NAVLOGO_IMG","導覽列logo圖");
 define("_MA_TADTHEMES_SLIDE_WIDTH","滑動區域寬度");
 define("_MA_TADTHEMES_SLIDE_HEIGHT","滑動區域高度");
 define("_MA_TADTHEMES_SLIDE_DESC","寬度為 0 時表示不顯示滑動區域<br>高度為 0 時表示自動判斷高度。");

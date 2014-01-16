@@ -43,6 +43,7 @@ define("_MA_TADTHEMES_BG_POSITION_CT","center top");
 define("_MA_TADTHEMES_BG_POSITION_CB","center bottom");
 define("_MA_TADTHEMES_NONE","none");
 define("_MA_TADTHEMES_LOGO_IMG","logo");
+define("_MA_TADTHEMES_NAVLOGO_IMG","NavBar logo");
 define("_MA_TADTHEMES_SLIDE_WIDTH","Slide Width");
 define("_MA_TADTHEMES_SLIDE_HEIGHT","Slide Height");
 define("_MA_TADTHEMES_SLIDE_DESC","Slide Width =0 (hide slide)<br>Slide Height = 0(auto height)");

@@ -14,6 +14,7 @@ CREATE TABLE `tad_themes` (
   `margin_bottom` varchar(255) NOT NULL default '' COMMENT '下邊界',
   `bg_img` varchar(255) NOT NULL default '' COMMENT '背景圖',
   `logo_img` varchar(255) NOT NULL default '' COMMENT 'logo圖',
+  `navlogo_img` varchar(255) NOT NULL default '' COMMENT '導覽列logo圖',
   `bg_attachment` varchar(255) NOT NULL default '' COMMENT '背景固定',
   `bg_color` varchar(255) NOT NULL default '' COMMENT '背景顏色',
   `bg_position` varchar(255) NOT NULL default '' COMMENT '背景位置',
