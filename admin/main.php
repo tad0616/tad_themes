@@ -65,10 +65,12 @@ function auto_import_theme(){
   $default_background=!empty($theme_default_background)?XOOPS_URL."/themes/{$theme_name}/images/bg/{$theme_default_background}":"";
   $bt_bg_img=!empty($theme_bt_bg_img)?XOOPS_URL."/themes/{$theme_name}/images/bt_bg/{$theme_bt_bg_img}":"";
 
+  $theme_type=empty($theme_type)?"theme_type_1":$theme_type;
+
   //此處增加7+4項by hc
   $sql = "insert into ".$xoopsDB->prefix("tad_themes")."
   (`theme_name` , `theme_type` , `lb_width` , `rb_width` , `clb_width` , `crb_width` , `lb_color` , `cb_color` , `rb_color` , `margin_top` , `margin_bottom` , `bg_img` , `bg_color`  , `bg_repeat`  , `bg_attachment`  , `bg_position`  , `logo_img` , `navlogo_img` , `logo_top` , `logo_right` , `logo_bottom` , `logo_left` , `theme_enable` , `slide_width` , `slide_height` , `font_size` , `font_color` , `link_color` , `hover_color` , `theme_kind`,`block_config` , `bt_text` , `bt_text_padding` , `bt_bg_color` , `bt_bg_img` , `bt_bg_repeat` , `bt_radius` , `navbar_pos` , `navbar_bg_top` , `navbar_bg_bottom` , `navbar_hover` , `navbar_color` , `navbar_color_hover` , `navbar_icon`)
-  values('{$theme_name}' , 'theme_type_1' , '{$theme_left_width}' , '{$theme_right_width}' , '49%' , '49%' , '#F4F4F4' , '#FFFFFF' , '#F4F4F4' , '0' , '0' , '{$default_background}' , '#FFFFFF' , '' , '' , 'left top' , '' , '' , '' , '' , '' , '' , '1' , '{$theme_slide_width}' , '{$theme_slide_height}' , '11pt' , '#202020' , '#3333CC' , '#FF3300' , '{$theme_kind}', 'right' , '{$theme_bt_bg_img}' , '{$theme_bt_text_padding}' , '{$theme_bt_bg_color}' , '{$bt_bg_img}' , '0' ,'1','not-use','#54b4eb','#2fa4e7','#1684c2','#ffffff','#ffff00','icon-white')";
+  values('{$theme_name}' , '{$theme_type}' , '{$theme_left_width}' , '{$theme_right_width}' , '49%' , '49%' , '#F4F4F4' , '#FFFFFF' , '#F4F4F4' , '0' , '0' , '{$default_background}' , '#FFFFFF' , '' , '' , 'left top' , '' , '' , '' , '' , '' , '' , '1' , '{$theme_slide_width}' , '{$theme_slide_height}' , '11pt' , '#202020' , '#3333CC' , '#FF3300' , '{$theme_kind}', 'right' , '{$theme_bt_bg_img}' , '{$theme_bt_text_padding}' , '{$theme_bt_bg_color}' , '{$bt_bg_img}' , '0' ,'1','not-use','#54b4eb','#2fa4e7','#1684c2','#ffffff','#ffff00','icon-white')";
   $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
   //取得最後新增資料的流水編號
