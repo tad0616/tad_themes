@@ -11,16 +11,21 @@ function tad_themes_responsive_slider($options){
   foreach($data as $k=>$v){
     $$k=$v;
   }
+  if($slide_width>0)return;
 
   $block="";
 
   if(!empty($logo_img)){
+    if($logo_position=="page"){
+      $block="";
+    }else{
     $logo_place="";
-    if(!empty($logo_top))$logo_place.="top:{$logo_top}px;";
-    if(!empty($logo_right))$logo_place.="right:{$logo_right}px;";
-    if(!empty($logo_bottom))$logo_place.="bottom:{$logo_bottom}px;";
-    if(!empty($logo_left))$logo_place.="left:{$logo_left}px;";
-    $block="<a href='".XOOPS_URL."' alt='{$xoopsConfig['sitename']}' title='{$xoopsConfig['sitename']}'><img src='{$logo_img}' style='position:absolute;z-index:500;{$logo_place}'></a>";
+      if(!empty($logo_top))$logo_place.="top:{$logo_top}px;";
+      if(!empty($logo_right))$logo_place.="right:{$logo_right}px;";
+      if(!empty($logo_bottom))$logo_place.="bottom:{$logo_bottom}px;";
+      if(!empty($logo_left))$logo_place.="left:{$logo_left}px;";
+      $block="<a href='".XOOPS_URL."' alt='{$xoopsConfig['sitename']}' title='{$xoopsConfig['sitename']}'><img src='{$logo_img}' style='position:absolute;z-index:500;{$logo_place}'></a>";
+    }
   }
 
   if(file_exists(XOOPS_ROOT_PATH."/modules/tadtools/ResponsiveSlides.php")){
@@ -58,12 +63,10 @@ function tad_themes_responsive_slider($options){
       $ResponsiveSlides->add_content(3,$title,$content,XOOPS_URL."/themes/{$xoopsConfig['theme_set']}/images/slide/default3.png","",XOOPS_URL);
     }
 
-    $block.=$ResponsiveSlides->render();
+    $block.=$ResponsiveSlides->render('tad_themes_ResponsiveSlides');
 
   }
 	return $block;
 }
-
-
 
 ?>

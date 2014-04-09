@@ -7,13 +7,15 @@ CREATE TABLE `tad_themes` (
   `rb_width` varchar(255) NOT NULL default '' COMMENT '右區塊寬度',
   `clb_width` varchar(255) NOT NULL default '' COMMENT '中左區塊寬度',
   `crb_width` varchar(255) NOT NULL default '' COMMENT '中右區塊寬度',
+  `base_color` varchar(255) NOT NULL default 'transparent' COMMENT '頁面內容背景色',
   `lb_color` varchar(255) NOT NULL default '' COMMENT '左區域背景色',
   `cb_color` varchar(255) NOT NULL default '' COMMENT '中區域背景色',
   `rb_color` varchar(255) NOT NULL default '' COMMENT '右區域背景色',
   `margin_top` varchar(255) NOT NULL default '' COMMENT '上邊界',
   `margin_bottom` varchar(255) NOT NULL default '' COMMENT '下邊界',
   `bg_img` varchar(255) NOT NULL default '' COMMENT '背景圖',
-  `logo_img` varchar(255) NOT NULL default '' COMMENT 'logo圖',
+  `logo_img` varchar(255) NOT NULL default 'slide' COMMENT 'logo圖',
+  `logo_position` varchar(255) NOT NULL default '' COMMENT 'logo圖位置',
   `navlogo_img` varchar(255) NOT NULL default '' COMMENT '導覽列logo圖',
   `bg_attachment` varchar(255) NOT NULL default '' COMMENT '背景固定',
   `bg_color` varchar(255) NOT NULL default '' COMMENT '背景顏色',
@@ -31,21 +33,29 @@ CREATE TABLE `tad_themes` (
   `link_color` varchar(255) NOT NULL default '' COMMENT '連結顏色',
   `hover_color` varchar(255) NOT NULL default '' COMMENT '移致連結顏色',
   `theme_kind` varchar(255) NOT NULL default 'html' COMMENT '佈景種類',
-  `block_config` enum('right','left') NOT NULL DEFAULT 'right' COMMENT '工具按鈕靠左/右',
-  `bt_text` varchar(16) NOT NULL COMMENT '區塊標題字體顏色',
-  `bt_text_padding` tinyint(4) NOT NULL DEFAULT '33' COMMENT '區塊標題文字縮排',
-  `bt_bg_color` varchar(16) NOT NULL COMMENT '區塊標題背景顏色',
-  `bt_bg_img` varchar(255) NOT NULL COMMENT '區塊標題背景圖',
-  `bt_bg_repeat` enum('0','1') NOT NULL DEFAULT '0' COMMENT '以圖填滿區塊標題列',
-  `bt_radius` enum('0','1') NOT NULL DEFAULT '1' COMMENT '區塊標題圓角',
-  `navbar_pos` enum('navbar-fixed-top','navbar-fixed-bottom','navbar-static-top','not-use') NOT NULL COMMENT 'navbar位置',
+  `navbar_pos` varchar(255) NOT NULL default 'default' COMMENT 'navbar位置',
   `navbar_bg_top` varchar(255) NOT NULL COMMENT 'navbar漸層色top',
   `navbar_bg_bottom` varchar(255) NOT NULL COMMENT 'navbar漸層色bottom',
   `navbar_hover` varchar(255) NOT NULL COMMENT 'navbar覆蓋色塊',
   `navbar_color` varchar(255) NOT NULL default '#FFFFFF' COMMENT 'navbar文字顏色',
   `navbar_color_hover` varchar(255) NOT NULL default 'yellow' COMMENT 'navbar文字移過顏色',
   `navbar_icon` varchar(255) NOT NULL default '' COMMENT 'navbar 圖示色調',
+  `navbar_img` varchar(255) NOT NULL default '' COMMENT 'navbar背景圖',
   PRIMARY KEY (`theme_id`)
+) ENGINE=MyISAM ;
+
+CREATE TABLE `tad_themes_blocks` (
+  `theme_id` smallint(6) unsigned NOT NULL AUTO_INCREMENT COMMENT '佈景編號',
+  `block_position` varchar(30) NOT NULL default '' COMMENT '區塊位置',
+  `block_config` enum('right','left') NOT NULL DEFAULT 'right' COMMENT '工具按鈕靠左/右',
+  `bt_text` varchar(16) NOT NULL COMMENT '區塊標題字體顏色',
+  `bt_text_padding` tinyint(4) NOT NULL DEFAULT '33' COMMENT '區塊標題文字縮排',
+  `bt_text_size` varchar(16) NOT NULL COMMENT '區塊標題字體大小',
+  `bt_bg_color` varchar(16) NOT NULL COMMENT '區塊標題背景顏色',
+  `bt_bg_img` varchar(255) NOT NULL COMMENT '區塊標題背景圖',
+  `bt_bg_repeat` enum('0','1') NOT NULL DEFAULT '0' COMMENT '以圖填滿區塊標題列',
+  `bt_radius` enum('0','1') NOT NULL DEFAULT '1' COMMENT '區塊標題圓角',
+  PRIMARY KEY (`theme_id`,`block_position`)
 ) ENGINE=MyISAM ;
 
 CREATE TABLE `tad_themes_files_center` (
@@ -79,4 +89,13 @@ CREATE TABLE `tad_themes_menu` (
   `icon` varchar(255) NOT NULL default 'icon-th-list',
   PRIMARY KEY  (`menuid`),
   KEY `of_level` (`of_level`)
+)  ENGINE=MyISAM;
+
+
+CREATE TABLE `tad_themes_config2` (
+  `theme_id` smallint(5) unsigned NOT NULL default 0,
+  `name` varchar(100) NOT NULL default '',
+  `type` varchar(255) NOT NULL default '',
+  `value` text NOT NULL,
+  PRIMARY KEY  (`theme_id`,`name`)
 )  ENGINE=MyISAM;

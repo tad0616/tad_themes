@@ -3,7 +3,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADTHEMES_NAME;
-$modversion['version'] = '2.4';
+$modversion['version'] = '2.8';
 $modversion['description'] = _MI_TADTHEMES_DESC;
 $modversion['author'] = 'tad (tad0616@gmail.com)';
 $modversion['credits'] = 'hirokofan (hirokofan@mail.cyc.edu.tw)';
@@ -15,7 +15,7 @@ $modversion['dirname'] = basename(dirname(__FILE__));
 
 
 //---模組狀態資訊---//
-$modversion['release_date'] = '2014/01/16';
+$modversion['release_date'] = '2014/04/09';
 $modversion['module_website_url'] = 'http://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status'] = 'release';
@@ -40,6 +40,8 @@ $modversion['sqlfile']['mysql'] = "sql/mysql.sql";
 $modversion['tables'][1] = "tad_themes";
 $modversion['tables'][2] = "tad_themes_files_center";
 $modversion['tables'][3] = "tad_themes_menu";
+$modversion['tables'][4] = "tad_themes_blocks";
+$modversion['tables'][5] = "tad_themes_config2";
 
 //---管理介面設定---//
 $modversion['hasAdmin'] = 1;
@@ -87,8 +89,31 @@ $modversion['blocks'][1]['name'] = _MI_TADTHEMES_BNAME1;
 $modversion['blocks'][1]['description'] = _MI_TADTHEMES_BDESC1;
 $modversion['blocks'][1]['show_func'] = "tad_themes_responsive_slider";
 $modversion['blocks'][1]['template'] = "tad_themes_responsive_slider.html";
-//$modversion['blocks'][1]['edit_func'] = "編輯區塊函數名稱";
-//$modversion['blocks'][1]['options'] = "設定值1|設定值2";
+
+
+$modversion['blocks'][2]['file']  = 'tad_themes_top_menu.php';
+$modversion['blocks'][2]['name']  = _MI_TADTHEMES_BNAME2;
+$modversion['blocks'][2]['description'] = _MI_TADTHEMES_BDESC2;
+$modversion['blocks'][2]['show_func'] = 'tad_themes_top_menu';
+$modversion['blocks'][2]['template']  = 'tad_themes_top_menu.html';
+$modversion['blocks'][2]['edit_func'] = "tad_themes_top_menu_edit";
+$modversion['blocks'][2]['options'] = "";
+
+$modversion['blocks'][3]['file']  = 'vertical_bootstrap_menu.php';
+$modversion['blocks'][3]['name']  = _MI_TADTHEMES_BNAME3;
+$modversion['blocks'][3]['description'] = _MI_TADTHEMES_BDESC3;
+$modversion['blocks'][3]['show_func'] = 'vertical_bootstrap_menu';
+$modversion['blocks'][3]['template']  = 'vertical_bootstrap_menu.html';
+$modversion['blocks'][3]['edit_func'] = "vertical_bootstrap_menu_edit";
+$modversion['blocks'][3]['options'] = "";
+
+$modversion['blocks'][4]['file']  = 'vertical_menu.php';
+$modversion['blocks'][4]['name']  = _MI_TADTHEMES_BNAME4;
+$modversion['blocks'][4]['description'] = _MI_TADTHEMES_BDESC4;
+$modversion['blocks'][4]['show_func'] = 'vertical_menu';
+$modversion['blocks'][4]['template']  = 'vertical_menu.html';
+$modversion['blocks'][4]['edit_func'] = "vertical_menu_edit";
+$modversion['blocks'][4]['options'] = "|0";
 
 
 //---樣板設定---//

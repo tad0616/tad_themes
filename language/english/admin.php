@@ -1,10 +1,4 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2011-12-31
-// $Id:$
-// ------------------------------------------------------------------------- //
-
 include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.php";
 
 //需加入模組語系
@@ -43,10 +37,13 @@ define("_MA_TADTHEMES_BG_POSITION_CT","center top");
 define("_MA_TADTHEMES_BG_POSITION_CB","center bottom");
 define("_MA_TADTHEMES_NONE","none");
 define("_MA_TADTHEMES_LOGO_IMG","logo");
+define("_MA_TADTHEMES_LOGO_POSITION","logo position");
+define("_MA_TADTHEMES_LOGO_SLIDE","on slide");
+define("_MA_TADTHEMES_LOGO_PAGE","on page");
 define("_MA_TADTHEMES_NAVLOGO_IMG","NavBar logo");
 define("_MA_TADTHEMES_SLIDE_WIDTH","Slide Width");
 define("_MA_TADTHEMES_SLIDE_HEIGHT","Slide Height");
-define("_MA_TADTHEMES_SLIDE_DESC","Slide Width =0 (hide slide)<br>Slide Height = 0(auto height)");
+define("_MA_TADTHEMES_SLIDE_DESC","<ol><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Width =0 (hide slide)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Height = 0(auto height)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>You can input \"<b><u>[url]http://some.web.url[/url]</u></b>\" to add link for slide image.</li></ol>");
 define("_MA_TAD_THEMES_FORM","Theme Setup");
 
 define("_MA_TAD_THEMES_NOT_TAD_THEME","Defaut Theme \"%s\" can't compatible with Tad Theme.<div>\"%s\" not founded.</div>");
@@ -79,7 +76,7 @@ define("_MA_TADTHEMES_NOTICE2","<ul style='line-height:2em;'>
   </li>
   <li>When you delete pictures, all from the background deleted, do not just delete FTP photo!</li>
   </ul>");
-define("_MA_TADTHEMES_LOGO_PLACE","Logo position");
+define("_MA_TADTHEMES_LOGO_PLACE","setup logo position");
 
 define("_MA_TADTHEMES_FONT_SIZE","font size");
 define("_MA_TADTHEMES_FONT_COLOR","font color");
@@ -95,7 +92,7 @@ define("_MA_TADTHEMES_WEB_MENU","Menu");
 define("_MA_TADTHEMES_IMPORT_MENU","Import Menu");
 
 define("_MA_TADTHEMES_BLOCK_TITLE","Block Title");
-define("_MA_TADTHEMES_BLOCK_TITLE_BUTTOM","Block Setup button");
+define("_MA_TADTHEMES_BLOCK_TITLE_BUTTOM","Setup button");
 define("_MA_TADTHEMES_BLOCK_TITLE_PADDING","Block title left padding");
 define("_MA_TADTHEMES_BLOCK_TITLE_RADIUS","Radius setup");
 define("_MA_TADTHEMES_BLOCK_TITLE_RADIUS_Y","Radius");
@@ -105,13 +102,38 @@ define("_MA_TADTHEMES_NAVBAR","Navbar");
 define("_MA_TADTHEMES_NAVBAR_POSITION","Navbar position");
 define("_MA_TADTHEMES_NAVBAR_POSITION_1","Top fixed");
 define("_MA_TADTHEMES_NAVBAR_POSITION_2","Bottom fixed");
-define("_MA_TADTHEMES_NAVBAR_POSITION_3","Top");
+define("_MA_TADTHEMES_NAVBAR_POSITION_3","Slide top");
+define("_MA_TADTHEMES_NAVBAR_POSITION_6","Slide bottom");
 define("_MA_TADTHEMES_NAVBAR_POSITION_4","By theme setup");
+define("_MA_TADTHEMES_NAVBAR_POSITION_5","Hide");
 define("_MA_TADTHEMES_NAVBAR_BG_COLOR","Color");
 define("_MA_TADTHEMES_NAVBAR_HOVER_COLOR","Background Color");
 define("_MA_TADTHEMES_TARGET_BLANK","_blank");
 define("_MA_TADTHEMES_NAVBAR_COLOR","Text Color");
 define("_MA_TADTHEMES_NAVBAR_COLOR_HOVER","Text hover Color");
+define("_MA_TADTHEMES_NAVBAR_ICON_COLOR","Icon color");
 define("_MA_TADTHEMES_NAVBAR_ICON_WHITE","white icon");
 define("_MA_TADTHEMES_NAVBAR_ICON_BLACK","black icon");
+
+define("_MA_TADTHEMES_ITEMICON","Item Icon");
+define("_MA_TADTHEMES_ITEMBANNER","Item Banner");
+define("_MA_TADTHEMES_CONFIG2","Other theme config");
+define("_MA_TADTHEMES_DEFAULT","Default");
+define("_MA_TADTHEMES_BLOCK_POSITION","Block position");
+define("_MA_TADTHEMES_BLOCK_ALL_POSITION","All blocks");
+define("_MA_TADTHEMES_BLOCK_LEFT","Left");
+define("_MA_TADTHEMES_BLOCK_RIGHT","Right");
+define("_MA_TADTHEMES_BLOCK_TOP_CENTER","Top center");
+define("_MA_TADTHEMES_BLOCK_TOP_LEFT","Top center left");
+define("_MA_TADTHEMES_BLOCK_TOP_RIGHT","Top center right");
+define("_MA_TADTHEMES_BLOCK_BOTTOM_CENTER","Bottom center");
+define("_MA_TADTHEMES_BLOCK_BOTTOM_LEFT","Bottom center left");
+define("_MA_TADTHEMES_BLOCK_BOTTOM_RIGHT","Bottom center right");
+define("_MA_TADTHEMES_BLOCK_TITLE_SIZE","Font size");
+
+define("_MA_TADTHEMES_TO_DEFAULT","Restored to the default");
+define("_MA_TADTHEMES_DEL_CONFIRM","This will clear this theme settings and restore default values​​! You sure you want to perform?");
+
+define("_MA_TADTHEMES_BASE_COLOR","Base color");
+define("_MA_TADTHEMES_NAVBAR_IMG","Navbar background");
 ?>

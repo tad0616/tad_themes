@@ -7,641 +7,852 @@
 
 <script type="text/javascript">
 
-$(document).ready(function(){
-  change_css();
-  preview_img("bg","<{$bg_img}>");
-  var $tabs = $("#tad-themes-tabs").tabs({ cookie: { expires: 30 } , collapsible: true});
-});
+  $(document).ready(function(){
 
-$("#color").mColorPicker({
-imageFolder: "../class/mColorPicker/images/"
-});
+    change_css();
+    preview_img("bg","<{$bg_img}>");
+    $("#tad-themes-tabs").tabs({ cookie: { expires: 30 } , collapsible: false});
+    $("#bt_tabs").tabs({ cookie: { expires: 30 }}).addClass( "ui-tabs-vertical ui-helper-clearfix" );
+    $("#bt_tabs li").removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
 
-function preview_img(kind,imgSrc){
-  var newimgSrc=imgSrc.replace(kind+"/", kind+"/thumbs/");
-  var newImg = new Image();
-  newImg.src = imgSrc;
-  var height = newImg.height * 1;
-  if(height > 90){
-    $("#preview_zone").css("background-image","url("+newimgSrc+")");
-  }else{
-    $("#preview_zone").css("background-image","url("+imgSrc+")");
+    <{if $logo_position=="page"}>
+      $("#logo_place_setup").hide();
+    <{else}>
+      $("#logo_place_setup").show();
+    <{/if}>
+
+  });
+
+  $("#color").mColorPicker({
+  imageFolder: "../class/mColorPicker/images/"
+  });
+
+
+  function logo_place_setup(logo_position){
+    if(logo_position=="page"){
+      $("#logo_place_setup").hide();
+    }else{
+      $("#logo_place_setup").show();
+    }
   }
-}
 
-<{$chang_css}>
+  function preview_img(kind,imgSrc){
+    var newimgSrc=imgSrc.replace(kind+"/", kind+"/thumbs/");
+    var newImg = new Image();
+    newImg.src = imgSrc;
+    var height = newImg.height * 1;
+    if(height > 90){
+      $("#preview_zone").css("background-image","url("+newimgSrc+")");
+    }else{
+      $("#preview_zone").css("background-image","url("+imgSrc+")");
+    }
+  }
 
+  <{$chang_css}>
+
+
+  function delete_tad_themes_config(theme_id){
+    var sure = window.confirm("<{$smarty.const._MA_TADTHEMES_DEL_CONFIRM}>");
+    if (!sure)  return;
+    location.href="main.php?op=delete_tad_themes&theme_id=" + theme_id;
+  }
 </script>
+
+<style>
+.ui-tabs-vertical { width: 100%; }
+.ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 20%; }
+.ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
+.ui-tabs-vertical .ui-tabs-nav li a { display:block; }
+.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0; padding-right: .1em; border-right-width: 1px; border-right-width: 1px; }
+.ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 72%;}
+</style>
 
 <form action="main.php" method="post" id="myForm" enctype="multipart/form-data">
   <div class="row-fluid">
     <div class="span8">
       <div class="row-fluid">
-        <div class="span6">
-          <label style="font-size:24px;font-weight:bold;"><{$theme_name}><{$smarty.const._MA_TAD_THEMES_FORM}></label>
-          <{$theme_kind}><{$theme_kind_txt}>
-        </div>
-        <div class="span6 alert alert-info">
+        <label style="font-size:24px;font-weight:bold;">
+          <{$theme_name}><{$smarty.const._MA_TAD_THEMES_FORM}>
 
-          <{if $theme_kind!="bootstrap"}><{$smarty.const._MA_TADTHEMES_NOTICE}><{/if}>
-          <{$smarty.const._MA_TADTHEMES_NOTICE2}>
+          <a href="javascript:delete_tad_themes_config(<{$theme_id}>)" class="btn btn-danger byn-mini"><{$smarty.const._MA_TADTHEMES_TO_DEFAULT}></a>
+        </label>
+        <{if $theme_change}>
+          <div class="alert">
+            <{$smarty.const._MA_TADTHEMES_CHANGE_KIND_DESC}>
+          </div>
+          <label class="radio">
+            <input type="radio" name="theme_kind" value="bootstrap" <{if $theme_kind=="bootstrap"}>checked<{/if}>>
+            <b>BootStrap</b>
+            <{$smarty.const._MA_TADTHEMES_THEME_KIND_BOOTSTRAP}>
+          </label>
+          <label class="radio inline">
+            <input type="radio" name="theme_kind" value="html" <{if $theme_kind=="html"}>checked<{/if}>>
+            <b>HTML</b>
+            <{$smarty.const._MA_TADTHEMES_THEME_KIND_HTML}>
+          </label>
+
+          <input type="hidden" name="old_theme_kind" value="<{$theme_kind}>">
+        <{else}>
+          <{$theme_kind}><{$theme_kind_txt}>
           <input type="hidden" name="theme_kind" value="<{$theme_kind}>">
-        </div>
+        <{/if}>
       </div>
 
       <div class="row-fluid">
-        <div class="span12">
-          <div id="tad-themes-tabs">
-            <ul>
-              <li><a href="#tabs-1"><{$smarty.const._MA_TADTHEMES_THEME_BASE}></a></li>
-              <li><a href="#tabs-2"><{$smarty.const._MA_TADTHEMES_BG_IMG}></a></li>
-              <li><a href="#tabs-3"><{$smarty.const._MA_TAD_THEMES_HEAD}></a></li>
-              <li><a href="#tabs-4"><{$smarty.const._MA_TADTHEMES_LOGO_IMG}></a></li>
-              <li><a href="#tabs-5"><{$smarty.const._MA_TADTHEMES_BLOCK_TITLE}></a></li>
-              <li><a href="#tabs-6"><{$smarty.const._MA_TADTHEMES_NAVBAR}></a></li>
-              <li><a href="#tabs-7"><{$smarty.const._MA_TADTHEMES_NAVLOGO_IMG}></a></li>
-            </ul>
+        <div id="tad-themes-tabs">
+          <ul>
+            <li><a href="#tabs-1"><{$smarty.const._MA_TADTHEMES_THEME_BASE}></a></li>
+            <li><a href="#tabs-2"><{$smarty.const._MA_TADTHEMES_BG_IMG}></a></li>
+            <li><a href="#tabs-3"><{$smarty.const._MA_TAD_THEMES_HEAD}></a></li>
+            <li><a href="#tabs-4"><{$smarty.const._MA_TADTHEMES_LOGO_IMG}></a></li>
+            <li><a href="#tabs-5"><{$smarty.const._MA_TADTHEMES_BLOCK_TITLE}></a></li>
+            <li><a href="#tabs-6"><{$smarty.const._MA_TADTHEMES_NAVBAR}></a></li>
+            <li><a href="#tabs-7"><{$smarty.const._MA_TADTHEMES_NAVLOGO_IMG}></a></li>
+            <!--額外設定-->
+            <{if $config2}>
+            <li><a href="#tabs-8"><{$smarty.const._MA_TADTHEMES_CONFIG2}></a></li>
+            <{/if}>
+          </ul>
 
-            <div id="tabs-1">
-              <!--版面基本設定-->
-              <!--佈景類型-->
-              <div class="row-fluid">
-                <!--版面類型-->
-                <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_THEME_TYPE}></div>
-                <div class="span2">
-                  <select name="theme_type" id="theme_type" class="span12" onChange="change_css();">
-                    <option value="theme_type_1" <{if $theme_type=="theme_type_1"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE1}></option>
-                    <option value="theme_type_2" <{if $theme_type=="theme_type_2"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE2}></option>
-                    <option value="theme_type_3" <{if $theme_type=="theme_type_3"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE3}></option>
-                    <option value="theme_type_4" <{if $theme_type=="theme_type_4"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE4}></option>
-                    <option value="theme_type_5" <{if $theme_type=="theme_type_5"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE5}></option>
-                    <option value="theme_type_6" <{if $theme_type=="theme_type_6"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE6}></option>
-                    <option value="theme_type_7" <{if $theme_type=="theme_type_7"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE7}></option>
-                    <option value="theme_type_8" <{if $theme_type=="theme_type_8"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE8}></option>
-                  </select>
-                </div>
-
-                <!--版面寬度-->
-                <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_THEME_WIDTH}></div>
-                <div class="span2">
-                  <input type="text" name="theme_width" class="span8" value="<{$theme_width}>" id="theme_width">
-                  <{$theme_unit}>
-                </div>
-
-                <!--文字大小-->
-                <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_FONT_SIZE}></div>
-                <div class="span2">
-                  <input type="text" name="font_size" class="span12" value="<{$font_size}>" id="font_size">
-                </div>
+          <div id="tabs-1">
+            <!--版面基本設定-->
+            <!--佈景類型-->
+            <div class="row-fluid">
+              <!--版面類型-->
+              <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_THEME_TYPE}></div>
+              <div class="span2">
+                <select name="theme_type" id="theme_type" class="span12" onChange="change_css();">
+                  <option value="theme_type_1" <{if $theme_type=="theme_type_1"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE1}></option>
+                  <option value="theme_type_2" <{if $theme_type=="theme_type_2"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE2}></option>
+                  <option value="theme_type_3" <{if $theme_type=="theme_type_3"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE3}></option>
+                  <option value="theme_type_4" <{if $theme_type=="theme_type_4"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE4}></option>
+                  <option value="theme_type_5" <{if $theme_type=="theme_type_5"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE5}></option>
+                  <option value="theme_type_6" <{if $theme_type=="theme_type_6"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE6}></option>
+                  <option value="theme_type_7" <{if $theme_type=="theme_type_7"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE7}></option>
+                  <option value="theme_type_8" <{if $theme_type=="theme_type_8"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE8}></option>
+                </select>
               </div>
 
-
-              <div class="row-fluid">
-                <!--左區塊顏色-->
-                <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_LB_COLOR}></div>
-                <div class="span2">
-                  <input type="color" name="lb_color" id="lb_color" value="<{$lb_color}>" class="span8" data-hex="true" onChange="change_css();">
-                </div>
-
-                <!--中區塊顏色-->
-                <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_CB_COLOR}></div>
-                <div class="span2">
-                  <input type="color" name="cb_color" id="cb_color" value="<{$cb_color}>" class="span8"  data-hex="true" onChange="change_css();">
-                </div>
-
-                <!--右區塊顏色-->
-                <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_RB_COLOR}></div>
-                <div class="span2">
-                  <input type="color" name="rb_color" id="rb_color" value="<{$rb_color}>" class="span8" data-hex="true" onChange="change_css();">
-                </div>
+              <!--版面寬度-->
+              <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_THEME_WIDTH}></div>
+              <div class="span2">
+                <input type="text" name="theme_width" class="span8" value="<{$theme_width}>" id="theme_width">
+                <{$theme_unit}>
               </div>
 
-
-              <div class="row-fluid">
-                <!--左區塊寬度-->
-                <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_LB_WIDTH}></div>
-                <div class="span2">
-                  <input type="text" name="lb_width" class="span8" value="<{$lb_width}>" id="lb_width" onChange="change_css();">
-                  <{$theme_unit}>
-                </div>
-
-                <!--中區塊寬度-->
-                <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_CB_WIDTH}></div>
-                <div class="span2">
-                  <div id="cb_width"></div>
-                </div>
-
-                <!--右區塊寬度-->
-                <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_RB_WIDTH}></div>
-                <div class="span2">
-                  <input type="text" name="rb_width" class="span8" value="<{$rb_width}>" id="rb_width" onChange="change_css();">
-                  <{$theme_unit}>
-                </div>
-
-              </div>
-
-
-              <{$margin_setup}>
-
-              <div class="row-fluid">
-
-                <!--文字顏色-->
-                <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_FONT_COLOR}></div>
-                <div class="span2">
-                  <input type="color" name="font_color" id="font_color" value="<{$font_color}>" class="span8" data-hex="true" onChange="change_css();">
-                </div>
-
-                <!--連結顏色-->
-                <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_LINK_COLOR}></div>
-                <div class="span2">
-                  <input type="color" name="link_color" id="link_color" value="<{$link_color}>" class="span8" data-hex="true" onChange="change_css();">
-                </div>
-
-                <!--滑鼠移到連結顏色-->
-                <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_HOVER_COLOR}></div>
-                <div class="span2">
-                  <input type="color" name="hover_color" id="hover_color" value="<{$hover_color}>" class="span8" data-hex="true" onChange="change_css();">
-                </div>
+              <!--內容區顏色-->
+              <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_BASE_COLOR}></div>
+              <div class="span2">
+                <input type="color" name="base_color" class="span8" value="<{$base_color}>" id="base_color" data-hex="true" onChange="change_css();">
               </div>
             </div>
 
-            <!--背景圖-->
-            <div id="tabs-2">
-              <div class="row-fluid">
+
+            <div class="row-fluid">
+              <!--左區塊顏色-->
+              <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_LB_COLOR}></div>
+              <div class="span2">
+                <input type="color" name="lb_color" id="lb_color" value="<{$lb_color}>" class="span8" data-hex="true" onChange="change_css();">
+              </div>
+
+              <!--中區塊顏色-->
+              <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_CB_COLOR}></div>
+              <div class="span2">
+                <input type="color" name="cb_color" id="cb_color" value="<{$cb_color}>" class="span8"  data-hex="true" onChange="change_css();">
+              </div>
+
+              <!--右區塊顏色-->
+              <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_RB_COLOR}></div>
+              <div class="span2">
+                <input type="color" name="rb_color" id="rb_color" value="<{$rb_color}>" class="span8" data-hex="true" onChange="change_css();">
+              </div>
+            </div>
+
+
+            <div class="row-fluid">
+              <!--左區塊寬度-->
+              <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_LB_WIDTH}></div>
+              <div class="span2">
+                <input type="text" name="lb_width" class="span8" value="<{$lb_width}>" id="lb_width" onChange="change_css();">
+                <{$theme_unit}>
+              </div>
+
+              <!--中區塊寬度-->
+              <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_CB_WIDTH}></div>
+              <div class="span2">
+                <div id="cb_width"></div>
+              </div>
+
+              <!--右區塊寬度-->
+              <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_RB_WIDTH}></div>
+              <div class="span2">
+                <input type="text" name="rb_width" class="span8" value="<{$rb_width}>" id="rb_width" onChange="change_css();">
+                <{$theme_unit}>
+              </div>
+
+            </div>
+
+
+            <div class="row-fluid">
+              <!--離上邊界距離-->
+              <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_MARGIN_TOP}></div>
+              <div class="span2">
+                <input type="text" name="margin_top" class="span8" value="<{$margin_top}>" id="margin_top"  onChange="change_css();">px
+              </div>
+
+              <!--文字大小-->
+              <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_FONT_SIZE}></div>
+              <div class="span2">
+                <input type="text" name="font_size" class="span8" value="<{$font_size}>" id="font_size">
+              </div>
+
+              <!--離下邊界距離-->
+              <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_MARGIN_BOTTOM}></div>
+              <div class="span2">
+                <input type="text" name="margin_bottom" class="span8" value="<{$margin_bottom}>" id="margin_bottom"  onChange="change_css();">px
+              </div>
+            </div>
+
+            <div class="row-fluid">
+
+              <!--文字顏色-->
+              <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_FONT_COLOR}></div>
+              <div class="span2">
+                <input type="color" name="font_color" id="font_color" value="<{$font_color}>" class="span8" data-hex="true" onChange="change_css();">
+              </div>
+
+              <!--連結顏色-->
+              <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_LINK_COLOR}></div>
+              <div class="span2">
+                <input type="color" name="link_color" id="link_color" value="<{$link_color}>" class="span8" data-hex="true" onChange="change_css();">
+              </div>
+
+              <!--滑鼠移到連結顏色-->
+              <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_HOVER_COLOR}></div>
+              <div class="span2">
+                <input type="color" name="hover_color" id="hover_color" value="<{$hover_color}>" class="span8" data-hex="true" onChange="change_css();">
+              </div>
+            </div>
+          </div>
+
+          <!--背景圖-->
+          <div id="tabs-2">
+            <div class="row-fluid">
+              <div class="span5">
+
+                <div class="row-fluid">
+                  <!-- 上傳 背景圖-->
+                  <div class="span4 text-right">
+                    <{$smarty.const._MA_TAD_THEMES_UPLOAD}>
+                    <{$smarty.const._MA_TADTHEMES_BG_IMG}>
+                  </div>
+                  <div class="span8">
+                    <{$upform_bg}>
+                  </div>
+                </div>
+
+                <div class="row-fluid">
+                  <!-- 背景顏色-->
+                  <div class="span4 text-right">
+                    <{$smarty.const._MA_TADTHEMES_BG_COLOR}>
+                  </div>
+                  <div class="span8">
+                    <input type="color" name="bg_color" id="bg_color" value="<{$bg_color}>" class="span6" data-hex="true" onChange="change_css();">
+                  </div>
+                </div>
+
+                <div class="row-fluid">
+                  <!-- 背景重複-->
+                  <div class="span4 text-right">
+                    <{$smarty.const._MA_TADTHEMES_BG_REPEAT}>
+                  </div>
+                  <div class="span8">
+                    <select name="bg_repeat" id="bg_repeat" class="span12" onChange="change_css();">
+                      <option value="repeat" <{if $bg_repeat=="repeat"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_REPEAT_NORMAL}></option>
+                      <option value="repeat-x" <{if $bg_repeat=="repeat-x"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_REPEAT_X}></option>
+                      <option value="repeat-y" <{if $bg_repeat=="repeat-y"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_REPEAT_Y}></option>
+                      <option value="no-repeat" <{if $bg_repeat=="no-repeat"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_NO_REPEAT}></option>
+                    </select>
+                  </div>
+                </div>
+
+
+                <div class="row-fluid">
+                  <!-- 背景模式-->
+                  <div class="span4 text-right">
+                    <{$smarty.const._MA_TADTHEMES_BG_ATTACHMENT}>
+                  </div>
+                  <div class="span8">
+                    <select name="bg_attachment" id="bg_attachment" class="span12" onChange="change_css();">
+                      <option value="scroll" <{if $bg_attachment=="scroll"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_ATTACHMENT_SCROLL}></option>
+                      <option value="fixed" <{if $bg_attachment=="fixed"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_ATTACHMENT_FIXED}></option>
+                    </select>
+                  </div>
+                </div>
+
+
+                <div class="row-fluid">
+                  <!-- 背景位置-->
+                  <div class="span4 text-right">
+                    <{$smarty.const._MA_TADTHEMES_BG_POSITION}>
+                  </div>
+                  <div class="span8">
+                    <select name="bg_position" id="bg_position" class="span12" onChange="change_css();">
+                      <option value="" <{if $bg_position=="left top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_LT}></option>
+                      <option value="right top" <{if $bg_position=="right top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_RT}></option>
+                      <option value="left bottom" <{if $bg_position=="left bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_LB}></option>
+                      <option value="right bottom" <{if $bg_position=="right bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_RB}></option>
+                      <option value="center center" <{if $bg_position=="center center"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_CC}></option>
+                      <option value="center top" <{if $bg_position=="center top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_CT}></option>
+                      <option value="center bottom" <{if $bg_position=="center bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_CB}></option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!--選擇預設 背景圖-->
+              <div class="span7">
+                <{if $all_bg}>
+                  <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                    <label for="bg_img0" style="width:60px; height:60px;border:1px dotted gray;" >
+                      <input type="radio" name="bg_img" id="bg_img0" onChange="$('.del_img_box').show(); preview_img('bg',$(this).val());" value="" <{if $bg_img==""}>checked<{/if}>>
+                      <{$smarty.const._MA_TADTHEMES_NONE}><{$smarty.const._MA_TADTHEMES_BG_IMG}>
+                    </label>
+                  </div>
+                  <{foreach from=$all_bg item=bg}>
+                    <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                      <label for="bg_img<{$bg.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$bg.tb_path}>);background-position:center center;border:1px solid gray;" >
+                        <input type="radio" name="bg_img" id="bg_img<{$bg.files_sn}>" onChange="$('.del_img_box').show(); $('#del_img<{$bg.files_sn}>').hide(); preview_img('bg',$(this).val());" value="<{$bg.path}>" <{if $bg_img==$bg.path}>checked<{/if}>>
+                      </label>
+                      <label class="checkbox del_img_box" style="font-size:11px;"  id="del_img<{$bg.files_sn}>">
+                        <input type="checkbox" value="<{$bg.files_sn}>" name="del_file[<{$bg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
+                      </label>
+                    </div>
+                  <{/foreach}>
+                <{/if}>
+              </div>
+            </div>
+          </div>
+
+          <!--滑動圖片高度-->
+          <div id="tabs-3">
+            <div class="row-fluid">
                 <div class="span5">
 
                   <div class="row-fluid">
-                    <!-- 上傳 背景圖-->
                     <div class="span4 text-right">
-                      <{$smarty.const._MA_TAD_THEMES_UPLOAD}>
-                      <{$smarty.const._MA_TADTHEMES_BG_IMG}>
+                      <{$smarty.const._MA_TADTHEMES_SLIDE_WIDTH}>
                     </div>
+
+                    <!--滑動圖片寬度-->
                     <div class="span8">
-                      <{$upform_bg}>
+                      <input type="text" name="slide_width" class="span8" value="<{$slide_width}>" id="slide_width" onChange="change_css();">
+                      <{$theme_unit}>
                     </div>
                   </div>
 
                   <div class="row-fluid">
-                    <!-- 背景顏色-->
                     <div class="span4 text-right">
-                      <{$smarty.const._MA_TADTHEMES_BG_COLOR}>
+                      <{$smarty.const._MA_TADTHEMES_SLIDE_HEIGHT}>
                     </div>
+                    <!--滑動圖片高度-->
                     <div class="span8">
-                      <input type="color" name="bg_color" id="bg_color" value="<{$bg_color}>" class="span6" data-hex="true" onChange="change_css();">
-                    </div>
-                  </div>
-
-                  <div class="row-fluid">
-                    <!-- 背景重複-->
-                    <div class="span4 text-right">
-                      <{$smarty.const._MA_TADTHEMES_BG_REPEAT}>
-                    </div>
-                    <div class="span8">
-                      <select name="bg_repeat" id="bg_repeat" onChange="change_css();">
-                        <option value="repeat" <{if $bg_repeat=="repeat"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_REPEAT_NORMAL}></option>
-                        <option value="repeat-x" <{if $bg_repeat=="repeat-x"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_REPEAT_X}></option>
-                        <option value="repeat-y" <{if $bg_repeat=="repeat-y"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_REPEAT_Y}></option>
-                        <option value="no-repeat" <{if $bg_repeat=="no-repeat"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_NO_REPEAT}></option>
-                      </select>
-                    </div>
-                  </div>
-
-
-                  <div class="row-fluid">
-                    <!-- 背景模式-->
-                    <div class="span4 text-right">
-                      <{$smarty.const._MA_TADTHEMES_BG_ATTACHMENT}>
-                    </div>
-                    <div class="span8">
-                      <select name="bg_attachment" id="bg_attachment" onChange="change_css();">
-                        <option value="scroll" <{if $bg_attachment=="scroll"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_ATTACHMENT_SCROLL}></option>
-                        <option value="fixed" <{if $bg_attachment=="fixed"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_ATTACHMENT_FIXED}></option>
-                      </select>
-                    </div>
-                  </div>
-
-
-                  <div class="row-fluid">
-                    <!-- 背景位置-->
-                    <div class="span4 text-right">
-                      <{$smarty.const._MA_TADTHEMES_BG_POSITION}>
-                    </div>
-                    <div class="span8">
-                      <select name="bg_position" id="bg_position" onChange="change_css();">
-                        <option value="" <{if $bg_position=="left top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_LT}></option>
-                        <option value="right top" <{if $bg_position=="right top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_RT}></option>
-                        <option value="left bottom" <{if $bg_position=="left bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_LB}></option>
-                        <option value="right bottom" <{if $bg_position=="right bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_RB}></option>
-                        <option value="center center" <{if $bg_position=="center center"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_CC}></option>
-                        <option value="center top" <{if $bg_position=="center top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_CT}></option>
-                        <option value="center bottom" <{if $bg_position=="center bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_CB}></option>
-                      </select>
+                      <input type="text" name="slide_height" class="span8" value="<{$slide_height}>" id="slide_height" onChange="change_css();"> px
                     </div>
                   </div>
                 </div>
-
-                <!--選擇預設 背景圖-->
                 <div class="span7">
-                  <{if $all_bg}>
-                    <div style="width:60px; height:66px; display:inline-block; margin:4px;">
-                      <label for="bg_img0" style="width:60px; height:60px;border:1px dotted gray;" >
-                        <input type="radio" name="bg_img" id="bg_img0" onChange="$('.del_img_box').show(); preview_img('bg',$(this).val());" value="" <{if $bg_img==""}>checked<{/if}>>
-                        <{$smarty.const._MA_TADTHEMES_NONE}><{$smarty.const._MA_TADTHEMES_BG_IMG}>
-                      </label>
-                    </div>
-                    <{foreach from=$all_bg item=bg}>
-                      <div style="width:60px; height:66px; display:inline-block; margin:4px;">
-                        <label for="bg_img<{$bg.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$bg.tb_path}>);background-position:center center;border:1px solid gray;" >
-                          <input type="radio" name="bg_img" id="bg_img<{$bg.files_sn}>" onChange="$('.del_img_box').show(); $('#del_img<{$bg.files_sn}>').hide(); preview_img('bg',$(this).val());" value="<{$bg.path}>" <{if $bg_img==$bg.path}>checked<{/if}>>
-                        </label>
-                        <label class="checkbox del_img_box" style="font-size:11px;"  id="del_img<{$bg.files_sn}>">
-                          <input type="checkbox" value="<{$bg.files_sn}>" name="del_file[<{$bg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
-                        </label>
-                      </div>
-                    <{/foreach}>
-                  <{/if}>
-                </div>
-              </div>
-            </div>
-
-            <!--滑動圖片高度-->
-            <div id="tabs-3">
-              <div class="row-fluid">
-                <div class="row-fluid">
-
-                  <div class="span2 text-right">
-                    <{$smarty.const._MA_TADTHEMES_SLIDE_WIDTH}>
-                  </div>
-
-                  <!--滑動圖片寬度-->
-                  <div class="span2">
-                    <input type="text" name="slide_width" class="span8" value="<{$slide_width}>" id="slide_width" onChange="change_css();">
-                    <{$theme_unit}>
-                  </div>
-
-                  <div class="span2 text-right">
-                    <{$smarty.const._MA_TADTHEMES_SLIDE_HEIGHT}>
-                  </div>
-                  <!--滑動圖片高度-->
-                  <div class="span2">
-                    <input type="text" name="slide_height" class="span8" value="<{$slide_height}>" id="slide_height" onChange="change_css();"> px
-                  </div>
-
-                  <div class="span4 alert alert-success">
+                  <div class="span12 alert alert-success">
                     <{$smarty.const._MA_TADTHEMES_SLIDE_DESC}>
                   </div>
                 </div>
 
-                <div class="row-fluid">
-                  <!-- 背景模式-->
-                  <div class="span2 text-right">
-                    <{$smarty.const._MA_TAD_THEMES_UPLOAD}>
-                    <{$smarty.const._MA_TAD_THEMES_HEAD}>
-                  </div>
-                  <div class="span10">
-                    <{$upform_slide}>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-
-            <!--logo圖-->
-            <div id="tabs-4">
               <div class="row-fluid">
-                <div class="span5">
-
-                  <div class="row-fluid">
-                    <!-- 上傳logo圖-->
-                    <div class="span4 text-right">
-                      <{$smarty.const._MA_TAD_THEMES_UPLOAD}><{$smarty.const._MA_TADTHEMES_LOGO_IMG}>
-                    </div>
-                    <div class="span8">
-                      <{$upform_logo}>
-                    </div>
-                  </div>
-
-
-                  <div class="row-fluid">
-                    <!-- 選擇預設logo圖-->
-                    <div class="span4 text-right">
-                      <{$smarty.const._MA_TADTHEMES_LOGO_PLACE}>
-                    </div>
-                    <div class="span8">
-                      <div class="row-fluid">
-                        <div class="span4 offset4">
-                          <input type="text" name="logo_top" class="span8" value="<{$logo_top}>" id="logo_top" onChange="if(this.value > 0){$('#logo_bottom').val(0);}"> px
-                        </div>
-                      </div>
-
-                      <div class="row-fluid">
-                        <div class="span4">
-                          <input type="text" name="logo_left" class="span8" value="<{$logo_left}>" id="logo_left" onChange="if(this.value > 0){$('#logo_right').val(0);}"> px
-                        </div>
-                        <div class="span4 offset4">
-                          <input type="text" name="logo_right" class="span8" value="<{$logo_right}>" id="logo_right" onChange="if(this.value > 0){$('#logo_left').val(0);}"> px
-                        </div>
-                      </div>
-
-                      <div class="row-fluid">
-                        <div class="span4 offset4">
-                          <input type="text" name="logo_bottom" class="span8" value="<{$logo_bottom}>" id="logo_bottom" onChange="if(this.value > 0){$('#logo_top').val(0);}"> px
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <!-- 背景模式-->
+                <div class="span2 text-right">
+                  <{$smarty.const._MA_TAD_THEMES_UPLOAD}>
+                  <{$smarty.const._MA_TAD_THEMES_HEAD}>
                 </div>
-
-                <div class="span7">
-                  <!-- 選擇預設logo圖-->
-                  <div style="width:60px; height:66px; display:inline-block; margin:4px;">
-                    <label for="logo_img0" style="width:60px; height:60px;border:1px dotted gray;" >
-                      <input type="radio" name="logo_img" id="logo_img0" value="" <{if $logo_img==""}>checked<{/if}>>
-                      <{$smarty.const._MA_TADTHEMES_NONE}><{$smarty.const._MA_TADTHEMES_LOGO_IMG}>
-                    </label>
-                  </div>
-
-                  <{if $all_logo}>
-                    <{foreach from=$all_logo item=logo}>
-                      <div style="width:60px; height:66px; display:inline-block; margin:4px;">
-                        <label for="logo_img<{$logo.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$logo.tb_path}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;" >
-                          <input type="radio" name="logo_img" id="logo_img<{$logo.files_sn}>" value="<{$logo.path}>" <{if $logo_img==$logo.path}>checked<{/if}>>
-                        </label>
-                        <label class="checkbox del_img_box" style="font-size:11px;"  id="del_img<{$logo.files_sn}>">
-                          <input type="checkbox" value="<{$logo.files_sn}>" name="del_file[<{$logo.files_sn}>]"> <{$smarty.const._TAD_DEL}>
-                        </label>
-                      </div>
-                    <{/foreach}>
-                  <{/if}>
-
-                </div>
-              </div>
-            </div>
-
-            <!--區塊標題背景設定by hc 開始-->
-            <!--區塊標題列背景圖-->
-            <div id="tabs-5">
-              <div class="row-fluid">
-                <div class="span5">
-                  <div class="row-fluid">
-                    <!-- 區塊標題列背景重複-->
-                    <div class="span4 text-right">
-                      <{$smarty.const._MA_TADTHEMES_BG_REPEAT}>
-                    </div>
-
-                    <div class="span8">
-                      <select name="bt_bg_repeat" id="bt_bg_repeat">
-                        <option value="1" <{if $bt_bg_repeat=="1"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_REPEAT_NORMAL}></option>
-                        <option value="0" <{if $bt_bg_repeat=="0"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_NO_REPEAT}></option>
-                      </select>
-                    </div>
-                  </div>
-
-
-
-                  <div class="row-fluid">
-                    <!-- 上傳區塊標題列背景圖-->
-                    <div class="span4 text-right">
-                      <{$smarty.const._MA_TAD_THEMES_UPLOAD}>
-                      <{$smarty.const._MA_TADTHEMES_BG_IMG}>
-                    </div>
-
-                    <div class="span8">
-                      <{$upform_bt_bg}>
-                    </div>
-                  </div>
-
-                  <div class="row-fluid">
-                    <!-- 區塊標題文字縮排-->
-                    <div class="span4 text-right">
-                      <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_PADDING}>
-                    </div>
-
-                    <div class="span8">
-                      <input type="text" name="bt_text_padding" class="span6" value="<{$bt_text_padding}>" id="bt_text_padding">px
-                    </div>
-                  </div>
-
-
-                  <div class="row-fluid">
-                    <!-- 區塊標題列文字顏色-->
-                    <div class="span4 text-right">
-                      <{$smarty.const._MA_TADTHEMES_FONT_COLOR}>
-                    </div>
-
-                    <div class="span8">
-                      <input type="color" name="bt_text" id="bt_text" value="<{$bt_text}>" class="span6" data-hex="true">
-                    </div>
-                  </div>
-
-
-                  <div class="row-fluid">
-                    <!-- 區塊標題列背景顏色-->
-                    <div class="span4 text-right">
-                      <{$smarty.const._MA_TADTHEMES_BG_COLOR}>
-                    </div>
-
-                    <div class="span8">
-                      <input type="color" name="bt_bg_color" id="bt_bg_color" value="<{$bt_bg_color}>" class="span6" data-hex="true">
-                    </div>
-                  </div>
-
-
-                  <div class="row-fluid">
-                    <!-- 區塊標題工具按鈕-->
-                    <div class="span4 text-right">
-                      <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_BUTTOM}>
-                    </div>
-
-                    <div class="span8">
-                      <select name="block_config" id="block_config">
-                        <option value="right" <{if $block_config=="1"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_RT}></option>
-                        <option value="left" <{if $block_config=="0"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_LT}></option>
-                      </select>
-                    </div>
-                  </div>
-
-
-                  <div class="row-fluid">
-                    <!-- 區塊標題圓角設定-->
-                    <div class="span4 text-right">
-                      <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_RADIUS}>
-                    </div>
-
-                    <div class="span8">
-                      <select name="bt_radius" id="bt_radius">
-                        <option value="1" <{if $bt_radius=="1"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_RADIUS_Y}></option>
-                        <option value="0" <{if $bt_radius=="0"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_RADIUS_N}></option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-                <div class="span7">
-                    <!-- 選擇預設區塊標題列背景圖-->
-                  <{if $all_bt_bg}>
-                    <div style="width:60px; height:66px; display:inline-block; margin:4px;">
-                      <label for="bt_bg_img0" style="width:60px; height:60px;border:1px dotted gray;" >
-                        <input type="radio" name="bt_bg_img" id="bt_bg_img0" onChange="$('.del_img_box').show();" value="" <{if $bt_bg_img==""}>checked<{/if}>>
-                        <{$smarty.const._MA_TADTHEMES_NONE}>
-                      </label>
-                    </div>
-                    <{foreach from=$all_bt_bg item=bt_bg}>
-                      <div style="width:60px; height:66px; display:inline-block; margin:4px;">
-                        <label for="bt_bg_img<{$bt_bg.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$bt_bg.tb_path}>);background-position:center center;border:1px solid gray;" >
-                          <input type="radio" name="bt_bg_img" id="bt_bg_img<{$bt_bg.files_sn}>" onChange="$('.del_img_box').show(); $('#del_img<{$bt_bg.files_sn}>').hide(); " value="<{$bt_bg.path}>" <{if $bt_bg_img==$bt_bg.path}>checked<{/if}>>
-                        </label>
-                        <label class="checkbox del_img_box" style="font-size:11px;"  id="del_img<{$bt_bg.files_sn}>">
-                          <input type="checkbox" value="<{$bt_bg.files_sn}>" name="del_file[<{$bt_bg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
-                        </label>
-                      </div>
-                    <{/foreach}>
-                  <{/if}>
-                </div>
-              </div>
-            </div>
-
-            <!--navbar設定by hc 開始-->
-            <!--navbar-->
-            <div id="tabs-6">
-              <div class="row-fluid">
-                <div class="span6">
-                  <!--導覽工具列位置-->
-                  <div class="row-fluid">
-                    <div class="span4"><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION}></div>
-                    <div class="span8">
-                      <select name="navbar_pos" id="navbar_pos" >
-                        <option value="navbar-fixed-top" <{if $navbar_pos=="navbar-fixed-top"}>selected<{/if}>>
-                        <{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_1}></option>
-                        <option value="navbar-fixed-bottom" <{if $navbar_pos=="navbar-fixed-bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_2}></option>
-                        <option value="navbar-static-top" <{if $navbar_pos=="navbar-static-top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_3}></option>
-                        <option value="not-use" <{if $navbar_pos=="not-use"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_4}></option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <!--導覽工具列 漸層顏色(top) -->
-                  <div class="row-fluid">
-                    <div class="span4">
-                      <{$smarty.const._MA_TADTHEMES_NAVBAR}>
-                      <{$smarty.const._MA_TADTHEMES_NAVBAR_BG_COLOR}>(top)
-                    </div>
-                    <div class="span8">
-                      <input type="color" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>" class="span6" data-hex="true">
-                    </div>
-                  </div>
-
-                  <!--導覽工具列 漸層顏色(bottom)-->
-                  <div class="row-fluid">
-                    <div class="span4">
-                      <{$smarty.const._MA_TADTHEMES_NAVBAR}>
-                      <{$smarty.const._MA_TADTHEMES_NAVBAR_BG_COLOR}>(bottom)
-                    </div>
-                    <div class="span8">
-                      <input type="color" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>" class="span6" data-hex="true">
-                    </div>
-                  </div>
-
-                  <!--導覽工具列 連結區塊底色-->
-                  <div class="row-fluid">
-                    <div class="span4">
-                      <{$smarty.const._MA_TADTHEMES_NAVBAR}>
-                      <{$smarty.const._MA_TADTHEMES_NAVBAR_HOVER_COLOR}>
-                    </div>
-                    <div class="span8">
-                      <input type="color" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>" class="span6" data-hex="true">
-                    </div>
-                  </div>
-                </div>
-                <div class="span6">
-                  <!--導覽工具列 文字顏色-->
-                  <div class="row-fluid">
-                    <div class="span4">
-                      <{$smarty.const._MA_TADTHEMES_NAVBAR}>
-                      <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR}>
-                    </div>
-                    <div class="span8">
-                      <input type="color" name="navbar_color" id="navbar_color" value="<{$navbar_color}>" class="span6" data-hex="true">
-                    </div>
-                  </div>
-
-
-                  <!--導覽工具列 文字移過顏色-->
-                  <div class="row-fluid">
-                    <div class="span4">
-                      <{$smarty.const._MA_TADTHEMES_NAVBAR}>
-                      <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR_HOVER}>
-                    </div>
-                    <div class="span8">
-                      <input type="color" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>" class="span6" data-hex="true">
-                    </div>
-                  </div>
-
-                  <!--導覽工具列 圖示顏色-->
-                  <div class="row-fluid">
-                    <div class="span4">
-                      <{$smarty.const._MA_TADTHEMES_NAVBAR}>
-                      <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR}>
-                    </div>
-                    <div class="span8">
-                      <label for="navbar_icon_white">
-                        <input type="radio" name="navbar_icon" id="navbar_icon_white" value="icon-white" <{if $navbar_icon=="icon-white"}>checked<{/if}>>
-                        <{$smarty.const._MA_TADTHEMES_NAVBAR_ICON_WHITE}>
-                      </label>
-                      <label for="navbar_icon_black">
-                        <input type="radio" name="navbar_icon" id="navbar_icon_black" value="" <{if $navbar_icon==""}>checked<{/if}>>
-                        <{$smarty.const._MA_TADTHEMES_NAVBAR_ICON_BLACK}>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!--導覽列navlogo圖-->
-            <div id="tabs-7">
-              <div class="row-fluid">
-                <div class="span5">
-
-                  <div class="row-fluid">
-                    <!-- 上傳logo圖-->
-                    <div class="span4 text-right">
-                      <{$smarty.const._MA_TAD_THEMES_UPLOAD}><{$smarty.const._MA_TADTHEMES_NAVLOGO_IMG}>
-                    </div>
-                    <div class="span8">
-                      <{$upform_navlogo}>
-                    </div>
-                  </div>
-
-                </div>
-
-                <div class="span7">
-                  <!-- 選擇預設導覽列navlogo圖-->
-                  <div style="width:60px; height:66px; display:inline-block; margin:4px;">
-                    <label for="navlogo_img0" style="width:60px; height:60px;border:1px dotted gray;" >
-                      <input type="radio" name="navlogo_img" id="navlogo_img0" value="" <{if $navlogo_img==""}>checked<{/if}>>
-                      <{$smarty.const._MA_TADTHEMES_NONE}><{$smarty.const._MA_TADTHEMES_NAVLOGO_IMG}>
-                    </label>
-                  </div>
-
-                  <{if $all_navlogo}>
-                    <{foreach from=$all_navlogo item=navlogo}>
-                      <div style="width:60px; height:66px; display:inline-block; margin:4px;">
-                        <label for="logo_img<{$navlogo.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$navlogo.tb_path}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;" >
-                          <input type="radio" name="navlogo_img" id="navlogo_img<{$navlogo.files_sn}>" value="<{$navlogo.path}>" <{if $navlogo_img==$navlogo.path}>checked<{/if}>>
-                        </label>
-                        <label class="checkbox del_navimg_box" style="font-size:11px;"  id="del_navimg<{$navlogo.files_sn}>">
-                          <input type="checkbox" value="<{$navlogo.files_sn}>" name="del_file[<{$navlogo.files_sn}>]"> <{$smarty.const._TAD_DEL}>
-                        </label>
-                      </div>
-                    <{/foreach}>
-                  <{/if}>
-
+                <div class="span10">
+                  <{$upform_slide}>
                 </div>
               </div>
             </div>
           </div>
+
+
+          <!--logo圖-->
+          <div id="tabs-4">
+            <div class="row-fluid">
+              <div class="span5">
+
+                <div class="row-fluid">
+                  <!-- 上傳logo圖-->
+                  <div class="span4 text-right">
+                    <{$smarty.const._MA_TAD_THEMES_UPLOAD}><{$smarty.const._MA_TADTHEMES_LOGO_IMG}>
+                  </div>
+                  <div class="span8">
+                    <{$upform_logo}>
+                  </div>
+                </div>
+
+                <div class="row-fluid">
+                  <!-- logo圖位置-->
+                  <div class="span4 text-right">
+                    <{$smarty.const._MA_TADTHEMES_LOGO_POSITION}>
+                  </div>
+                  <div class="span8">
+                    <label class="radio">
+                      <input type="radio" name="logo_position" onClick="logo_place_setup(this.value)" value="slide" <{if $logo_position=="slide"}>checked<{/if}>><{$smarty.const._MA_TADTHEMES_LOGO_SLIDE}>
+                    </label>
+                    <label class="radio">
+                      <input type="radio" name="logo_position" onClick="logo_place_setup(this.value)" class="logo_position" value="page" <{if $logo_position=="page"}>checked<{/if}>><{$smarty.const._MA_TADTHEMES_LOGO_PAGE}>
+                    </label>
+                  </div>
+                </div>
+
+
+
+                <div class="row-fluid" id="logo_place_setup">
+                  <!-- 選擇預設logo圖-->
+                  <div class="span4 text-right">
+                    <{$smarty.const._MA_TADTHEMES_LOGO_PLACE}>
+                  </div>
+                  <div class="span8">
+                    <div class="row-fluid">
+                      <div class="span4 offset4">
+                        <input type="text" name="logo_top" class="span8" value="<{$logo_top}>" id="logo_top" onChange="if(this.value > 0){$('#logo_bottom').val(0);}"> px
+                      </div>
+                    </div>
+
+                    <div class="row-fluid">
+                      <div class="span4">
+                        <input type="text" name="logo_left" class="span8" value="<{$logo_left}>" id="logo_left" onChange="if(this.value > 0){$('#logo_right').val(0);}"> px
+                      </div>
+                      <div class="span4 offset4">
+                        <input type="text" name="logo_right" class="span8" value="<{$logo_right}>" id="logo_right" onChange="if(this.value > 0){$('#logo_left').val(0);}"> px
+                      </div>
+                    </div>
+
+                    <div class="row-fluid">
+                      <div class="span4 offset4">
+                        <input type="text" name="logo_bottom" class="span8" value="<{$logo_bottom}>" id="logo_bottom" onChange="if(this.value > 0){$('#logo_top').val(0);}"> px
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="span7">
+                <!-- 選擇預設logo圖-->
+                <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                  <label for="logo_img0" style="width:60px; height:60px;border:1px dotted gray;" >
+                    <input type="radio" name="logo_img" id="logo_img0" value="" <{if $logo_img==""}>checked<{/if}>>
+                    <{$smarty.const._MA_TADTHEMES_NONE}><{$smarty.const._MA_TADTHEMES_LOGO_IMG}>
+                  </label>
+                </div>
+
+                <{if $all_logo}>
+                  <{foreach from=$all_logo item=logo}>
+                    <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                      <label for="logo_img<{$logo.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$logo.tb_path}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;" >
+                        <input type="radio" name="logo_img" id="logo_img<{$logo.files_sn}>" value="<{$logo.path}>" <{if $logo_img==$logo.path}>checked<{/if}>>
+                      </label>
+                      <label class="checkbox del_img_box" style="font-size:11px;"  id="del_img<{$logo.files_sn}>">
+                        <input type="checkbox" value="<{$logo.files_sn}>" name="del_file[<{$logo.files_sn}>]"> <{$smarty.const._TAD_DEL}>
+                      </label>
+                    </div>
+                  <{/foreach}>
+                <{/if}>
+
+              </div>
+            </div>
+          </div>
+
+          <!--區塊標題列背景圖-->
+          <div id="tabs-5">
+
+            <div id="bt_tabs">
+              <ul class="nav nav-tabs">
+                <{foreach from=$blocks_values item=block}>
+                  <li><a href="#bp_<{$block.block_position}>"><{$block.title}></a></li>
+                <{/foreach}>
+              </ul>
+
+              <{foreach from=$blocks_values item=block}>
+                <div id="bp_<{$block.block_position}>">
+                  <div class="row-fluid">
+                    <!-- 區塊標題文字大小-->
+                    <div class="span2 text-right">
+                      <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_SIZE}>
+                    </div>
+
+                    <div class="span4">
+                      <input type="text" name="bt_text_size[<{$block.block_position}>]" class="span6" value="<{$block.bt_text_size}>" id="bt_text_size_<{$block.block_position}>">
+                    </div>
+
+                    <!-- 區塊標題文字縮排-->
+                    <div class="span2 text-right">
+                      <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_PADDING}>
+                    </div>
+
+                    <div class="span4">
+                      <input type="text" name="bt_text_padding[<{$block.block_position}>]" class="span6" value="<{$block.bt_text_padding}>" id="bt_text_padding_<{$block.block_position}>">px
+                    </div>
+                  </div>
+
+                  <div class="row-fluid">
+                    <!-- 區塊標題列文字顏色-->
+                    <div class="span2 text-right">
+                      <{$smarty.const._MA_TADTHEMES_FONT_COLOR}>
+                    </div>
+
+                    <div class="span4">
+                      <input type="color" name="bt_text[<{$block.block_position}>]" id="bt_text_<{$block.block_position}>" value="<{$block.bt_text}>" class="span6" data-hex="true">
+                    </div>
+
+                    <!-- 區塊標題列背景顏色-->
+                    <div class="span2 text-right">
+                      <{$smarty.const._MA_TADTHEMES_BG_COLOR}>
+                    </div>
+
+                    <div class="span4">
+                      <input type="color" name="bt_bg_color[<{$block.block_position}>]" id="bt_bg_color_<{$block.block_position}>" value="<{$block.bt_bg_color}>" class="span6" data-hex="true">
+                    </div>
+                  </div>
+
+                  <div class="row-fluid">
+
+                    <!-- 區塊標題圓角設定-->
+                    <div class="span2 text-right">
+                      <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_RADIUS}>
+                    </div>
+
+                    <div class="span4">
+                      <select name="bt_radius[<{$block.block_position}>]" id="bt_radius_<{$block.block_position}>" class="span12">
+                        <option value="1" <{if $block.bt_radius=="1"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_RADIUS_Y}></option>
+                        <option value="0" <{if $block.bt_radius=="0"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_RADIUS_N}></option>
+                      </select>
+                    </div>
+
+                    <!-- 區塊標題工具按鈕-->
+                    <div class="span2 text-right">
+                      <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_BUTTOM}>
+                    </div>
+
+                    <div class="span4">
+                      <select name="block_config[<{$block.block_position}>]" id="block_config_<{$block.block_position}>" class="span12">
+                        <option value="right" <{if $block.block_config=="right"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_RT}></option>
+                        <option value="left" <{if $block.block_config=="left"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_LT}></option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="row-fluid">
+                    <!-- 上傳區塊標題列背景圖-->
+                    <div class="span2 text-right">
+                      <{$smarty.const._MA_TAD_THEMES_UPLOAD}>
+                      <{$smarty.const._MA_TADTHEMES_BG_IMG}>
+                    </div>
+
+                    <div class="span4">
+                      <{$block.upform_bt_bg}>
+                    </div>
+                    <!-- 區塊標題列背景重複-->
+                    <div class="span2 text-right">
+                      <{$smarty.const._MA_TADTHEMES_BG_REPEAT}>
+                    </div>
+
+                    <div class="span4">
+                      <select name="bt_bg_repeat[<{$block.block_position}>]" id="bt_bg_repeat_<{$block.block_position}>" class="span12">
+                        <option value="1" <{if $block.bt_bg_repeat=="1"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_REPEAT_NORMAL}></option>
+                        <option value="0" <{if $block.bt_bg_repeat=="0"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_NO_REPEAT}></option>
+                      </select>
+                    </div>
+                  </div>
+                  <!-- 選擇預設區塊標題列背景圖-->
+                  <{if $block.all_bt_bg}>
+                    <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                      <label for="bt_bg_img0_<{$block.block_position}>" style="width:60px; height:60px;border:1px dotted gray;" >
+                        <input type="radio" name="bt_bg_img[<{$block.block_position}>]" id="bt_bg_img0_<{$block.block_position}>" onChange="$('.del_img_box_<{$block.block_position}>').show();" value="" <{if $block.bt_bg_img==""}>checked<{/if}>>
+                        <{$smarty.const._MA_TADTHEMES_NONE}>
+                      </label>
+                    </div>
+                    <{foreach from=$block.all_bt_bg item=bt_bg}>
+                      <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                        <label for="bt_bg_img<{$bt_bg.files_sn}>_<{$block.block_position}>" style="width:60px; height:60px; background:#000000 url(<{$bt_bg.tb_path}>);background-position:left center;border:1px solid gray;" >
+                          <input type="radio" name="bt_bg_img[<{$block.block_position}>]" id="bt_bg_img<{$bt_bg.files_sn}>_<{$block.block_position}>" onChange="$('.del_img_box_<{$block.block_position}>').show(); $('#del_img<{$bt_bg.files_sn}>_<{$block.block_position}>').hide(); " value="<{$bt_bg.path}>" <{if $block.bt_bg_img==$bt_bg.path}>checked<{/if}>>
+                        </label>
+                        <label class="checkbox del_img_box" style="font-size:11px;"  id="del_img<{$bt_bg.files_sn}>_<{$block.block_position}>">
+                          <input type="checkbox" value="<{$bt_bg.files_sn}>" name="del_file_<{$block.block_position}>[<{$bt_bg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
+                        </label>
+                      </div>
+                    <{/foreach}>
+                  <{/if}>
+                </div>
+              <{/foreach}>
+            </div>
+          </div>
+
+          <!--navbar-->
+          <div id="tabs-6">
+            <div class="row-fluid">
+              <div class="span6">
+                <!--導覽工具列位置-->
+                <div class="row-fluid">
+                  <div class="span4"><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION}></div>
+                  <div class="span8">
+                    <select name="navbar_pos" id="navbar_pos" class="span12">
+                      <option value="navbar-fixed-top" <{if $navbar_pos=="navbar-fixed-top"}>selected<{/if}>>
+                      <{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_1}></option>
+                      <option value="navbar-fixed-bottom" <{if $navbar_pos=="navbar-fixed-bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_2}></option>
+                      <option value="navbar-static-top" <{if $navbar_pos=="navbar-static-top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_3}></option>
+                      <option value="navbar-static-bottom" <{if $navbar_pos=="navbar-static-bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_6}></option>
+                      <option value="default" <{if $navbar_pos=="default"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_4}></option>
+                      <option value="not-use" <{if $navbar_pos=="not-use"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_5}></option>
+                    </select>
+                  </div>
+                </div>
+
+                <!--導覽工具列 漸層顏色(top) -->
+                <div class="row-fluid">
+                  <div class="span4">
+                    <{$smarty.const._MA_TADTHEMES_NAVBAR}>
+                    <{$smarty.const._MA_TADTHEMES_NAVBAR_BG_COLOR}>(top)
+                  </div>
+                  <div class="span8">
+                    <input type="color" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>" class="span6" data-hex="true">
+                  </div>
+                </div>
+
+                <!--導覽工具列 漸層顏色(bottom)-->
+                <div class="row-fluid">
+                  <div class="span4">
+                    <{$smarty.const._MA_TADTHEMES_NAVBAR}>
+                    <{$smarty.const._MA_TADTHEMES_NAVBAR_BG_COLOR}>(bottom)
+                  </div>
+                  <div class="span8">
+                    <input type="color" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>" class="span6" data-hex="true">
+                  </div>
+                </div>
+
+                <!--導覽工具列 連結區塊底色-->
+                <div class="row-fluid">
+                  <div class="span4">
+                    <{$smarty.const._MA_TADTHEMES_NAVBAR}>
+                    <{$smarty.const._MA_TADTHEMES_NAVBAR_HOVER_COLOR}>
+                  </div>
+                  <div class="span8">
+                    <input type="color" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>" class="span6" data-hex="true">
+                  </div>
+                </div>
+              </div>
+              <div class="span6">
+                <!--導覽工具列 文字顏色-->
+                <div class="row-fluid">
+                  <div class="span4">
+                    <{$smarty.const._MA_TADTHEMES_NAVBAR}>
+                    <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR}>
+                  </div>
+                  <div class="span8">
+                    <input type="color" name="navbar_color" id="navbar_color" value="<{$navbar_color}>" class="span6" data-hex="true">
+                  </div>
+                </div>
+
+
+                <!--導覽工具列 文字移過顏色-->
+                <div class="row-fluid">
+                  <div class="span4">
+                    <{$smarty.const._MA_TADTHEMES_NAVBAR}>
+                    <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR_HOVER}>
+                  </div>
+                  <div class="span8">
+                    <input type="color" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>" class="span6" data-hex="true">
+                  </div>
+                </div>
+
+                <!--導覽工具列 圖示顏色-->
+                <div class="row-fluid">
+                  <div class="span4">
+                    <{$smarty.const._MA_TADTHEMES_NAVBAR}>
+                    <{$smarty.const._MA_TADTHEMES_NAVBAR_ICON_COLOR}>
+                  </div>
+                  <div class="span8">
+                    <label for="navbar_icon_white">
+                      <input type="radio" name="navbar_icon" id="navbar_icon_white" value="icon-white" <{if $navbar_icon=="icon-white"}>checked<{/if}>>
+                      <{$smarty.const._MA_TADTHEMES_NAVBAR_ICON_WHITE}>
+                    </label>
+                    <label for="navbar_icon_black">
+                      <input type="radio" name="navbar_icon" id="navbar_icon_black" value="" <{if $navbar_icon==""}>checked<{/if}>>
+                      <{$smarty.const._MA_TADTHEMES_NAVBAR_ICON_BLACK}>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row-fluid">
+              <div class="span5">
+
+                <div class="row-fluid">
+                  <!-- 上傳navbar_img圖-->
+                  <div class="span4 text-right">
+                    <{$smarty.const._MA_TAD_THEMES_UPLOAD}><{$smarty.const._MA_TADTHEMES_NAVBAR_IMG}>
+                  </div>
+                  <div class="span8">
+                    <{$upform_navbar_img}>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="span7">
+                <!-- 選擇預設導覽列navbar_img圖-->
+                <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                  <label for="navbar_img0" style="width:60px; height:60px;border:1px dotted gray;" >
+                    <input type="radio" name="navbar_img" id="navbar_img0" onChange="$('.del_img_box').show();" value="" <{if $navbar_img==""}>checked<{/if}>>
+                    <{$smarty.const._MA_TADTHEMES_NONE}><{$smarty.const._MA_TADTHEMES_NAVBAR_IMG}>
+                  </label>
+                </div>
+
+                <{if $all_navbar_img}>
+                  <{foreach from=$all_navbar_img item=navbarbg}>
+                    <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                      <label for="navbar_img<{$navbarbg.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$navbarbg.tb_path}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;" >
+                        <input type="radio" name="navbar_img" id="navbar_img<{$navbarbg.files_sn}>" onChange="$('.del_img_box').show(); $('#del_img<{$navbarbg.files_sn}>').hide();" value="<{$navbarbg.path}>" <{if $navbar_img==$navbarbg.path}>checked<{/if}>>
+                      </label>
+                      <label class="checkbox del_img_box" style="font-size:11px;"  id="del_img<{$navbarbg.files_sn}>">
+                        <input type="checkbox" value="<{$navbarbg.files_sn}>" name="del_file[<{$navbarbg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
+                      </label>
+                    </div>
+                  <{/foreach}>
+                <{/if}>
+
+              </div>
+            </div>
+          </div>
+
+          <!--導覽列navlogo圖-->
+          <div id="tabs-7">
+            <div class="row-fluid">
+              <div class="span5">
+
+                <div class="row-fluid">
+                  <!-- 上傳logo圖-->
+                  <div class="span4 text-right">
+                    <{$smarty.const._MA_TAD_THEMES_UPLOAD}><{$smarty.const._MA_TADTHEMES_NAVLOGO_IMG}>
+                  </div>
+                  <div class="span8">
+                    <{$upform_navlogo}>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="span7">
+                <!-- 選擇預設導覽列navlogo圖-->
+                <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                  <label for="navlogo_img0" style="width:60px; height:60px;border:1px dotted gray;" >
+                    <input type="radio" name="navlogo_img" id="navlogo_img0" value="" <{if $navlogo_img==""}>checked<{/if}>>
+                    <{$smarty.const._MA_TADTHEMES_NONE}><{$smarty.const._MA_TADTHEMES_NAVLOGO_IMG}>
+                  </label>
+                </div>
+
+                <{if $all_navlogo}>
+                  <{foreach from=$all_navlogo item=navlogo}>
+                    <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                      <label for="logo_img<{$navlogo.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$navlogo.tb_path}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;" >
+                        <input type="radio" name="navlogo_img" id="navlogo_img<{$navlogo.files_sn}>" value="<{$navlogo.path}>" <{if $navlogo_img==$navlogo.path}>checked<{/if}>>
+                      </label>
+                      <label class="checkbox del_navimg_box" style="font-size:11px;"  id="del_navimg<{$navlogo.files_sn}>">
+                        <input type="checkbox" value="<{$navlogo.files_sn}>" name="del_file[<{$navlogo.files_sn}>]"> <{$smarty.const._TAD_DEL}>
+                      </label>
+                    </div>
+                  <{/foreach}>
+                <{/if}>
+
+              </div>
+            </div>
+          </div>
+
+          <!--額外設定-->
+          <{if $config2}>
+          <div id="tabs-8">
+            <input type="hidden" name="config2" value="1">
+            <{foreach from=$theme_config item=config}>
+              <div class="row-fluid">
+                <div class="span2 text-right">
+                  <{$config.text}>
+                </div>
+                <div class="span4">
+                  <{if $config.type=="text"}>
+                    <input type="text" name="<{$config.name}>" value="<{$config.value}>" class="span12">
+                  <{elseif $config.type=="color"}>
+                    <input type="color" name="<{$config.name}>" id="<{$config.name}>" value="<{$config.value}>" class="span8" data-hex="true" >
+                  <{elseif $config.type=="textarea"}>
+                    <textarea name="<{$config.name}>" class="span12" rows=2><{$config.value}></textarea>
+                  <{elseif $config.type=="yesno"}>
+                    <label class="radio inline">
+                      <input type="radio" name="<{$config.name}>" id="<{$config.name}>1" value="1" <{if $config.value==1}>checked<{/if}> ><{$smarty.const._YES}>
+                    </label>
+                    <label class="radio inline">
+                      <input type="radio" name="<{$config.name}>" id="<{$config.name}>0" value="0" <{if $config.value==0}>checked<{/if}> ><{$smarty.const._NO}>
+                    </label>
+                  <{elseif $config.type=="file"}>
+                    <{$config.form}>
+                  <{/if}>
+                </div>
+
+                <{if $config.type=="file"}>
+                  <div class="span6">
+                    <{if $config.list}>
+
+                      <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                        <label for="<{$config.name}>0" style="width:60px; height:60px;border:1px dotted gray;" >
+                          <input type="radio" name="<{$config.name}>" id="<{$config.name}>0" value="" <{if $config.value==""}>checked<{/if}>>
+                          <{$smarty.const._MA_TADTHEMES_NONE}>
+                        </label>
+                      </div>
+
+                      <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                        <label for="<{$config.name}>" style="width:60px; height:60px; background:#000000 url(<{$config.default}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;background-size: cover;" >
+                          <input type="radio" name="<{$config.name}>" id="<{$config.name}><{$file.files_sn}>" value="<{$config.default}>"  <{if $config.value==$config.default}>checked<{/if}>>
+                        </label>
+                          <label class="checkbox" style="font-size:11px;">
+                            <{$smarty.const._MA_TADTHEMES_DEFAULT}>
+                          </label>
+
+                      </div>
+
+                      <{foreach from=$config.list item=file}>
+                        <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                          <label for="<{$config.name}><{$file.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$file.tb_path}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;" >
+                            <input type="radio" name="<{$config.name}>" id="<{$config.name}><{$file.files_sn}>" value="<{$file.path}>"  onChange="$('.del_<{$config.name}>').show(); $('#del_<{$config.name}><{$file.files_sn}>').hide();" <{if $config.value==$file.path}>checked<{/if}>>
+                          </label>
+                          <label class="checkbox del_<{$config.name}>" style="font-size:11px;" id="del_<{$config.name}><{$file.files_sn}>">
+                            <input type="checkbox" value="<{$file.files_sn}>" name="del_file[<{$file.files_sn}>]"> <{$smarty.const._TAD_DEL}>
+                          </label>
+                        </div>
+                      <{/foreach}>
+                      <div style="clear:both;"></div>
+                    <{/if}>
+                  </div>
+                <{else}>
+                  <div class="span6 alert alert-info">
+                    <{$config.desc}>
+                  </div>
+                <{/if}>
+              </div>
+
+
+            <{/foreach}>
+          </div>
+          <{/if}>
         </div>
       </div>
+
     </div>
 
 
@@ -659,11 +870,11 @@ function preview_img(kind,imgSrc){
               <div id='theme_foot' style='clear:both;border:1px solid #E0E0E0;height:30px;line-height:30px;background-color:#F0F0F0;margin:4px auto;font-size:11px;text-align:center;'><{$smarty.const._MA_TAD_THEMES_FOOT}></div>
             </div>
           </div>
-      </div>
+        </div>
       </div>
 
       <div class="row-fluid">
-        <div class="span12 text-center">
+        <div class="text-center">
           <!--中左區塊寬度-->
           <input type="hidden" name="clb_width" value="<{$clb_width}>" id="clb_width" >
           <!--中右區塊寬度-->
@@ -676,6 +887,14 @@ function preview_img(kind,imgSrc){
           <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
         </div>
       </div>
+
+      <div class="row-fluid">
+        <div class="span12 alert alert-info">
+          <{if $theme_kind!="bootstrap"}><{$smarty.const._MA_TADTHEMES_NOTICE}><{/if}>
+          <{$smarty.const._MA_TADTHEMES_NOTICE2}>
+        </div>
+      </div>
+
     </div>
   </div>
 </form>

@@ -1,10 +1,4 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2011-12-31
-// $Id:$
-// ------------------------------------------------------------------------- //
-
 include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.php";
 
 //需加入模組語系
@@ -43,10 +37,13 @@ define("_MA_TADTHEMES_BG_POSITION_CT","上中");
 define("_MA_TADTHEMES_BG_POSITION_CB","下中");
 define("_MA_TADTHEMES_NONE","無");
 define("_MA_TADTHEMES_LOGO_IMG","logo圖");
+define("_MA_TADTHEMES_LOGO_POSITION","logo圖位置");
+define("_MA_TADTHEMES_LOGO_SLIDE","置於滑動圖文框中");
+define("_MA_TADTHEMES_LOGO_PAGE","置於頁面上");
 define("_MA_TADTHEMES_NAVLOGO_IMG","導覽列logo圖");
 define("_MA_TADTHEMES_SLIDE_WIDTH","滑動區域寬度");
 define("_MA_TADTHEMES_SLIDE_HEIGHT","滑動區域高度");
-define("_MA_TADTHEMES_SLIDE_DESC","寬度為 0 時表示不顯示滑動區域<br>高度為 0 時表示自動判斷高度。");
+define("_MA_TADTHEMES_SLIDE_DESC","<ol><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>寬度為 0 時表示不顯示滑動區域</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>高度為 0 時表示自動判斷高度。</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>圖片說明框中可輸入說明，在說明框中輸入<span style='color:blue;'>[url]http://網址[/url]</span>則可替圖片加上連結。</li></ol>");
 define("_MA_TAD_THEMES_FORM","佈景設定");
 
 define("_MA_TAD_THEMES_NOT_TAD_THEME","目前使用之佈景「%s」非 Tad Theme 相容佈景，無法使用此工具。<div>該佈景找不到「%s」檔案。</div>");
@@ -80,7 +77,7 @@ define("_MA_TADTHEMES_NOTICE2","<ul style='line-height:2em;'>
   </li>
   <li>刪除圖片時，一律從後台刪除，勿直接刪除FTP圖片！</li>
   </ul>");
-define("_MA_TADTHEMES_LOGO_PLACE","logo圖位置");
+define("_MA_TADTHEMES_LOGO_PLACE","logo圖位置調整");
 
 define("_MA_TADTHEMES_FONT_SIZE","文字大小");
 define("_MA_TADTHEMES_FONT_COLOR","文字顏色");
@@ -96,9 +93,9 @@ define("_MA_TADTHEMES_WEB_MENU","本站功能選單");
 define("_MA_TADTHEMES_IMPORT_MENU","快速匯入主選單");
 
 define("_MA_TADTHEMES_BLOCK_TITLE","區塊標題列");
-define("_MA_TADTHEMES_BLOCK_TITLE_BUTTOM","區塊標題工具按鈕");
-define("_MA_TADTHEMES_BLOCK_TITLE_PADDING","區塊標題文字縮排");
-define("_MA_TADTHEMES_BLOCK_TITLE_RADIUS","區塊標題圓角設定");
+define("_MA_TADTHEMES_BLOCK_TITLE_BUTTOM","設定按鈕");
+define("_MA_TADTHEMES_BLOCK_TITLE_PADDING","標題縮排");
+define("_MA_TADTHEMES_BLOCK_TITLE_RADIUS","圓角設定");
 define("_MA_TADTHEMES_BLOCK_TITLE_RADIUS_Y","圓角");
 define("_MA_TADTHEMES_BLOCK_TITLE_RADIUS_N","不設定（直角）");
 
@@ -106,13 +103,43 @@ define("_MA_TADTHEMES_NAVBAR","導覽工具列");
 define("_MA_TADTHEMES_NAVBAR_POSITION","導覽工具列位置");
 define("_MA_TADTHEMES_NAVBAR_POSITION_1","上方鎖定");
 define("_MA_TADTHEMES_NAVBAR_POSITION_2","下方鎖定");
-define("_MA_TADTHEMES_NAVBAR_POSITION_3","上方");
+define("_MA_TADTHEMES_NAVBAR_POSITION_3","滑動圖文上方");
+define("_MA_TADTHEMES_NAVBAR_POSITION_6","滑動圖文下方");
 define("_MA_TADTHEMES_NAVBAR_POSITION_4","佈景預設呈現方式");
+define("_MA_TADTHEMES_NAVBAR_POSITION_5","不使用導覽列");
 define("_MA_TADTHEMES_NAVBAR_BG_COLOR","漸層顏色");
 define("_MA_TADTHEMES_NAVBAR_HOVER_COLOR","連結區塊底色");
 define("_MA_TADTHEMES_TARGET_BLANK","新視窗");
 define("_MA_TADTHEMES_NAVBAR_COLOR","文字顏色");
 define("_MA_TADTHEMES_NAVBAR_COLOR_HOVER","文字移過顏色");
+define("_MA_TADTHEMES_NAVBAR_ICON_COLOR","圖示顏色");
 define("_MA_TADTHEMES_NAVBAR_ICON_WHITE","白色圖示");
 define("_MA_TADTHEMES_NAVBAR_ICON_BLACK","黑色圖示");
+
+define("_MA_TADTHEMES_CHANGE_KIND_DESC","此佈景支援線上切換佈景類型，您可以在HTML固定寬度佈景或隨螢幕大小自動調整的自適應BootStrap佈景間切換");
+define("_MA_TADTHEMES_CHANGE_KIND","切換佈景類型");
+
+define("_MA_TADTHEMES_ITEMICON","上傳項目圖示");
+define("_MA_TADTHEMES_ITEMBANNER","上傳項目專屬橫幅");
+define("_MA_TADTHEMES_CONFIG2","額外佈景設定");
+define("_MA_TADTHEMES_DEFAULT","預設值");
+define("_MA_TADTHEMES_BLOCK_POSITION","欲設定的區域");
+define("_MA_TADTHEMES_BLOCK_ALL_POSITION","全域預設值");
+define("_MA_TADTHEMES_BLOCK_LEFT","左區域");
+define("_MA_TADTHEMES_BLOCK_RIGHT","右區域");
+define("_MA_TADTHEMES_BLOCK_TOP_CENTER","上中區域");
+define("_MA_TADTHEMES_BLOCK_TOP_LEFT","上中左區域");
+define("_MA_TADTHEMES_BLOCK_TOP_RIGHT","上中右區域");
+define("_MA_TADTHEMES_BLOCK_BOTTOM_CENTER","下中區域");
+define("_MA_TADTHEMES_BLOCK_BOTTOM_LEFT","下中左區域");
+define("_MA_TADTHEMES_BLOCK_BOTTOM_RIGHT","下中右區域");
+define("_MA_TADTHEMES_BLOCK_TITLE_SIZE","文字大小");
+
+define("_MA_TADTHEMES_TO_DEFAULT","清除此佈景所有設定以恢復成預設值");
+define("_MA_TADTHEMES_DEL_CONFIRM","這會清除此佈景所有設定，並恢復成預設值！確定要執行？");
+
+define("_MA_TADTHEMES_BASE_COLOR","內容區顏色");
+define("_MA_TADTHEMES_NAVBAR_IMG","導覽列背景圖");
+
+
 ?>
