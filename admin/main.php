@@ -76,14 +76,20 @@ function auto_import_theme(){
   }
 
   include_once XOOPS_ROOT_PATH."/themes/{$theme_name}/config.php";
-  $default_background=!empty($theme_default_background)?XOOPS_URL."/uploads/tad_themes/{$theme_name}/bg/{$theme_default_background}":"";
+  foreach($config_enable as $k=>$v){
+    $$k=$v['default'];
+  }
 
-  $theme_type=empty($theme_type)?"theme_type_1":$theme_type;
+  $bg_img=!empty($bg_img)?XOOPS_URL."/uploads/tad_themes/{$theme_name}/bg/{$bg_img}":"";
+  $logo_img=!empty($logo_img)?XOOPS_URL."/uploads/tad_themes/{$theme_name}/logo/{$logo_img}":"";
+  $navlogo_img=!empty($navlogo_img)?XOOPS_URL."/uploads/tad_themes/{$theme_name}/navlogo/{$navlogo_img}":"";
+  $navbar_img=!empty($navbar_img)?XOOPS_URL."/uploads/tad_themes/{$theme_name}/nav_bg/{$navbar_img}":"";
+  $theme_type=empty($theme_type)?"theme_type_2":$theme_type;
 
   //此處增加7+4項by hc
   $sql = "insert into ".$xoopsDB->prefix("tad_themes")."
   (`theme_name` , `theme_type` , `theme_width` , `lb_width` , `rb_width` , `clb_width` , `crb_width` , `base_color` , `lb_color` , `cb_color` , `rb_color` , `margin_top` , `margin_bottom` , `bg_img` , `bg_color`  , `bg_repeat`  , `bg_attachment`  , `bg_position`  , `logo_img`  , `logo_position`  , `navlogo_img` , `logo_top` , `logo_right` , `logo_bottom` , `logo_left` , `theme_enable` , `slide_width` , `slide_height` , `font_size` , `font_color` , `link_color` , `hover_color` , `theme_kind` , `navbar_pos` , `navbar_bg_top` , `navbar_bg_bottom` , `navbar_hover` , `navbar_color` , `navbar_color_hover` , `navbar_icon`, `navbar_img`)
-  values('{$theme_name}' , '{$theme_type}', '{$theme_width}' , '{$theme_left_width}' , '{$theme_right_width}' , '49%' , '49%' , 'transparent' , '{$theme_left_color}' , '{$theme_center_color}' , '{$theme_right_color}' , '0' , '0' , '{$default_background}' , '#FFFFFF' , '' , '' , 'left top' , '', 'slide' , '' , '' , '' , '' , '' , '1' , '{$theme_slide_width}' , '{$theme_slide_height}' , '11pt' , '#202020' , '#3333CC' , '#FF3300' , '{$theme_kind}', 'default','#54b4eb','#2fa4e7','#1684c2','#ffffff','#ffff00','icon-white','')";
+  values('{$theme_name}' , '{$theme_type}', '{$theme_width}' , '{$lb_width}' , '{$rb_width}' , '{$clb_width}' , '{$crb_width}' , '{$base_color}' , '{$lb_color}' , '{$cb_color}' , '{$rb_color}' , '{$margin_top}' , '{$margin_bottom}' , '{$bg_img}' , '{$bg_color}' , '{$bg_repeat}' , '{$bg_attachment}' , '{$bg_position}' , '{$logo_img}', '{$logo_position}' , '{$navlogo_img}' , '{$logo_top}' , '{$logo_right}' , '{$logo_bottom}' , '{$logo_left}' , '{$theme_enable}' , '{$slide_width}' , '{$slide_height}' , '{$font_size}' , '{$font_color}' , '{$link_color}' , '{$hover_color}' , '{$theme_kind}', '{$navbar_pos}','{$navbar_bg_top}','{$navbar_bg_bottom}','{$navbar_hover}','{$navbar_color}','{$navbar_color_hover}','{$navbar_icon}','{$navbar_img}')";
   $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
   //取得最後新增資料的流水編號
@@ -148,8 +154,28 @@ function tad_themes_form(){
   //設定「theme_name」欄位預設值
   $theme_name=(!isset($DBV['theme_name']))?$xoopsConfig['theme_set']:$DBV['theme_name'];
 
+  /*
+  $theme_change=1; //佈景種類是否可自訂
+  $theme_kind='bootstrap';//預設佈景種類 bootstrap or html
+  $config_tabs=array();//欲使用的頁籤
+  $config_enable['設定項目']=array('enable', 'min' , 'max' , 'require' , 'default'); //各設定項細節
+  */
+
   if(file_exists(XOOPS_ROOT_PATH."/themes/{$theme_name}/config.php")){
     include_once XOOPS_ROOT_PATH."/themes/{$theme_name}/config.php";
+    foreach($config_enable as $k=>$v){
+      $$k=$v['default'];
+      $enable[$k]=$v['enable'];
+      $validate[$k]=get_validate($v);
+    }
+    $xoopsTpl->assign('validate',$validate);
+    $xoopsTpl->assign('enable',$enable);
+
+    $bg_img=!empty($bg_img)?XOOPS_URL."/uploads/tad_themes/{$theme_name}/bg/{$bg_img}":"";
+    $logo_img=!empty($logo_img)?XOOPS_URL."/uploads/tad_themes/{$theme_name}/logo/{$logo_img}":"";
+    $navlogo_img=!empty($navlogo_img)?XOOPS_URL."/uploads/tad_themes/{$theme_name}/navlogo/{$navlogo_img}":"";
+    $navbar_img=!empty($navbar_img)?XOOPS_URL."/uploads/tad_themes/{$theme_name}/nav_bg/{$navbar_img}":"";
+
   }else{
     return sprintf(_MA_TAD_THEMES_NOT_TAD_THEME,$theme_name,XOOPS_ROOT_PATH."/themes/{$theme_name}/config.php");
   }
@@ -157,121 +183,121 @@ function tad_themes_form(){
   $theme_change=(!isset($theme_change))?false:$theme_change;
 
   //設定「theme_type」欄位預設值
-  $theme_type=(!isset($DBV['theme_type']))?"theme_type_1":$DBV['theme_type'];
+  $theme_type=(!isset($DBV['theme_type']))?$theme_type:$DBV['theme_type'];
 
   //設定「theme_width」欄位預設值
   $theme_width=(!isset($DBV['theme_width']))?$theme_width:$DBV['theme_width'];
 
   //設定「lb_width」欄位預設值
-  $lb_width=(!isset($DBV['lb_width']))?$theme_left_width:$DBV['lb_width'];
+  $lb_width=(!isset($DBV['lb_width']))?$lb_width:$DBV['lb_width'];
 
   //設定「rb_width」欄位預設值
-  $rb_width=(!isset($DBV['rb_width']))?$theme_right_width:$DBV['rb_width'];
+  $rb_width=(!isset($DBV['rb_width']))?$rb_width:$DBV['rb_width'];
 
   //設定「clb_width」欄位預設值
-  $clb_width=(!isset($DBV['clb_width']))?"49%":$DBV['clb_width'];
+  $clb_width=(!isset($DBV['clb_width']))?$clb_width:$DBV['clb_width'];
 
   //設定「crb_width」欄位預設值
-  $crb_width=(!isset($DBV['crb_width']))?"49%":$DBV['crb_width'];
+  $crb_width=(!isset($DBV['crb_width']))?$crb_width:$DBV['crb_width'];
 
   //設定「base_color」欄位預設值
-  $base_color=(!isset($DBV['base_color']))?$theme_base_color:$DBV['base_color'];
+  $base_color=(!isset($DBV['base_color']))?$base_color:$DBV['base_color'];
 
   //設定「lb_color」欄位預設值
-  $lb_color=(!isset($DBV['lb_color']))?$theme_left_color:$DBV['lb_color'];
+  $lb_color=(!isset($DBV['lb_color']))?$lb_color:$DBV['lb_color'];
 
   //設定「cb_color」欄位預設值
-  $cb_color=(!isset($DBV['cb_color']))?$theme_center_color:$DBV['cb_color'];
+  $cb_color=(!isset($DBV['cb_color']))?$cb_color:$DBV['cb_color'];
 
   //設定「rb_color」欄位預設值
-  $rb_color=(!isset($DBV['rb_color']))?$theme_right_color:$DBV['rb_color'];
+  $rb_color=(!isset($DBV['rb_color']))?$rb_color:$DBV['rb_color'];
 
   //設定「margin_top」欄位預設值
-  $margin_top=(!isset($DBV['margin_top']))?"0":$DBV['margin_top'];
+  $margin_top=(!isset($DBV['margin_top']))?$margin_top:$DBV['margin_top'];
 
   //設定「margin_bottom」欄位預設值
-  $margin_bottom=(!isset($DBV['margin_bottom']))?"0":$DBV['margin_bottom'];
+  $margin_bottom=(!isset($DBV['margin_bottom']))?$margin_bottom:$DBV['margin_bottom'];
 
   //設定「bg_img」欄位預設值
-  $bg_img=(!isset($DBV['bg_img']))?"":$DBV['bg_img'];
+  $bg_img=(!isset($DBV['bg_img']))?$bg_img:$DBV['bg_img'];
 
   //設定「bg_color」欄位預設值
-  $bg_color=(!isset($DBV['bg_color']))?"":$DBV['bg_color'];
+  $bg_color=(!isset($DBV['bg_color']))?$bg_color:$DBV['bg_color'];
 
   //設定「bg_repeat」欄位預設值
-  $bg_repeat=(!isset($DBV['bg_repeat']))?"":$DBV['bg_repeat'];
+  $bg_repeat=(!isset($DBV['bg_repeat']))?$bg_repeat:$DBV['bg_repeat'];
 
   //設定「bg_attachment」欄位預設值
-  $bg_attachment=(!isset($DBV['bg_attachment']))?"":$DBV['bg_attachment'];
+  $bg_attachment=(!isset($DBV['bg_attachment']))?$bg_attachment:$DBV['bg_attachment'];
 
   //設定「bg_position」欄位預設值
-  $bg_position=(!isset($DBV['bg_position']))?"":$DBV['bg_position'];
+  $bg_position=(!isset($DBV['bg_position']))?$bg_position:$DBV['bg_position'];
 
   //設定「logo_img」欄位預設值
-  $logo_img=(!isset($DBV['logo_img']))?"":$DBV['logo_img'];
+  $logo_img=(!isset($DBV['logo_img']))?$logo_img:$DBV['logo_img'];
 
   //設定「logo_position」欄位預設值
-  $logo_position=(!isset($DBV['logo_position']))?"slide":$DBV['logo_position'];
+  $logo_position=(!isset($DBV['logo_position']))?$logo_position:$DBV['logo_position'];
 
   //設定「navlogo_img」欄位預設值
-  $navlogo_img=(!isset($DBV['navlogo_img']))?"":$DBV['navlogo_img'];
+  $navlogo_img=(!isset($DBV['navlogo_img']))?$navlogo_img:$DBV['navlogo_img'];
 
   //設定「logo_top」欄位預設值
-  $logo_top=(!isset($DBV['logo_top']))?"":$DBV['logo_top'];
+  $logo_top=(!isset($DBV['logo_top']))?$logo_top:$DBV['logo_top'];
 
   //設定「logo_right」欄位預設值
-  $logo_right=(!isset($DBV['logo_right']))?"":$DBV['logo_right'];
+  $logo_right=(!isset($DBV['logo_right']))?$logo_right:$DBV['logo_right'];
 
   //設定「logo_bottom」欄位預設值
-  $logo_bottom=(!isset($DBV['logo_bottom']))?"":$DBV['logo_bottom'];
+  $logo_bottom=(!isset($DBV['logo_bottom']))?$logo_bottom:$DBV['logo_bottom'];
 
   //設定「logo_left」欄位預設值
-  $logo_left=(!isset($DBV['logo_left']))?"":$DBV['logo_left'];
+  $logo_left=(!isset($DBV['logo_left']))?$logo_left:$DBV['logo_left'];
 
   //設定「theme_enable」欄位預設值
-  $theme_enable=(!isset($DBV['theme_enable']))?"":$DBV['theme_enable'];
+  $theme_enable=(!isset($DBV['theme_enable']))?$theme_enable:$DBV['theme_enable'];
 
   //設定「slide_width」欄位預設值
-  $slide_width=(!isset($DBV['slide_width']))?$theme_slide_width:$DBV['slide_width'];
+  $slide_width=(!isset($DBV['slide_width']))?$slide_width:$DBV['slide_width'];
 
   //設定「slide_height」欄位預設值
-  $slide_height=(!isset($DBV['slide_height']))?$theme_slide_height:$DBV['slide_height'];
+  $slide_height=(!isset($DBV['slide_height']))?$slide_height:$DBV['slide_height'];
 
   //設定「font_size」欄位預設值
-  $font_size=(!isset($DBV['font_size']))?'11pt':$DBV['font_size'];
+  $font_size=(!isset($DBV['font_size']))?$font_size:$DBV['font_size'];
 
   //設定「font_color」欄位預設值
-  $font_color=(!isset($DBV['font_color']))?'#111111':$DBV['font_color'];
+  $font_color=(!isset($DBV['font_color']))?$font_color:$DBV['font_color'];
 
   //設定「link_color」欄位預設值
-  $link_color=(!isset($DBV['link_color']))?'#43597C':$DBV['link_color'];
+  $link_color=(!isset($DBV['link_color']))?$link_color:$DBV['link_color'];
 
   //設定「hover_color」欄位預設值
-  $hover_color=(!isset($DBV['hover_color']))?'#990000':$DBV['hover_color'];
+  $hover_color=(!isset($DBV['hover_color']))?$hover_color:$DBV['hover_color'];
 
   //設定「theme_kind」欄位預設值
   $theme_kind=(!isset($DBV['theme_kind']))?$theme_kind:$DBV['theme_kind'];
 
   //新增navbar設定by hc 開始
   //設定「navbar_pos」欄位預設值
-  $navbar_pos=(!isset($DBV['navbar_pos']))?'not-use':$DBV['navbar_pos'];
+  $navbar_pos=(!isset($DBV['navbar_pos']))?$navbar_pos:$DBV['navbar_pos'];
 
   //設定「navbar_bg_top」欄位預設值
-  $navbar_bg_top=(!isset($DBV['navbar_bg_top']))?'#54b4eb':$DBV['navbar_bg_top'];
+  $navbar_bg_top=(!isset($DBV['navbar_bg_top']))?$navbar_bg_top:$DBV['navbar_bg_top'];
 
   //設定「navbar_bg_bottom」欄位預設值
-  $navbar_bg_bottom=(!isset($DBV['navbar_bg_bottom']))?'#2fa4e7':$DBV['navbar_bg_bottom'];
+  $navbar_bg_bottom=(!isset($DBV['navbar_bg_bottom']))?$navbar_bg_bottom:$DBV['navbar_bg_bottom'];
 
   //設定「navbar_hover」欄位預設值
-  $navbar_hover=(!isset($DBV['navbar_hover']))?'#1684c2':$DBV['navbar_hover'];
+  $navbar_hover=(!isset($DBV['navbar_hover']))?$navbar_hover:$DBV['navbar_hover'];
   //設定「navbar_color」欄位預設值
-  $navbar_color=(!isset($DBV['navbar_color']))?'#FFFFFF':$DBV['navbar_color'];
+  $navbar_color=(!isset($DBV['navbar_color']))?$navbar_color:$DBV['navbar_color'];
   //設定「navbar_color_hover」欄位預設值
-  $navbar_color_hover=(!isset($DBV['navbar_color_hover']))?'#FFFF00':$DBV['navbar_color_hover'];
+  $navbar_color_hover=(!isset($DBV['navbar_color_hover']))?$navbar_color_hover:$DBV['navbar_color_hover'];
   //設定「navbar_icon」欄位預設值
-  $navbar_icon=(!isset($DBV['navbar_icon']))?'icon-white':$DBV['navbar_icon'];
+  $navbar_icon=(!isset($DBV['navbar_icon']))?$navbar_icon:$DBV['navbar_icon'];
   //設定「navbar_img」欄位預設值
-  $navbar_img=(!isset($DBV['navbar_img']))?'':$DBV['navbar_img'];
+  $navbar_img=(!isset($DBV['navbar_img']))?$navbar_img:$DBV['navbar_img'];
 
 
   $op=(empty($theme_id))?"insert_tad_themes":"update_tad_themes";
@@ -301,6 +327,7 @@ function tad_themes_form(){
   $xoopsTpl->assign('theme_change',$theme_change);
   $xoopsTpl->assign('theme_name',$theme_name);
   $xoopsTpl->assign('formValidator_code',$formValidator_code);
+
   $xoopsTpl->assign('bg_img',$bg_img);
   $xoopsTpl->assign('chang_css',$chang_css);
   $xoopsTpl->assign('theme_kind',$theme_kind);
@@ -378,10 +405,12 @@ function tad_themes_form(){
 
   //區塊設定
   $blocks_values=get_blocks_values($theme_id);
-//die(var_dump($blocks_values));
+  //die(var_dump($blocks_values));
   $xoopsTpl->assign('blocks_values',$blocks_values);
 
 
+  $xoopsTpl->assign('config_tabs',$config_tabs);
+  $xoopsTpl->assign('config_enable',$config_enable);
 
   //額外佈景設定
   mk_dir(XOOPS_ROOT_PATH."/uploads/tad_themes/{$theme_name}/config2");
@@ -578,6 +607,18 @@ function change_css_bootstrap($theme_width="",$theme_left_width=""){
     }
   }";
   return $main;
+}
+
+function get_validate($col=array()){
+  if($col['enable']=='1'){
+    $v_item[]=$col['require']?"required":"";
+    $v_item[]=$col['min']?"min[{$col['min']}]":"";
+    $v_item[]=$col['max']?"max[{$col['max']}]":"";
+    $class=implode(',',$v_item);
+    return " validate[{$class}]";
+  }else{
+    return "\" readonly=\"readonly\"";
+  }
 }
 
 
@@ -1025,6 +1066,7 @@ function save_config2($theme_id="",$import=false){
   $theme_name=$xoopsConfig['theme_set'];
   //額外佈景設定
   if(file_exists(XOOPS_ROOT_PATH."/themes/{$theme_name}/config2.php")){
+    include_once XOOPS_ROOT_PATH."/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
     include_once XOOPS_ROOT_PATH."/themes/{$theme_name}/config2.php";
     /*
     $theme_config[$i]['name']="footer_height";
@@ -1067,19 +1109,22 @@ function save_blocks($theme_id="",$import=false){
   $theme_name=$xoopsConfig['theme_set'];
   if(file_exists(XOOPS_ROOT_PATH."/themes/{$theme_name}/config.php")){
     include XOOPS_ROOT_PATH."/themes/{$theme_name}/config.php";
+    foreach($config_enable as $k=>$v){
+      $$k=$v['default'];
+    }
   }
 
-  $theme_bt_bg_img_background=!empty($theme_bt_bg_img)?XOOPS_URL."/uploads/tad_themes/{$theme_name}/bt_bg/{$theme_bt_bg_img}":"";
+  $bt_bg_img=!empty($bt_bg_img)?XOOPS_URL."/uploads/tad_themes/{$theme_name}/bt_bg/{$bt_bg_img}":"";
 
   foreach($block_position_title as $position=>$title){
-    $block_config=$import?"right":$_POST['block_config'][$position];
-    $bt_text=$import?$theme_bt_text:$_POST['bt_text'][$position];
-    $bt_text_padding=$import?$theme_bt_text_padding:$_POST['bt_text_padding'][$position];
-    $bt_text_size=$import?$theme_bt_text_size:$_POST['bt_text_size'][$position];
-    $bt_bg_color=$import?$theme_bt_bg_color:$_POST['bt_bg_color'][$position];
-    $bt_bg_img=$import?$theme_bt_bg_img_background:$_POST['bt_bg_img'][$position];
-    $bt_bg_repeat=$import?$theme_bt_bg_repeat:$_POST['bt_bg_repeat'][$position];
-    $bt_radius=$import?"0":$_POST['bt_radius'][$position];
+    $block_config=$import?$block_config:$_POST['block_config'][$position];
+    $bt_text=$import?$bt_text:$_POST['bt_text'][$position];
+    $bt_text_padding=$import?$bt_text_padding:$_POST['bt_text_padding'][$position];
+    $bt_text_size=$import?$bt_text_size:$_POST['bt_text_size'][$position];
+    $bt_bg_color=$import?$bt_bg_color:$_POST['bt_bg_color'][$position];
+    $bt_bg_img=$import?$bt_bg_img:$_POST['bt_bg_img'][$position];
+    $bt_bg_repeat=$import?$bt_bg_repeat:$_POST['bt_bg_repeat'][$position];
+    $bt_radius=$import?$bt_radius:$_POST['bt_radius'][$position];
 
     $sql = "replace into ".$xoopsDB->prefix("tad_themes_blocks")."  (`theme_id` , `block_position` , `block_config` , `bt_text` , `bt_text_padding` , `bt_text_size` , `bt_bg_color` , `bt_bg_img` , `bt_bg_repeat` , `bt_radius`) values('{$theme_id}' , '{$position}' , '{$block_config}' , '{$bt_text}' , '{$bt_text_padding}' , '{$bt_text_size}' , '{$bt_bg_color}' , '{$bt_bg_img}' , '{$bt_bg_repeat}' , '{$bt_radius}')";
 
@@ -1099,8 +1144,11 @@ function get_blocks_values($theme_id="",$block_position=""){
 
   $theme_name=$xoopsConfig['theme_set'];
   include_once XOOPS_ROOT_PATH."/themes/{$theme_name}/config.php";
+  foreach($config_enable as $k=>$v){
+    $$k=$v['default'];
+  }
 
-  $theme_bt_bg_img_background=!empty($theme_bt_bg_img)?XOOPS_URL."/uploads/tad_themes/{$theme_name}/bt_bg/{$theme_bt_bg_img}":"";
+  $bt_bg_img=!empty($bt_bg_img)?XOOPS_URL."/uploads/tad_themes/{$theme_name}/bt_bg/{$bt_bg_img}":"";
 
   $and_block_position=!empty($block_position)?"and `block_position`='{$block_position}'":"";
   $sql="select * from ".$xoopsDB->prefix("tad_themes_blocks")." where `theme_id`='{$theme_id}' {$and_block_position}";
@@ -1117,14 +1165,14 @@ function get_blocks_values($theme_id="",$block_position=""){
 
     $values[$i]['theme_id']=$db[$position]['theme_id'];
     $values[$i]['block_position']=$position;
-    $values[$i]['block_config']=!isset($db[$position]['block_config'])?"right":$db[$position]['block_config'];
-    $values[$i]['bt_text']=!isset($db[$position]['bt_text'])?$theme_bt_text:$db[$position]['bt_text'];
-    $values[$i]['bt_text_padding']=!isset($db[$position]['bt_text_padding'])?$theme_bt_text_padding:$db[$position]['bt_text_padding'];
-    $values[$i]['bt_text_size']=!isset($db[$position]['bt_text_size'])?$theme_bt_text_size:$db[$position]['bt_text_size'];
-    $values[$i]['bt_bg_color']=!isset($db[$position]['bt_bg_color'])?$theme_bt_bg_color:$db[$position]['bt_bg_color'];
-    $values[$i]['bt_bg_img']=!isset($db[$position]['bt_bg_img'])?$theme_bt_bg_img_background:$db[$position]['bt_bg_img'];
-    $values[$i]['bt_bg_repeat']=!isset($db[$position]['bt_bg_repeat'])?$theme_bt_bg_repeat:$db[$position]['bt_bg_repeat'];
-    $values[$i]['bt_radius']=!isset($db[$position]['bt_radius'])?"0":$db[$position]['bt_radius'];
+    $values[$i]['block_config']=!isset($db[$position]['block_config'])?$block_config:$db[$position]['block_config'];
+    $values[$i]['bt_text']=!isset($db[$position]['bt_text'])?$bt_text:$db[$position]['bt_text'];
+    $values[$i]['bt_text_padding']=!isset($db[$position]['bt_text_padding'])?$bt_text_padding:$db[$position]['bt_text_padding'];
+    $values[$i]['bt_text_size']=!isset($db[$position]['bt_text_size'])?$bt_text_size:$db[$position]['bt_text_size'];
+    $values[$i]['bt_bg_color']=!isset($db[$position]['bt_bg_color'])?$bt_bg_color:$db[$position]['bt_bg_color'];
+    $values[$i]['bt_bg_img']=!isset($db[$position]['bt_bg_img'])?$bt_bg_img:$db[$position]['bt_bg_img'];
+    $values[$i]['bt_bg_repeat']=!isset($db[$position]['bt_bg_repeat'])?$bt_bg_repeat:$db[$position]['bt_bg_repeat'];
+    $values[$i]['bt_radius']=!isset($db[$position]['bt_radius'])?$bt_radius:$db[$position]['bt_radius'];
     $values[$i]['title']=$title;
     $TadUpFilesBt_bg->set_col("bt_bg_{$position}",$theme_id);
     $values[$i]['all_bt_bg']=$TadUpFilesBt_bg->get_file_for_smarty();
