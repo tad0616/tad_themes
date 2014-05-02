@@ -894,83 +894,94 @@
 
               <div class="row-fluid">
                 <div class="span5">
-
-                  <div class="row-fluid">
-                    <!-- 上傳navbar_img圖-->
-                    <div class="span4 text-right">
-                      <{$smarty.const._MA_TAD_THEMES_UPLOAD}><{$smarty.const._MA_TADTHEMES_NAVBAR_IMG}>
-                    </div>
-                    <div class="span8">
-                      <{$upform_navbar_img}>
-                    </div>
-                  </div>
-
-                </div>
-
-                <div class="span7">
-                  <!-- 選擇預設導覽列navbar_img圖-->
-                  <div style="width:60px; height:86px; display:inline-block; margin:4px;">
-                    <label for="navbar_img0" style="width:60px; height:60px;border:1px dotted gray;" >
-                      <input type="radio" name="navbar_img" id="navbar_img0" onChange="$('.del_img_box').show();" value="" <{if $navbar_img==""}>checked<{/if}>>
-                      <{$smarty.const._MA_TADTHEMES_NONE}><{$smarty.const._MA_TADTHEMES_NAVBAR_IMG}>
-                    </label>
-                  </div>
-
-                  <{if $all_navbar_img}>
-                    <{foreach from=$all_navbar_img item=navbarbg}>
-                      <div style="width:60px; height:86px; display:inline-block; margin:4px;">
-                        <label for="navbar_img<{$navbarbg.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$navbarbg.tb_path}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;" >
-                          <input type="radio" name="navbar_img" id="navbar_img<{$navbarbg.files_sn}>" onChange="$('.del_img_box').show(); $('#del_img<{$navbarbg.files_sn}>').hide();" value="<{$navbarbg.path}>" <{if $navbar_img==$navbarbg.path}>checked<{/if}>>
-                        </label>
-                        <label class="checkbox del_img_box" style="font-size:11px;"  id="del_img<{$navbarbg.files_sn}>">
-                          <input type="checkbox" value="<{$navbarbg.files_sn}>" name="del_file[<{$navbarbg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
-                        </label>
+                  <{if $enable.navbar_img=="1"}>
+                    <div class="row-fluid">
+                      <!-- 上傳navbar_img圖-->
+                      <div class="span4 text-right">
+                        <{$smarty.const._MA_TAD_THEMES_UPLOAD}><{$smarty.const._MA_TADTHEMES_NAVBAR_IMG}>
                       </div>
-                    <{/foreach}>
+                      <div class="span8">
+                        <{$upform_navbar_img}>
+                      </div>
+                    </div>
+                  <{else}>
+                    <input type="hidden" name="navbar_img" id="navbar_img" value="<{$navbar_img}>">
                   <{/if}>
 
                 </div>
+
+                <{if $enable.navbar_img=="1"}>
+                  <div class="span7">
+                    <!-- 選擇預設導覽列navbar_img圖-->
+                    <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                      <label for="navbar_img0" style="width:60px; height:60px;border:1px dotted gray;" >
+                        <input type="radio" name="navbar_img" id="navbar_img0" onChange="$('.del_img_box').show();" value="" <{if $navbar_img==""}>checked<{/if}>>
+                        <{$smarty.const._MA_TADTHEMES_NONE}><{$smarty.const._MA_TADTHEMES_NAVBAR_IMG}>
+                      </label>
+                    </div>
+
+                    <{if $all_navbar_img}>
+                      <{foreach from=$all_navbar_img item=navbarbg}>
+                        <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                          <label for="navbar_img<{$navbarbg.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$navbarbg.tb_path}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;" >
+                            <input type="radio" name="navbar_img" id="navbar_img<{$navbarbg.files_sn}>" onChange="$('.del_img_box').show(); $('#del_img<{$navbarbg.files_sn}>').hide();" value="<{$navbarbg.path}>" <{if $navbar_img==$navbarbg.path}>checked<{/if}>>
+                          </label>
+                          <label class="checkbox del_img_box" style="font-size:11px;"  id="del_img<{$navbarbg.files_sn}>">
+                            <input type="checkbox" value="<{$navbarbg.files_sn}>" name="del_file[<{$navbarbg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
+                          </label>
+                        </div>
+                      <{/foreach}>
+                    <{/if}>
+
+                  </div>
+                <{/if}>
               </div>
 
 
               <div class="row-fluid">
                 <div class="span5">
 
-                  <div class="row-fluid">
-                    <!-- 上傳logo圖-->
-                    <div class="span4 text-right">
-                      <{$smarty.const._MA_TAD_THEMES_UPLOAD}><{$smarty.const._MA_TADTHEMES_NAVLOGO_IMG}>
-                    </div>
-                    <div class="span8">
-                      <{$upform_navlogo}>
-                    </div>
-                  </div>
-
-                </div>
-
-                <div class="span7">
-                  <!-- 選擇預設導覽列navlogo圖-->
-                  <div style="width:60px; height:86px; display:inline-block; margin:4px;">
-                    <label for="navlogo_img0" style="width:60px; height:60px;border:1px dotted gray;" >
-                      <input type="radio" name="navlogo_img" id="navlogo_img0" value="" <{if $navlogo_img==""}>checked<{/if}>>
-                      <{$smarty.const._MA_TADTHEMES_NONE}><{$smarty.const._MA_TADTHEMES_NAVLOGO_IMG}>
-                    </label>
-                  </div>
-
-                  <{if $all_navlogo}>
-                    <{foreach from=$all_navlogo item=navlogo}>
-                      <div style="width:60px; height:86px; display:inline-block; margin:4px;">
-                        <label for="logo_img<{$navlogo.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$navlogo.tb_path}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;" >
-                          <input type="radio" name="navlogo_img" id="navlogo_img<{$navlogo.files_sn}>" value="<{$navlogo.path}>" <{if $navlogo_img==$navlogo.path}>checked<{/if}>>
-                        </label>
-                        <label class="checkbox del_navimg_box" style="font-size:11px;"  id="del_navimg<{$navlogo.files_sn}>">
-                          <input type="checkbox" value="<{$navlogo.files_sn}>" name="del_file[<{$navlogo.files_sn}>]"> <{$smarty.const._TAD_DEL}>
-                        </label>
+                  <{if $enable.navlogo_img=="1"}>
+                    <div class="row-fluid">
+                      <!-- 上傳logo圖-->
+                      <div class="span4 text-right">
+                        <{$smarty.const._MA_TAD_THEMES_UPLOAD}><{$smarty.const._MA_TADTHEMES_NAVLOGO_IMG}>
                       </div>
-                    <{/foreach}>
+                      <div class="span8">
+                        <{$upform_navlogo}>
+                      </div>
+                    </div>
+                  <{else}>
+                    <input type="hidden" name="navlogo_img" id="navlogo_img" value="<{$navlogo_img}>">
                   <{/if}>
 
                 </div>
+
+                <{if $enable.navlogo_img=="1"}>
+                  <div class="span7">
+                    <!-- 選擇預設導覽列navlogo圖-->
+                    <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                      <label for="navlogo_img0" style="width:60px; height:60px;border:1px dotted gray;" >
+                        <input type="radio" name="navlogo_img" id="navlogo_img0" value="" <{if $navlogo_img==""}>checked<{/if}>>
+                        <{$smarty.const._MA_TADTHEMES_NONE}><{$smarty.const._MA_TADTHEMES_NAVLOGO_IMG}>
+                      </label>
+                    </div>
+
+                    <{if $all_navlogo}>
+                      <{foreach from=$all_navlogo item=navlogo}>
+                        <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                          <label for="logo_img<{$navlogo.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$navlogo.tb_path}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;" >
+                            <input type="radio" name="navlogo_img" id="navlogo_img<{$navlogo.files_sn}>" value="<{$navlogo.path}>" <{if $navlogo_img==$navlogo.path}>checked<{/if}>>
+                          </label>
+                          <label class="checkbox del_navimg_box" style="font-size:11px;"  id="del_navimg<{$navlogo.files_sn}>">
+                            <input type="checkbox" value="<{$navlogo.files_sn}>" name="del_file[<{$navlogo.files_sn}>]"> <{$smarty.const._TAD_DEL}>
+                          </label>
+                        </div>
+                      <{/foreach}>
+                    <{/if}>
+
+                  </div>
+                <{/if}>
               </div>
             </div>
           <{/if}>
