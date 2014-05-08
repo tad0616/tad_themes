@@ -620,6 +620,12 @@
 
                 <{foreach from=$blocks_values item=block}>
                   <div id="bp_<{$block.block_position}>">
+                    <div style="font-size:1.5em;margin:0px 0px 10px;font-weight:bold;">
+                      <{$block.title}>
+                    <label class="checkbox inline">
+                      <input type="checkbox" name="apply_to_all" value="<{$block.block_position}>">
+                      <{$smarty.const._MA_TADTHEMES_BLOCK_ALL_POSITION}>
+                    </label></div>
                     <div class="row-fluid">
                       <!-- 區塊標題文字大小-->
                       <{if $enable.bt_text_size=="1"}>
@@ -740,24 +746,71 @@
 
 
                     <!-- 選擇預設區塊標題列背景圖-->
-                    <{if $block.all_bt_bg and $bt_bg_img}>
-                      <div style="width:60px; height:86px; display:inline-block; margin:4px;">
-                        <label for="bt_bg_img0_<{$block.block_position}>" style="width:60px; height:60px;border:1px dotted gray;" >
-                          <input type="radio" name="bt_bg_img[<{$block.block_position}>]" id="bt_bg_img0_<{$block.block_position}>" onChange="$('.del_img_box_<{$block.block_position}>').show();" value="" <{if $block.bt_bg_img==""}>checked<{/if}>>
-                          <{$smarty.const._MA_TADTHEMES_NONE}>
-                        </label>
-                      </div>
-                      <{foreach from=$block.all_bt_bg item=bt_bg}>
+                    <{if $block.all_bt_bg and $enable.bt_bg_img=='1'}>
+                      <div class="row-fluid">
                         <div style="width:60px; height:86px; display:inline-block; margin:4px;">
-                          <label for="bt_bg_img<{$bt_bg.files_sn}>_<{$block.block_position}>" style="width:60px; height:60px; background:#000000 url(<{$bt_bg.tb_path}>);background-position:left center;border:1px solid gray;" >
-                            <input type="radio" name="bt_bg_img[<{$block.block_position}>]" id="bt_bg_img<{$bt_bg.files_sn}>_<{$block.block_position}>" onChange="$('.del_img_box_<{$block.block_position}>').show(); $('#del_img<{$bt_bg.files_sn}>_<{$block.block_position}>').hide(); " value="<{$bt_bg.path}>" <{if $block.bt_bg_img==$bt_bg.path}>checked<{/if}>>
-                          </label>
-                          <label class="checkbox del_img_box" style="font-size:11px;"  id="del_img<{$bt_bg.files_sn}>_<{$block.block_position}>">
-                            <input type="checkbox" value="<{$bt_bg.files_sn}>" name="del_file_<{$block.block_position}>[<{$bt_bg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
+                          <label for="bt_bg_img0_<{$block.block_position}>" style="width:60px; height:60px;border:1px dotted gray;" >
+                            <input type="radio" name="bt_bg_img[<{$block.block_position}>]" id="bt_bg_img0_<{$block.block_position}>" onChange="$('.del_img_box_<{$block.block_position}>').show();" value="" <{if $block.bt_bg_img==""}>checked<{/if}>>
+                            <{$smarty.const._MA_TADTHEMES_NONE}>
                           </label>
                         </div>
-                      <{/foreach}>
+                        <{foreach from=$block.all_bt_bg item=bt_bg}>
+                          <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                            <label for="bt_bg_img<{$bt_bg.files_sn}>_<{$block.block_position}>" style="width:60px; height:60px; background:#000000 url(<{$bt_bg.tb_path}>);background-position:left center;border:1px solid gray;" >
+                              <input type="radio" name="bt_bg_img[<{$block.block_position}>]" id="bt_bg_img<{$bt_bg.files_sn}>_<{$block.block_position}>" onChange="$('.del_img_box_<{$block.block_position}>').show(); $('#del_img<{$bt_bg.files_sn}>_<{$block.block_position}>').hide(); " value="<{$bt_bg.path}>" <{if $block.bt_bg_img==$bt_bg.path}>checked<{/if}>>
+                            </label>
+                            <label class="checkbox del_img_box" style="font-size:11px;"  id="del_img<{$bt_bg.files_sn}>_<{$block.block_position}>">
+                              <input type="checkbox" value="<{$bt_bg.files_sn}>" name="del_file_<{$block.block_position}>[<{$bt_bg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
+                            </label>
+                          </div>
+                        <{/foreach}>
+                      </div>
                     <{/if}>
+
+
+
+                    <div class="row-fluid">
+                      <!-- 區塊整體樣式-->
+                      <{if $enable.block_style=="1"}>
+                        <div>
+                          <{$smarty.const._MA_TADTHEMES_BLOCK_STYLE}>
+                          <span style="font-size:12px;color:#0000DC;white-space:nowrap; ">.<{$block.block_position}> {<span style="color:#DE1212;"><{$smarty.const._MA_TADTHEMES_YOUR_STYLE}></span>}</span>
+                        </div>
+                        <textarea name="block_style[<{$block.block_position}>]" id="block_style_<{$block.block_position}>" class="span12<{$validate.block_style}>" style="font-size:11px;height:50px;"><{$block.block_style}></textarea>
+                      <{else}>
+                        <input type="hidden" name="block_style" id="block_style" value="<{$block_style}>">
+                      <{/if}>
+                    </div>
+
+
+                    <div class="row-fluid">
+                      <!-- 區塊標題樣式-->
+                      <{if $enable.block_title_style=="1"}>
+                        <div>
+                          <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_STYLE}>
+                          <span style="font-size:12px;color:#0000DC;white-space:nowrap; ">.<{$block.block_position}> .blockTitle {<span style="color:#DE1212;"><{$smarty.const._MA_TADTHEMES_YOUR_STYLE}></span>}</span>
+                        </div>
+                        <textarea name="block_title_style[<{$block.block_position}>]" id="block_title_style_<{$block.block_position}>" class="span12<{$validate.block_title_style}>" style="font-size:11px;height:50px;"><{$block.block_title_style}></textarea>
+                      <{else}>
+                        <input type="hidden" name="block_title_style" id="block_title_style" value="<{$block_title_style}>">
+                      <{/if}>
+                    </div>
+
+
+                    <div class="row-fluid">
+                      <!-- 區塊內容樣式-->
+                      <{if $enable.block_content_style=="1"}>
+                        <div>
+                          <{$smarty.const._MA_TADTHEMES_BLOCK_CONTENT_STYLE}>
+                          <span style="font-size:12px;color:#0000DC;white-space:nowrap; ">.<{$block.block_position}> .blockContent {<span style="color:#DE1212;"><{$smarty.const._MA_TADTHEMES_YOUR_STYLE}></span>}</span>
+                        </div>
+                        <textarea name="block_content_style[<{$block.block_position}>]" id="block_content_style_<{$block.block_position}>" class="span12<{$validate.block_content_style}>" style="font-size:11px;height:50px;"><{$block.block_content_style}></textarea>
+                      <{else}>
+                        <input type="hidden" name="block_content_style" id="block_content_style" value="<{$block_content_style}>">
+                      <{/if}>
+                    </div>
+
+
                   </div>
                 <{/foreach}>
               </div>

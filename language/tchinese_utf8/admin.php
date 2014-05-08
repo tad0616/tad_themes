@@ -124,7 +124,7 @@ define("_MA_TADTHEMES_ITEMBANNER","上傳項目專屬橫幅");
 define("_MA_TADTHEMES_CONFIG2","額外佈景設定");
 define("_MA_TADTHEMES_DEFAULT","預設值");
 define("_MA_TADTHEMES_BLOCK_POSITION","欲設定的區域");
-define("_MA_TADTHEMES_BLOCK_ALL_POSITION","全域預設值");
+define("_MA_TADTHEMES_BLOCK_ALL_POSITION","套用到所有區域");
 define("_MA_TADTHEMES_BLOCK_LEFT","左區域");
 define("_MA_TADTHEMES_BLOCK_RIGHT","右區域");
 define("_MA_TADTHEMES_BLOCK_TOP_CENTER","上中區域");
@@ -141,5 +141,9 @@ define("_MA_TADTHEMES_DEL_CONFIRM","這會清除此佈景所有設定，並恢�
 define("_MA_TADTHEMES_BASE_COLOR","內容區顏色");
 define("_MA_TADTHEMES_NAVBAR_IMG","導覽列背景圖");
 
+define("_MA_TADTHEMES_BLOCK_STYLE","區塊整體樣式手動設定");
+define("_MA_TADTHEMES_BLOCK_TITLE_STYLE","區塊標題樣式手動設定");
+define("_MA_TADTHEMES_BLOCK_CONTENT_STYLE","區塊內容樣式手動設定");
+define("_MA_TADTHEMES_YOUR_STYLE","您設定的樣式內容");
 
 ?>

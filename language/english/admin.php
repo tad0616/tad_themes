@@ -120,7 +120,7 @@ define("_MA_TADTHEMES_ITEMBANNER","Item Banner");
 define("_MA_TADTHEMES_CONFIG2","Other theme config");
 define("_MA_TADTHEMES_DEFAULT","Default");
 define("_MA_TADTHEMES_BLOCK_POSITION","Block position");
-define("_MA_TADTHEMES_BLOCK_ALL_POSITION","All blocks");
+define("_MA_TADTHEMES_BLOCK_ALL_POSITION","Apply to all blocks");
 define("_MA_TADTHEMES_BLOCK_LEFT","Left");
 define("_MA_TADTHEMES_BLOCK_RIGHT","Right");
 define("_MA_TADTHEMES_BLOCK_TOP_CENTER","Top center");
@@ -136,4 +136,9 @@ define("_MA_TADTHEMES_DEL_CONFIRM","This will clear this theme settings and rest
 
 define("_MA_TADTHEMES_BASE_COLOR","Base color");
 define("_MA_TADTHEMES_NAVBAR_IMG","Navbar background");
+
+define("_MA_TADTHEMES_BLOCK_STYLE","Block CSS");
+define("_MA_TADTHEMES_BLOCK_TITLE_STYLE","Block title CSS");
+define("_MA_TADTHEMES_BLOCK_CONTENT_STYLE","Block content CSS");
+define("_MA_TADTHEMES_YOUR_STYLE","Your style content");
 ?>

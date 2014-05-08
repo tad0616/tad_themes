@@ -55,6 +55,9 @@ CREATE TABLE `tad_themes_blocks` (
   `bt_bg_img` varchar(255) NOT NULL COMMENT '區塊標題背景圖',
   `bt_bg_repeat` enum('0','1') NOT NULL DEFAULT '0' COMMENT '以圖填滿區塊標題列',
   `bt_radius` enum('0','1') NOT NULL DEFAULT '1' COMMENT '區塊標題圓角',
+  `block_style` text NOT NULL COMMENT '區塊整體樣式',
+  `block_title_style` text NOT NULL COMMENT '區塊標題區樣式',
+  `block_content_style` text NOT NULL COMMENT '區塊內容區樣式',
   PRIMARY KEY (`theme_id`,`block_position`)
 ) ENGINE=MyISAM ;
 

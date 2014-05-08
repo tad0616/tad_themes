@@ -5,7 +5,7 @@ function xoops_module_update_tad_themes(&$module, $old_version) {
 
     if(!chk_chk1()) go_update1();
     if(!chk_chk2()) go_update2();
-    if(!chk_chk3()) go_update3();
+    //if(!chk_chk3()) go_update3();
     if(!chk_chk4()) go_update4();
     if(!chk_chk5()) go_update5();
     if(!chk_chk6()) go_update6();
@@ -18,6 +18,7 @@ function xoops_module_update_tad_themes(&$module, $old_version) {
     if(!chk_chk13()) go_update13();
     if(!chk_chk14()) go_update14();
     if(!chk_chk15()) go_update15();
+    if(!chk_chk16()) go_update16();
 
     mk_dir(XOOPS_ROOT_PATH."/uploads/tad_themes");
     return true;
@@ -359,6 +360,30 @@ function go_update15(){
   ";
   $xoopsDB->queryF($sql);
 }
+
+//新增區塊內容設定欄位
+function chk_chk16(){
+  global $xoopsDB;
+  $sql="select count(`block_style`) from ".$xoopsDB->prefix("tad_themes_blocks");
+  $result=$xoopsDB->query($sql);
+  if(empty($result)) return false;
+  return true;
+}
+
+
+function go_update16(){
+  global $xoopsDB;
+  $sql="ALTER TABLE ".$xoopsDB->prefix("tad_themes_blocks")."
+  ADD `block_style` text NOT NULL COMMENT '區塊整體樣式',
+  ADD `block_title_style` text NOT NULL COMMENT '區塊標題區樣式',
+  ADD `block_content_style` text NOT NULL COMMENT '區塊內容區樣式';
+  ";
+  $xoopsDB->queryF($sql);
+
+  $sql="update ".$xoopsDB->prefix("tad_themes_blocks")." set block_title_style='border:none;height:40px;line-height:40px;margin-bottom:10px;'";
+  $xoopsDB->queryF($sql);
+}
+
 
 
 //建立目錄

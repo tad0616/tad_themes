@@ -440,10 +440,13 @@ function tad_themes_form(){
 
 function change_css_bootstrap($theme_width="12",$theme_left_width=""){
   $theme_width=empty($theme_width)?12:$theme_width;
+  $theme_left_width=(empty($theme_left_width) or $theme_left_width==$theme_width)?3:$theme_left_width;
   $main="
   function change_css(){
     //原始頁寬，如:12
     var theme_width_org = {$theme_width};
+    //原始區域寬，如:12
+    var lb_width_org = {$theme_left_width};
     //模擬頁寬
     var theme_width = Math.round(theme_width_org * 80/4);
     //模擬視窗寬
@@ -502,10 +505,10 @@ function change_css_bootstrap($theme_width="12",$theme_left_width=""){
 
     if(theme_type!='theme_type_8'){
       if($('#lb_width').val()==theme_width_org){
-        $('#lb_width').val({$theme_left_width});
+        $('#lb_width').val(lb_width_org);
       }
       if($('#rb_width').val()==theme_width_org){
-        $('#rb_width').val({$theme_left_width});
+        $('#rb_width').val(lb_width_org);
       }
     }
 
@@ -626,9 +629,11 @@ function get_validate($col=array()){
 
 function change_css($theme_width,$theme_left_width){
   $theme_width=empty($theme_width)?980:$theme_width;
+  $theme_left_width=(empty($theme_left_width) or $theme_left_width==$theme_width)?220:$theme_left_width;
   $main="
   function change_css(){
     var theme_width_org = $theme_width;
+    var lb_width_org = $theme_left_width;
     var theme_width = Math.round(theme_width_org/4);
     //var preview_width = Math.round(theme_width_org/2);
     var preview_width = $('#preview_width').width();
@@ -680,10 +685,10 @@ function change_css($theme_width,$theme_left_width){
 
     if(theme_type!='theme_type_8'){
       if($('#lb_width').val()==theme_width_org){
-        $('#lb_width').val($theme_left_width);
+        $('#lb_width').val(lb_width_org);
       }
       if($('#rb_width').val()==theme_width_org){
-        $('#rb_width').val($theme_left_width);
+        $('#rb_width').val(lb_width_org);
       }
     }
 
@@ -1128,6 +1133,23 @@ function save_blocks($theme_id="",$import=false){
 
   $bt_bg_img=!empty($bt_bg_img)?XOOPS_URL."/uploads/tad_themes/{$theme_name}/bt_bg/{$bt_bg_img}":"";
 
+
+  if(!empty($_POST['apply_to_all'])){
+    $position=$_POST['apply_to_all'];
+    $import=true;
+    $block_config=$_POST['block_config'][$position];
+    $bt_text=$_POST['bt_text'][$position];
+    $bt_text_padding=$_POST['bt_text_padding'][$position];
+    $bt_text_size=$_POST['bt_text_size'][$position];
+    $bt_bg_color=$_POST['bt_bg_color'][$position];
+    $bt_bg_img=$_POST['bt_bg_img'][$position];
+    $bt_bg_repeat=$_POST['bt_bg_repeat'][$position];
+    $bt_radius=$_POST['bt_radius'][$position];
+    $block_style=$_POST['block_style'][$position];
+    $block_title_style=$_POST['block_title_style'][$position];
+    $block_content_style=$_POST['block_content_style'][$position];
+  }
+
   foreach($block_position_title as $position=>$title){
     $block_config=$import?$block_config:$_POST['block_config'][$position];
     $bt_text=$import?$bt_text:$_POST['bt_text'][$position];
@@ -1137,8 +1159,11 @@ function save_blocks($theme_id="",$import=false){
     $bt_bg_img=$import?$bt_bg_img:$_POST['bt_bg_img'][$position];
     $bt_bg_repeat=$import?$bt_bg_repeat:$_POST['bt_bg_repeat'][$position];
     $bt_radius=$import?$bt_radius:$_POST['bt_radius'][$position];
+    $block_style=$import?$block_style:$_POST['block_style'][$position];
+    $block_title_style=$import?$block_title_style:$_POST['block_title_style'][$position];
+    $block_content_style=$import?$block_content_style:$_POST['block_content_style'][$position];
 
-    $sql = "replace into ".$xoopsDB->prefix("tad_themes_blocks")."  (`theme_id` , `block_position` , `block_config` , `bt_text` , `bt_text_padding` , `bt_text_size` , `bt_bg_color` , `bt_bg_img` , `bt_bg_repeat` , `bt_radius`) values('{$theme_id}' , '{$position}' , '{$block_config}' , '{$bt_text}' , '{$bt_text_padding}' , '{$bt_text_size}' , '{$bt_bg_color}' , '{$bt_bg_img}' , '{$bt_bg_repeat}' , '{$bt_radius}')";
+    $sql = "replace into ".$xoopsDB->prefix("tad_themes_blocks")."  (`theme_id` , `block_position` , `block_config` , `bt_text` , `bt_text_padding` , `bt_text_size` , `bt_bg_color` , `bt_bg_img` , `bt_bg_repeat` , `bt_radius`, `block_style`, `block_title_style`, `block_content_style`) values('{$theme_id}' , '{$position}' , '{$block_config}' , '{$bt_text}' , '{$bt_text_padding}' , '{$bt_text_size}' , '{$bt_bg_color}' , '{$bt_bg_img}' , '{$bt_bg_repeat}' , '{$bt_radius}' , '{$block_style}' , '{$block_title_style}' , '{$block_content_style}')";
 
     $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
@@ -1185,6 +1210,9 @@ function get_blocks_values($theme_id="",$block_position=""){
     $values[$i]['bt_bg_img']=!isset($db[$position]['bt_bg_img'])?$bt_bg_img:$db[$position]['bt_bg_img'];
     $values[$i]['bt_bg_repeat']=!isset($db[$position]['bt_bg_repeat'])?$bt_bg_repeat:$db[$position]['bt_bg_repeat'];
     $values[$i]['bt_radius']=!isset($db[$position]['bt_radius'])?$bt_radius:$db[$position]['bt_radius'];
+    $values[$i]['block_style']=!isset($db[$position]['block_style'])?$block_style:$db[$position]['block_style'];
+    $values[$i]['block_title_style']=!isset($db[$position]['block_title_style'])?$block_title_style:$db[$position]['block_title_style'];
+    $values[$i]['block_content_style']=!isset($db[$position]['block_content_style'])?$block_content_style:$db[$position]['block_content_style'];
     $values[$i]['title']=$title;
     $TadUpFilesBt_bg->set_col("bt_bg_{$position}",$theme_id);
     $values[$i]['all_bt_bg']=$TadUpFilesBt_bg->get_file_for_smarty();
