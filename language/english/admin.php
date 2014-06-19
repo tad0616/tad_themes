@@ -7,6 +7,7 @@ define("_MA_TADTHEMES_THEME_BASE","Theme Setup");
 define("_MA_TADTHEMES_THEME_KIND","Theme Kind");
 define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP","（XOOPS bootstrap themes)");
 define("_MA_TADTHEMES_THEME_KIND_HTML","(XOOPS themes)");
+define("_MA_TADTHEMES_THEME_KIND_MIX","(bootstrap only for blocks)");
 define("_MA_TADTHEMES_THEME_TYPE","Theme Type");
 define("_MA_TADTHEMES_THEME_WIDTH","Theme width");
 define("_MA_TADTHEMES_LB_WIDTH","Left zone width");
@@ -141,4 +142,10 @@ define("_MA_TADTHEMES_BLOCK_STYLE","Block CSS");
 define("_MA_TADTHEMES_BLOCK_TITLE_STYLE","Block title CSS");
 define("_MA_TADTHEMES_BLOCK_CONTENT_STYLE","Block content CSS");
 define("_MA_TADTHEMES_YOUR_STYLE","Your style content");
+
+define("_MA_TADTHEMES_SLIDE_DEFAULT_DESCRIPT","<h3>Slider description</h3><p>You can upload slider images from tad_theme admin. You can edit descript for images with HTML tag.</p>");
+
+define("_MA_TADTHEMES_TARGET_FANCYBOX","ColorBox");
+define("_MA_TADTHEMES_OF_LEVEL","Parent");
+define("_MA_TADTHEMES_ICON","Bootstrap icon");
 ?>

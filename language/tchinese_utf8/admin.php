@@ -7,6 +7,8 @@ define("_MA_TADTHEMES_THEME_BASE","版面基本設定");
 define("_MA_TADTHEMES_THEME_KIND","佈景類型");
 define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP","（bootstrap 是新型的響應式佈景，可以適用在網站及手持裝置上並自動調整版面，全版按比例分為12欄，若以1024解析度來說，每一欄約80px。）");
 define("_MA_TADTHEMES_THEME_KIND_HTML","（一般的XOOPS網頁佈景）");
+define("_MA_TADTHEMES_THEME_KIND_MIX","（版面寬度採用固定式，但版面欄位採 bootstrap 的12欄位式）");
+
 define("_MA_TADTHEMES_THEME_TYPE","版面類型");
 define("_MA_TADTHEMES_THEME_WIDTH","版面寬度");
 define("_MA_TADTHEMES_LB_WIDTH","左區域寬度");
@@ -146,4 +148,9 @@ define("_MA_TADTHEMES_BLOCK_TITLE_STYLE","區塊標題樣式手動設定");
 define("_MA_TADTHEMES_BLOCK_CONTENT_STYLE","區塊內容樣式手動設定");
 define("_MA_TADTHEMES_YOUR_STYLE","您設定的樣式內容");
 
+define("_MA_TADTHEMES_SLIDE_DEFAULT_DESCRIPT","<h3>您可以自己修改這部份內容</h3><p>從佈景管理的後台設定畫面，您除了可以上傳滑動圖片外，也可以自己輸入圖片說明內容。部份佈景都支援HTML語法，您可以試試。</p>");
+
+define("_MA_TADTHEMES_TARGET_FANCYBOX","燈箱效果");
+define("_MA_TADTHEMES_OF_LEVEL","父分類");
+define("_MA_TADTHEMES_ICON","選擇Bootstrap圖示");
 ?>

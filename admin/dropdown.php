@@ -12,7 +12,7 @@ include_once "../function.php";
 
 /*-----------function區--------------*/
 //tad_themes_menu編輯表單
-function tad_themes_menu_form($of_level="0",$menuid=""){
+function tad_themes_menu_form($of_level="0",$menuid="",$mode="return"){
   global $xoopsDB,$xoopsTpl;
 
   $icon_arr=array( "icon-glass" , "icon-music" , "icon-search" , "icon-envelope" , "icon-heart" , "icon-star" , "icon-star-empty" , "icon-user" , "icon-film" , "icon-th-large" , "icon-th" , "icon-th-list" , "icon-ok" , "icon-remove" , "icon-zoom-in" , "icon-zoom-out" , "icon-off" , "icon-signal" , "icon-cog" , "icon-trash" , "icon-home" , "icon-file" , "icon-time" , "icon-road" , "icon-download-alt" , "icon-download" , "icon-upload" , "icon-inbox" , "icon-play-circle" , "icon-repeat" , "icon-refresh" , "icon-list-alt" , "icon-lock" , "icon-flag" , "icon-headphones" , "icon-volume-off" , "icon-volume-down" , "icon-volume-up" , "icon-qrcode" , "icon-barcode" , "icon-tag" , "icon-tags" , "icon-book" , "icon-bookmark" , "icon-print" , "icon-camera" , "icon-font" , "icon-bold" , "icon-italic" , "icon-text-height" , "icon-text-width" , "icon-align-left" , "icon-align-center" , "icon-align-right" , "icon-align-justify" , "icon-list" , "icon-indent-left" , "icon-indent-right" , "icon-facetime-video" , "icon-picture" , "icon-pencil" , "icon-map-marker" , "icon-adjust" , "icon-tint" , "icon-edit" , "icon-share" , "icon-check" , "icon-move" , "icon-step-backward" , "icon-fast-backward" , "icon-backward" , "icon-play" , "icon-pause" , "icon-stop" , "icon-forward" , "icon-fast-forward" , "icon-step-forward" , "icon-eject" , "icon-chevron-left" , "icon-chevron-right" , "icon-plus-sign" , "icon-minus-sign" , "icon-remove-sign" , "icon-ok-sign" , "icon-question-sign" , "icon-info-sign" , "icon-screenshot" , "icon-remove-circle" , "icon-ok-circle" , "icon-ban-circle" , "icon-arrow-left" , "icon-arrow-right" , "icon-arrow-up" , "icon-arrow-down" , "icon-share-alt" , "icon-resize-full" , "icon-resize-small" , "icon-plus" , "icon-minus" , "icon-asterisk" , "icon-exclamation-sign" , "icon-gift" , "icon-leaf" , "icon-fire" , "icon-eye-open" , "icon-eye-close" , "icon-warning-sign" , "icon-plane" , "icon-calendar" , "icon-random" , "icon-comment" , "icon-magnet" , "icon-chevron-up" , "icon-chevron-down" , "icon-retweet" , "icon-shopping-cart" , "icon-folder-close" , "icon-folder-open" , "icon-resize-vertical" , "icon-resize-horizontal" , "icon-hdd" , "icon-bullhorn" , "icon-bell" , "icon-certificate" , "icon-thumbs-up" , "icon-thumbs-down" , "icon-hand-right" , "icon-hand-left" , "icon-hand-up" , "icon-hand-down" , "icon-circle-arrow-right" , "icon-circle-arrow-left" , "icon-circle-arrow-up" , "icon-circle-arrow-down" , "icon-globe" , "icon-wrench" , "icon-tasks" , "icon-filter" , "icon-briefcase" , "icon-fullscreen");
@@ -40,23 +40,23 @@ function tad_themes_menu_form($of_level="0",$menuid=""){
   $xoopsTpl->assign('icon',$icon);
 
   $op=(empty($menuid))?"insert_tad_themes_menu":"update_tad_themes_menu";
-  //$op="replace_tad_themes_menu";
-  $main="
-  <a name='menuid_{$menuid}'></a>
-  <form action='{$_SERVER['PHP_SELF']}' method='post' id='myForm' enctype='multipart/form-data'>
-  <input type='hidden' name='position' value='{$position}'>
-  ";
 
+
+  $get_tad_all_menu="";
   if(!empty($menuid)){
-    $main.="<select name='of_level' class='span2'>
-    <option value=''>"._MA_TADTHEMES_ROOT."</option>
-    ".get_tad_all_menu("","",$of_level,$menuid,"1")."</select>";
-    $size=15;
-    $url_size=30;
+    $get_tad_all_menu="
+    <div class='row-fluid'>
+      <label class='span3'>"._MA_TADTHEMES_OF_LEVEL._TAD_FOR."</label>
+      <div class='span8'>
+        <select name='of_level' id='of_level'>
+        <option value=''>"._MA_TADTHEMES_ROOT."</option>
+        ".get_tad_all_menu("","",$of_level,$menuid,"1")."
+        </select>
+      </div>
+    </div>
+    ";
   }else{
-    $main.="<input type='hidden' name='of_level' value='{$of_level}'>";
-    $size=20;
-    $url_size=40;
+    $get_tad_all_menu="<input type='hidden' name='of_level' value='{$of_level}'>";
   }
 
   $selectpicker="<option value='' $selected>"._MA_TADTHEMES_NONE."</option>";
@@ -65,34 +65,110 @@ function tad_themes_menu_form($of_level="0",$menuid=""){
     $selectpicker.="<option data-icon='{$icon_name}' value='{$icon_name}' $selected>{$icon_name}</option>\n";
   }
 
-  $main.="
-    <div>
-      "._MA_TADTHEMES_ITEMNAME._TAD_FOR."
-      <input type='text' name='itemname' size='{$size}' value='{$itemname}' class='span2'>
-      "._MA_TADTHEMES_ITEMURL._TAD_FOR."
-      <input type='text' name='itemurl' size='{$url_size}' value='{$itemurl}' class='span3'>
-      <select name='target' class='span1'>
-        <option value='_self'></option>
-        <option value='_blank' ".chk($target,"_blank",0,'selected').">"._MA_TADTHEMES_TARGET_BLANK."</option>
-      </select>
+  $main="
+  <form method='post' id='myForm' enctype='multipart/form-data'>
+    $get_tad_all_menu
+    <div class='row-fluid'>
+      <label class='span3' for='itemname'>"._MA_TADTHEMES_ITEMNAME._TAD_FOR."</label>
+      <div class='span8'>
+        <input type='text' name='itemname' id='itemname' value='{$itemname}' class='span12' placeholder='"._MA_TADTHEMES_ITEMNAME."'>
+      </div>
     </div>
-    <div>
 
-    <select name='icon' class='selectpicker' data-width='auto'>
-      $selectpicker
-    </select>
+    <div class='row-fluid'>
+      <label class='span3' for='itemurl'>"._MA_TADTHEMES_ITEMURL._TAD_FOR."</label>
+      <div class='span8'>
+        <input type='text' name='itemurl' id='itemurl' value='{$itemurl}' class='span8' placeholder='"._MA_TADTHEMES_ITEMURL."'>
+        <select name='target' class='span4'>
+          <option value='_self'></option>
+          <option value='_blank' ".chk($target,"_blank",0,'selected').">"._MA_TADTHEMES_TARGET_BLANK."</option>
+          <option value='popup' ".chk($target,"popup",0,'selected').">"._MA_TADTHEMES_TARGET_FANCYBOX."</option>
+        </select>
+      </div>
+    </div>
 
-    "._MA_TADTHEMES_ITEMICON._TAD_FOR."<input type='file' name='image' >
-    "._MA_TADTHEMES_ITEMBANNER._TAD_FOR."<input type='file' name='banner_image' >
+    <div class='row-fluid'>
+      <label class='span3' for='icon'>"._MA_TADTHEMES_ICON._TAD_FOR."</label>
+      <div class='span8'>
+        <select name='icon' class='selectpicker' data-width='auto'>
+          $selectpicker
+        </select>
+      </div>
+    </div>
+
+    <div class='row-fluid'>
+      <label class='span3' for='image'>"._MA_TADTHEMES_ITEMICON._TAD_FOR."</label>
+      <div class='span8'>
+        <input type='file' name='image' id='image' class='span12'>
+      </div>
+    </div>
+
+    <div class='row-fluid'>
+      <label class='span3' for='banner_image'>"._MA_TADTHEMES_ITEMBANNER._TAD_FOR."</label>
+      <div class='span8'>
+        <input type='file' name='banner_image' id='banner_image' class='span12'>
+      </div>
+    </div>
+
     <input type='hidden' name='menuid' value='{$menuid}'>
     <input type='hidden' name='status' value='{$status}'>
     <input type='hidden' name='op' value='{$op}'>
-    <button type='submit' class='btn btn-primary'>"._TAD_SAVE."</button>
-  </div>
+    <input type='hidden' name='position' value='{$position}'>
+    <button type='button' id='submit' class='btn btn-primary'>"._TAD_SAVE."</button>
+
   </form>";
 
 
+  if($mode=="die"){
+    $jquery=get_jquery();
+    $main2="
+    <!DOCTYPE html>
+    <html lang='zh-TW'>
+      <head>
+        <meta charset='utf-8'>
+        <title></title>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+        <link rel='stylesheet' type='text/css' media='screen' href='".XOOPS_URL."/modules/tadtools/bootstrap/css/bootstrap.css' />
+        <link rel='stylesheet' type='text/css' media='screen' href='".XOOPS_URL."/modules/tadtools/bootstrap/css/bootstrap-responsive.css' />
+        <link rel='stylesheet' type='text/css' media='screen' href='".XOOPS_URL."/modules/tadtools/css/xoops_adm.css' />
+      </head>
+      <body>
+        $main
+        $jquery
+        <script src='".XOOPS_URL."/modules/tadtools/bootstrap/js/bootstrap.min.js'></script>
+        <script type='text/javascript' src='".XOOPS_URL."/modules/tad_themes/class/bootstrap-select/bootstrap-select.js'></script>
+        <link rel='stylesheet' type='text/css' href='".XOOPS_URL."/modules/tad_themes/class/bootstrap-select/bootstrap-select.css'>
+        <script type='text/javascript'>
+          $(document).ready(function(){
+            $('.selectpicker').selectpicker();
 
+            $('#myForm').bind('submit', function()
+              {
+                $.ajax({
+                  type: 'POST',
+                  url: '{$_SERVER['PHP_SELF']}',
+                  //data: $(this).serializeArray(),
+                  data: new FormData( this ),
+                  processData: false,
+                  contentType: false,
+                  success: function(data) {
+                    parent.$.fancybox.close();
+                  }
+                });
+              });
+            $('#submit').click(function(e)
+            {
+                $('#myForm').trigger('submit');
+                e.preventDefault();
+
+            });
+          });
+        </script>
+      </body>
+    </html>
+    ";
+    die($main2);
+  }
   return $main;
 }
 
@@ -199,12 +275,7 @@ function list_tad_themes_menu($add_of_level="",$menuid=""){
 
   $op = (!isset($_REQUEST['op']))? "":$_REQUEST['op'];
   $option="";
-  if($op=="add_tad_themes_menu" or $op=="modify_tad_themes_menu" or empty($all)){
-    if($add_of_level==0 and $op=="add_tad_themes_menu"){
-      $col_left=4;
-      $option="<tr><td style='padding-left:{$col_left}px;' colspan=2;>".tad_themes_menu_form($add_of_level)."</td></tr>";
-    }
-  }
+
 
 
   $all=(empty($all))?"<tr><td colspan=2>".tad_themes_menu_form()."</td></tr>":$all;
@@ -216,6 +287,48 @@ function list_tad_themes_menu($add_of_level="",$menuid=""){
   $xoopsTpl->assign('option',$option);
   $xoopsTpl->assign('add_item',sprintf(_MA_TADTHEMES_ADDITEM,_MA_TADTHEMES_ROOT));
 
+  if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/treetable.php")){
+     redirect_header("index.php",3, _MA_NEED_TADTOOLS);
+    }
+  include_once XOOPS_ROOT_PATH."/modules/tadtools/treetable.php";
+
+  //treetable($show_jquery=true , $sn="cat_sn" , $of_sn="of_cat_sn" , $tbl_id="#tbl" , $post_url="save_drag.php" ,$folder_class=".folder", $msg="#save_msg" ,$expanded=true,$sort_id="", $sort_url="save_sort.php", $sort_msg="#save_msg2")
+  $treetable=new treetable(false , "menuid" , "of_level" , "#tbl" , "save_drag.php" , ".folder" , "#save_msg" , true , ".sort", "save_sort.php" , "#save_msg");
+  $treetable_code=$treetable->render();
+
+  $xoopsTpl->assign('treetable_code',$treetable_code);
+
+  if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/fancybox.php")){
+    redirect_header("index.php",3, _MA_NEED_TADTOOLS);
+  }
+  include_once XOOPS_ROOT_PATH."/modules/tadtools/fancybox.php";
+  $fancybox=new fancybox('.edit_dropdown','800','90%');
+  $fancybox_code=$fancybox->render();
+  $xoopsTpl->assign('fancybox_code',$fancybox_code);
+
+/*
+  include_once(XOOPS_ROOT_PATH."/modules/tadtools/ztree.php");
+  $sql = "select `menuid`,`of_level`,`itemname`,`position`,`itemurl`,`status`,`mainmenu`,`target`,`icon` from ".$xoopsDB->prefix("tad_themes_menu")." order by position";
+  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  while(list($menuid,$of_level,$itemname,$position,$itemurl,$status,$mainmenu,$target,$icon)=$xoopsDB->fetchRow($result)){
+    $item[$menuid]['id']=$menuid;
+    $item[$menuid]['parent_id']=$of_level;
+    $item[$menuid]['title']=$itemname;
+    //$item[$menuid]['url']=$itemurl;
+    $item[$menuid]['open']=true;
+    if($of_level==0){
+      $item[$menuid]['iconOpen']=XOOPS_URL."/modules/tadtools/zTree/css/zTreeStyle/img/diy/1_open.png";
+      $item[$menuid]['iconClose']=XOOPS_URL."/modules/tadtools/zTree/css/zTreeStyle/img/diy/1_close.png";
+    }else{
+      $item[$menuid]['icon']=XOOPS_URL."/modules/tadtools/zTree/css/zTreeStyle/img/diy/2.png";
+    }
+  }
+
+  $ztree=new zTree($item,true,true);
+  $ztreeCode=$ztree->render();
+//die($ztreeCode);
+  $xoopsTpl->assign('ztreeCode',$ztreeCode);
+  */
 }
 
 
@@ -243,44 +356,49 @@ function get_tad_level_menu($of_level=0,$level=0,$v="",$this_menuid="",$add_of_l
 
     $item=(empty($itemurl))?$itemname:"<a name='$menuid' href='{$itemurl}'><i class='{$icon}'></i> $itemname</a>";
 
-    $add_img=($level>=3)?"":"<a href='{$_SERVER['PHP_SELF']}?op=add_tad_themes_menu&of_level={$menuid}'><img src='../images/001_01.gif' align='absmiddle' alt='".sprintf(_MA_TADTHEMES_ADDITEM,$itemname)."' title='".sprintf(_MA_TADTHEMES_ADDITEM,$itemname)."'></a>";
+    $add_img=($level>=3)?"":"<a href='{$_SERVER['PHP_SELF']}?op=add_tad_themes_menu&of_level={$menuid}' class='edit_dropdown' data-fancybox-type='iframe'><img src='../images/001_01.gif' align='absmiddle' alt='".sprintf(_MA_TADTHEMES_ADDITEM,$itemname)."' title='".sprintf(_MA_TADTHEMES_ADDITEM,$itemname)."'></a>";
 
     $status_tool=($status=='1')?"<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=0' class='btn btn-mini btn-warning'>"._TAD_UNABLE."</a>":"<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=1' class='btn btn-mini btn-info'>"._TAD_ENABLE."</a>";
 
     $status_color=($status=='1')?"":"style='background-color:#D0D0D0'";
     $status_color2=($status=='1')?"":"background-color:#D0D0D0";
-    $target_icon=($target=="_blank")?"<span class='label'>"._MA_TADTHEMES_TARGET_BLANK."</span>":"";
+    $target_icon=($target=="_blank")?"<span class='label' style='padding: 2px 4px;'>"._MA_TADTHEMES_TARGET_BLANK."</span>":"";
+    $target_icon=($target=="popup")?"<span class='label label-success' style='padding: 2px 4px;'>popup</span>":$target_icon;
 
-    if($op=="modify_tad_themes_menu" and $menuid==$v){
-      $item=tad_themes_menu_form("",$menuid);
-      $content="<td style='padding-left:{$left}px;$status_color2'  colspan=2>$item</td>";
-    }else{
-      $icon="";
-      if(file_exists("{$dir}/{$menuid}_32.png")){
-        $icon="<img src=\"{$url}/{$menuid}_32.png\"><a href=\"javascript:delete_tad_themes_pic('icon',$menuid);\"><img src='../images/delete.png'></a>";
-      }
-      $banner="";
-      if(file_exists("{$banner_dir}/{$menuid}_thumb.png")){
-        $banner="<img src=\"{$banner_url}/{$menuid}_thumb.png\"><a href=\"javascript:delete_tad_themes_pic('banner' , $menuid);\"><img src='../images/delete.png'></a>";
-      }
+    $class=(empty($of_level))?"":"class='child-of-node-{$of_level}'";
+    $parent=empty($of_level)?"":"data-tt-parent-id='$of_level'";
 
-      $content="<td style='padding-left:{$left}px;$status_color2' >
-      <img src='".XOOPS_URL."/modules/tadtools/treeTable/images/updown_s.png' style='cursor: s-resize;margin:0px 4px;' alt='"._MA_TADTHEMES_SAVE_SORT."' title='"._MA_TADTHEMES_SAVE_SORT."'>
-      <span style='font-size:{$font_size}px;'>{$item}</span>
-      $icon
-      $banner
-      $target_icon
-      $add_img
-      </td>
-      <td $status_color>
-      <a href=\"javascript:delete_tad_themes_menu_func($menuid);\" class='btn btn-mini btn-danger'>"._TAD_DEL."</a>
-      <a href='{$_SERVER['PHP_SELF']}?op=modify_tad_themes_menu&menuid=$menuid#menuid_{$menuid}' class='btn btn-mini btn-success'>"._TAD_EDIT."</a>
-      $status_tool
 
-      </td>";
+    $icon="";
+    if(file_exists("{$dir}/{$menuid}_32.png")){
+      $icon="<a href='{$url}/{$menuid}_32.png' class='edit_dropdown'><img src=\"{$url}/{$menuid}_32.png\"></a><a href=\"javascript:delete_tad_themes_pic('icon',$menuid);\"><img src='../images/delete.png'></a>";
+    }
+    $banner="";
+    if(file_exists("{$banner_dir}/{$menuid}_thumb.png")){
+      $banner="<a href='{$banner_url}/{$menuid}.png' class='edit_dropdown'><img src=\"{$banner_url}/{$menuid}_thumb.png\"></a><a href=\"javascript:delete_tad_themes_pic('banner' , $menuid);\"><img src='../images/delete.png'></a>";
     }
 
-    $option.="<tr id='tr_{$menuid}'>$content</tr>";
+    $content="
+    <td style='padding-left:{$left}px;$status_color2' >
+      <a name='menuid_{$menuid}'></a>
+      <img src='".XOOPS_URL."/modules/tadtools/treeTable/images/move_s.png' class='folder' alt='"._MA_TREETABLE_MOVE_PIC."' title='"._MA_TREETABLE_MOVE_PIC."'>
+      <img src='".XOOPS_URL."/modules/tadtools/treeTable/images/updown_s.png' style='cursor: s-resize;margin:0px 4px;' alt='"._MA_TADTHEMES_SAVE_SORT."' title='"._MA_TADTHEMES_SAVE_SORT."'>
+      {$position}
+      <span style='font-size:{$font_size}px;' class='folder'>{$item}</span>
+      $target_icon
+      $add_img
+    </td>
+    <td $status_color>
+      <a href=\"javascript:delete_tad_themes_menu_func($menuid);\" class='btn btn-mini btn-danger'>"._TAD_DEL."</a>
+      <a href='{$_SERVER['PHP_SELF']}?op=modify_tad_themes_menu&menuid=$menuid#menuid_{$menuid}' class='btn btn-mini btn-success edit_dropdown' data-fancybox-type='iframe'>"._TAD_EDIT."</a>
+      $status_tool
+
+      $icon
+      $banner
+    </td>";
+
+
+    $option.="<tr data-tt-id='{$menuid}' $parent id='node-_{$menuid}' $class style='letter-spacing: 0em;'>$content</tr>";
 
 
 
@@ -468,7 +586,7 @@ switch($op){
 
   //新增項目
   case "add_tad_themes_menu";
-  $main=list_tad_themes_menu($of_level,$menuid);
+  $main=tad_themes_menu_form($of_level,$menuid,"die");
   break;
 
   //儲存排序
@@ -479,7 +597,7 @@ switch($op){
 
   //修改項目
   case "modify_tad_themes_menu":
-  $main=list_tad_themes_menu($of_level,$menuid);
+  $main=tad_themes_menu_form($of_level,$menuid,"die");
   break;
 
 

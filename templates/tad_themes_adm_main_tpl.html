@@ -157,9 +157,9 @@
                   <div class="span2">
                     <{if $enable.theme_width}>
                       <input type="text" name="theme_width" class="span8<{$validate.theme_width}>" value="<{$theme_width}>" id="theme_width">
-                      <{$theme_unit}>
+                      <{if $theme_kind=="mix"}>px<{else}><{$theme_unit}><{/if}>
                     <{else}>
-                      <input type="hidden" name="theme_width" id="theme_width" value="<{$theme_width}>"><{$theme_width}><{$theme_unit}>
+                      <input type="hidden" name="theme_width" id="theme_width" value="<{$theme_width}>"><{$theme_width}><{if $theme_kind=="mix"}>px<{else}><{$theme_unit}><{/if}>
                     <{/if}>
                   </div>
 
@@ -305,6 +305,23 @@
                 <{/if}>
               </div>
             </div>
+          <{else}>
+            <input type="hidden" id="theme_type" name="theme_type" value="<{$theme_type}>">
+            <input type="hidden" id="theme_width" name="theme_width" value="<{$theme_width}>">
+            <input type="hidden" id="base_color" name="base_color" value="<{$base_color}>">
+            <input type="hidden" id="lb_color" name="lb_color" value="<{$lb_color}>">
+            <input type="hidden" id="cb_color" name="cb_color" value="<{$cb_color}>">
+            <input type="hidden" id="rb_color" name="rb_color" value="<{$rb_color}>">
+            <input type="hidden" id="lb_width" name="lb_width" value="<{$lb_width}>">
+            <input type="hidden" id="rb_width" name="rb_width" value="<{$rb_width}>">
+            <input type="hidden" id="clb_width" name="clb_width" value="<{$clb_width}>">
+            <input type="hidden" id="crb_width" name="crb_width" value="<{$crb_width}>">
+            <input type="hidden" id="margin_top" name="margin_top" value="<{$margin_top}>">
+            <input type="hidden" id="font_size" name="font_size" value="<{$font_size}>">
+            <input type="hidden" id="margin_bottom" name="margin_bottom" value="<{$margin_bottom}>">
+            <input type="hidden" id="font_color" name="font_color" value="<{$font_color}>">
+            <input type="hidden" id="link_color" name="link_color" value="<{$link_color}>">
+            <input type="hidden" id="hover_color" name="hover_color" value="<{$hover_color}>">
           <{/if}>
 
           <!--背景圖-->
@@ -426,66 +443,81 @@
                 </div>
               </div>
             </div>
+          <{else}>
+            <input type="hidden" id="bg_img" name="bg_img" value="<{$bg_img}>">
+            <input type="hidden" id="bg_color" name="bg_color" value="<{$bg_color}>">
+            <input type="hidden" id="bg_repeat" name="bg_repeat" value="<{$bg_repeat}>">
+            <input type="hidden" id="bg_attachment" name="bg_attachment" value="<{$bg_attachment}>">
+            <input type="hidden" id="bg_position" name="bg_position" value="<{$bg_position}>">
           <{/if}>
 
           <!--滑動圖片高度-->
           <{if $config_tabs.3}>
             <div id="tabs-3">
               <div class="row-fluid">
-                <div class="span5">
-
-                  <!--滑動圖片寬度-->
-                  <{if $enable.slide_width=="1"}>
-                    <div class="row-fluid">
-                      <div class="span4 text-right">
-                        <{$smarty.const._MA_TADTHEMES_SLIDE_WIDTH}>
-                      </div>
-                      <div class="span8">
-                        <input type="text" name="slide_width" class="span8<{$validate.slide_width}>" value="<{$slide_width}>" id="slide_width" onChange="change_css();">
-                        <{$theme_unit}>
-                      </div>
-                    </div>
-                  <{else}>
-                    <input type="hidden" name="slide_width" id="slide_width" value="<{$slide_width}>">
-                  <{/if}>
-
-                  <!--滑動圖片高度-->
-                  <{if $enable.slide_height=="1"}>
-                    <div class="row-fluid">
-                      <div class="span4 text-right">
-                        <{$smarty.const._MA_TADTHEMES_SLIDE_HEIGHT}>
-                      </div>
-                      <div class="span8">
-                        <input type="text" name="slide_height" class="span8<{$validate.slide_height}>" value="<{$slide_height}>" id="slide_height" onChange="change_css();"> px
-                      </div>
-                    </div>
-                  <{else}>
-                    <input type="hidden" name="slide_height" id="slide_height" value="<{$slide_height}>">
-                  <{/if}>
-                </div>
 
                 <{if $enable.slide_width=="1" or $enable.slide_height=="1"}>
+                  <div class="span5">
+
+                    <!--滑動圖片寬度-->
+                    <{if $enable.slide_width=="1"}>
+                      <div class="row-fluid">
+                        <div class="span4 text-right">
+                          <{$smarty.const._MA_TADTHEMES_SLIDE_WIDTH}>
+                        </div>
+                        <div class="span8">
+                          <input type="text" name="slide_width" class="span8<{$validate.slide_width}>" value="<{$slide_width}>" id="slide_width" onChange="change_css();">
+                          <{if $theme_kind=="mix"}>px<{else}><{$theme_unit}><{/if}>
+                        </div>
+                      </div>
+                    <{else}>
+                      <input type="hidden" name="slide_width" id="slide_width" value="<{$slide_width}>">
+                    <{/if}>
+
+                    <!--滑動圖片高度-->
+                    <{if $enable.slide_height=="1"}>
+                      <div class="row-fluid">
+                        <div class="span4 text-right">
+                          <{$smarty.const._MA_TADTHEMES_SLIDE_HEIGHT}>
+                        </div>
+                        <div class="span8">
+                          <input type="text" name="slide_height" class="span8<{$validate.slide_height}>" value="<{$slide_height}>" id="slide_height" onChange="change_css();"> px
+                        </div>
+                      </div>
+                    <{else}>
+                      <input type="hidden" name="slide_height" id="slide_height" value="<{$slide_height}>">
+                    <{/if}>
+                  </div>
+                <{else}>
+                  <input type="hidden" id="slide_width" name="slide_width" value="<{$slide_width}>">
+                  <input type="hidden" id="slide_height" name="slide_height" value="<{$slide_height}>">
+                <{/if}>
+
+                <{if $enable.slide_width=="1" or $enable.slide_height=="1" or $enable.use_slide=="1"}>
                   <div class="span7">
                     <div class="span12 alert alert-success">
                       <{$smarty.const._MA_TADTHEMES_SLIDE_DESC}>
                     </div>
                   </div>
                 <{/if}>
-
-                <{if $enable.slide_width=="1" or $enable.slide_height=="1"}>
-                  <div class="row-fluid">
-                    <!-- 背景模式-->
-                    <div class="span2 text-right">
-                      <{$smarty.const._MA_TAD_THEMES_UPLOAD}>
-                      <{$smarty.const._MA_TAD_THEMES_HEAD}>
-                    </div>
-                    <div class="span10">
-                      <{$upform_slide}>
-                    </div>
-                  </div>
-                <{/if}>
               </div>
+
+              <{if $enable.slide_width=="1" or $enable.slide_height=="1" or $enable.use_slide=="1"}>
+                <div class="row-fluid">
+                  <!-- 背景模式-->
+                  <div class="span2 text-right">
+                    <{$smarty.const._MA_TAD_THEMES_UPLOAD}>
+                    <{$smarty.const._MA_TAD_THEMES_HEAD}>
+                  </div>
+                  <div class="span10">
+                    <{$upform_slide}>
+                  </div>
+                </div>
+              <{/if}>
             </div>
+          <{else}>
+            <input type="hidden" id="slide_width" name="slide_width" value="<{$slide_width}>">
+            <input type="hidden" id="slide_height" name="slide_height" value="<{$slide_height}>">
           <{/if}>
 
           <!--logo圖-->
@@ -605,6 +637,13 @@
                 <{/if}>
               </div>
             </div>
+          <{else}>
+            <input type="hidden" id="logo_img" name="logo_img" value="<{$logo_img}>">
+            <input type="hidden" id="logo_position" name="logo_position" value="<{$logo_position}>">
+            <input type="hidden" id="logo_top" name="logo_top" value="<{$logo_top}>">
+            <input type="hidden" id="logo_right" name="logo_right" value="<{$logo_right}>">
+            <input type="hidden" id="logo_bottom" name="logo_bottom" value="<{$logo_bottom}>">
+            <input type="hidden" id="logo_left" name="logo_left" value="<{$logo_left}>">
           <{/if}>
 
           <!--區塊標題列背景圖-->
@@ -760,7 +799,7 @@
                               <input type="radio" name="bt_bg_img[<{$block.block_position}>]" id="bt_bg_img<{$bt_bg.files_sn}>_<{$block.block_position}>" onChange="$('.del_img_box_<{$block.block_position}>').show(); $('#del_img<{$bt_bg.files_sn}>_<{$block.block_position}>').hide(); " value="<{$bt_bg.path}>" <{if $block.bt_bg_img==$bt_bg.path}>checked<{/if}>>
                             </label>
                             <label class="checkbox del_img_box" style="font-size:11px;"  id="del_img<{$bt_bg.files_sn}>_<{$block.block_position}>">
-                              <input type="checkbox" value="<{$bt_bg.files_sn}>" name="del_file_<{$block.block_position}>[<{$bt_bg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
+                              <input type="checkbox" value="<{$bt_bg.files_sn}>" name="del_file[<{$bt_bg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
                             </label>
                           </div>
                         <{/foreach}>
@@ -815,78 +854,97 @@
                 <{/foreach}>
               </div>
             </div>
+          <{else}>
+            <input type="hidden" id="bt_text_size" name="bt_text_size" value="<{$bt_text_size}>">
+            <input type="hidden" id="bt_text_padding" name="bt_text_padding" value="<{$bt_text_padding}>">
+            <input type="hidden" id="bt_text" name="bt_text" value="<{$bt_text}>">
+            <input type="hidden" id="bt_bg_color" name="bt_bg_color" value="<{$bt_bg_color}>">
+            <input type="hidden" id="bt_radius" name="bt_radius" value="<{$bt_radius}>">
+            <input type="hidden" id="block_config" name="block_config" value="<{$block_config}>">
+            <input type="hidden" id="bt_bg_img" name="bt_bg_img" value="<{$bt_bg_img}>">
+            <input type="hidden" id="bt_bg_repeat" name="bt_bg_repeat" value="<{$bt_bg_repeat}>">
+            <input type="hidden" id="block_style" name="block_style" value="<{$block_style}>">
+            <input type="hidden" id="block_title_style" name="block_title_style" value="<{$block_title_style}>">
+            <input type="hidden" id="block_content_style" name="block_content_style" value="<{$block_content_style}>">
           <{/if}>
 
           <!--navbar-->
           <{if $config_tabs.6}>
             <div id="tabs-6">
               <div class="row-fluid">
-                <div class="span6">
-                  <!--導覽工具列位置-->
-                  <{if $enable.navbar_pos=="1"}>
-                    <div class="row-fluid">
-                      <div class="span4"><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION}></div>
-                      <div class="span8">
-                        <select name="navbar_pos" id="navbar_pos" class="span12<{$validate.navbar_pos}>">
-                          <option value="navbar-fixed-top" <{if $navbar_pos=="navbar-fixed-top"}>selected<{/if}>>
-                          <{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_1}></option>
-                          <option value="navbar-fixed-bottom" <{if $navbar_pos=="navbar-fixed-bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_2}></option>
-                          <option value="navbar-static-top" <{if $navbar_pos=="navbar-static-top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_3}></option>
-                          <option value="navbar-static-bottom" <{if $navbar_pos=="navbar-static-bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_6}></option>
-                          <option value="default" <{if $navbar_pos=="default"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_4}></option>
-                          <option value="not-use" <{if $navbar_pos=="not-use"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_5}></option>
-                        </select>
+                <{if $enable.navbar_pos=="1" or $enable.navbar_bg_top=="1" or  $enable.navbar_bg_bottom=="1" or $enable.navbar_hover=="1"}>
+                  <div class="span6">
+                    <!--導覽工具列位置-->
+                    <{if $enable.navbar_pos=="1"}>
+                      <div class="row-fluid">
+                        <div class="span4"><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION}></div>
+                        <div class="span8">
+                          <select name="navbar_pos" id="navbar_pos" class="span12<{$validate.navbar_pos}>">
+                            <option value="navbar-fixed-top" <{if $navbar_pos=="navbar-fixed-top"}>selected<{/if}>>
+                            <{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_1}></option>
+                            <option value="navbar-fixed-bottom" <{if $navbar_pos=="navbar-fixed-bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_2}></option>
+                            <option value="navbar-static-top" <{if $navbar_pos=="navbar-static-top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_3}></option>
+                            <option value="navbar-static-bottom" <{if $navbar_pos=="navbar-static-bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_6}></option>
+                            <option value="default" <{if $navbar_pos=="default"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_4}></option>
+                            <option value="not-use" <{if $navbar_pos=="not-use"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_5}></option>
+                          </select>
+                        </div>
                       </div>
-                    </div>
-                  <{else}>
-                    <input type="hidden" name="navbar_pos" id="navbar_pos" value="<{$navbar_pos}>">
-                  <{/if}>
+                    <{else}>
+                      <input type="hidden" name="navbar_pos" id="navbar_pos" value="<{$navbar_pos}>">
+                    <{/if}>
 
-                  <!--導覽工具列 漸層顏色(top) -->
-                  <{if $enable.navbar_bg_top=="1"}>
-                    <div class="row-fluid">
-                      <div class="span4">
-                        <{$smarty.const._MA_TADTHEMES_NAVBAR}>
-                        <{$smarty.const._MA_TADTHEMES_NAVBAR_BG_COLOR}>(top)
+                    <!--導覽工具列 漸層顏色(top) -->
+                    <{if $enable.navbar_bg_top=="1"}>
+                      <div class="row-fluid">
+                        <div class="span4">
+                          <{$smarty.const._MA_TADTHEMES_NAVBAR}>
+                          <{$smarty.const._MA_TADTHEMES_NAVBAR_BG_COLOR}>(top)
+                        </div>
+                        <div class="span8">
+                          <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>" class="span6<{$validate.navbar_bg_top}>" data-hex="true">
+                        </div>
                       </div>
-                      <div class="span8">
-                        <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>" class="span6<{$validate.navbar_bg_top}>" data-hex="true">
-                      </div>
-                    </div>
-                  <{else}>
-                    <input type="hidden" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>">
-                  <{/if}>
+                    <{else}>
+                      <input type="hidden" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>">
+                    <{/if}>
 
-                  <!--導覽工具列 漸層顏色(bottom)-->
-                  <{if $enable.navbar_bg_bottom=="1"}>
-                    <div class="row-fluid">
-                      <div class="span4">
-                        <{$smarty.const._MA_TADTHEMES_NAVBAR}>
-                        <{$smarty.const._MA_TADTHEMES_NAVBAR_BG_COLOR}>(bottom)
+                    <!--導覽工具列 漸層顏色(bottom)-->
+                    <{if $enable.navbar_bg_bottom=="1"}>
+                      <div class="row-fluid">
+                        <div class="span4">
+                          <{$smarty.const._MA_TADTHEMES_NAVBAR}>
+                          <{$smarty.const._MA_TADTHEMES_NAVBAR_BG_COLOR}>(bottom)
+                        </div>
+                        <div class="span8">
+                          <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>" class="span6<{$validate.navbar_bg_bottom}>" data-hex="true">
+                        </div>
                       </div>
-                      <div class="span8">
-                        <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>" class="span6<{$validate.navbar_bg_bottom}>" data-hex="true">
-                      </div>
-                    </div>
-                  <{else}>
-                    <input type="hidden" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>">
-                  <{/if}>
+                    <{else}>
+                      <input type="hidden" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>">
+                    <{/if}>
 
-                  <!--導覽工具列 連結區塊底色-->
-                  <{if $enable.navbar_hover=="1"}>
-                    <div class="row-fluid">
-                      <div class="span4">
-                        <{$smarty.const._MA_TADTHEMES_NAVBAR}>
-                        <{$smarty.const._MA_TADTHEMES_NAVBAR_HOVER_COLOR}>
+                    <!--導覽工具列 連結區塊底色-->
+                    <{if $enable.navbar_hover=="1"}>
+                      <div class="row-fluid">
+                        <div class="span4">
+                          <{$smarty.const._MA_TADTHEMES_NAVBAR}>
+                          <{$smarty.const._MA_TADTHEMES_NAVBAR_HOVER_COLOR}>
+                        </div>
+                        <div class="span8">
+                          <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>" class="span6<{$validate.navbar_hover}>" data-hex="true">
+                        </div>
                       </div>
-                      <div class="span8">
-                        <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>" class="span6<{$validate.navbar_hover}>" data-hex="true">
-                      </div>
-                    </div>
-                  <{else}>
-                    <input type="hidden" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>">
-                  <{/if}>
-                </div>
+                    <{else}>
+                      <input type="hidden" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>">
+                    <{/if}>
+                  </div>
+                <{else}>
+                  <input type="hidden" id="navbar_pos" name="navbar_pos" value="<{$navbar_pos}>">
+                  <input type="hidden" id="navbar_bg_top" name="navbar_bg_top" value="<{$navbar_bg_top}>">
+                  <input type="hidden" id="navbar_bg_bottom" name="navbar_bg_bottom" value="<{$navbar_bg_bottom}>">
+                  <input type="hidden" id="navbar_hover" name="navbar_hover" value="<{$navbar_hover}>">
+                <{/if}>
 
                 <div class="span6">
                   <!--導覽工具列 文字顏色-->
@@ -1037,6 +1095,16 @@
                 <{/if}>
               </div>
             </div>
+          <{else}>
+            <input type="hidden" id="navbar_pos" name="navbar_pos" value="<{$navbar_pos}>">
+            <input type="hidden" id="navbar_bg_top" name="navbar_bg_top" value="<{$navbar_bg_top}>">
+            <input type="hidden" id="navbar_bg_bottom" name="navbar_bg_bottom" value="<{$navbar_bg_bottom}>">
+            <input type="hidden" id="navbar_hover" name="navbar_hover" value="<{$navbar_hover}>">
+            <input type="hidden" id="navbar_img" name="navbar_img" value="<{$navbar_img}>">
+            <input type="hidden" id="navbar_color" name="navbar_color" value="<{$navbar_color}>">
+            <input type="hidden" id="navbar_color_hover" name="navbar_color_hover" value="<{$navbar_color_hover}>">
+            <input type="hidden" id="navbar_icon" name="navbar_icon" value="<{$navbar_icon}>">
+            <input type="hidden" id="navlogo_img" name="navlogo_img" value="<{$navlogo_img}>">
           <{/if}>
 
           <!--額外設定-->
@@ -1048,13 +1116,15 @@
                 <div class="span2 text-right">
                   <{$config.text}>
                 </div>
-                <div class="span4">
+                <div class="span5">
                   <{if $config.type=="text"}>
                     <input type="text" name="<{$config.name}>" value="<{$config.value}>" class="span12">
                   <{elseif $config.type=="color"}>
                     <input type="text" name="<{$config.name}>" id="<{$config.name}>" value="<{$config.value}>" class="span8" data-hex="true" >
+                  <{elseif $config.type=="array"}>
+                    <textarea name="<{$config.name}>" class="span12" rows=4 style="font-size:0.8em;"><{$config.value}></textarea>
                   <{elseif $config.type=="textarea"}>
-                    <textarea name="<{$config.name}>" class="span12" rows=2><{$config.value}></textarea>
+                    <textarea name="<{$config.name}>" class="span12" rows=4 style="font-size:0.8em;"><{$config.value}></textarea>
                   <{elseif $config.type=="yesno"}>
                     <label class="radio inline">
                       <input type="radio" name="<{$config.name}>" id="<{$config.name}>1" value="1" <{if $config.value==1}>checked<{/if}> ><{$smarty.const._YES}>
@@ -1068,7 +1138,7 @@
                 </div>
 
                 <{if $config.type=="file"}>
-                  <div class="span6">
+                  <div class="span5">
                     <{if $config.list}>
 
                       <div style="width:60px; height:86px; display:inline-block; margin:4px;">
@@ -1102,7 +1172,7 @@
                     <{/if}>
                   </div>
                 <{else}>
-                  <div class="span6 alert alert-info">
+                  <div class="span5 alert alert-info">
                     <{$config.desc}>
                   </div>
                 <{/if}>

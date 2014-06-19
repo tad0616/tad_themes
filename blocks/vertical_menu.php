@@ -3,21 +3,23 @@
 function vertical_menu($options){
   global $xoopsDB;
   include_once XOOPS_ROOT_PATH."/modules/tadtools/tad_function.php";
+  include_once XOOPS_ROOT_PATH."/modules/tad_themes/function_block.php";
   $in=empty($options[0])?"status='1' and of_level=0":"menuid in({$options[0]})";
   //$menu=explode(",",$options[0]);
-  $sql = "select `menuid`,`itemname`,`itemurl`,`target`,`icon` from ".$xoopsDB->prefix("tad_themes_menu")." where $in order by position";
+  $sql = "select `menuid`,`itemname`,`itemurl`,`target`,`icon`,`position` from ".$xoopsDB->prefix("tad_themes_menu")." where $in order by position";
   $result = $xoopsDB->query($sql);
   $menu="";
 
   $dir=XOOPS_ROOT_PATH."/uploads/tad_themes/menu_icons";
   $url=XOOPS_URL."/uploads/tad_themes/menu_icons";
   $i=1;
-  while(list($menuid,$itemname,$itemurl,$target,$bootstrap_icon)=$xoopsDB->fetchRow($result)){
+  while(list($menuid,$itemname,$itemurl,$target,$bootstrap_icon,$position)=$xoopsDB->fetchRow($result)){
     if(empty($itemname) or empty($itemurl))continue;
 
     $menu[$i]['itemname']=$itemname;
     $menu[$i]['itemurl']=$itemurl;
     $menu[$i]['target']=$target;
+    $menu[$i]['position']=$position;
     $menu[$i]['bootstrap_icon']=$bootstrap_icon;
     $menu[$i]['color']=genColorCodeFromText($menuid);
     $icon="";
@@ -101,32 +103,4 @@ if(!function_exists("block_menu_options")){
   }
 }
 
-/*
-* Outputs a color (#000000) based Text input
-*
-* @param $text String of text
-* @param $min_brightness Integer between 0 and 100
-* @param $spec Integer between 2-10, determines how unique each color will be
-*/
-
-function genColorCodeFromText($text,$min_brightness=100,$spec=10)
-{
-  // Check inputs
-  if(!is_int($min_brightness)) throw new Exception("$min_brightness is not an integer");
-  if(!is_int($spec)) throw new Exception("$spec is not an integer");
-  if($spec < 2 or $spec > 10) throw new Exception("$spec is out of range");
-  if($min_brightness < 0 or $min_brightness > 255) throw new Exception("$min_brightness is out of range");
-  $hash = md5($text); //Gen hash of text
-  $colors = array();
-  for($i=0;$i<3;$i++)
-  $colors[$i] = max(array(round(((hexdec(substr($hash,$spec*$i,$spec)))/hexdec(str_pad('',$spec,'F')))*255),$min_brightness)); //convert hash into 3 decimal values between 0 and 255
-  if($min_brightness > 0) //only check brightness requirements if min_brightness is about 100
-  while( array_sum($colors)/3 < $min_brightness ) //loop until brightness is above or equal to min_brightness
-  for($i=0;$i<3;$i++)
-  $colors[$i] += 10;  //increase each color by 10
-  $output = '';
-  for($i=0;$i<3;$i++)
-  $output .= str_pad(dechex($colors[$i]),2,0,STR_PAD_LEFT); //convert each color to hex and append to output
-  return '#'.$output;
-}
 ?>

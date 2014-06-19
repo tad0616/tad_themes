@@ -80,7 +80,7 @@ CREATE TABLE `tad_themes_files_center` (
 )  ENGINE=MyISAM;
 
 CREATE TABLE `tad_themes_menu` (
-  `menuid` smallint(5) unsigned NOT NULL auto_increment,
+  `menuid` mediumint(8) unsigned NOT NULL auto_increment,
   `of_level` smallint(5) unsigned NOT NULL default 0,
   `position` smallint(5) unsigned NOT NULL default 0,
   `itemname` varchar(255) NOT NULL default '',
