@@ -19,6 +19,7 @@ function xoops_module_update_tad_themes(&$module, $old_version) {
     if(!chk_chk14()) go_update14();
     if(!chk_chk15()) go_update15();
     if(!chk_chk16()) go_update16();
+    if(chk_files_center()) go_update_files_center();
 
     mk_dir(XOOPS_ROOT_PATH."/uploads/tad_themes");
     return true;
@@ -382,6 +383,26 @@ function go_update16(){
 
   $sql="update ".$xoopsDB->prefix("tad_themes_blocks")." set block_title_style='border:none;height:40px;line-height:40px;margin-bottom:10px;'";
   $xoopsDB->queryF($sql);
+}
+
+
+//修正col_sn欄位
+function chk_files_center(){
+  global $xoopsDB;
+  $sql="SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE table_name = '".$xoopsDB->prefix("tad_themes_files_center")."' AND COLUMN_NAME = 'col_sn'";
+  $result=$xoopsDB->query($sql);
+  list($type)=$xoopsDB->fetchRow($result);
+  if($type=='smallint')return true;
+  return false;
+}
+
+//執行更新
+function go_update_files_center(){
+  global $xoopsDB;
+  $sql="ALTER TABLE `".$xoopsDB->prefix("tad_themes_files_center")."` CHANGE `col_sn` `col_sn` mediumint(9) unsigned NOT NULL default 0";
+  $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL,3,  mysql_error());
+  return true;
 }
 
 

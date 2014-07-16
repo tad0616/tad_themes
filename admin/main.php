@@ -416,9 +416,11 @@ function tad_themes_form(){
       $config2[$k]['default']=$config['default'];
 
       if($config['type']=="file"){
+        import_img($config['default'],"config2_{$config['name']}",$theme_id,"");
         $TadUpFiles_config2->set_col("config2_{$config['name']}",$theme_id);
         $config2[$k]['form']=$TadUpFiles_config2->upform(false,"config2_{$config['name']}",NULL,false);
         $config2[$k]['list']=$TadUpFiles_config2->get_file_for_smarty();
+        //die("list:".$config2[$k]['list']);
       }
     }
     $xoopsTpl->assign('theme_config',$config2);
@@ -1017,12 +1019,17 @@ function mk_dir($dir=""){
 //取得圖片選項
 function import_img($path='',$col_name="logo",$col_sn='',$desc="",$safe_name=false){
   global $xoopsDB;
+  if(strpos($path, "http")!==false){
+    $path=str_replace(XOOPS_URL, XOOPS_ROOT_PATH, $path);
+  }
   if(empty($path))return;
-  if(!is_dir($path))return;
+
+  if(!is_dir($path) and !is_file($path))return;
 
 
   $db_files=array();
   $sql = "select files_sn,file_name,original_filename from ".$xoopsDB->prefix("tad_themes_files_center")." where col_name='{$col_name}' and col_sn='{$col_sn}'";
+
   $result=$xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error()."<br>".$sql);
   $db_files_amount=0;
   while(list($files_sn,$file_name,$original_filename)=$xoopsDB->fetchRow($result)){
@@ -1031,18 +1038,22 @@ function import_img($path='',$col_name="logo",$col_sn='',$desc="",$safe_name=fal
   }
   if(!empty($db_files_amount))return;
 
-  if($dh = opendir($path)){
-    while(($file = readdir($dh)) !== false){
-      if($file=="." or $file==".." or $file=="Thumbs.db")continue;
-      $type=filetype($path."/".$file);
+  if(is_dir($path)){
+    if($dh = opendir($path)){
+      while(($file = readdir($dh)) !== false){
+        if($file=="." or $file==".." or $file=="Thumbs.db")continue;
+        $type=filetype($path."/".$file);
 
-      if($type!="dir"){
-        if(!in_array($file,$db_files)){
-          import_file($path."/".$file, $col_name, $col_sn,NULL,NULL,$desc,$safe_name);
+        if($type!="dir"){
+          if(!in_array($file,$db_files)){
+            import_file($path."/".$file, $col_name, $col_sn,NULL,NULL,$desc,$safe_name);
+          }
         }
       }
+      closedir($dh);
     }
-    closedir($dh);
+  }elseif(is_file($path)){
+    import_file($path, $col_name, $col_sn,NULL,NULL,$desc,$safe_name);
   }
 }
 
@@ -1050,7 +1061,7 @@ function import_img($path='',$col_name="logo",$col_sn='',$desc="",$safe_name=fal
 
 //匯入圖檔
 function import_file($file_name='',$col_name="",$col_sn="",$main_width="",$thumb_width="90",$desc="",$safe_name=false){
-  global $xoopsDB,$xoopsUser,$xoopsModule,$xoopsConfig,$TadUpFilesSlide,$TadUpFilesBg,$TadUpFilesLogo,$TadUpFilesNavLogo,$TadUpFilesNavBg,$TadUpFilesBt_bg;
+  global $xoopsDB,$xoopsUser,$xoopsModule,$xoopsConfig,$TadUpFilesSlide,$TadUpFilesBg,$TadUpFilesLogo,$TadUpFilesNavLogo,$TadUpFilesNavBg,$TadUpFilesBt_bg,$TadUpFiles_config2;
     //$TadUpFiles->import_one_file($from="",$new_filename="",$main_width="1280",$thumb_width="120",$files_sn="" ,$desc="" ,$safe_name=false ,$hash=false);
 
   if($col_name=="slide"){
@@ -1072,6 +1083,9 @@ function import_file($file_name='',$col_name="",$col_sn="",$main_width="",$thumb
     //die("$file_name,$col_name,$col_sn");
     $TadUpFilesBt_bg->set_col($col_name,$col_sn);
     $TadUpFilesBt_bg->import_one_file($file_name,NULL,$main_width,$thumb_width,NULL,$desc,$safe_name);
+  }else{
+    $TadUpFiles_config2->set_col($col_name,$col_sn);
+    $TadUpFiles_config2->import_one_file($file_name,NULL,$main_width,$thumb_width,NULL,$desc,$safe_name);
   }
 
 }

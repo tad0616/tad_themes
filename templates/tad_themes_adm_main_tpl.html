@@ -11,8 +11,19 @@
 
     change_css();
     preview_img("bg","<{$bg_img}>");
-    $("#tad-themes-tabs").tabs({ cookie: { expires: 30 } , collapsible: false});
-    $("#bt_tabs").tabs({ cookie: { expires: 30 }}).addClass( "ui-tabs-vertical ui-helper-clearfix" );
+    $("#tad-themes-tabs").tabs({
+     activate: function (e, ui) {
+         $.cookie('selected-tab', ui.newTab.index(), { path: '/' });
+     },
+     active: $.cookie('selected-tab'),
+     collapsible: false
+    });
+    $("#bt_tabs").tabs({
+      activate: function (e, ui) {
+          $.cookie('selected-tab', ui.newTab.index(), { path: '/' });
+      },
+      active: $.cookie('selected-tab')
+    }).addClass( "ui-tabs-vertical ui-helper-clearfix" );
     $("#bt_tabs li").removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
 
     <{if $logo_position=="page"}>
