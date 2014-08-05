@@ -143,7 +143,7 @@ define("_MA_TADTHEMES_BLOCK_TITLE_STYLE","Block title CSS");
 define("_MA_TADTHEMES_BLOCK_CONTENT_STYLE","Block content CSS");
 define("_MA_TADTHEMES_YOUR_STYLE","Your style content");
 
-define("_MA_TADTHEMES_SLIDE_DEFAULT_DESCRIPT","<h3>Slider description</h3><p>You can upload slider images from tad_theme admin. You can edit descript for images with HTML tag.</p>");
+define("_MA_TADTHEMES_SLIDE_DEFAULT_DESCRIPT","You can upload slider images from tad_theme admin. You can edit descript for images with HTML tag.");
 
 define("_MA_TADTHEMES_TARGET_FANCYBOX","ColorBox");
 define("_MA_TADTHEMES_OF_LEVEL","Parent");

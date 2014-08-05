@@ -148,7 +148,7 @@ define("_MA_TADTHEMES_BLOCK_TITLE_STYLE","區塊標題樣式手動設定");
 define("_MA_TADTHEMES_BLOCK_CONTENT_STYLE","區塊內容樣式手動設定");
 define("_MA_TADTHEMES_YOUR_STYLE","您設定的樣式內容");
 
-define("_MA_TADTHEMES_SLIDE_DEFAULT_DESCRIPT","<h3>您可以自己修改這部份內容</h3><p>從佈景管理的後台設定畫面，您除了可以上傳滑動圖片外，也可以自己輸入圖片說明內容。部份佈景都支援HTML語法，您可以試試。</p>");
+define("_MA_TADTHEMES_SLIDE_DEFAULT_DESCRIPT","您可以從<b>佈景管理的後台設定畫面</b>修改這部份內容，除了可以上傳滑動圖片外，也可以自己輸入圖片說明內容。部份佈景都支援HTML語法。");
 
 define("_MA_TADTHEMES_TARGET_FANCYBOX","燈箱效果");
 define("_MA_TADTHEMES_OF_LEVEL","父分類");
