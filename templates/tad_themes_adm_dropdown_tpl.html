@@ -45,11 +45,12 @@
           <a href="dropdown.php?op=add_tad_themes_menu&of_level=0" class="edit_dropdown" data-fancybox-type="iframe"  style="letter-spacing: 0em;"><img src="../images/001_01.gif" align="absmiddle" alt="<{$add_item}>" title="<{$add_item}>" class='folder'><{$add_item}></a>
         </td>
       <tr>
-      <tbody class="sort">
-        <{$all}>
-        <{$option}>
-      </tbody>
-
+      <{if $all}>
+        <tbody class="sort">
+          <{$all}>
+          <{$option}>
+        </tbody>
+      <{/if}>
     </table>
   </div>
 </div>

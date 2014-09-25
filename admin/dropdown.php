@@ -278,7 +278,7 @@ function list_tad_themes_menu($add_of_level="",$menuid=""){
 
 
 
-  $all=(empty($all))?"<tr><td colspan=2>".tad_themes_menu_form()."</td></tr>":$all;
+  //$all=(empty($all))?"<tr><td colspan=2>".tad_themes_menu_form()."</td></tr>":$all;
 
   $jquery=get_jquery(true);
 

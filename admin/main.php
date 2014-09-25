@@ -70,11 +70,16 @@ function auto_import_theme(){
   $navbar_img=!empty($navbar_img)?XOOPS_URL."/uploads/tad_themes/{$theme_name}/nav_bg/{$navbar_img}":"";
   $theme_type=empty($theme_type)?"theme_type_2":$theme_type;
 
+  $logo_top=intval($logo_top);
+  $logo_right=intval($logo_right);
+  $logo_bottom=intval($logo_bottom);
+  $logo_left=intval($logo_left);
+
   //此處增加7+4項by hc
   $sql = "insert into ".$xoopsDB->prefix("tad_themes")."
   (`theme_name` , `theme_type` , `theme_width` , `lb_width` , `rb_width` , `clb_width` , `crb_width` , `base_color` , `lb_color` , `cb_color` , `rb_color` , `margin_top` , `margin_bottom` , `bg_img` , `bg_color`  , `bg_repeat`  , `bg_attachment`  , `bg_position`  , `logo_img`  , `logo_position`  , `navlogo_img` , `logo_top` , `logo_right` , `logo_bottom` , `logo_left` , `theme_enable` , `slide_width` , `slide_height` , `font_size` , `font_color` , `link_color` , `hover_color` , `theme_kind` , `navbar_pos` , `navbar_bg_top` , `navbar_bg_bottom` , `navbar_hover` , `navbar_color` , `navbar_color_hover` , `navbar_icon`, `navbar_img`)
-  values('{$theme_name}' , '{$theme_type}', '{$theme_width}' , '{$lb_width}' , '{$rb_width}' , '{$clb_width}' , '{$crb_width}' , '{$base_color}' , '{$lb_color}' , '{$cb_color}' , '{$rb_color}' , '{$margin_top}' , '{$margin_bottom}' , '{$bg_img}' , '{$bg_color}' , '{$bg_repeat}' , '{$bg_attachment}' , '{$bg_position}' , '{$logo_img}', '{$logo_position}' , '{$navlogo_img}' , '{$logo_top}' , '{$logo_right}' , '{$logo_bottom}' , '{$logo_left}' , '{$theme_enable}' , '{$slide_width}' , '{$slide_height}' , '{$font_size}' , '{$font_color}' , '{$link_color}' , '{$hover_color}' , '{$theme_kind}', '{$navbar_pos}','{$navbar_bg_top}','{$navbar_bg_bottom}','{$navbar_hover}','{$navbar_color}','{$navbar_color_hover}','{$navbar_icon}','{$navbar_img}')";
-  $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  values('{$theme_name}' , '{$theme_type}', '{$theme_width}' , '{$lb_width}' , '{$rb_width}' , '{$clb_width}' , '{$crb_width}' , '{$base_color}' , '{$lb_color}' , '{$cb_color}' , '{$rb_color}' , '{$margin_top}' , '{$margin_bottom}' , '{$bg_img}' , '{$bg_color}' , '{$bg_repeat}' , '{$bg_attachment}' , '{$bg_position}' , '{$logo_img}', '{$logo_position}' , '{$navlogo_img}' , '{$logo_top}' , '{$logo_right}' , '{$logo_bottom}' , '{$logo_left}' , '1' , '{$slide_width}' , '{$slide_height}' , '{$font_size}' , '{$font_color}' , '{$link_color}' , '{$hover_color}' , '{$theme_kind}', '{$navbar_pos}','{$navbar_bg_top}','{$navbar_bg_bottom}','{$navbar_hover}','{$navbar_color}','{$navbar_color_hover}','{$navbar_icon}','{$navbar_img}')";
+  $xoopsDB->queryF($sql) or die($sql."<br>".mysql_error());
 
   //取得最後新增資料的流水編號
   $theme_id=$xoopsDB->getInsertId();
@@ -803,13 +808,19 @@ function insert_tad_themes(){
 
 
   $sql="update ".$xoopsDB->prefix("tad_themes")." set `theme_enable`='0'";
-  $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  $xoopsDB->query($sql) or die($sql."<br>".mysql_error());
+
+  $_POST['logo_top']=intval($_POST['logo_top']);
+  $_POST['logo_right']=intval($_POST['logo_right']);
+  $_POST['logo_bottom']=intval($_POST['logo_bottom']);
+  $_POST['logo_left']=intval($_POST['logo_left']);
+
 
   //此處增加7+4項by hc
   $sql = "insert into ".$xoopsDB->prefix("tad_themes")."
   (`theme_name` , `theme_type` , `theme_width` , `lb_width` , `rb_width` , `clb_width` , `crb_width`, `base_color` , `lb_color` , `cb_color` , `rb_color` , `margin_top` , `margin_bottom` , `bg_img` , `bg_color`  , `bg_repeat`  , `bg_attachment`  , `bg_position`  , `logo_img` , `logo_position` , `logo_top` , `logo_right` , `logo_bottom` , `logo_left` , `theme_enable` , `slide_width` , `slide_height` , `font_size` , `font_color` , `link_color` , `hover_color` , `theme_kind`, `navbar_pos` , `navbar_bg_top` , `navbar_bg_bottom` , `navbar_hover` , `navbar_color` , `navbar_color_hover` , `navbar_icon` , `navbar_img`)
   values('{$_POST['theme_name']}' , '{$_POST['theme_type']}', '{$_POST['theme_width']}' , '{$_POST['lb_width']}' , '{$_POST['rb_width']}' , '{$_POST['clb_width']}' , '{$_POST['crb_width']}' , '{$_POST['base_color']}', '{$_POST['lb_color']}' , '{$_POST['cb_color']}' , '{$_POST['rb_color']}' , '{$_POST['margin_top']}' , '{$_POST['margin_bottom']}' , '{$_POST['bg_img']}' , '{$_POST['bg_color']}' , '{$_POST['bg_repeat']}' , '{$_POST['bg_attachment']}' , '{$_POST['bg_position']}' , '{$_POST['logo_img']}' , '{$_POST['logo_position']}' , '{$_POST['navlogo_img']}' , '{$_POST['logo_top']}' , '{$_POST['logo_right']}' , '{$_POST['logo_bottom']}' , '{$_POST['logo_left']}' , '1' , '{$_POST['slide_width']}' , '{$_POST['slide_height']}' , '{$_POST['font_size']}' , '{$_POST['font_color']}' , '{$_POST['link_color']}' , '{$_POST['hover_color']}' , '{$_POST['theme_kind']}','{$_POST['navbar_pos']}','{$_POST['navbar_bg_top']}','{$_POST['navbar_bg_bottom']}','{$_POST['navbar_hover']}','{$_POST['navbar_color']}','{$_POST['navbar_color_hover']}','{$_POST['navbar_icon']}','{$_POST['navbar_img']}')";
-  $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  $xoopsDB->query($sql) or die($sql."<br>".mysql_error());
 
   //取得最後新增資料的流水編號
   $theme_id=$xoopsDB->getInsertId();
@@ -919,7 +930,7 @@ function update_tad_themes($theme_id=""){
   `navbar_img` = '{$_POST['navbar_img']}'
   where theme_id='$theme_id'";
   //die($sql);
-  $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  $xoopsDB->queryF($sql) or die($sql."<br>".mysql_error());
 
 
   mk_dir(XOOPS_ROOT_PATH."/uploads/tad_themes/{$_POST['theme_name']}");
@@ -965,7 +976,7 @@ function get_tad_themes(){
   }
 
   $sql = "select * from ".$xoopsDB->prefix("tad_themes")." where theme_name='{$xoopsConfig['theme_set']}'";
-  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  $result = $xoopsDB->query($sql) or die($sql."<br>".mysql_error());
   $data=$xoopsDB->fetchArray($result);
   return $data;
 }
@@ -974,11 +985,11 @@ function get_tad_themes(){
 function delete_tad_themes($theme_id=""){
   global $xoopsDB,$xoopsConfig,$TadUpFilesSlide,$TadUpFilesBg,$TadUpFilesLogo,$TadUpFilesNavLogo,$TadUpFilesNavBg,$TadUpFilesBt_bg,$block_position_title;
   $sql = "delete from ".$xoopsDB->prefix("tad_themes")." where theme_id='$theme_id'";
-  $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  $xoopsDB->queryF($sql) or die($sql."<br>".mysql_error());
   $sql = "delete from ".$xoopsDB->prefix("tad_themes_blocks")." where theme_id='$theme_id'";
-  $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  $xoopsDB->queryF($sql) or die($sql."<br>".mysql_error());
   $sql = "delete from ".$xoopsDB->prefix("tad_themes_config2")." where theme_id='$theme_id'";
-  $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  $xoopsDB->queryF($sql) or die($sql."<br>".mysql_error());
 
   //$TadUpFilesSlide,$TadUpFilesBg,$TadUpFilesLogo,$TadUpFilesBt_bg
   $TadUpFilesSlide->set_col('slide',$theme_id);
@@ -1212,7 +1223,7 @@ function save_blocks($theme_id="",$import=false){
 
     $sql = "replace into ".$xoopsDB->prefix("tad_themes_blocks")."  (`theme_id` , `block_position` , `block_config` , `bt_text` , `bt_text_padding` , `bt_text_size` , `bt_bg_color` , `bt_bg_img` , `bt_bg_repeat` , `bt_radius`, `block_style`, `block_title_style`, `block_content_style`) values('{$theme_id}' , '{$position}' , '{$block_config}' , '{$bt_text}' , '{$bt_text_padding}' , '{$bt_text_size}' , '{$bt_bg_color}' , '{$bt_bg_img}' , '{$bt_bg_repeat}' , '{$bt_radius}' , '{$block_style}' , '{$block_title_style}' , '{$block_content_style}')";
 
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+    $xoopsDB->queryF($sql) or die($sql."<br>".mysql_error());
 
     //if($import)import_img(_THEME_BT_BG_PATH,"bt_bg_{$position}",$theme_id);
 
