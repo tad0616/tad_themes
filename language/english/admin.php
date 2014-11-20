@@ -6,6 +6,7 @@ define("_TAD_NEED_TADTOOLS","This module need tadtools module. You can download 
 define("_MA_TADTHEMES_THEME_BASE","Theme Setup");
 define("_MA_TADTHEMES_THEME_KIND","Theme Kind");
 define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP","（XOOPS bootstrap themes)");
+define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP3","（XOOPS bootstrap3 themes)");
 define("_MA_TADTHEMES_THEME_KIND_HTML","(XOOPS themes)");
 define("_MA_TADTHEMES_THEME_KIND_MIX","(bootstrap only for blocks)");
 define("_MA_TADTHEMES_THEME_TYPE","Theme Type");
@@ -70,9 +71,12 @@ define("_MA_TADTHEMES_NOTICE","<ul style='line-height:2em;'>
 define("_MA_TADTHEMES_NOTICE2","<ul style='line-height:2em;'>
   <li>All pictures can be uploaded directly to FTP, the system will automatically be added to the database, and generate thumbnails.
     <ul style='list-style-type:circle;margin-left:20px;'>
-      <li>Background images : uploads/YourTheme/bg</li>
-      <li>Logo images: uploads/YourTheme/logo</li>
-      <li>Slide images: uploads/YourTheme/slide</li>
+      <li>Background images : /themes/YourTheme/images/bg</li>
+      <li>Slide images: /themes/YourTheme/images/slide</li>
+      <li>Logo images: /themes/YourTheme/images/logo</li>
+      <li>Blocks background images: /themes/YourTheme/images/bt_bg</li>
+      <li>Navbar background images: /themes/YourTheme/images/nav_bg</li>
+      <li>Navbar logo images: /themes/YourTheme/images/navlogo</li>
     </ul>
   </li>
   <li>When you delete pictures, all from the background deleted, do not just delete FTP photo!</li>

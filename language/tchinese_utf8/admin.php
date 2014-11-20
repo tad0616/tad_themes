@@ -5,7 +5,8 @@ include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.ph
 define("_TAD_NEED_TADTOOLS"," 需要 tadtools 模組，可至<a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad教材網</a>下載。");
 define("_MA_TADTHEMES_THEME_BASE","版面基本設定");
 define("_MA_TADTHEMES_THEME_KIND","佈景類型");
-define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP","（bootstrap 是新型的響應式佈景，可以適用在網站及手持裝置上並自動調整版面，全版按比例分為12欄，若以1024解析度來說，每一欄約80px。）");
+define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP","（bootstrap2 是新型的響應式佈景，可以適用在網站及手持裝置上並自動調整版面，全版按比例分為12欄，若以1024解析度來說，每一欄約80px。）");
+define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP3","（bootstrap 3 原理和作用與 bootstrap2 一樣，但兩者並不相容，XOOPS 2.6 預設是採 bootstrap3）");
 define("_MA_TADTHEMES_THEME_KIND_HTML","（一般的XOOPS網頁佈景）");
 define("_MA_TADTHEMES_THEME_KIND_MIX","（版面寬度採用固定式，但版面欄位採 bootstrap 的12欄位式）");
 
@@ -72,9 +73,12 @@ define("_MA_TADTHEMES_NOTICE","<ul style='line-height:2em;'>
 define("_MA_TADTHEMES_NOTICE2","<ul style='line-height:2em;'>
   <li>所有圖片亦可直接FTP上傳，系統會自動將之加入資料庫，並產生縮圖。
     <ul style='list-style-type:circle;margin-left:20px;'>
-      <li>背景傳至「uploads/佈景名稱/bg」下</li>
-      <li>logo傳至「uploads/佈景名稱/logo」下</li>
-      <li>滑動圖片傳至「uploads/佈景名稱/slide」下</li>
+      <li>頁面背景傳至「/themes/佈景名稱/images/bg」下</li>
+      <li>滑動圖片傳至「/themes/佈景名稱/images/slide」下</li>
+      <li>logo圖傳至「/themes/佈景名稱/images/logo」下</li>
+      <li>區塊背景傳至「/themes/佈景名稱/images/bt_bg」下</li>
+      <li>導覽列背景傳至「/themes/佈景名稱/images/nav_bg」下</li>
+      <li>導覽列logo圖傳至「/themes/佈景名稱/images/navlogo」下</li>
     </ul>
   </li>
   <li>刪除圖片時，一律從後台刪除，勿直接刪除FTP圖片！</li>

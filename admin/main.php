@@ -79,7 +79,7 @@ function tad_themes_form(){
 
   /*
   $theme_change=1; //佈景種類是否可自訂
-  $theme_kind='bootstrap';//預設佈景種類 bootstrap or html
+  $theme_kind='bootstrap3';//預設佈景種類 bootstrap or bootstrap3 or html
   $config_tabs=array();//欲使用的頁籤
   $config_enable['設定項目']=array('enable', 'min' , 'max' , 'require' , 'default'); //各設定項細節
   */
@@ -227,11 +227,11 @@ function tad_themes_form(){
   $op=(empty($theme_id))?"insert_tad_themes":"update_tad_themes";
   //$op="replace_tad_themes";
 
-  if($theme_kind=='bootstrap'){
+  if($theme_kind=='bootstrap' or $theme_kind=='bootstrap3'){
     $theme_kind_txt=_MA_TADTHEMES_THEME_KIND_BOOTSTRAP;
     $chang_css=change_css_bootstrap($theme_width,$lb_width);
     $theme_unit=_MA_TADTHEMES_COL;
-  }elseif($theme_kind=='bootstrap' or $theme_kind=='mix'){
+  }elseif($theme_kind=='bootstrap' or $theme_kind=='bootstrap3' or $theme_kind=='mix'){
     $theme_kind_txt=_MA_TADTHEMES_THEME_KIND_MIX;
     $chang_css=change_css_bootstrap(12,$lb_width);
     $theme_unit=_MA_TADTHEMES_COL;
@@ -765,7 +765,7 @@ function insert_tad_themes(){
   //取得最後新增資料的流水編號
   $theme_id=$xoopsDB->getInsertId();
 
-  $slide_width=($_POST['theme_kind']=='bootstrap')?1920:$_POST['slide_width'];
+  $slide_width=($_POST['theme_kind']=='bootstrap' or $_POST['theme_kind']=='bootstrap3')?1920:$_POST['slide_width'];
 
   //$TadUpFilesSlide,$TadUpFilesBg,$TadUpFilesLogo,$TadUpFilesBt_bg
   $TadUpFilesSlide->set_col('slide',$theme_id);
@@ -799,7 +799,7 @@ function update_tad_themes($theme_id=""){
 
   //切換佈景類型
   if(isset($_POST['old_theme_kind']) and $_POST['old_theme_kind']!==$_POST['theme_kind']){
-    if($_POST['theme_kind']=="bootstrap"){
+    if($_POST['theme_kind']=="bootstrap" or $_POST['theme_kind']=="bootstrap3"){
       $_POST['theme_width']=12;
       $_POST['lb_width']=3;
       $_POST['rb_width']=3;
@@ -880,7 +880,7 @@ function update_tad_themes($theme_id=""){
 
   mk_dir(XOOPS_ROOT_PATH."/uploads/tad_themes/{$_POST['theme_name']}");
 
-  $slide_width=($_POST['theme_kind']=='bootstrap')?1920:$_POST['slide_width'];
+  $slide_width=($_POST['theme_kind']=='bootstrap' or $_POST['theme_kind']=='bootstrap3')?1920:$_POST['slide_width'];
 
   //$TadUpFilesSlide,$TadUpFilesBg,$TadUpFilesLogo,$TadUpFilesBt_bg
   $TadUpFilesSlide->set_col('slide',$theme_id);

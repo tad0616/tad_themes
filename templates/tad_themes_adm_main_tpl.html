@@ -99,6 +99,11 @@
             <b>BootStrap</b>
             <{$smarty.const._MA_TADTHEMES_THEME_KIND_BOOTSTRAP}>
           </label>
+          <label class="radio">
+            <input type="radio" name="theme_kind" value="bootstrap3" <{if $theme_kind=="bootstrap3"}>checked<{/if}>>
+            <b>BootStrap3</b>
+            <{$smarty.const._MA_TADTHEMES_THEME_KIND_BOOTSTRAP3}>
+          </label>
           <label class="radio inline">
             <input type="radio" name="theme_kind" value="html" <{if $theme_kind=="html"}>checked<{/if}>>
             <b>HTML</b>
@@ -1233,7 +1238,7 @@
 
       <div class="row-fluid">
         <div class="span12 alert alert-info">
-          <{if $theme_kind!="bootstrap"}><{$smarty.const._MA_TADTHEMES_NOTICE}><{/if}>
+          <{if $theme_kind!="bootstrap" and $theme_kind!="bootstrap3"}><{$smarty.const._MA_TADTHEMES_NOTICE}><{/if}>
           <{$smarty.const._MA_TADTHEMES_NOTICE2}>
         </div>
       </div>
