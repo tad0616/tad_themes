@@ -3,7 +3,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADTHEMES_NAME;
-$modversion['version'] = '3.51';
+$modversion['version'] = '3.6';
 $modversion['description'] = _MI_TADTHEMES_DESC;
 $modversion['author'] = 'tad (tad0616@gmail.com)';
 $modversion['credits'] = 'hirokofan (hirokofan@mail.cyc.edu.tw)';
@@ -120,11 +120,19 @@ $modversion['blocks'][4]['options'] = "|0";
 $modversion['templates'] = array();
 $i=0;
 $modversion['templates'][$i]['file'] = 'tad_themes_adm_main_tpl.html';
-$modversion['templates'][$i]['description'] = 'tad_themes_adm_main_tpl';
+$modversion['templates'][$i]['description'] = 'tad_themes_adm_main_tpl.html';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'tad_themes_adm_main_tpl_b3.html';
+$modversion['templates'][$i]['description'] = 'tad_themes_adm_main_tpl_b3.html';
 
 $i++;
 $modversion['templates'][$i]['file'] = 'tad_themes_adm_dropdown_tpl.html';
-$modversion['templates'][$i]['description'] = 'tad_themes_adm_dropdown_tpl';
+$modversion['templates'][$i]['description'] = 'tad_themes_adm_dropdown_tpl.html';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'tad_themes_adm_dropdown_tpl_b3.html';
+$modversion['templates'][$i]['description'] = 'tad_themes_adm_dropdown_tpl_b3.html';
 
 
 //---評論---//

@@ -179,7 +179,7 @@ function tad_themes_form(){
   $logo_left=(!isset($DBV['logo_left']) or !$enable['logo_left'])?$logo_left:$DBV['logo_left'];
 
   //設定「theme_enable」欄位預設值
-  $theme_enable=(!isset($DBV['theme_enable']) or !$enable['theme_enable'])?$theme_enable:$DBV['theme_enable'];
+  $theme_enable=(!isset($DBV['theme_enable']))?'':$DBV['theme_enable'];
 
   //設定「slide_width」欄位預設值
   $slide_width=(!isset($DBV['slide_width']) or !$enable['slide_width'])?$slide_width:$DBV['slide_width'];
@@ -372,6 +372,14 @@ function tad_themes_form(){
   }else{
     $xoopsTpl->assign('config2',false);
   }
+
+  if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/mColorPicker.php")){
+    redirect_header("index.php",3, _MA_NEED_TADTOOLS);
+  }
+  include_once XOOPS_ROOT_PATH."/modules/tadtools/mColorPicker.php";
+  $mColorPicker=new mColorPicker('.color');
+  $mColorPicker_code=$mColorPicker->render();
+  $xoopsTpl->assign('mColorPicker_code',$mColorPicker_code);
 }
 
 
@@ -1065,7 +1073,7 @@ function get_blocks_values($theme_id="",$block_position=""){
   global $xoopsDB,$TadUpFilesBt_bg,$xoopsConfig,$block_position_title;
 
   $theme_name=$xoopsConfig['theme_set'];
-  include_once XOOPS_ROOT_PATH."/themes/{$theme_name}/config.php";
+  include XOOPS_ROOT_PATH."/themes/{$theme_name}/config.php";
   foreach($config_enable as $k=>$v){
     $$k=$v['default'];
   }
@@ -1146,5 +1154,6 @@ switch($op){
 }
 
 /*-----------秀出結果區--------------*/
+$xoTheme->addStylesheet(XOOPS_URL.'/modules/tadtools/css/xoops_adm.css');
 include_once 'footer.php';
 ?>

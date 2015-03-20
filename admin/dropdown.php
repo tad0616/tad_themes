@@ -61,7 +61,7 @@ function tad_themes_menu_form($of_level="0",$menuid="",$mode="return"){
     <div class='row-fluid'>
       $get_tad_all_menu
       <div class='span3'>
-        <input name='icon' class='selectpicker' value='{$icon}' type='text' class='span12' />
+        <input name='icon' class='selectpicker span12' value='{$icon}' type='text' />
       </div>
     </div>
 
@@ -123,7 +123,8 @@ function tad_themes_menu_form($of_level="0",$menuid="",$mode="return"){
         <link href='".XOOPS_URL."/modules/tadtools/css/font-awesome/css/font-awesome.min.css' rel='stylesheet'>
       </head>
       <body>
-        $jquery
+
+        <script src='".XOOPS_URL."/browse.php?Frameworks/jquery/jquery.js' type='text/javascript'></script>
         <script src='".XOOPS_URL."/modules/tadtools/bootstrap/js/bootstrap.min.js'></script>
         <link href='".XOOPS_URL."/modules/tad_themes/class/fontawesome-iconpicker/css/fontawesome-iconpicker.min.css' rel='stylesheet'>
         <script src='".XOOPS_URL."/modules/tad_themes/class/fontawesome-iconpicker/js/fontawesome-iconpicker.js'></script>
@@ -597,5 +598,6 @@ switch($op){
 }
 
 /*-----------秀出結果區--------------*/
+$xoTheme->addStylesheet(XOOPS_URL.'/modules/tadtools/css/xoops_adm.css');
 include_once 'footer.php';
 ?>
