@@ -1,19 +1,12 @@
-<link href='<{$xoops_url}>/modules/tadtools/css/font-awesome/css/font-awesome.min.css' rel='stylesheet'>
-
 <{$jquery}>
+<{$fancybox_code}>
+<{$treetable_code}>
 
 <style>
   li{list-style:none;}
 </style>
 
 
-<script src="<{$xoops_url}>/modules/tadtools/bootstrap/js/bootstrap.js"></script>
-
-
-
-<{$fancybox_code}>
-
-<{$treetable_code}>
 
 <script type="text/javascript">
   function delete_tad_themes_menu_func(menuid){
@@ -31,7 +24,7 @@
 
 
 <div class="container-fluid">
-  <div class="row-fluid">
+  <div class="row">
     <a href="dropdown.php?op=import" class="btn btn-info"><{$smarty.const._MA_TADTHEMES_IMPORT_MENU}></a>
 
     <div id="save_msg"></div>

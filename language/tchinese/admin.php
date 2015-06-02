@@ -155,5 +155,5 @@ define("_MA_TADTHEMES_SLIDE_DEFAULT_DESCRIPT","您可以從<b>佈景管理的後台設定畫面
 
 define("_MA_TADTHEMES_TARGET_FANCYBOX","燈箱效果");
 define("_MA_TADTHEMES_OF_LEVEL","父分類");
-define("_MA_TADTHEMES_ICON","選擇Bootstrap圖示");
+define("_MA_TADTHEMES_ICON","選擇 fontawesome 圖示");
 ?>

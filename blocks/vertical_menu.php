@@ -33,7 +33,16 @@ function vertical_menu($options){
   $block['menu']=$menu;
   $block['jquery']=get_jquery();
   $block['pin']=$options[1];
-  //die(var_dump($block));
+
+  if($options[1]=='1'){
+    if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/jquery_pin.php")){
+       redirect_header("index.php",3, _MA_NEED_TADTOOLS);
+      }
+    include_once XOOPS_ROOT_PATH."/modules/tadtools/jquery_pin.php";
+    $jquery_pin=new jquery_pin();
+    $jquery_pin_code=$jquery_pin->render('.vertical_menu');
+    $block['jquery_pin_code']=$jquery_pin_code;
+  }
   return $block;
 }
 

@@ -32,7 +32,7 @@ $block_position_title=array("leftBlock"=>_MA_TADTHEMES_BLOCK_LEFT, "rightBlock"=
 
 //tad_themes編輯表單
 function tad_themes_form(){
-  global $xoopsDB,$xoopsUser,$xoopsConfig ,$xoopsTpl,$TadUpFilesSlide,$TadUpFilesBg,$TadUpFilesLogo,$TadUpFilesNavLogo,$TadUpFilesNavBg,$TadUpFilesBt_bg,$TadUpFiles_config2,$block_position_title;
+  global $xoopsDB,$xoopsUser,$xoopsConfig ,$xoopsTpl,$TadUpFilesSlide,$TadUpFilesBg,$TadUpFilesLogo,$TadUpFilesNavLogo,$TadUpFilesNavBg,$TadUpFilesBt_bg,$TadUpFiles_config2,$block_position_title,$xoTheme;
 
   $myts =& MyTextSanitizer::getInstance();
 
@@ -380,6 +380,8 @@ function tad_themes_form(){
   $mColorPicker=new mColorPicker('.color');
   $mColorPicker_code=$mColorPicker->render();
   $xoopsTpl->assign('mColorPicker_code',$mColorPicker_code);
+
+  $xoTheme->addScript('modules/tadtools/jqueryCookie/jquery.cookie.js');
 }
 
 
@@ -1154,6 +1156,6 @@ switch($op){
 }
 
 /*-----------秀出結果區--------------*/
-$xoTheme->addStylesheet(XOOPS_URL.'/modules/tadtools/css/xoops_adm.css');
+//$xoTheme->addStylesheet(XOOPS_URL.'/modules/tadtools/css/xoops_adm.css');
 include_once 'footer.php';
 ?>

@@ -1,43 +1,118 @@
 <div class="container-fluid">
+  <{$jquery}>
+  <{$mColorPicker_code}>
+  <script type="text/javascript">
 
-<div class="row">
-  <div class="col-md-8">
-    <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
-        <div class="form-group">
-          <label style="font-size:24px;font-weight:bold;">
-            <{$theme_name}><{$smarty.const._MA_TAD_THEMES_FORM}>
+    $(document).ready(function(){
 
-            <a href="javascript:delete_tad_themes_config(<{$theme_id}>)" class="btn btn-danger"><{$smarty.const._MA_TADTHEMES_TO_DEFAULT}></a>
-          </label>
+      change_css();
+      preview_img("bg","<{$bg_img}>");
+      $("#tad-themes-tabs").tabs({
+       activate: function (e, ui) {
+           $.cookie('selected-tab', ui.newTab.index(), { path: '/' });
+       },
+       active: $.cookie('selected-tab'),
+       collapsible: false
+      });
+      $("#bt_tabs").tabs({
+        activate: function (e, ui) {
+            $.cookie('selected-tab', ui.newTab.index(), { path: '/' });
+        },
+        active: $.cookie('selected-tab')
+      }).addClass( "ui-tabs-vertical ui-helper-clearfix" );
+      $("#bt_tabs li").removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
 
+      <{if $logo_position=="page"}>
+        $("#logo_place_setup").hide();
+      <{else}>
+        $("#logo_place_setup").show();
+      <{/if}>
+
+    });
+
+
+    function logo_place_setup(logo_position){
+      if(logo_position=="page"){
+        $("#logo_place_setup").hide();
+      }else{
+        $("#logo_place_setup").show();
+      }
+    }
+
+    function preview_img(kind,imgSrc){
+      var newimgSrc=imgSrc.replace(kind+"/", kind+"/thumbs/");
+      var newImg = new Image();
+      newImg.src = imgSrc;
+      var height = newImg.height * 1;
+      if(height > 90){
+        $("#preview_zone").css("background-image","url("+newimgSrc+")");
+      }else{
+        $("#preview_zone").css("background-image","url("+imgSrc+")");
+      }
+    }
+
+    <{$chang_css}>
+
+
+    function delete_tad_themes_config(theme_id){
+      var sure = window.confirm("<{$smarty.const._MA_TADTHEMES_DEL_CONFIRM}>");
+      if (!sure)  return;
+      location.href="main.php?op=delete_tad_themes&theme_id=" + theme_id;
+    }
+  </script>
+
+  <style>
+    .ui-tabs-vertical { width: 100%; }
+    .ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 20%; }
+    .ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
+    .ui-tabs-vertical .ui-tabs-nav li a { display:block; }
+    .ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0; padding-right: .1em; border-right-width: 1px; border-right-width: 1px; }
+    .ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 72%;}
+  </style>
+
+  <{$formValidator_code}>
+
+  <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" role="form">
+    <div class="row">
+      <div class="col-md-8">
+        <h1>
+          <{$theme_name}><{$smarty.const._MA_TAD_THEMES_FORM}>
+
+          <a href="javascript:delete_tad_themes_config(<{$theme_id}>)" class="btn btn-danger"><{$smarty.const._MA_TADTHEMES_TO_DEFAULT}></a>
+        </h1>
+        <div class="alert alert-info">
+          <{$smarty.const._MA_TADTHEMES_CHANGE_KIND_DESC}>
+        </div>
           <{if $theme_change}>
-
-              <label class="radio">
-                <input type="radio" name="theme_kind" value="bootstrap" <{if $theme_kind=="bootstrap"}>checked<{/if}>>
-                <b>BootStrap</b>
-                <{$smarty.const._MA_TADTHEMES_THEME_KIND_BOOTSTRAP}>
-              </label>
-
-              <label class="radio">
-                <input type="radio" name="theme_kind" value="bootstrap3" <{if $theme_kind=="bootstrap3"}>checked<{/if}>>
-                <b>BootStrap3</b>
-                <{$smarty.const._MA_TADTHEMES_THEME_KIND_BOOTSTRAP3}>
-              </label>
-
-              <label class="radio">
-                <input type="radio" name="theme_kind" value="html" <{if $theme_kind=="html"}>checked<{/if}>>
-                <b>HTML</b>
-                <{$smarty.const._MA_TADTHEMES_THEME_KIND_HTML}>
-              </label>
+          <div class="radio">
+            <label>
+              <input type="radio" name="theme_kind" value="bootstrap" <{if $theme_kind=="bootstrap"}>checked<{/if}>>
+              <b>BootStrap</b>
+              <{$smarty.const._MA_TADTHEMES_THEME_KIND_BOOTSTRAP}>
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="theme_kind" value="bootstrap3" <{if $theme_kind=="bootstrap3"}>checked<{/if}>>
+              <b>BootStrap3</b>
+              <{$smarty.const._MA_TADTHEMES_THEME_KIND_BOOTSTRAP3}>
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="theme_kind" value="html" <{if $theme_kind=="html"}>checked<{/if}>>
+              <b>HTML</b>
+              <{$smarty.const._MA_TADTHEMES_THEME_KIND_HTML}>
+            </label>
+          </div>
 
             <input type="hidden" name="old_theme_kind" value="<{$theme_kind}>">
           <{else}>
             <{$theme_kind}><{$theme_kind_txt}>
             <input type="hidden" name="theme_kind" value="<{$theme_kind}>">
           <{/if}>
-        </div>
 
-        <div class="form-group">
+        <div class="row">
           <div id="tad-themes-tabs">
             <ul>
               <{if $config_tabs.1}>
@@ -73,7 +148,7 @@
                   <{if $enable.theme_type}>
                     <div class="col-md-2 text-right"><{$smarty.const._MA_TADTHEMES_THEME_TYPE}></div>
                     <div class="col-md-2">
-                      <select name="theme_type" id="theme_type" class="col-md-12<{$validate.theme_type}>" onChange="change_css();">
+                      <select name="theme_type" id="theme_type" class="<{$validate.theme_type}>" onChange="change_css();">
                         <option value="theme_type_1" <{if $theme_type=="theme_type_1"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE1}></option>
                         <option value="theme_type_2" <{if $theme_type=="theme_type_2"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE2}></option>
                         <option value="theme_type_3" <{if $theme_type=="theme_type_3"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE3}></option>
@@ -370,7 +445,8 @@
                           <label for="bg_img<{$bg.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$bg.tb_path}>);background-position:center center;border:1px solid gray;" >
                             <input type="radio" name="bg_img" id="bg_img<{$bg.files_sn}>" onChange="$('.del_img_box').show(); $('#del_img<{$bg.files_sn}>').hide(); preview_img('bg',$(this).val());" value="<{$bg.path}>" <{if $bg_img==$bg.path}>checked<{/if}>>
                           </label>
-                          <label class="checkbox del_img_box" style="font-size:11px;"  id="del_img<{$bg.files_sn}>">
+
+                          <label class="del_img_box" style="font-size:12px;" id="del_img<{$bg.files_sn}>">
                             <input type="checkbox" value="<{$bg.files_sn}>" name="del_file[<{$bg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
                           </label>
                         </div>
@@ -483,12 +559,16 @@
                           <{$smarty.const._MA_TADTHEMES_LOGO_POSITION}>
                         </div>
                         <div class="col-md-8">
-                          <label class="radio">
-                            <input type="radio" name="logo_position" onClick="logo_place_setup(this.value)" value="slide" <{if $logo_position=="slide"}>checked<{/if}>><{$smarty.const._MA_TADTHEMES_LOGO_SLIDE}>
-                          </label>
-                          <label class="radio">
-                            <input type="radio" name="logo_position" onClick="logo_place_setup(this.value)" class="logo_position" value="page" <{if $logo_position=="page"}>checked<{/if}>><{$smarty.const._MA_TADTHEMES_LOGO_PAGE}>
-                          </label>
+                          <div class="radio">
+                            <label>
+                              <input type="radio" name="logo_position" onClick="logo_place_setup(this.value)" value="slide" <{if $logo_position=="slide"}>checked<{/if}>><{$smarty.const._MA_TADTHEMES_LOGO_SLIDE}>
+                            </label>
+                          </div>
+                          <div class="radio">
+                            <label class="radio">
+                              <input type="radio" name="logo_position" onClick="logo_place_setup(this.value)" class="logo_position" value="page" <{if $logo_position=="page"}>checked<{/if}>><{$smarty.const._MA_TADTHEMES_LOGO_PAGE}>
+                            </label>
+                          </div>
                         </div>
                       </div>
                     <{else}>
@@ -562,7 +642,8 @@
                             <label for="logo_img<{$logo.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$logo.tb_path}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;" >
                               <input type="radio" name="logo_img" id="logo_img<{$logo.files_sn}>" value="<{$logo.path}>" <{if $logo_img==$logo.path}>checked<{/if}>>
                             </label>
-                            <label class="checkbox del_img_box" style="font-size:11px;"  id="del_img<{$logo.files_sn}>">
+
+                            <label class="del_img_box" style="font-size:11px;"  id="del_img<{$logo.files_sn}>">
                               <input type="checkbox" value="<{$logo.files_sn}>" name="del_file[<{$logo.files_sn}>]"> <{$smarty.const._TAD_DEL}>
                             </label>
                           </div>
@@ -734,7 +815,7 @@
                               <label for="bt_bg_img<{$bt_bg.files_sn}>_<{$block.block_position}>" style="width:60px; height:60px; background:#000000 url(<{$bt_bg.tb_path}>);background-position:left center;border:1px solid gray;" >
                                 <input type="radio" name="bt_bg_img[<{$block.block_position}>]" id="bt_bg_img<{$bt_bg.files_sn}>_<{$block.block_position}>" onChange="$('.del_img_box_<{$block.block_position}>').show(); $('#del_img<{$bt_bg.files_sn}>_<{$block.block_position}>').hide(); " value="<{$bt_bg.path}>" <{if $block.bt_bg_img==$bt_bg.path}>checked<{/if}>>
                               </label>
-                              <label class="checkbox del_img_box" style="font-size:11px;"  id="del_img<{$bt_bg.files_sn}>_<{$block.block_position}>">
+                              <label class="del_img_box" style="font-size:11px;"  id="del_img<{$bt_bg.files_sn}>_<{$block.block_position}>">
                                 <input type="checkbox" value="<{$bt_bg.files_sn}>" name="del_file[<{$bt_bg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
                               </label>
                             </div>
@@ -973,7 +1054,7 @@
                             <label for="navbar_img<{$navbarbg.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$navbarbg.tb_path}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;" >
                               <input type="radio" name="navbar_img" id="navbar_img<{$navbarbg.files_sn}>" onChange="$('.del_img_box').show(); $('#del_img<{$navbarbg.files_sn}>').hide();" value="<{$navbarbg.path}>" <{if $navbar_img==$navbarbg.path}>checked<{/if}>>
                             </label>
-                            <label class="checkbox del_img_box" style="font-size:11px;"  id="del_img<{$navbarbg.files_sn}>">
+                            <label class="del_img_box" style="font-size:11px;"  id="del_img<{$navbarbg.files_sn}>">
                               <input type="checkbox" value="<{$navbarbg.files_sn}>" name="del_file[<{$navbarbg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
                             </label>
                           </div>
@@ -1020,7 +1101,7 @@
                             <label for="logo_img<{$navlogo.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$navlogo.tb_path}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;" >
                               <input type="radio" name="navlogo_img" id="navlogo_img<{$navlogo.files_sn}>" value="<{$navlogo.path}>" <{if $navlogo_img==$navlogo.path}>checked<{/if}>>
                             </label>
-                            <label class="checkbox del_navimg_box" style="font-size:11px;"  id="del_navimg<{$navlogo.files_sn}>">
+                            <label class="del_navimg_box" style="font-size:11px;"  id="del_navimg<{$navlogo.files_sn}>">
                               <input type="checkbox" value="<{$navlogo.files_sn}>" name="del_file[<{$navlogo.files_sn}>]"> <{$smarty.const._TAD_DEL}>
                             </label>
                           </div>
@@ -1088,7 +1169,7 @@
                           <label for="<{$config.name}>" style="width:60px; height:60px; background:#000000 url(<{$config.default}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;background-size: cover;" >
                             <input type="radio" name="<{$config.name}>" id="<{$config.name}><{$file.files_sn}>" value="<{$config.default}>"  <{if $config.value==$config.default}>checked<{/if}>>
                           </label>
-                            <label class="checkbox" style="font-size:11px;">
+                            <label style="font-size:11px;">
                               <{$smarty.const._MA_TADTHEMES_DEFAULT}>
                             </label>
 
@@ -1099,7 +1180,7 @@
                             <label for="<{$config.name}><{$file.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$file.tb_path}>);background-position:left center;border:1px solid gray;" >
                               <input type="radio" name="<{$config.name}>" id="<{$config.name}><{$file.files_sn}>" value="<{$file.path}>" onChange="$('.del_<{$config.name}>').show(); $('#del_<{$config.name}><{$file.files_sn}>').hide();" <{if $config.value==$file.path}>checked<{/if}>>
                             </label>
-                            <label class="checkbox del_<{$config.name}>" style="font-size:11px;" id="del_<{$config.name}><{$file.files_sn}>">
+                            <label class="del_<{$config.name}>" style="font-size:11px;" id="del_<{$config.name}><{$file.files_sn}>">
                               <input type="checkbox" value="<{$file.files_sn}>" name="del_file[<{$file.files_sn}>]"> <{$smarty.const._TAD_DEL}>
                             </label>
                           </div>
@@ -1127,7 +1208,7 @@
 
       <div class="col-md-4">
         <!--預覽-->
-        <div class="form-group">
+        <div class="row">
           <div class="col-md-12 text-center">
             <div id='preview_zone' class="col-md-12">
               <div id='theme_demo' style='border:1px solid gray;background-color:white;margin:0px auto;'>
@@ -1139,31 +1220,31 @@
               </div>
             </div>
           </div>
-        </form>
-      </div>
-
-      <div class="form-group">
-        <div class="text-center">
-          <!--中左區塊寬度-->
-          <input type="hidden" name="clb_width" value="<{$clb_width}>" id="clb_width" >
-          <!--中右區塊寬度-->
-          <input type="hidden" name="crb_width" value="<{$crb_width}>" id="crb_width" >
-          <input type="hidden" name="theme_id" value="<{$theme_id}>">
-          <input type="hidden" name="theme_name" value="<{$theme_name}>">
-
-          <!--佈景圖片寬度-->
-          <input type="hidden" name="op" value="<{$op}>">
-          <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
         </div>
-      </div>
 
-      <div class="form-group">
-        <div class="col-md-12 alert alert-info">
-          <{if $theme_kind!="bootstrap" and $theme_kind!="bootstrap3"}><{$smarty.const._MA_TADTHEMES_NOTICE}><{/if}>
-          <{$smarty.const._MA_TADTHEMES_NOTICE2}>
+        <div class="row">
+          <div class="text-center">
+            <!--中左區塊寬度-->
+            <input type="hidden" name="clb_width" value="<{$clb_width}>" id="clb_width" >
+            <!--中右區塊寬度-->
+            <input type="hidden" name="crb_width" value="<{$crb_width}>" id="crb_width" >
+            <input type="hidden" name="theme_id" value="<{$theme_id}>">
+            <input type="hidden" name="theme_name" value="<{$theme_name}>">
+
+            <!--佈景圖片寬度-->
+            <input type="hidden" name="op" value="<{$op}>">
+            <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
+          </div>
         </div>
-      </div>
 
+        <div class="row">
+          <div class="col-md-12 alert alert-info">
+            <{if $theme_kind!="bootstrap" and $theme_kind!="bootstrap3"}><{$smarty.const._MA_TADTHEMES_NOTICE}><{/if}>
+            <{$smarty.const._MA_TADTHEMES_NOTICE2}>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </div>
+  </form>
 </div>

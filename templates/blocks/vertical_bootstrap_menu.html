@@ -96,7 +96,7 @@
     <li><a style="border-left:5px solid #008747;" href="<{$xoops_url}>"><i class="icon-home"></i><{$smarty.const._YOURHOME}></a></li>
     <{foreach from=$block.menu item=menu key=i}>
       <{if $menu.itemname!=""}>
-      <li><a style="border-left:5px solid <{$menu.color}>;" href="<{$menu.itemurl}>" target="<{$menu.target}>"><i class="<{$menu.bootstrap_icon}>"></i><{$menu.itemname}></a></li>
+      <li><a style="border-left:5px solid <{$menu.color}>;" href="<{$menu.itemurl}>" target="<{$menu.target}>"><i class="fa <{$menu.bootstrap_icon}>"></i> <{$menu.itemname}></a></li>
       <{/if}>
     <{/foreach}>
   </ul>

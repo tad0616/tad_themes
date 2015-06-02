@@ -80,7 +80,7 @@
       <{if $menu.itemname!=""}>
       <li>
         <a style="border-bottom:1px dotted #cfcfcf;" href="<{$menu.itemurl}>" target="<{$menu.target}>">
-          <i class="<{$menu.bootstrap_icon}>"></i>
+          <i class="fa <{$menu.bootstrap_icon}>"></i>
           <{$menu.itemname}>
         </a>
       </li>
@@ -88,17 +88,4 @@
     <{/foreach}>
 
   </ul>
-<{/if}>
-
-
-<{if $block.pin=='1'}>
-  <script type="text/javascript" src="<{xoAppUrl modules/tadtools/jquery.pin/jquery.pin.js}>"></script>
-  <script type="text/javascript">
-    $(document).ready(function(){
-      $(".vertical_menu").pin({
-        containerSelector: "#xoops_theme_content_zone",
-        minWidth: 940
-      });
-    });
-  </script>
 <{/if}>

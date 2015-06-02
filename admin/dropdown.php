@@ -39,13 +39,16 @@ function tad_themes_menu_form($of_level="0",$menuid="",$mode="return"){
 
   $op=(empty($menuid))?"insert_tad_themes_menu":"update_tad_themes_menu";
 
-
+  // $row=($_SESSION['bootstrap']=='3')?'row':'row-fluid';
+  // $span=($_SESSION['bootstrap']=='3')?'col-md-':'span';
+  $row='row-fluid';
+  $span='span';
   $get_tad_all_menu="";
   if(!empty($menuid)){
     $get_tad_all_menu="
-      <label class='span3'>"._MA_TADTHEMES_OF_LEVEL._TAD_FOR."</label>
-      <div class='span3'>
-        <select name='of_level' id='of_level' class='span12'>
+      <label class='{$span}3'>"._MA_TADTHEMES_OF_LEVEL._TAD_FOR."</label>
+      <div class='{$span}3'>
+        <select name='of_level' id='of_level' class='{$span}12'>
         <option value=''>"._MA_TADTHEMES_ROOT."</option>
         ".get_tad_all_menu("","",$of_level,$menuid,"1")."
         </select>
@@ -58,26 +61,29 @@ function tad_themes_menu_form($of_level="0",$menuid="",$mode="return"){
 
   $main="
   <form method='post' id='myForm' enctype='multipart/form-data'>
-    <div class='row-fluid'>
+    <div class='{$row}'>
+      <label class='{$span}3' for='icon'>"._MA_TADTHEMES_ICON._TAD_FOR."</label>
+      <div class='{$span}3'>
+        <input name='icon' class='selectpicker {$span}12' value='{$icon}' type='text' />
+      </div>
       $get_tad_all_menu
-      <div class='span3'>
-        <input name='icon' class='selectpicker span12' value='{$icon}' type='text' />
-      </div>
     </div>
 
 
-    <div class='row-fluid'>
-      <label class='span3' for='itemname'>"._MA_TADTHEMES_ITEMNAME._TAD_FOR."</label>
-      <div class='span8'>
-        <input type='text' name='itemname' id='itemname' value='{$itemname}' class='span12' placeholder='"._MA_TADTHEMES_ITEMNAME."'>
+    <div class='{$row}'>
+      <label class='{$span}3' for='itemname'>"._MA_TADTHEMES_ITEMNAME._TAD_FOR."</label>
+      <div class='{$span}8'>
+        <input type='text' name='itemname' id='itemname' value='{$itemname}' class='{$span}12' placeholder='"._MA_TADTHEMES_ITEMNAME."'>
       </div>
     </div>
 
-    <div class='row-fluid'>
-      <label class='span3' for='itemurl'>"._MA_TADTHEMES_ITEMURL._TAD_FOR."</label>
-      <div class='span8'>
-        <input type='text' name='itemurl' id='itemurl' value='{$itemurl}' class='span8' placeholder='"._MA_TADTHEMES_ITEMURL."'>
-        <select name='target' class='span4'>
+    <div class='{$row}'>
+      <label class='{$span}3' for='itemurl'>"._MA_TADTHEMES_ITEMURL._TAD_FOR."</label>
+      <div class='{$span}5'>
+        <input type='text' name='itemurl' id='itemurl' value='{$itemurl}' class='{$span}12' placeholder='"._MA_TADTHEMES_ITEMURL."'>
+      </div>
+      <div class='{$span}3'>
+        <select name='target' class='{$span}12'>
           <option value='_self'></option>
           <option value='_blank' ".chk($target,"_blank",0,'selected').">"._MA_TADTHEMES_TARGET_BLANK."</option>
           <option value='popup' ".chk($target,"popup",0,'selected').">"._MA_TADTHEMES_TARGET_FANCYBOX."</option>
@@ -85,17 +91,18 @@ function tad_themes_menu_form($of_level="0",$menuid="",$mode="return"){
       </div>
     </div>
 
-    <div class='row-fluid'>
-      <label class='span3' for='image'>"._MA_TADTHEMES_ITEMICON._TAD_FOR."</label>
-      <div class='span8'>
-        <input type='file' name='image' id='image' class='span12'>
+
+    <div class='{$row}'>
+      <label class='{$span}3' for='image'>"._MA_TADTHEMES_ITEMICON._TAD_FOR."</label>
+      <div class='{$span}8'>
+        <input type='file' name='image' id='image' class='{$span}12'>
       </div>
     </div>
 
-    <div class='row-fluid'>
-      <label class='span3' for='banner_image'>"._MA_TADTHEMES_ITEMBANNER._TAD_FOR."</label>
-      <div class='span8'>
-        <input type='file' name='banner_image' id='banner_image' class='span12'>
+    <div class='{$row}'>
+      <label class='{$span}3' for='banner_image'>"._MA_TADTHEMES_ITEMBANNER._TAD_FOR."</label>
+      <div class='{$span}8'>
+        <input type='file' name='banner_image' id='banner_image' class='{$span}12'>
       </div>
     </div>
 
@@ -121,13 +128,14 @@ function tad_themes_menu_form($of_level="0",$menuid="",$mode="return"){
         <link rel='stylesheet' type='text/css' media='screen' href='".XOOPS_URL."/modules/tadtools/bootstrap/css/bootstrap-responsive.css' />
         <link rel='stylesheet' type='text/css' media='screen' href='".XOOPS_URL."/modules/tadtools/css/xoops_adm.css' />
         <link href='".XOOPS_URL."/modules/tadtools/css/font-awesome/css/font-awesome.min.css' rel='stylesheet'>
-      </head>
-      <body>
 
         <script src='".XOOPS_URL."/browse.php?Frameworks/jquery/jquery.js' type='text/javascript'></script>
         <script src='".XOOPS_URL."/modules/tadtools/bootstrap/js/bootstrap.min.js'></script>
         <link href='".XOOPS_URL."/modules/tad_themes/class/fontawesome-iconpicker/css/fontawesome-iconpicker.min.css' rel='stylesheet'>
         <script src='".XOOPS_URL."/modules/tad_themes/class/fontawesome-iconpicker/js/fontawesome-iconpicker.js'></script>
+      </head>
+      <body>
+
 
         $main
 
@@ -261,7 +269,7 @@ function insert_tad_themes_menu(){
 
 //列出所有tad_themes_menu資料
 function list_tad_themes_menu($add_of_level="",$menuid=""){
-  global $xoopsDB , $xoopsModule , $xoopsTpl;
+  global $xoopsDB , $xoopsModule , $xoopsTpl ,$xoTheme;
 
 
   $all=get_tad_level_menu("","",$menuid,"",$add_of_level);
@@ -295,10 +303,12 @@ function list_tad_themes_menu($add_of_level="",$menuid=""){
     redirect_header("index.php",3, _MA_NEED_TADTOOLS);
   }
   include_once XOOPS_ROOT_PATH."/modules/tadtools/fancybox.php";
-  $fancybox=new fancybox('.edit_dropdown','800','90%');
+  $fancybox=new fancybox('.edit_dropdown','800','400');
   $fancybox_code=$fancybox->render();
   $xoopsTpl->assign('fancybox_code',$fancybox_code);
 
+  $xoTheme->addStylesheet('modules/tadtools/css/font-awesome/css/font-awesome.min.css');
+  $xoTheme->addScript('modules/tadtools/bootstrap/js/bootstrap.js');
 
 }
 
@@ -325,11 +335,13 @@ function get_tad_level_menu($of_level=0,$level=0,$v="",$this_menuid="",$add_of_l
   $banner_url=XOOPS_URL."/uploads/tad_themes/menu_banner";
   while(list($menuid,$of_level,$itemname,$position,$itemurl,$status,$mainmenu,$target,$icon)=$xoopsDB->fetchRow($result)){
 
-    $item=(empty($itemurl))?$itemname:"<a name='$menuid' href='{$itemurl}'><i class='fa {$icon}'></i> $itemname</a>";
+    $item=(empty($itemurl))?"<i class='fa {$icon}'></i> ".$itemname:"<a name='$menuid' href='{$itemurl}'><i class='fa {$icon}'></i> $itemname</a>";
 
     $add_img=($level>=3)?"":"<a href='{$_SERVER['PHP_SELF']}?op=add_tad_themes_menu&of_level={$menuid}' class='edit_dropdown' data-fancybox-type='iframe'><img src='../images/001_01.gif' align='absmiddle' alt='".sprintf(_MA_TADTHEMES_ADDITEM,$itemname)."' title='".sprintf(_MA_TADTHEMES_ADDITEM,$itemname)."'></a>";
 
-    $status_tool=($status=='1')?"<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=0' class='btn btn-mini btn-warning'>"._TAD_UNABLE."</a>":"<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=1' class='btn btn-mini btn-info'>"._TAD_ENABLE."</a>";
+    $btn_small=($_SESSION['bootstrap']=='3')?'btn-xs':'btn-mini';
+
+    $status_tool=($status=='1')?"<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=0' class='btn $btn_small btn-warning'>"._TAD_UNABLE."</a>":"<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=1' class='btn $btn_small btn-info'>"._TAD_ENABLE."</a>";
 
     $status_color=($status=='1')?"":"style='background-color:#D0D0D0'";
     $status_color2=($status=='1')?"":"background-color:#D0D0D0";
@@ -360,8 +372,8 @@ function get_tad_level_menu($of_level=0,$level=0,$v="",$this_menuid="",$add_of_l
       $add_img
     </td>
     <td $status_color>
-      <a href=\"javascript:delete_tad_themes_menu_func($menuid);\" class='btn btn-mini btn-danger'>"._TAD_DEL."</a>
-      <a href='{$_SERVER['PHP_SELF']}?op=modify_tad_themes_menu&menuid=$menuid#menuid_{$menuid}' class='btn btn-mini btn-success edit_dropdown' data-fancybox-type='iframe'>"._TAD_EDIT."</a>
+      <a href=\"javascript:delete_tad_themes_menu_func($menuid);\" class='btn $btn_small btn-danger'>"._TAD_DEL."</a>
+      <a href='{$_SERVER['PHP_SELF']}?op=modify_tad_themes_menu&menuid=$menuid#menuid_{$menuid}' class='btn $btn_small btn-success edit_dropdown' data-fancybox-type='iframe'>"._TAD_EDIT."</a>
       $status_tool
 
       $icon
@@ -598,6 +610,6 @@ switch($op){
 }
 
 /*-----------秀出結果區--------------*/
-$xoTheme->addStylesheet(XOOPS_URL.'/modules/tadtools/css/xoops_adm.css');
+//$xoTheme->addStylesheet(XOOPS_URL.'/modules/tadtools/css/xoops_adm.css');
 include_once 'footer.php';
 ?>
