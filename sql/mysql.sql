@@ -41,7 +41,8 @@ CREATE TABLE `tad_themes` (
   `navbar_color_hover` varchar(255) NOT NULL default 'yellow' COMMENT 'navbar文字移過顏色',
   `navbar_icon` varchar(255) NOT NULL default '' COMMENT 'navbar 圖示色調',
   `navbar_img` varchar(255) NOT NULL default '' COMMENT 'navbar背景圖',
-  PRIMARY KEY (`theme_id`)
+  PRIMARY KEY (`theme_id`),
+  UNIQUE KEY (`theme_name`)
 ) ENGINE=MyISAM ;
 
 CREATE TABLE `tad_themes_blocks` (

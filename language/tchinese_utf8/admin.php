@@ -1,8 +1,8 @@
 <?php
-include_once '../../tadtools/language/' . $xoopsConfig['language'] . '/admin_common.php';
+include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.php";
 
 //需加入模組語系
-define('_TAD_NEED_TADTOOLS', ' 需要 modules/tadtools，可至<a href="http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50" target="_blank">Tad教材網</a>下載。');
+define("_TAD_NEED_TADTOOLS", " 需要 tadtools 模組，可至<a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad教材網</a>下載。");
 define("_MA_TADTHEMES_THEME_BASE", "版面基本設定");
 define("_MA_TADTHEMES_THEME_KIND", "佈景類型");
 define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP", "（bootstrap2 是新型的響應式佈景，可以適用在網站及手持裝置上並自動調整版面，全版按比例分為12欄，若以1024解析度來說，每一欄約80px。）");
@@ -151,8 +151,6 @@ define("_MA_TADTHEMES_BLOCK_STYLE", "區塊整體樣式手動設定");
 define("_MA_TADTHEMES_BLOCK_TITLE_STYLE", "區塊標題樣式手動設定");
 define("_MA_TADTHEMES_BLOCK_CONTENT_STYLE", "區塊內容樣式手動設定");
 define("_MA_TADTHEMES_YOUR_STYLE", "您設定的樣式內容");
-
-define("_MA_TADTHEMES_SLIDE_DEFAULT_DESCRIPT", "您可以從<b>佈景管理的後台設定畫面</b>修改這部份內容，除了可以上傳滑動圖片外，也可以自己輸入圖片說明內容。部份佈景都支援HTML語法。");
 
 define("_MA_TADTHEMES_TARGET_FANCYBOX", "燈箱效果");
 define("_MA_TADTHEMES_OF_LEVEL", "父分類");

@@ -1,16 +1,20 @@
 <?php
-function xoops_module_install_tad_themes(&$module) {
+function xoops_module_install_tad_themes(&$module)
+{
 
-	mk_dir(XOOPS_ROOT_PATH."/uploads/tad_themes");
+    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes");
 
-	return true;
+    return true;
 }
 
-
 //建立目錄
-function mk_dir($dir=""){
+function mk_dir($dir = "")
+{
     //若無目錄名稱秀出警告訊息
-    if(empty($dir))return;
+    if (empty($dir)) {
+        return;
+    }
+
     //若目錄不存在的話建立目錄
     if (!is_dir($dir)) {
         umask(000);
@@ -20,25 +24,25 @@ function mk_dir($dir=""){
 }
 
 //拷貝目錄
-function full_copy( $source="", $target=""){
-	if ( is_dir( $source ) ){
-		@mkdir( $target );
-		$d = dir( $source );
-		while ( FALSE !== ( $entry = $d->read() ) ){
-			if ( $entry == '.' || $entry == '..' ){
-				continue;
-			}
+function full_copy($source = "", $target = "")
+{
+    if (is_dir($source)) {
+        @mkdir($target);
+        $d = dir($source);
+        while (false !== ($entry = $d->read())) {
+            if ($entry == '.' || $entry == '..') {
+                continue;
+            }
 
-			$Entry = $source . '/' . $entry;
-			if ( is_dir( $Entry ) )	{
-				full_copy( $Entry, $target . '/' . $entry );
-				continue;
-			}
-			copy( $Entry, $target . '/' . $entry );
-		}
-		$d->close();
-	}else{
-		copy( $source, $target );
-	}
+            $Entry = $source . '/' . $entry;
+            if (is_dir($Entry)) {
+                full_copy($Entry, $target . '/' . $entry);
+                continue;
+            }
+            copy($Entry, $target . '/' . $entry);
+        }
+        $d->close();
+    } else {
+        copy($source, $target);
+    }
 }
-?>
