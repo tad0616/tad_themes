@@ -49,7 +49,8 @@ function import_img($path = '', $col_name = "logo", $col_sn = '', $desc = "", $s
     }
 
     $db_files = array();
-    $sql      = "select files_sn,file_name,original_filename from " . $xoopsDB->prefix("tad_themes_files_center") . " where col_name='{$col_name}' and col_sn='{$col_sn}'";
+
+    $sql = "select files_sn,file_name,original_filename from " . $xoopsDB->prefix("tad_themes_files_center") . " where col_name='{$col_name}' and col_sn='{$col_sn}'";
 
     $result          = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>" . $sql);
     $db_files_amount = 0;
@@ -213,4 +214,18 @@ function TadUpFilesNavBg()
     $TadUpFilesNavBg = new TadUpFiles("tad_themes", "/{$xoopsConfig['theme_set']}/nav_bg", null, "", "/thumbs");
     $TadUpFilesNavBg->set_thumb("100px", "60px", "#000", "center center", "no-repeat", "contain");
     return $TadUpFilesNavBg;
+}
+
+//更新 tadtools 初始設定
+function update_tadtools_setup($theme = "", $theme_kind = "")
+{
+    global $xoopsDB, $xoopsConfig;
+    if ($theme_kind == "bootstrap" or $theme_kind == "bootstrap3") {
+        $bootstrap_color = $theme_kind;
+    } else {
+        $bootstrap_color = "bootstrap";
+    }
+
+    $sql = "replace into `" . $xoopsDB->prefix("tadtools_setup") . "` (`tt_theme` , `tt_use_bootstrap`,`tt_bootstrap_color` , `tt_theme_kind`) values('{$theme}', '0', '{$bootstrap_color}', '{$theme_kind}')";
+    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<hr>" . $sql);
 }

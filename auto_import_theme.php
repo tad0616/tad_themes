@@ -99,6 +99,8 @@ function auto_import_theme()
         $xoopsDB->queryF($sql) or die($sql . "<br>" . mysql_error());
     }
 
+    update_tadtools_setup($theme_name, $theme_kind);
+
     import_img(_THEME_BG_PATH, "bg", $theme_id, "");
     import_img(_THEME_LOGO_PATH, "logo", $theme_id);
     import_img(_THEME_SLIDE_PATH, "slide", $theme_id, _TAD_SLIDE_DEFAULT_DESCRIPT, true);

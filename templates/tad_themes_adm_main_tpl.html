@@ -81,25 +81,21 @@
 
             <a href="javascript:delete_tad_themes_config(<{$theme_id}>)" class="btn btn-danger"><{$smarty.const._MA_TADTHEMES_TO_DEFAULT}></a>
           </label>
+
+          <div class="alert">
+            <{$smarty.const._MA_TADTHEMES_CHANGE_KIND_DESC}>
+          </div>
+
           <{if $theme_change}>
-            <div class="alert">
-              <{$smarty.const._MA_TADTHEMES_CHANGE_KIND_DESC}>
-            </div>
-            <label class="radio">
-              <input type="radio" name="theme_kind" value="bootstrap" <{if $theme_kind=="bootstrap"}>checked<{/if}>>
-              <b>BootStrap</b>
-              <{$smarty.const._MA_TADTHEMES_THEME_KIND_BOOTSTRAP}>
-            </label>
-            <label class="radio">
-              <input type="radio" name="theme_kind" value="bootstrap3" <{if $theme_kind=="bootstrap3"}>checked<{/if}>>
-              <b>BootStrap3</b>
-              <{$smarty.const._MA_TADTHEMES_THEME_KIND_BOOTSTRAP3}>
-            </label>
-            <label class="radio inline">
-              <input type="radio" name="theme_kind" value="html" <{if $theme_kind=="html"}>checked<{/if}>>
-              <b>HTML</b>
-              <{$smarty.const._MA_TADTHEMES_THEME_KIND_HTML}>
-            </label>
+            <{foreach from=$theme_kind_arr item=kind}>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="theme_kind" value="<{$kind}>" <{if $theme_kind==$kind}>checked<{/if}>>
+                  <b><{$kind}></b>
+                  <{$theme_kind_txt_arr.$kind}>
+                </label>
+              </div>
+            <{/foreach}>
 
             <input type="hidden" name="old_theme_kind" value="<{$theme_kind}>">
           <{else}>
@@ -163,7 +159,7 @@
                     <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_THEME_WIDTH}></div>
                     <div class="span2">
                       <{if $enable.theme_width}>
-                        <input type="text" name="theme_width" class="span8<{$validate.theme_width}>" value="<{$theme_width}>" id="theme_width">
+                        <input type="text" name="theme_width" class="span8 <{$validate.theme_width}>" value="<{$theme_width}>" id="theme_width">
                         <{if $theme_kind=="mix"}>px<{else}><{$theme_unit}><{/if}>
                       <{else}>
                         <input type="hidden" name="theme_width" id="theme_width" value="<{$theme_width}>"><{$theme_width}><{if $theme_kind=="mix"}>px<{else}><{$theme_unit}><{/if}>
