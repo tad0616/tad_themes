@@ -810,8 +810,8 @@ function update_tad_themes($theme_id = "")
             $_POST['rb_width']    = 240;
             $_POST['slide_width'] = 980;
         }
-        update_tadtools_setup($_POST['theme_name'], $_POST['theme_kind']);
     }
+    update_tadtools_setup($_POST['theme_name'], $_POST['theme_kind']);
 
     $myts                  = &MyTextSanitizer::getInstance();
     $_POST['theme_width']  = $myts->addSlashes($_POST['theme_width']);

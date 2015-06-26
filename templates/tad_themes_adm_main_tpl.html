@@ -244,15 +244,6 @@
 
 
                 <div class="row-fluid">
-                  <!--離上邊界距離-->
-                  <{if $enable.margin_top}>
-                    <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_MARGIN_TOP}></div>
-                    <div class="span2">
-                      <input type="text" name="margin_top" class="span8<{$validate.margin_top}>" value="<{$margin_top}>" id="margin_top"  onChange="change_css();">px
-                    </div>
-                  <{else}>
-                    <input type="hidden" name="margin_top" id="margin_top" value="<{$margin_top}>">
-                  <{/if}>
 
                   <!--文字大小-->
                   <{if $enable.font_size}>
@@ -262,6 +253,16 @@
                     </div>
                   <{else}>
                     <input type="hidden" name="font_size" id="font_size" value="<{$font_size}>">
+                  <{/if}>
+
+                  <!--離上邊界距離-->
+                  <{if $enable.margin_top}>
+                    <div class="span2 text-right"><{$smarty.const._MA_TADTHEMES_MARGIN_TOP}></div>
+                    <div class="span2">
+                      <input type="text" name="margin_top" class="span8<{$validate.margin_top}>" value="<{$margin_top}>" id="margin_top"  onChange="change_css();">px
+                    </div>
+                  <{else}>
+                    <input type="hidden" name="margin_top" id="margin_top" value="<{$margin_top}>">
                   <{/if}>
 
                   <!--離下邊界距離-->

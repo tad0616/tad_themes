@@ -226,6 +226,14 @@ function update_tadtools_setup($theme = "", $theme_kind = "")
         $bootstrap_color = "bootstrap";
     }
 
-    $sql = "replace into `" . $xoopsDB->prefix("tadtools_setup") . "` (`tt_theme` , `tt_use_bootstrap`,`tt_bootstrap_color` , `tt_theme_kind`) values('{$theme}', '0', '{$bootstrap_color}', '{$theme_kind}')";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<hr>" . $sql);
+    $sql    = "select `tt_theme_kind` from `" . $xoopsDB->prefix("tadtools_setup") . "` where `tt_theme`='{$theme}'";
+    $result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<hr>" . $sql);
+
+    list($old_tt_theme_kind) = $xoopsDB->fetchRow($result);
+
+    if ($theme_kind !== $old_tt_theme_kind) {
+        $sql = "replace into `" . $xoopsDB->prefix("tadtools_setup") . "` (`tt_theme` , `tt_use_bootstrap`,`tt_bootstrap_color` , `tt_theme_kind`) values('{$theme}', '0', '{$bootstrap_color}', '{$theme_kind}')";
+
+        $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<hr>" . $sql);
+    }
 }
