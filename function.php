@@ -17,21 +17,6 @@ define("_THEME_NAV_BG_PATH", XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set
 $block_position_title = array("leftBlock" => _MA_TADTHEMES_BLOCK_LEFT, "rightBlock" => _MA_TADTHEMES_BLOCK_RIGHT, "centerBlock" => _MA_TADTHEMES_BLOCK_TOP_CENTER, "centerLeftBlock" => _MA_TADTHEMES_BLOCK_TOP_LEFT, "centerRightBlock" => _MA_TADTHEMES_BLOCK_TOP_RIGHT, "centerBottomBlock" => _MA_TADTHEMES_BLOCK_BOTTOM_CENTER, "centerBottomLeftBlock" => _MA_TADTHEMES_BLOCK_BOTTOM_LEFT, "centerBottomRightBlock" => _MA_TADTHEMES_BLOCK_BOTTOM_RIGHT);
 
 /********************* 預設函數 *********************/
-//建立目錄
-function mk_dir($dir = "")
-{
-    //若無目錄名稱秀出警告訊息
-    if (empty($dir)) {
-        return;
-    }
-
-    //若目錄不存在的話建立目錄
-    if (!is_dir($dir)) {
-        umask(000);
-        //若建立失敗秀出警告訊息
-        mkdir($dir, 0777);
-    }
-}
 
 //取得圖片選項
 function import_img($path = '', $col_name = "logo", $col_sn = '', $desc = "", $safe_name = false)
