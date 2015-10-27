@@ -2,7 +2,7 @@
 include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.php";
 
 //需加入模組語系
-define("_TAD_NEED_TADTOOLS", "This module need tadtools module. You can download tadtools from <a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad's web</a>.");
+define('_TAD_NEED_TADTOOLS', "This module need tadtools module. You can download tadtools from <a href="http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1" target="_blank">XOOPS EasyGO</a>.");
 define("_MA_TADTHEMES_THEME_BASE", "Theme Setup");
 define("_MA_TADTHEMES_THEME_KIND", "Theme Kind");
 define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP", "（XOOPS bootstrap themes)");
@@ -47,9 +47,7 @@ define("_MA_TADTHEMES_SLIDE_WIDTH", "Slide Width");
 define("_MA_TADTHEMES_SLIDE_HEIGHT", "Slide Height");
 define("_MA_TADTHEMES_SLIDE_DESC", "<ol><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Width =0 (hide slide)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Height = 0(auto height)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>You can input \"<b><u>[url]http://some.web.url[/url]</u></b>\" to add link for slide image.</li></ol>");
 define("_MA_TAD_THEMES_FORM", "Theme Setup");
-
 define("_MA_TAD_THEMES_NOT_TAD_THEME", "Defaut Theme \"%s\" can't compatible with Tad Theme.<div>\"%s\" not founded.</div>");
-
 define("_MA_TAD_THEMES_TYPE1", "2 Columns (All Left)");
 define("_MA_TAD_THEMES_TYPE2", "2 Columns (All Right)");
 define("_MA_TAD_THEMES_TYPE3", "2 Columns (Left + Bottom)");
@@ -58,7 +56,6 @@ define("_MA_TAD_THEMES_TYPE5", "3 Columns");
 define("_MA_TAD_THEMES_TYPE6", "3 Columns (All Left)");
 define("_MA_TAD_THEMES_TYPE7", "3 Columns (All Right)");
 define("_MA_TAD_THEMES_TYPE8", "Single Columns");
-
 define("_MA_TAD_THEMES_HEAD", "Theme Head");
 define("_MA_TAD_THEMES_LEFT", "Left Zone");
 define("_MA_TAD_THEMES_CENTER", "Content and Center Zone");
@@ -82,7 +79,6 @@ define("_MA_TADTHEMES_NOTICE2", "<ul style='line-height:2em;'>
   <li>When you delete pictures, all from the background deleted, do not just delete FTP photo!</li>
   </ul>");
 define("_MA_TADTHEMES_LOGO_PLACE", "setup logo position");
-
 define("_MA_TADTHEMES_FONT_SIZE", "font size");
 define("_MA_TADTHEMES_FONT_COLOR", "font color");
 define("_MA_TADTHEMES_LINK_COLOR", "link color");
@@ -95,14 +91,12 @@ define("_MA_TADTHEMES_SAVE_SORT", "Drag sort");
 define("_MA_TADTHEMES_ROOT", "Root");
 define("_MA_TADTHEMES_WEB_MENU", "Menu");
 define("_MA_TADTHEMES_IMPORT_MENU", "Import Menu");
-
 define("_MA_TADTHEMES_BLOCK_TITLE", "Block Title");
 define("_MA_TADTHEMES_BLOCK_TITLE_BUTTOM", "Setup button");
 define("_MA_TADTHEMES_BLOCK_TITLE_PADDING", "Block title left padding");
 define("_MA_TADTHEMES_BLOCK_TITLE_RADIUS", "Radius setup");
 define("_MA_TADTHEMES_BLOCK_TITLE_RADIUS_Y", "Radius");
 define("_MA_TADTHEMES_BLOCK_TITLE_RADIUS_N", "None");
-
 define("_MA_TADTHEMES_NAVBAR", "Navbar");
 define("_MA_TADTHEMES_NAVBAR_POSITION", "Navbar position");
 define("_MA_TADTHEMES_NAVBAR_POSITION_1", "Top fixed");
@@ -119,7 +113,8 @@ define("_MA_TADTHEMES_NAVBAR_COLOR_HOVER", "Text hover Color");
 define("_MA_TADTHEMES_NAVBAR_ICON_COLOR", "Icon color");
 define("_MA_TADTHEMES_NAVBAR_ICON_WHITE", "white icon");
 define("_MA_TADTHEMES_NAVBAR_ICON_BLACK", "black icon");
-
+define("_MA_TADTHEMES_CHANGE_KIND_DESC", "This theme support switch type.");
+define("_MA_TADTHEMES_CHANGE_KIND", "Chang Kind");
 define("_MA_TADTHEMES_ITEMICON", "Item Icon");
 define("_MA_TADTHEMES_ITEMBANNER", "Item Banner");
 define("_MA_TADTHEMES_CONFIG2", "Other theme config");
@@ -135,18 +130,14 @@ define("_MA_TADTHEMES_BLOCK_BOTTOM_CENTER", "Bottom center");
 define("_MA_TADTHEMES_BLOCK_BOTTOM_LEFT", "Bottom center left");
 define("_MA_TADTHEMES_BLOCK_BOTTOM_RIGHT", "Bottom center right");
 define("_MA_TADTHEMES_BLOCK_TITLE_SIZE", "Font size");
-
 define("_MA_TADTHEMES_TO_DEFAULT", "Restored to the default");
 define("_MA_TADTHEMES_DEL_CONFIRM", "This will clear this theme settings and restore default values​​! You sure you want to perform?");
-
 define("_MA_TADTHEMES_BASE_COLOR", "Base color");
 define("_MA_TADTHEMES_NAVBAR_IMG", "Navbar background");
-
 define("_MA_TADTHEMES_BLOCK_STYLE", "Block CSS");
 define("_MA_TADTHEMES_BLOCK_TITLE_STYLE", "Block title CSS");
 define("_MA_TADTHEMES_BLOCK_CONTENT_STYLE", "Block content CSS");
 define("_MA_TADTHEMES_YOUR_STYLE", "Your style content");
-
 define("_MA_TADTHEMES_TARGET_FANCYBOX", "ColorBox");
 define("_MA_TADTHEMES_OF_LEVEL", "Parent");
 define("_MA_TADTHEMES_ICON", "fontawesome icon");
