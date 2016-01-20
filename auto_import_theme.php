@@ -208,8 +208,8 @@ function save_blocks($theme_id = "", $import = false)
 function save_config2($theme_id = "", $import = false)
 {
     global $xoopsDB, $xoopsConfig;
-
-    $theme_name = $xoopsConfig['theme_set'];
+    $TadUpFiles_config2 = TadUpFiles_config2();
+    $theme_name         = $xoopsConfig['theme_set'];
     //額外佈景設定
     if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/config2.php")) {
         require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
@@ -228,6 +228,10 @@ function save_config2($theme_id = "", $import = false)
             $sql = "replace into " . $xoopsDB->prefix("tad_themes_config2") . " (`theme_id`, `name`, `type`, `value`) values($theme_id , '{$config['name']}' , '{$config['type']}' , '{$value}')";
             $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>" . $sql);
 
+            if ($config['type'] == "file") {
+                $TadUpFiles_config2->set_col("config2_{$config['name']}", $theme_id);
+                $TadUpFiles_config2->upload_file("config2_{$config['name']}", null, null, null, "", true);
+            }
         }
     }
 }

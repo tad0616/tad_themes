@@ -335,9 +335,10 @@ function tad_themes_form()
         $config2_values     = get_config2_values($theme_id);
         $TadUpFiles_config2 = TadUpFiles_config2();
         foreach ($theme_config as $k => $config) {
-            $value = $myts->htmlSpecialChars($config2_values[$config['name']]);
+            $config_name = $config['name'];
+            $value       = $myts->htmlSpecialChars($config2_values[$config_name]);
 
-            $config2[$k]['name']    = $config['name'];
+            $config2[$k]['name']    = $config_name;
             $config2[$k]['text']    = $config['text'];
             $config2[$k]['desc']    = $config['desc'];
             $config2[$k]['type']    = $config['type'];
@@ -345,11 +346,12 @@ function tad_themes_form()
             $config2[$k]['default'] = $config['default'];
 
             if ($config['type'] == "file") {
-                import_img($config['default'], "config2_{$config['name']}", $theme_id, "");
-                $TadUpFiles_config2->set_col("config2_{$config['name']}", $theme_id);
-                $config2[$k]['form'] = $TadUpFiles_config2->upform(false, "config2_{$config['name']}", null, false);
+                import_img($config['default'], "config2_{$config_name}", $theme_id, "");
+                $TadUpFiles_config2->set_col("config2_{$config_name}", $theme_id);
+                $config2[$k]['form'] = $TadUpFiles_config2->upform(false, "config2_{$config_name}", null, false);
                 $config2[$k]['list'] = $TadUpFiles_config2->get_file_for_smarty();
-                //die("list:".$config2[$k]['list']);
+                // die(var_export($theme_id));
+                // die("list:" . $config2[$k]['list']);
             }
         }
         $xoopsTpl->assign('theme_config', $config2);
@@ -1058,7 +1060,7 @@ switch ($op) {
         tad_themes_form();
         break;
 
-    /*---判斷動作請貼在上方---*/
+        /*---判斷動作請貼在上方---*/
 }
 
 /*-----------秀出結果區--------------*/
