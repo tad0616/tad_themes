@@ -769,10 +769,10 @@ function insert_tad_themes()
     $TadUpFilesSlide->upload_file('slide', $slide_width, null, null, "", true);
     $TadUpFilesBg = TadUpFilesBg();
     $TadUpFilesBg->set_col('bg', $theme_id);
-    $TadUpFilesBg->upload_file('bg', null, null, null, "", true);
+    $TadUpFilesBg->upload_file('bg', 2048, null, null, "", true);
     $TadUpFilesLogo = TadUpFilesLogo();
     $TadUpFilesLogo->set_col('logo', $theme_id);
-    $TadUpFilesLogo->upload_file('logo', null, null, null, "", true);
+    $TadUpFilesLogo->upload_file('logo', 2048, null, null, "", true);
     $TadUpFilesNavLogo = TadUpFilesNavLogo();
     $TadUpFilesNavLogo->set_col('navlogo', $theme_id);
     $TadUpFilesNavLogo->upload_file('navlogo', null, null, null, "", true);
@@ -884,10 +884,10 @@ function update_tad_themes($theme_id = "")
     $TadUpFilesSlide->upload_file('slide', $slide_width, null, null, "", true);
     $TadUpFilesBg = TadUpFilesBg();
     $TadUpFilesBg->set_col('bg', $theme_id);
-    $TadUpFilesBg->upload_file('bg', null, null, null, "", true);
+    $TadUpFilesBg->upload_file('bg', 2048, null, null, "", true);
     $TadUpFilesLogo = TadUpFilesLogo();
     $TadUpFilesLogo->set_col('logo', $theme_id);
-    $TadUpFilesLogo->upload_file('logo', null, null, null, "", true);
+    $TadUpFilesLogo->upload_file('logo', 2048, null, null, "", true);
     $TadUpFilesNavLogo = TadUpFilesNavLogo();
     $TadUpFilesNavLogo->set_col('navlogo', $theme_id);
     $TadUpFilesNavLogo->upload_file('navlogo', null, null, null, "", true);
