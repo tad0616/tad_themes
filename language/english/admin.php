@@ -2,10 +2,9 @@
 include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.php";
 
 //需加入模組語系
-define('_TAD_NEED_TADTOOLS', "This module need tadtools module. You can download tadtools from <a href="http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1" target="_blank">XOOPS EasyGO</a>.");
+define('_TAD_NEED_TADTOOLS', 'This module need tadtools module. You can download tadtools from <a href="http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1" target="_blank">XOOPS EasyGO</a>.');
 define("_MA_TADTHEMES_THEME_BASE", "Theme Setup");
 define("_MA_TADTHEMES_THEME_KIND", "Theme Kind");
-define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP", "（XOOPS bootstrap themes)");
 define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP3", "（XOOPS bootstrap3 themes)");
 define("_MA_TADTHEMES_THEME_KIND_HTML", "(XOOPS themes)");
 define("_MA_TADTHEMES_THEME_KIND_MIX", "(bootstrap only for blocks)");
@@ -25,7 +24,9 @@ define("_MA_TADTHEMES_BG_REPEAT", "background-repeart");
 define("_MA_TADTHEMES_BG_REPEAT_NORMAL", "repeart");
 define("_MA_TADTHEMES_BG_REPEAT_X", "repeart_x");
 define("_MA_TADTHEMES_BG_REPEAT_Y", "repeart_y");
-define("_MA_TADTHEMES_BG_NO_REPEAT", "no_repeart");
+define("_MA_TADTHEMES_BG_NO_REPEAT", "no-repeart");
+define("_MA_TADTHEMES_BG_NO_REPEAT_COVER", "no-repeart, and use background-size: cover");
+define("_MA_TADTHEMES_BG_NO_REPEAT_CONTAIN", "no-repeart, and use background-size: contain");
 define("_MA_TADTHEMES_BG_ATTACHMENT", "background");
 define("_MA_TADTHEMES_BG_ATTACHMENT_SCROLL", "scroll");
 define("_MA_TADTHEMES_BG_ATTACHMENT_FIXED", "fixed");

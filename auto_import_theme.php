@@ -48,7 +48,7 @@ function auto_import_theme()
         $sql = "insert into " . $xoopsDB->prefix("tad_themes") . "
         (`theme_name` , `theme_type` , `theme_width` , `lb_width` , `rb_width` , `clb_width` , `crb_width` , `base_color` , `lb_color` , `cb_color` , `rb_color` , `margin_top` , `margin_bottom` , `bg_img` , `bg_color`  , `bg_repeat`  , `bg_attachment`  , `bg_position`  , `logo_img`  , `logo_position`  , `navlogo_img` , `logo_top` , `logo_right` , `logo_bottom` , `logo_left` , `theme_enable` , `slide_width` , `slide_height` , `font_size` , `font_color` , `link_color` , `hover_color` , `theme_kind` , `navbar_pos` , `navbar_bg_top` , `navbar_bg_bottom` , `navbar_hover` , `navbar_color` , `navbar_color_hover` , `navbar_icon`, `navbar_img`)
         values('{$theme_name}' , '{$theme_type}', '{$theme_width}' , '{$lb_width}' , '{$rb_width}' , '{$clb_width}' , '{$crb_width}' , '{$base_color}' , '{$lb_color}' , '{$cb_color}' , '{$rb_color}' , '{$margin_top}' , '{$margin_bottom}' , '{$bg_img}' , '{$bg_color}' , '{$bg_repeat}' , '{$bg_attachment}' , '{$bg_position}' , '{$logo_img}', '{$logo_position}' , '{$navlogo_img}' , '{$logo_top}' , '{$logo_right}' , '{$logo_bottom}' , '{$logo_left}' , '1' , '{$slide_width}' , '{$slide_height}' , '{$font_size}' , '{$font_color}' , '{$link_color}' , '{$hover_color}' , '{$theme_kind}', '{$navbar_pos}','{$navbar_bg_top}','{$navbar_bg_bottom}','{$navbar_hover}','{$navbar_color}','{$navbar_color_hover}','{$navbar_icon}','{$navbar_img}')";
-        $xoopsDB->queryF($sql) or die($sql . "<br>" . mysql_error());
+        $xoopsDB->queryF($sql) or web_error($sql);
 
         //取得最後新增資料的流水編號
         $theme_id = $xoopsDB->getInsertId();
@@ -96,7 +96,7 @@ function auto_import_theme()
         `navbar_icon`='{$navbar_icon}',
         `navbar_img`='{$navbar_img}'
         where `theme_id`='{$theme_id}'";
-        $xoopsDB->queryF($sql) or die($sql . "<br>" . mysql_error());
+        $xoopsDB->queryF($sql) or web_error($sql);
     }
 
     update_tadtools_setup($theme_name, $theme_kind);
@@ -199,7 +199,7 @@ function save_blocks($theme_id = "", $import = false)
 
         $sql = "replace into " . $xoopsDB->prefix("tad_themes_blocks") . "  (`theme_id` , `block_position` , `block_config` , `bt_text` , `bt_text_padding` , `bt_text_size` , `bt_bg_color` , `bt_bg_img` , `bt_bg_repeat` , `bt_radius`, `block_style`, `block_title_style`, `block_content_style`) values('{$theme_id}' , '{$position}' , '{$block_config}' , '{$bt_text}' , '{$bt_text_padding}' , '{$bt_text_size}' , '{$bt_bg_color}' , '{$bt_bg_img}' , '{$bt_bg_repeat}' , '{$bt_radius}' , '{$block_style}' , '{$block_title_style}' , '{$block_content_style}')";
 
-        $xoopsDB->queryF($sql) or die($sql . "<br>" . mysql_error());
+        $xoopsDB->queryF($sql) or web_error($sql);
 
     }
 }
@@ -220,20 +220,31 @@ function save_config2($theme_id = "", $import = false)
         $theme_config[$i]['type']="text";
         $theme_config[$i]['default']="200px";
          */
-        $myts = &MyTextSanitizer::getInstance();
+        $myts = MyTextSanitizer::getInstance();
         foreach ($theme_config as $k => $config) {
             $name  = $config['name'];
             $value = isset($_POST[$name]) ? $myts->addSlashes($_POST[$name]) : $config['default'];
 
             $sql = "replace into " . $xoopsDB->prefix("tad_themes_config2") . " (`theme_id`, `name`, `type`, `value`) values($theme_id , '{$config['name']}' , '{$config['type']}' , '{$value}')";
-            $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>" . $sql);
+            $xoopsDB->queryF($sql) or web_error($sql);
 
             if ($config['type'] == "file") {
                 $TadUpFiles_config2->set_col("config2_{$config['name']}", $theme_id);
-                $TadUpFiles_config2->upload_file("config2_{$config['name']}", null, null, null, "", true);
+                $filename = $TadUpFiles_config2->upload_file("config2_{$config['name']}", null, null, null, "", true);
+                if ($filename) {
+                    update_theme_config2($config['name'], $filename, $theme_id, $theme_name);
+                }
             }
         }
     }
+}
+//更新佈景的某個設定值
+function update_theme_config2($col = "", $file_name = "", $theme_id = "", $theme_name = "")
+{
+    global $xoopsDB, $xoopsUser, $xoopsConfig;
+    $file_name_url = XOOPS_URL . "/uploads/tad_themes/{$theme_name}/config2/{$file_name}";
+    $sql           = "update " . $xoopsDB->prefix("tad_themes_config2") . " set `value` = '{$file_name_url}' where theme_id='$theme_id' and `name`='{$col}'";
+    $xoopsDB->queryF($sql) or web_error($sql);
 }
 
 //取得佈景編號
@@ -242,7 +253,7 @@ function get_theme_id($theme_name = "")
     global $xoopsDB;
 
     $sql            = "select theme_id from " . $xoopsDB->prefix("tad_themes") . " where `theme_name` = '{$theme_name}'";
-    $result         = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>" . $sql);
+    $result         = $xoopsDB->queryF($sql) or web_error($sql);
     list($theme_id) = $xoopsDB->fetchRow($result);
     return $theme_id;
 

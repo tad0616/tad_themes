@@ -68,6 +68,10 @@ function xoops_module_update_tad_themes(&$module, $old_version)
     if (chk_chk17()) {
         go_update17();
     }
+
+    if (chk_chk18()) {
+        go_update18();
+    }
     if (chk_files_center()) {
         go_update_files_center();
     }
@@ -95,7 +99,7 @@ function go_update1()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes") . " ADD `theme_kind` varchar(255) NOT NULL default 'html'";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
 //新增tad_themes_menu資料表
@@ -152,7 +156,7 @@ function go_update3()
   ADD `bt_bg_img` varchar(255) NOT NULL DEFAULT '',
   ADD `bt_bg_repeat` enum('0','1') NOT NULL DEFAULT '0',
   ADD `bt_radius` enum('0','1') NOT NULL DEFAULT '1'";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
 //新增導覽工具列欄位
@@ -176,7 +180,7 @@ function go_update4()
   ADD `navbar_bg_top` varchar(255) NOT NULL DEFAULT '#54b4eb',
   ADD `navbar_bg_bottom` varchar(255) NOT NULL DEFAULT '#2fa4e7',
   ADD `navbar_hover` varchar(255) NOT NULL DEFAULT '#1684c2'";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
 //新增選單欄位
@@ -199,7 +203,7 @@ function go_update5()
   ADD `mainmenu` enum('0','1') NOT NULL default '0' ,
   ADD `target` varchar(255) NOT NULL default '',
   ADD `icon` varchar(255) NOT NULL default 'icon-th-list'";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
 //新增original_filename欄位
@@ -220,11 +224,11 @@ function go_update6()
     global $xoopsDB;
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes_files_center") . "
   ADD `original_filename` varchar(255) NOT NULL default ''";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 
     $sql = "update " . $xoopsDB->prefix("tad_themes_files_center") . " set
   `original_filename`=`description`";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
 //新增hash_filename欄位
@@ -246,7 +250,7 @@ function go_update7()
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes_files_center") . "
   ADD `hash_filename` varchar(255) NOT NULL default '',
   ADD `sub_dir` varchar(255) NOT NULL default ''";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
 //新增hash_filename欄位
@@ -270,7 +274,7 @@ function go_update8()
   ADD `navbar_color_hover` varchar(255) NOT NULL default 'yellow',
   ADD `navbar_icon` varchar(255) NOT NULL default ''
   ";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
 //新增 theme_width 欄位
@@ -292,10 +296,10 @@ function go_update9()
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes") . "
   ADD `theme_width` varchar(255) NOT NULL default '980' after `theme_type`;
   ";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 
     $sql = "update " . $xoopsDB->prefix("tad_themes") . " set `theme_width`=12 where theme_kind='bootstrap'";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
 //新增導覽列logo圖欄位
@@ -315,7 +319,7 @@ function go_update10()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes") . " ADD `navlogo_img` varchar(255) NOT NULL default '' after logo_img";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
 //新增logo圖位置欄位
@@ -335,7 +339,7 @@ function go_update11()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes") . " ADD `logo_position` varchar(255) NOT NULL default 'slide' after logo_img";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
 //新增tad_themes_config2資料表
@@ -524,6 +528,26 @@ function go_update17()
 
 }
 
+function chk_chk18()
+{
+    global $xoopsDB;
+    $sql    = "select count(*) from " . $xoopsDB->prefix("tad_themes") . " where `theme_kind`='bootstrap'";
+    $result = $xoopsDB->queryF($sql);
+    if (empty($result)) {
+        return false;
+    }
+
+    return true;
+}
+
+function go_update18()
+{
+    global $xoopsDB;
+    $sql = "update " . $xoopsDB->prefix("tad_themes") . " set `theme_kind`='bootstrap3' where `theme_kind`='bootstrap'";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
+    return true;
+}
+
 //修正col_sn欄位
 function chk_files_center()
 {
@@ -544,7 +568,7 @@ function go_update_files_center()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_themes_files_center") . "` CHANGE `col_sn` `col_sn` mediumint(9) unsigned NOT NULL default 0";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, $xoopsDB->error());
     return true;
 }
 

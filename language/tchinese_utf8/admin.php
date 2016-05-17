@@ -5,8 +5,7 @@ include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.ph
 define('_TAD_NEED_TADTOOLS', '需要 tadtools 模組，可至<a href="http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1" target="_blank">XOOPS輕鬆架</a>下載。');
 define("_MA_TADTHEMES_THEME_BASE", "版面基本設定");
 define("_MA_TADTHEMES_THEME_KIND", "佈景類型");
-define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP", "（bootstrap2 是新型的響應式佈景，可以適用在網站及手持裝置上並自動調整版面，全版按比例分為12欄，若以1024解析度來說，每一欄約80px。）");
-define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP3", "（bootstrap 3 原理和作用與 bootstrap2 一樣，但兩者並不相容，XOOPS 2.6 預設是採 bootstrap3）");
+define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP3", "（bootstrap 3 響應式佈景，可以適用在網站及行動裝置上並自動調整版面，全版按比例分為12欄，若以1024解析度來說，每一欄約80px。）");
 define("_MA_TADTHEMES_THEME_KIND_HTML", "（一般的XOOPS網頁佈景）");
 define("_MA_TADTHEMES_THEME_KIND_MIX", "（版面寬度採用固定式，但版面欄位採 bootstrap 的12欄位式）");
 define("_MA_TADTHEMES_THEME_TYPE", "版面類型");
@@ -26,6 +25,8 @@ define("_MA_TADTHEMES_BG_REPEAT_NORMAL", "一般重複");
 define("_MA_TADTHEMES_BG_REPEAT_X", "僅橫向重複");
 define("_MA_TADTHEMES_BG_REPEAT_Y", "僅垂直重複");
 define("_MA_TADTHEMES_BG_NO_REPEAT", "不重複");
+define("_MA_TADTHEMES_BG_NO_REPEAT_COVER", "不重複，並放大圖片填滿畫面");
+define("_MA_TADTHEMES_BG_NO_REPEAT_CONTAIN", "不重複，並縮放以呈現完整圖片");
 define("_MA_TADTHEMES_BG_ATTACHMENT", "背景模式");
 define("_MA_TADTHEMES_BG_ATTACHMENT_SCROLL", "隨畫面捲動");
 define("_MA_TADTHEMES_BG_ATTACHMENT_FIXED", "固定不捲動");

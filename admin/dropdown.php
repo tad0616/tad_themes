@@ -213,7 +213,7 @@ function get_max_sort($of_level = "")
 {
     global $xoopsDB, $xoopsModule;
     $sql        = "select max(position) from " . $xoopsDB->prefix("tad_themes_menu") . " where of_level='$of_level'";
-    $result     = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result     = $xoopsDB->query($sql) or web_error($sql);
     list($sort) = $xoopsDB->fetchRow($result);
     return ++$sort;
 }
@@ -223,7 +223,7 @@ function insert_tad_themes_menu()
 {
     global $xoopsDB;
     $sql = "insert into " . $xoopsDB->prefix("tad_themes_menu") . " (`of_level`,`position`,`itemname`,`itemurl`,`membersonly`,`status`,`mainmenu`,`target`,`icon`) values('{$_POST['of_level']}','{$_POST['position']}','{$_POST['itemname']}','{$_POST['itemurl']}','0','1',0,'{$_POST['target']}','{$_POST['icon']}')";
-    $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->query($sql) or web_error($sql);
     //取得最後新增資料的流水編號
     $menuid = $xoopsDB->getInsertId();
 
@@ -313,7 +313,7 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = "", $this_menuid = "
 
     $option = "";
     $sql    = "select `menuid`,`of_level`,`itemname`,`position`,`itemurl`,`status`,`mainmenu`,`target`,`icon` from " . $xoopsDB->prefix("tad_themes_menu") . " where of_level='{$of_level}'  order by position";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $op         = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
     $dir        = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_icons";
@@ -387,7 +387,7 @@ function get_tad_themes_menu($menuid = "")
     }
 
     $sql    = "select * from " . $xoopsDB->prefix("tad_themes_menu") . " where menuid='$menuid'";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     $data   = $xoopsDB->fetchArray($result);
     return $data;
 }
@@ -397,7 +397,7 @@ function update_tad_themes_menu($menuid = "")
 {
     global $xoopsDB;
     $sql = "update " . $xoopsDB->prefix("tad_themes_menu") . " set  `of_level` = '{$_POST['of_level']}', `position` = '{$_POST['position']}', `itemname` = '{$_POST['itemname']}', `itemurl` = '{$_POST['itemurl']}', `membersonly` = '0', `status` = '{$_POST['status']}',`target`='{$_POST['target']}',`icon`='{$_POST['icon']}' where menuid='$menuid'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 
     $type_to_mime['png'] = "image/png";
     $type_to_mime['jpg'] = "image/jpg";
@@ -433,7 +433,7 @@ function delete_tad_themes_menu($menuid = "")
 {
     global $xoopsDB;
     $sql = "delete from " . $xoopsDB->prefix("tad_themes_menu") . " where menuid='$menuid'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 }
 
 //取得分類下拉選單
@@ -451,7 +451,7 @@ function get_tad_all_menu($of_level = 0, $level = 0, $v = "", $this_menuid = "",
 
     $option = "";
     $sql    = "select `menuid`,`of_level`,`itemname` from " . $xoopsDB->prefix("tad_themes_menu") . " where of_level='{$of_level}'  order by position";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     while (list($menuid, $of_level, $itemname) = $xoopsDB->fetchRow($result)) {
 
@@ -473,7 +473,7 @@ function save_sort()
     global $xoopsDB;
     foreach ($_POST['sort'] as $menuid => $position) {
         $sql = "update " . $xoopsDB->prefix("tad_themes_menu") . " set  `position` = '{$position}' where menuid='{$menuid}'";
-        $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        $xoopsDB->queryF($sql) or web_error($sql);
     }
 }
 
@@ -484,18 +484,18 @@ function auto_import()
 
     $position = get_max_sort(0);
     $sql      = "insert into " . $xoopsDB->prefix("tad_themes_menu") . " (`of_level`,`position`,`itemname`,`itemurl`,`membersonly`,`status`) values(0,'{$position}','" . _MA_TADTHEMES_WEB_MENU . "','','0','1')";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 
     //取得最後新增資料的流水編號
     $of_level = $xoopsDB->getInsertId();
 
     $sql    = "select name,dirname from " . $xoopsDB->prefix("modules") . " where isactive='1' and hasmain='1' order by weight";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     while (list($name, $dirname) = $xoopsDB->fetchRow($result)) {
         $position = get_max_sort($of_level);
         $sql      = "insert into " . $xoopsDB->prefix("tad_themes_menu") . " (`of_level`,`position`,`itemname`,`itemurl`,`membersonly`,`status`) values('{$of_level}','{$position}','{$name}','" . XOOPS_URL . "/modules/{$dirname}/','0','1')";
-        $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        $xoopsDB->queryF($sql) or web_error($sql);
     }
 
     return;
@@ -505,7 +505,7 @@ function tad_themes_menu_status($menuid, $status)
 {
     global $xoopsDB;
     $sql = "update " . $xoopsDB->prefix("tad_themes_menu") . " set  `status` = '$status' where menuid='$menuid'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 }
 
 //刪除圖片

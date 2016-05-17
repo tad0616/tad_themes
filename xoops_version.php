@@ -3,7 +3,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADTHEMES_NAME;
-$modversion['version']     = '3.8';
+$modversion['version']     = '3.9';
 $modversion['description'] = _MI_TADTHEMES_DESC;
 $modversion['author']      = 'tad (tad0616@gmail.com)';
 $modversion['credits']     = 'hirokofan (hirokofan@mail.cyc.edu.tw)';
@@ -14,14 +14,14 @@ $modversion['image']       = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname']     = basename(dirname(__FILE__));
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2016/01/20';
+$modversion['release_date']        = '2016/05/17';
 $modversion['module_website_url']  = 'http://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status']       = 'release';
 $modversion['author_website_url']  = 'http://tad0616.net/';
 $modversion['author_website_name'] = _MI_TAD_WEB;
-$modversion['min_php']             = 5.2;
-$modversion['min_xoops']           = '2.5';
+$modversion['min_php']             = 5.3;
+$modversion['min_xoops']           = '2.5.7';
 $modversion['min_tadtools']        = '2.04';
 
 //---paypal資訊---//
@@ -112,16 +112,8 @@ $modversion['blocks'][4]['options']     = "|0";
 //---樣板設定---//
 $modversion['templates']                    = array();
 $i                                          = 0;
-$modversion['templates'][$i]['file']        = 'tad_themes_adm_main_tpl.html';
-$modversion['templates'][$i]['description'] = 'tad_themes_adm_main_tpl.html';
-
-$i++;
 $modversion['templates'][$i]['file']        = 'tad_themes_adm_main_tpl_b3.html';
 $modversion['templates'][$i]['description'] = 'tad_themes_adm_main_tpl_b3.html';
-
-$i++;
-$modversion['templates'][$i]['file']        = 'tad_themes_adm_dropdown_tpl.html';
-$modversion['templates'][$i]['description'] = 'tad_themes_adm_dropdown_tpl.html';
 
 $i++;
 $modversion['templates'][$i]['file']        = 'tad_themes_adm_dropdown_tpl_b3.html';
