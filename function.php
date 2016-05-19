@@ -37,7 +37,7 @@ function import_img($path = '', $col_name = "logo", $col_sn = '', $desc = "", $s
 
     $sql = "select files_sn,file_name,original_filename from " . $xoopsDB->prefix("tad_themes_files_center") . " where col_name='{$col_name}' and col_sn='{$col_sn}'";
 
-    $result          = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>" . $sql);
+    $result          = $xoopsDB->query($sql) or web_error($sql);
     $db_files_amount = 0;
     while (list($files_sn, $file_name, $original_filename) = $xoopsDB->fetchRow($result)) {
         $db_files[$files_sn] = $original_filename;
@@ -205,20 +205,20 @@ function TadUpFilesNavBg()
 function update_tadtools_setup($theme = "", $theme_kind = "")
 {
     global $xoopsDB, $xoopsConfig;
-    if ($theme_kind == "bootstrap" or $theme_kind == "bootstrap3") {
+    if ($theme_kind == "bootstrap3") {
         $bootstrap_color = $theme_kind;
     } else {
-        $bootstrap_color = "bootstrap";
+        $bootstrap_color = "bootstrap3";
     }
 
     $sql    = "select `tt_theme_kind` from `" . $xoopsDB->prefix("tadtools_setup") . "` where `tt_theme`='{$theme}'";
-    $result = $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<hr>" . $sql);
+    $result = $xoopsDB->queryF($sql) or web_error($sql);
 
     list($old_tt_theme_kind) = $xoopsDB->fetchRow($result);
 
     if ($theme_kind !== $old_tt_theme_kind) {
         $sql = "replace into `" . $xoopsDB->prefix("tadtools_setup") . "` (`tt_theme` , `tt_use_bootstrap`,`tt_bootstrap_color` , `tt_theme_kind`) values('{$theme}', '0', '{$bootstrap_color}', '{$theme_kind}')";
 
-        $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<hr>" . $sql);
+        $xoopsDB->queryF($sql) or web_error($sql);
     }
 }
