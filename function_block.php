@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Outputs a color (#000000) based Text input
  *

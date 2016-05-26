@@ -34,133 +34,134 @@ function tad_themes_menu_form($of_level = "0", $menuid = "", $mode = "return")
 
     $op = (empty($menuid)) ? "insert_tad_themes_menu" : "update_tad_themes_menu";
 
-    // $row=($_SESSION['bootstrap']=='3')?'row':'row-fluid';
-    // $span=($_SESSION['bootstrap']=='3')?'col-md-':'span';
-    $row              = 'row-fluid';
-    $span             = 'span';
     $get_tad_all_menu = "";
     if (!empty($menuid)) {
         $get_tad_all_menu = "
-      <label class='{$span}3'>" . _MA_TADTHEMES_OF_LEVEL . _TAD_FOR . "</label>
-      <div class='{$span}3'>
-        <select name='of_level' id='of_level' class='{$span}12'>
-        <option value=''>" . _MA_TADTHEMES_ROOT . "</option>
-        " . get_tad_all_menu("", "", $of_level, $menuid, "1") . "
-        </select>
-      </div>
-    ";
+          <label class='col-xs-3 control-label'>" . _MA_TADTHEMES_OF_LEVEL . _TAD_FOR . "</label>
+          <div class='col-xs-3'>
+            <select name='of_level' id='of_level' class='form-control'>
+            <option value=''>" . _MA_TADTHEMES_ROOT . "</option>
+            " . get_tad_all_menu("", "", $of_level, $menuid, "1") . "
+            </select>
+          </div>
+        ";
     } else {
         $get_tad_all_menu = "<input type='hidden' name='of_level' value='{$of_level}'>";
     }
 
     $main = "
-  <form method='post' id='myForm' enctype='multipart/form-data'>
-    <div class='{$row}'>
-      <label class='{$span}3' for='icon'>" . _MA_TADTHEMES_ICON . _TAD_FOR . "</label>
-      <div class='{$span}3'>
-        <input name='icon' class='selectpicker {$span}12' value='{$icon}' type='text' />
-      </div>
-      $get_tad_all_menu
-    </div>
+      <form method='post' id='myForm' enctype='multipart/form-data' class='form-horizontal' role='form'>
+        <div class='form-group'>
+          <label class='col-xs-3 control-label' for='icon'>" . _MA_TADTHEMES_ICON . _TAD_FOR . "</label>
+          <div class='col-xs-3'>
+            <input name='icon' class='selectpicker form-control' value='{$icon}' type='text' />
+          </div>
+          $get_tad_all_menu
+        </div>
 
 
-    <div class='{$row}'>
-      <label class='{$span}3' for='itemname'>" . _MA_TADTHEMES_ITEMNAME . _TAD_FOR . "</label>
-      <div class='{$span}8'>
-        <input type='text' name='itemname' id='itemname' value='{$itemname}' class='{$span}12' placeholder='" . _MA_TADTHEMES_ITEMNAME . "'>
-      </div>
-    </div>
+        <div class='form-group'>
+          <label class='col-xs-3 control-label' for='itemname'>" . _MA_TADTHEMES_ITEMNAME . _TAD_FOR . "</label>
+          <div class='col-xs-8'>
+            <input type='text' name='itemname' id='itemname' value='{$itemname}' class='form-control' placeholder='" . _MA_TADTHEMES_ITEMNAME . "'>
+          </div>
+        </div>
 
-    <div class='{$row}'>
-      <label class='{$span}3' for='itemurl'>" . _MA_TADTHEMES_ITEMURL . _TAD_FOR . "</label>
-      <div class='{$span}5'>
-        <input type='text' name='itemurl' id='itemurl' value='{$itemurl}' class='{$span}12' placeholder='" . _MA_TADTHEMES_ITEMURL . "'>
-      </div>
-      <div class='{$span}3'>
-        <select name='target' class='{$span}12'>
-          <option value='_self'></option>
-          <option value='_blank' " . chk($target, "_blank", 0, 'selected') . ">" . _MA_TADTHEMES_TARGET_BLANK . "</option>
-          <option value='popup' " . chk($target, "popup", 0, 'selected') . ">" . _MA_TADTHEMES_TARGET_FANCYBOX . "</option>
-        </select>
-      </div>
-    </div>
+        <div class='form-group'>
+          <label class='col-xs-3 control-label' for='itemurl'>" . _MA_TADTHEMES_ITEMURL . _TAD_FOR . "</label>
+          <div class='col-xs-5'>
+            <input type='text' name='itemurl' id='itemurl' value='{$itemurl}' class='form-control' placeholder='" . _MA_TADTHEMES_ITEMURL . "'>
+          </div>
+          <div class='col-xs-3'>
+            <select name='target' class='form-control'>
+              <option value='_self'></option>
+              <option value='_blank' " . chk($target, "_blank", 0, 'selected') . ">" . _MA_TADTHEMES_TARGET_BLANK . "</option>
+              <option value='popup' " . chk($target, "popup", 0, 'selected') . ">" . _MA_TADTHEMES_TARGET_FANCYBOX . "</option>
+            </select>
+          </div>
+        </div>
 
 
-    <div class='{$row}'>
-      <label class='{$span}3' for='image'>" . _MA_TADTHEMES_ITEMICON . _TAD_FOR . "</label>
-      <div class='{$span}8'>
-        <input type='file' name='image' id='image' class='{$span}12'>
-      </div>
-    </div>
+        <div class='form-group'>
+          <label class='col-xs-3 control-label' for='image'>" . _MA_TADTHEMES_ITEMICON . _TAD_FOR . "</label>
+          <div class='col-xs-8'>
+            <input type='file' name='image' id='image'>
+          </div>
+        </div>
 
-    <div class='{$row}'>
-      <label class='{$span}3' for='banner_image'>" . _MA_TADTHEMES_ITEMBANNER . _TAD_FOR . "</label>
-      <div class='{$span}8'>
-        <input type='file' name='banner_image' id='banner_image' class='{$span}12'>
-      </div>
-    </div>
+        <div class='form-group'>
+          <label class='col-xs-3 control-label' for='banner_image'>" . _MA_TADTHEMES_ITEMBANNER . _TAD_FOR . "</label>
+          <div class='col-xs-8'>
+            <input type='file' name='banner_image' id='banner_image'>
+          </div>
+        </div>
 
-    <input type='hidden' name='menuid' value='{$menuid}'>
-    <input type='hidden' name='status' value='{$status}'>
-    <input type='hidden' name='op' value='{$op}'>
-    <input type='hidden' name='position' value='{$position}'>
-    <button type='button' id='submit' class='btn btn-primary'>" . _TAD_SAVE . "</button>
+        <input type='hidden' name='menuid' value='{$menuid}'>
+        <input type='hidden' name='status' value='{$status}'>
+        <input type='hidden' name='op' value='{$op}'>
+        <input type='hidden' name='position' value='{$position}'>
+        <button type='button' id='submit' class='btn btn-primary'>" . _TAD_SAVE . "</button>
 
-  </form>";
+      </form>";
 
     if ($mode == "die") {
         $jquery = get_jquery();
         $main2  = "
-    <!DOCTYPE html>
-    <html lang='zh-TW'>
-      <head>
-        <meta charset='utf-8'>
-        <title></title>
-        <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-        <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/bootstrap/css/bootstrap.css' />
-        <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/bootstrap/css/bootstrap-responsive.css' />
-        <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/css/xoops_adm.css' />
-        <link href='" . XOOPS_URL . "/modules/tadtools/css/font-awesome/css/font-awesome.min.css' rel='stylesheet'>
+        <!DOCTYPE html>
+        <html lang='zh-TW'>
+          <head>
+            <meta charset='utf-8'>
+            <title></title>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/bootstrap3/css/bootstrap.css' />
 
-        <script src='" . XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.js' type='text/javascript'></script>
-        <script src='" . XOOPS_URL . "/modules/tadtools/bootstrap/js/bootstrap.min.js'></script>
-        <link href='" . XOOPS_URL . "/modules/tad_themes/class/fontawesome-iconpicker/css/fontawesome-iconpicker.min.css' rel='stylesheet'>
-        <script src='" . XOOPS_URL . "/modules/tad_themes/class/fontawesome-iconpicker/js/fontawesome-iconpicker.js'></script>
-      </head>
-      <body>
+            <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/css/xoops_adm.css' />
+            <link href='" . XOOPS_URL . "/modules/tadtools/css/font-awesome/css/font-awesome.min.css' rel='stylesheet'>
 
+            <script src='" . XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.js' type='text/javascript'></script>
+            <script src='" . XOOPS_URL . "/modules/tadtools/bootstrap3/js/bootstrap.min.js'></script>
+            <link href='" . XOOPS_URL . "/modules/tad_themes/class/fontawesome-iconpicker/css/fontawesome-iconpicker.min.css' rel='stylesheet'>
+            <script src='" . XOOPS_URL . "/modules/tad_themes/class/fontawesome-iconpicker/js/fontawesome-iconpicker.js'></script>
+          </head>
+          <body>
 
-        $main
+            <div class='container-fluid'>
+                <div class='row'>
+                    <div class='col-xs-12'>
+                        $main
+                    </div>
+                </div>
+            </div>
 
-        <script type='text/javascript'>
-          $(document).ready(function(){
-            $('.selectpicker').iconpicker();
+            <script type='text/javascript'>
+              $(document).ready(function(){
+                $('.selectpicker').iconpicker();
 
-            $('#myForm').bind('submit', function()
-              {
-                $.ajax({
-                  type: 'POST',
-                  url: '{$_SERVER['PHP_SELF']}',
-                  //data: $(this).serializeArray(),
-                  data: new FormData( this ),
-                  processData: false,
-                  contentType: false,
-                  success: function(data) {
-                    parent.$.fancybox.close();
-                  }
+                $('#myForm').bind('submit', function()
+                  {
+                    $.ajax({
+                      type: 'POST',
+                      url: '{$_SERVER['PHP_SELF']}',
+                      //data: $(this).serializeArray(),
+                      data: new FormData( this ),
+                      processData: false,
+                      contentType: false,
+                      success: function(data) {
+                        parent.$.fancybox.close();
+                      }
+                    });
+                  });
+                $('#submit').click(function(e)
+                {
+                    $('#myForm').trigger('submit');
+                    e.preventDefault();
+
                 });
               });
-            $('#submit').click(function(e)
-            {
-                $('#myForm').trigger('submit');
-                e.preventDefault();
-
-            });
-          });
-        </script>
-      </body>
-    </html>
-    ";
+            </script>
+          </body>
+        </html>
+        ";
         die($main2);
     }
     return $main;
@@ -296,7 +297,7 @@ function list_tad_themes_menu($add_of_level = "", $menuid = "")
     $xoopsTpl->assign('fancybox_code', $fancybox_code);
 
     $xoTheme->addStylesheet('modules/tadtools/css/font-awesome/css/font-awesome.min.css');
-    $xoTheme->addScript('modules/tadtools/bootstrap/js/bootstrap.js');
+    $xoTheme->addScript('modules/tadtools/bootstrap3/js/bootstrap.js');
 
 }
 
@@ -326,9 +327,7 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = "", $this_menuid = "
 
         $add_img = ($level >= 3) ? "" : "<a href='{$_SERVER['PHP_SELF']}?op=add_tad_themes_menu&of_level={$menuid}' class='edit_dropdown' data-fancybox-type='iframe'><img src='../images/001_01.gif' align='absmiddle' alt='" . sprintf(_MA_TADTHEMES_ADDITEM, $itemname) . "' title='" . sprintf(_MA_TADTHEMES_ADDITEM, $itemname) . "'></a>";
 
-        $btn_small = ($_SESSION['bootstrap'] == '3') ? 'btn-xs' : 'btn-mini';
-
-        $status_tool = ($status == '1') ? "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=0' class='btn $btn_small btn-warning'>" . _TAD_UNABLE . "</a>" : "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=1' class='btn $btn_small btn-info'>" . _TAD_ENABLE . "</a>";
+        $status_tool = ($status == '1') ? "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=0' class='btn btn-xs btn-warning'>" . _TAD_UNABLE . "</a>" : "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=1' class='btn btn-xs btn-info'>" . _TAD_ENABLE . "</a>";
 
         $status_color  = ($status == '1') ? "" : "style='background-color:#D0D0D0'";
         $status_color2 = ($status == '1') ? "" : "background-color:#D0D0D0";
@@ -348,23 +347,23 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = "", $this_menuid = "
         }
 
         $content = "
-    <td style='padding-left:{$left}px;$status_color2' >
-      <a name='menuid_{$menuid}'></a>
-      <img src='" . XOOPS_URL . "/modules/tadtools/treeTable/images/move_s.png' class='folder' alt='" . _MA_TREETABLE_MOVE_PIC . "' title='" . _MA_TREETABLE_MOVE_PIC . "'>
-      <img src='" . XOOPS_URL . "/modules/tadtools/treeTable/images/updown_s.png' style='cursor: s-resize;margin:0px 4px;' alt='" . _MA_TADTHEMES_SAVE_SORT . "' title='" . _MA_TADTHEMES_SAVE_SORT . "'>
-      {$position}
-      <span style='font-size:{$font_size}px;' class='folder'>{$item}</span>
-      $target_icon
-      $add_img
-    </td>
-    <td $status_color>
-      <a href=\"javascript:delete_tad_themes_menu_func($menuid);\" class='btn $btn_small btn-danger'>" . _TAD_DEL . "</a>
-      <a href='{$_SERVER['PHP_SELF']}?op=modify_tad_themes_menu&menuid=$menuid#menuid_{$menuid}' class='btn $btn_small btn-success edit_dropdown' data-fancybox-type='iframe'>" . _TAD_EDIT . "</a>
-      $status_tool
+        <td style='padding-left:{$left}px;$status_color2' >
+          <a name='menuid_{$menuid}'></a>
+          <img src='" . XOOPS_URL . "/modules/tadtools/treeTable/images/move_s.png' class='folder' alt='" . _MA_TREETABLE_MOVE_PIC . "' title='" . _MA_TREETABLE_MOVE_PIC . "'>
+          <img src='" . XOOPS_URL . "/modules/tadtools/treeTable/images/updown_s.png' style='cursor: s-resize;margin:0px 4px;' alt='" . _MA_TADTHEMES_SAVE_SORT . "' title='" . _MA_TADTHEMES_SAVE_SORT . "'>
+          {$position}
+          <span style='font-size:{$font_size}px;' class='folder'>{$item}</span>
+          $target_icon
+          $add_img
+        </td>
+        <td $status_color>
+          <a href=\"javascript:delete_tad_themes_menu_func($menuid);\" class='btn btn-xs btn-danger'>" . _TAD_DEL . "</a>
+          <a href='{$_SERVER['PHP_SELF']}?op=modify_tad_themes_menu&menuid=$menuid#menuid_{$menuid}' class='btn btn-xs btn-success edit_dropdown' data-fancybox-type='iframe'>" . _TAD_EDIT . "</a>
+          $status_tool
 
-      $icon
-      $banner
-    </td>";
+          $icon
+          $banner
+        </td>";
 
         $option .= "<tr data-tt-id='{$menuid}' $parent id='node-_{$menuid}' $class style='letter-spacing: 0em;'>$content</tr>";
 

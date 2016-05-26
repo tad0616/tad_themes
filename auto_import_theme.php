@@ -201,6 +201,14 @@ function save_blocks($theme_id = "", $import = false)
 
         $xoopsDB->queryF($sql) or web_error($sql);
 
+        $TadUpFilesBt_bg = TadUpFilesBt_bg();
+        // die(var_dump($TadUpFilesBt_bg));
+        $TadUpFilesBt_bg->set_col("bt_bg_{$position}", $theme_id);
+        $bt_bg_img = $TadUpFilesBt_bg->upload_file("bt_bg_{$position}", null, null, null, "", true);
+        if ($bt_bg_img) {
+            $sql = "update " . $xoopsDB->prefix("tad_themes_blocks") . " set `bt_bg_img`='" . XOOPS_URL . "/uploads/tad_themes/{$theme_name}/bt_bg/{$bt_bg_img}' where `theme_id`='{$theme_id}' and `block_position`='{$position}'";
+            $xoopsDB->queryF($sql) or web_error($sql);
+        }
     }
 }
 
