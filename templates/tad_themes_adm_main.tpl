@@ -578,7 +578,7 @@
                           <{if $enable.logo_top=="1"}>
                             <div class="row">
                               <div class="col-md-4 col-md-offset-4">
-                                <input type="text" name="logo_top" class="col-md-8<{$validate.logo_top}>" value="<{$logo_top}>" id="logo_top" onChange="if(this.value > 0){$('#logo_bottom').val(0);}"> px
+                                <input type="text" name="logo_top" class="col-md-8<{$validate.logo_top}> form-control" value="<{$logo_top}>" id="logo_top" onChange="if(this.value > 0){$('#logo_bottom').val(0);}"> px
                               </div>
                             </div>
                           <{else}>
@@ -588,15 +588,25 @@
                           <div class="row">
                             <{if $enable.logo_left=="1"}>
                               <div class="col-md-4">
-                                <input type="text" name="logo_left" class="col-md-8<{$validate.logo_left}>" value="<{$logo_left}>" id="logo_left" onChange="if(this.value > 0){$('#logo_right').val(0);}"> px
+                                <input type="text" name="logo_left" class="col-md-8<{$validate.logo_left}> form-control" value="<{$logo_left}>" id="logo_left" onChange="if(this.value > 0){$('#logo_right').val(0);$('#logo_center').attr('checked',false);}"> px
                               </div>
                             <{else}>
                               <input type="hidden" name="logo_left" id="logo_left" value="<{$logo_left}>">
                             <{/if}>
 
+                            <div class="col-md-4 text-center">
+                              <{if $enable.logo_center=="1"}>
+                                  <label class="checkbox">
+                                    <input type="checkbox" name="logo_center" value="1" id="logo_center" <{if $logo_center=='1'}>checked<{/if}> onChange="if($('#logo_center').attr('checked')){$('#logo_left').val(0);$('#logo_right').val(0);}"><{$smarty.const._MA_TADTHEMES_LOGO_CENTER}>
+                                  </label>
+                              <{else}>
+                                <input type="hidden" name="logo_center" id="logo_right" value="<{$logo_right}>">
+                              <{/if}>
+                            </div>
+
                             <{if $enable.logo_right=="1"}>
-                              <div class="col-md-4 col-md-offset-4">
-                                <input type="text" name="logo_right" class="col-md-8<{$validate.logo_right}>" value="<{$logo_right}>" id="logo_right" onChange="if(this.value > 0){$('#logo_left').val(0);}"> px
+                              <div class="col-md-4">
+                                <input type="text" name="logo_right" class="col-md-8<{$validate.logo_right}> form-control" value="<{$logo_right}>" id="logo_right" onChange="if(this.value > 0){$('#logo_left').val(0);$('#logo_center').attr('checked',false);}"> px
                               </div>
                             <{else}>
                               <input type="hidden" name="logo_right" id="logo_right" value="<{$logo_right}>">
@@ -606,7 +616,7 @@
                           <{if $enable.logo_bottom=="1"}>
                             <div class="row">
                               <div class="col-md-4 col-md-offset-4">
-                                <input type="text" name="logo_bottom" class="col-md-8<{$validate.logo_bottom}>" value="<{$logo_bottom}>" id="logo_bottom" onChange="if(this.value > 0){$('#logo_top').val(0);}"> px
+                                <input type="text" name="logo_bottom" class="col-md-8<{$validate.logo_bottom}> form-control" value="<{$logo_bottom}>" id="logo_bottom" onChange="if(this.value > 0){$('#logo_top').val(0);}"> px
                               </div>
                             </div>
                           <{else}>
@@ -652,6 +662,7 @@
               <input type="hidden" id="logo_right" name="logo_right" value="<{$logo_right}>">
               <input type="hidden" id="logo_bottom" name="logo_bottom" value="<{$logo_bottom}>">
               <input type="hidden" id="logo_left" name="logo_left" value="<{$logo_left}>">
+              <input type="hidden" id="logo_center" name="logo_center" value="<{$logo_center}>">
             <{/if}>
 
             <!--區塊標題列背景圖-->

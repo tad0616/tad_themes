@@ -1,6 +1,6 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = "tad_themes_adm_dropdown_tpl.html";
+$xoopsOption['template_main'] = "tad_themes_adm_dropdown.tpl";
 include_once "header.php";
 include_once "../function.php";
 
@@ -313,7 +313,7 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = "", $this_menuid = "
     $left = (empty($left)) ? 4 : $left;
 
     $option = "";
-    $sql    = "select `menuid`,`of_level`,`itemname`,`position`,`itemurl`,`status`,`mainmenu`,`target`,`icon` from " . $xoopsDB->prefix("tad_themes_menu") . " where of_level='{$of_level}'  order by position";
+    $sql    = "select `menuid`,`of_level`,`itemname`,`position`,`itemurl`,`status`,`mainmenu`,`target`,`icon`,`link_cate_name`, `link_cate_sn` from " . $xoopsDB->prefix("tad_themes_menu") . " where of_level='{$of_level}'  order by position";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
     $op         = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
@@ -321,11 +321,11 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = "", $this_menuid = "
     $banner_dir = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_banner";
     $url        = XOOPS_URL . "/uploads/tad_themes/menu_icons";
     $banner_url = XOOPS_URL . "/uploads/tad_themes/menu_banner";
-    while (list($menuid, $of_level, $itemname, $position, $itemurl, $status, $mainmenu, $target, $icon) = $xoopsDB->fetchRow($result)) {
+    while (list($menuid, $of_level, $itemname, $position, $itemurl, $status, $mainmenu, $target, $icon, $link_cate_name, $link_cate_sn) = $xoopsDB->fetchRow($result)) {
 
         $item = (empty($itemurl)) ? "<i class='fa {$icon}'></i> " . $itemname : "<a name='$menuid' href='{$itemurl}'><i class='fa {$icon}'></i> $itemname</a>";
 
-        $add_img = ($level >= 3) ? "" : "<a href='{$_SERVER['PHP_SELF']}?op=add_tad_themes_menu&of_level={$menuid}' class='edit_dropdown' data-fancybox-type='iframe'><img src='../images/001_01.gif' align='absmiddle' alt='" . sprintf(_MA_TADTHEMES_ADDITEM, $itemname) . "' title='" . sprintf(_MA_TADTHEMES_ADDITEM, $itemname) . "'></a>";
+        $add_img = ($level >= 3) ? "" : "<a href='{$_SERVER['PHP_SELF']}?op=add_tad_themes_menu&of_level={$menuid}' class='edit_dropdown' data-fancybox-type='iframe'><i class='fa fa-plus-circle fa-2x text-success' aria-hidden='true' title='" . sprintf(_MA_TADTHEMES_ADDITEM, $itemname) . "'></i></a>";
 
         $status_tool = ($status == '1') ? "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=0' class='btn btn-xs btn-warning'>" . _TAD_UNABLE . "</a>" : "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=1' class='btn btn-xs btn-info'>" . _TAD_ENABLE . "</a>";
 
@@ -601,5 +601,6 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-//$xoTheme->addStylesheet(XOOPS_URL.'/modules/tadtools/css/xoops_adm.css');
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/bootstrap3/css/bootstrap.css');
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/css/xoops_adm3.css');
 include_once 'footer.php';

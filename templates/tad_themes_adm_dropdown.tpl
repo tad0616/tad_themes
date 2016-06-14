@@ -31,8 +31,10 @@
 
     <table id="tbl" class="table table-striped table-hover" style="width:auto;">
       <tr data-tt-id="0" id="node-_0">
-        <td colspan=2 style="font-size:20px;">
-          <a href="dropdown.php?op=add_tad_themes_menu&of_level=0" class="edit_dropdown" data-fancybox-type="iframe"  style="letter-spacing: 0em;"><img src="../images/001_01.gif" align="absmiddle" alt="<{$add_item}>" title="<{$add_item}>" class='folder'><{$add_item}></a>
+        <td colspan=2 >
+          <a href="dropdown.php?op=add_tad_themes_menu&of_level=0" class="edit_dropdown" data-fancybox-type="iframe"  style="letter-spacing: 0em; font-size: 12pt;">
+          <{$add_item}>
+          <i class="fa fa-plus-circle fa-lg text-success" aria-hidden="true" title="<{$add_item}>"></i></a>
         </td>
       <tr>
       <{if $all}>

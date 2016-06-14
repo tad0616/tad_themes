@@ -1,6 +1,6 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = "tad_themes_adm_main_tpl.html";
+$xoopsOption['template_main'] = "tad_themes_adm_main.tpl";
 include_once "header.php";
 include_once "../auto_import_theme.php";
 
@@ -164,6 +164,9 @@ function tad_themes_form()
     //設定「logo_left」欄位預設值
     $logo_left = (!isset($DBV['logo_left']) or !$enable['logo_left']) ? $logo_left : $DBV['logo_left'];
 
+    //設定「logo_center」欄位預設值
+    $logo_center = (!isset($DBV['logo_center']) or !$enable['logo_center']) ? $logo_center : $DBV['logo_center'];
+
     //設定「theme_enable」欄位預設值
     $theme_enable = (!isset($DBV['theme_enable'])) ? '' : $DBV['theme_enable'];
 
@@ -294,6 +297,7 @@ function tad_themes_form()
     $xoopsTpl->assign('logo_position', $logo_position);
     $xoopsTpl->assign('logo_top', $logo_top);
     $xoopsTpl->assign('logo_left', $logo_left);
+    $xoopsTpl->assign('logo_center', $logo_center);
     $xoopsTpl->assign('logo_right', $logo_right);
     $xoopsTpl->assign('logo_bottom', $logo_bottom);
 
@@ -752,11 +756,12 @@ function insert_tad_themes()
     $_POST['logo_right']  = intval($_POST['logo_right']);
     $_POST['logo_bottom'] = intval($_POST['logo_bottom']);
     $_POST['logo_left']   = intval($_POST['logo_left']);
+    $_POST['logo_center'] = intval($_POST['logo_center']);
 
     //此處增加7+4項by hc
     $sql = "insert into " . $xoopsDB->prefix("tad_themes") . "
-  (`theme_name` , `theme_type` , `theme_width` , `lb_width` , `rb_width` , `clb_width` , `crb_width`, `base_color` , `lb_color` , `cb_color` , `rb_color` , `margin_top` , `margin_bottom` , `bg_img` , `bg_color`  , `bg_repeat`  , `bg_attachment`  , `bg_position`  , `logo_img` , `logo_position` , `logo_top` , `logo_right` , `logo_bottom` , `logo_left` , `theme_enable` , `slide_width` , `slide_height` , `font_size` , `font_color` , `link_color` , `hover_color` , `theme_kind`, `navbar_pos` , `navbar_bg_top` , `navbar_bg_bottom` , `navbar_hover` , `navbar_color` , `navbar_color_hover` , `navbar_icon` , `navbar_img`)
-  values('{$_POST['theme_name']}' , '{$_POST['theme_type']}', '{$_POST['theme_width']}' , '{$_POST['lb_width']}' , '{$_POST['rb_width']}' , '{$_POST['clb_width']}' , '{$_POST['crb_width']}' , '{$_POST['base_color']}', '{$_POST['lb_color']}' , '{$_POST['cb_color']}' , '{$_POST['rb_color']}' , '{$_POST['margin_top']}' , '{$_POST['margin_bottom']}' , '{$_POST['bg_img']}' , '{$_POST['bg_color']}' , '{$_POST['bg_repeat']}' , '{$_POST['bg_attachment']}' , '{$_POST['bg_position']}' , '{$_POST['logo_img']}' , '{$_POST['logo_position']}' , '{$_POST['navlogo_img']}' , '{$_POST['logo_top']}' , '{$_POST['logo_right']}' , '{$_POST['logo_bottom']}' , '{$_POST['logo_left']}' , '1' , '{$_POST['slide_width']}' , '{$_POST['slide_height']}' , '{$_POST['font_size']}' , '{$_POST['font_color']}' , '{$_POST['link_color']}' , '{$_POST['hover_color']}' , '{$_POST['theme_kind']}','{$_POST['navbar_pos']}','{$_POST['navbar_bg_top']}','{$_POST['navbar_bg_bottom']}','{$_POST['navbar_hover']}','{$_POST['navbar_color']}','{$_POST['navbar_color_hover']}','{$_POST['navbar_icon']}','{$_POST['navbar_img']}')";
+  (`theme_name` , `theme_type` , `theme_width` , `lb_width` , `rb_width` , `clb_width` , `crb_width`, `base_color` , `lb_color` , `cb_color` , `rb_color` , `margin_top` , `margin_bottom` , `bg_img` , `bg_color`  , `bg_repeat`  , `bg_attachment`  , `bg_position`  , `logo_img` , `logo_position` , `logo_top` , `logo_right` , `logo_bottom` , `logo_left`, `logo_center` , `theme_enable` , `slide_width` , `slide_height` , `font_size` , `font_color` , `link_color` , `hover_color` , `theme_kind`, `navbar_pos` , `navbar_bg_top` , `navbar_bg_bottom` , `navbar_hover` , `navbar_color` , `navbar_color_hover` , `navbar_icon` , `navbar_img`)
+  values('{$_POST['theme_name']}' , '{$_POST['theme_type']}', '{$_POST['theme_width']}' , '{$_POST['lb_width']}' , '{$_POST['rb_width']}' , '{$_POST['clb_width']}' , '{$_POST['crb_width']}' , '{$_POST['base_color']}', '{$_POST['lb_color']}' , '{$_POST['cb_color']}' , '{$_POST['rb_color']}' , '{$_POST['margin_top']}' , '{$_POST['margin_bottom']}' , '{$_POST['bg_img']}' , '{$_POST['bg_color']}' , '{$_POST['bg_repeat']}' , '{$_POST['bg_attachment']}' , '{$_POST['bg_position']}' , '{$_POST['logo_img']}' , '{$_POST['logo_position']}' , '{$_POST['navlogo_img']}' , '{$_POST['logo_top']}' , '{$_POST['logo_right']}' , '{$_POST['logo_bottom']}' , '{$_POST['logo_left']}' , '{$_POST['logo_center']}' , '1' , '{$_POST['slide_width']}' , '{$_POST['slide_height']}' , '{$_POST['font_size']}' , '{$_POST['font_color']}' , '{$_POST['link_color']}' , '{$_POST['hover_color']}' , '{$_POST['theme_kind']}','{$_POST['navbar_pos']}','{$_POST['navbar_bg_top']}','{$_POST['navbar_bg_bottom']}','{$_POST['navbar_hover']}','{$_POST['navbar_color']}','{$_POST['navbar_color_hover']}','{$_POST['navbar_icon']}','{$_POST['navbar_img']}')";
     $xoopsDB->query($sql) or web_error($sql);
 
     //取得最後新增資料的流水編號
@@ -829,6 +834,7 @@ function update_tad_themes($theme_id = "")
     $_POST['logo_right']  = intval($_POST['logo_right']);
     $_POST['logo_bottom'] = intval($_POST['logo_bottom']);
     $_POST['logo_left']   = intval($_POST['logo_left']);
+    $_POST['logo_center'] = intval($_POST['logo_center']);
 
     $sql = "update " . $xoopsDB->prefix("tad_themes") . " set
     `theme_name` = '{$_POST['theme_name']}' ,
@@ -856,6 +862,7 @@ function update_tad_themes($theme_id = "")
     `logo_right` = '{$_POST['logo_right']}' ,
     `logo_bottom` = '{$_POST['logo_bottom']}' ,
     `logo_left` = '{$_POST['logo_left']}' ,
+    `logo_center` = '{$_POST['logo_center']}' ,
     `theme_enable` = '1' ,
     `slide_width` = '{$_POST['slide_width']}' ,
     `slide_height` = '{$_POST['slide_height']}' ,
@@ -1086,5 +1093,6 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-//$xoTheme->addStylesheet(XOOPS_URL.'/modules/tadtools/css/xoops_adm.css');
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/bootstrap3/css/bootstrap.css');
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/css/xoops_adm3.css');
 include_once 'footer.php';

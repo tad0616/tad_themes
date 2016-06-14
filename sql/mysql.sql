@@ -25,6 +25,7 @@ CREATE TABLE `tad_themes` (
   `logo_right` smallint(5) unsigned NOT NULL default 0 COMMENT 'Logo離右邊距離',
   `logo_bottom` smallint(5) unsigned NOT NULL default 0 COMMENT 'Logo離下方距離',
   `logo_left` smallint(5) unsigned NOT NULL default 0 COMMENT 'Logo離左邊距離',
+  `logo_center` enum('0','1') NOT NULL default '0' COMMENT 'Logo 置中',
   `theme_enable` enum('1','0') NOT NULL default '1' COMMENT '使用狀況',
   `slide_width` varchar(255) NOT NULL default '' COMMENT '佈景圖片寬度',
   `slide_height` varchar(255) NOT NULL default '' COMMENT '佈景圖片高度',
@@ -90,7 +91,9 @@ CREATE TABLE `tad_themes_menu` (
   `status` enum('1','0') NOT NULL,
   `mainmenu` enum('0','1') NOT NULL default '0',
   `target` varchar(255) NOT NULL default '',
-  `icon` varchar(255) NOT NULL default 'icon-th-list',
+  `icon` varchar(255) NOT NULL default 'fa-th-list',
+  `link_cate_name` varchar(255) NOT NULL default '',
+  `link_cate_sn` smallint(5) unsigned NOT NULL default 0,
   PRIMARY KEY  (`menuid`),
   KEY `of_level` (`of_level`)
 )  ENGINE=MyISAM;

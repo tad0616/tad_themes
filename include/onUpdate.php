@@ -72,6 +72,15 @@ function xoops_module_update_tad_themes(&$module, $old_version)
     if (chk_chk18()) {
         go_update18();
     }
+
+    if (chk_chk19()) {
+        go_update19();
+    }
+
+    if (chk_chk20()) {
+        go_update20();
+    }
+
     if (chk_files_center()) {
         go_update_files_center();
     }
@@ -82,7 +91,7 @@ function xoops_module_update_tad_themes(&$module, $old_version)
     return true;
 }
 
-//·s¼W§G´ºÃş«¬Äæ¦ì
+//æ–°å¢ä½ˆæ™¯é¡å‹æ¬„ä½
 function chk_chk1()
 {
     global $xoopsDB;
@@ -102,7 +111,7 @@ function go_update1()
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
-//·s¼Wtad_themes_menu¸ê®Æªí
+//æ–°å¢tad_themes_menuè³‡æ–™è¡¨
 function chk_chk2()
 {
     global $xoopsDB;
@@ -132,7 +141,7 @@ function go_update2()
     $xoopsDB->queryF($sql);
 }
 
-//·s¼W°Ï¶ôÄæ¦ì
+//æ–°å¢å€å¡Šæ¬„ä½
 function chk_chk3()
 {
     global $xoopsDB;
@@ -159,7 +168,7 @@ function go_update3()
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
-//·s¼W¾ÉÄı¤u¨ã¦CÄæ¦ì
+//æ–°å¢å°è¦½å·¥å…·åˆ—æ¬„ä½
 function chk_chk4()
 {
     global $xoopsDB;
@@ -183,7 +192,7 @@ function go_update4()
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
-//·s¼W¿ï³æÄæ¦ì
+//æ–°å¢é¸å–®æ¬„ä½
 function chk_chk5()
 {
     global $xoopsDB;
@@ -206,7 +215,7 @@ function go_update5()
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
-//·s¼Woriginal_filenameÄæ¦ì
+//æ–°å¢original_filenameæ¬„ä½
 function chk_chk6()
 {
     global $xoopsDB;
@@ -231,7 +240,7 @@ function go_update6()
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
-//·s¼Whash_filenameÄæ¦ì
+//æ–°å¢hash_filenameæ¬„ä½
 function chk_chk7()
 {
     global $xoopsDB;
@@ -253,7 +262,7 @@ function go_update7()
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
-//·s¼Whash_filenameÄæ¦ì
+//æ–°å¢hash_filenameæ¬„ä½
 function chk_chk8()
 {
     global $xoopsDB;
@@ -277,7 +286,7 @@ function go_update8()
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
-//·s¼W theme_width Äæ¦ì
+//æ–°å¢ theme_width æ¬„ä½
 function chk_chk9()
 {
     global $xoopsDB;
@@ -302,7 +311,7 @@ function go_update9()
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
-//·s¼W¾ÉÄı¦Clogo¹ÏÄæ¦ì
+//æ–°å¢å°è¦½åˆ—logoåœ–æ¬„ä½
 function chk_chk10()
 {
     global $xoopsDB;
@@ -322,7 +331,7 @@ function go_update10()
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
-//·s¼Wlogo¹Ï¦ì¸mÄæ¦ì
+//æ–°å¢logoåœ–ä½ç½®æ¬„ä½
 function chk_chk11()
 {
     global $xoopsDB;
@@ -342,7 +351,7 @@ function go_update11()
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
-//·s¼Wtad_themes_config2¸ê®Æªí
+//æ–°å¢tad_themes_config2è³‡æ–™è¡¨
 function chk_chk12()
 {
     global $xoopsDB;
@@ -368,7 +377,7 @@ function go_update12()
     $xoopsDB->queryF($sql);
 }
 
-//·s¼W tad_themes_blocks ¸ê®Æªí
+//æ–°å¢ tad_themes_blocks è³‡æ–™è¡¨
 function chk_chk13()
 {
     global $xoopsDB;
@@ -388,16 +397,16 @@ function go_update13()
     $block_position = array("leftBlock", "rightBlock", "centerBlock", "centerLeftBlock", "centerRightBlock", "centerBottomBlock", "centerBottomLeftBlock", "centerBottomRightBlock");
 
     $sql = "CREATE TABLE `" . $xoopsDB->prefix("tad_themes_blocks") . "` (
-    `theme_id` smallint(6) unsigned NOT NULL AUTO_INCREMENT COMMENT '§G´º½s¸¹',
-    `block_position` varchar(30) NOT NULL default '' COMMENT '°Ï¶ô¦ì¸m',
-    `block_config` enum('right','left') NOT NULL DEFAULT 'right' COMMENT '¤u¨ã«ö¶s¾a¥ª/¥k',
-    `bt_text` varchar(16) NOT NULL COMMENT '°Ï¶ô¼ĞÃD¦rÅéÃC¦â',
-    `bt_text_padding` tinyint(4) NOT NULL DEFAULT '33' COMMENT '°Ï¶ô¼ĞÃD¤å¦rÁY±Æ',
-    `bt_text_size` varchar(16) NOT NULL COMMENT '°Ï¶ô¼ĞÃD¦rÅé¤j¤p',
-    `bt_bg_color` varchar(16) NOT NULL COMMENT '°Ï¶ô¼ĞÃD­I´ºÃC¦â',
-    `bt_bg_img` varchar(255) NOT NULL COMMENT '°Ï¶ô¼ĞÃD­I´º¹Ï',
-    `bt_bg_repeat` enum('0','1') NOT NULL DEFAULT '0' COMMENT '¥H¹Ï¶ñº¡°Ï¶ô¼ĞÃD¦C',
-    `bt_radius` enum('0','1') NOT NULL DEFAULT '1' COMMENT '°Ï¶ô¼ĞÃD¶ê¨¤',
+    `theme_id` smallint(6) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ä½ˆæ™¯ç·¨è™Ÿ',
+    `block_position` varchar(30) NOT NULL default '' COMMENT 'å€å¡Šä½ç½®',
+    `block_config` enum('right','left') NOT NULL DEFAULT 'right' COMMENT 'å·¥å…·æŒ‰éˆ•é å·¦/å³',
+    `bt_text` varchar(16) NOT NULL COMMENT 'å€å¡Šæ¨™é¡Œå­—é«”é¡è‰²',
+    `bt_text_padding` tinyint(4) NOT NULL DEFAULT '33' COMMENT 'å€å¡Šæ¨™é¡Œæ–‡å­—ç¸®æ’',
+    `bt_text_size` varchar(16) NOT NULL COMMENT 'å€å¡Šæ¨™é¡Œå­—é«”å¤§å°',
+    `bt_bg_color` varchar(16) NOT NULL COMMENT 'å€å¡Šæ¨™é¡ŒèƒŒæ™¯é¡è‰²',
+    `bt_bg_img` varchar(255) NOT NULL COMMENT 'å€å¡Šæ¨™é¡ŒèƒŒæ™¯åœ–',
+    `bt_bg_repeat` enum('0','1') NOT NULL DEFAULT '0' COMMENT 'ä»¥åœ–å¡«æ»¿å€å¡Šæ¨™é¡Œåˆ—',
+    `bt_radius` enum('0','1') NOT NULL DEFAULT '1' COMMENT 'å€å¡Šæ¨™é¡Œåœ“è§’',
     PRIMARY KEY (`theme_id`,`block_position`)
   ) ENGINE=MyISAM ;";
     $xoopsDB->queryF($sql);
@@ -434,7 +443,7 @@ function go_update13()
     $xoopsDB->queryF($sql);
 }
 
-//·s¼W theme_width Äæ¦ì
+//æ–°å¢ theme_width æ¬„ä½
 function chk_chk14()
 {
     global $xoopsDB;
@@ -451,12 +460,12 @@ function go_update14()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes") . "
-  ADD `base_color` varchar(255) NOT NULL default 'transparent' COMMENT '­¶­±¤º®e­I´º¦â'  after `crb_width`;
+  ADD `base_color` varchar(255) NOT NULL default 'transparent' COMMENT 'é é¢å…§å®¹èƒŒæ™¯è‰²'  after `crb_width`;
   ";
     $xoopsDB->queryF($sql);
 }
 
-//·s¼W navbar_img Äæ¦ì
+//æ–°å¢ navbar_img æ¬„ä½
 function chk_chk15()
 {
     global $xoopsDB;
@@ -473,12 +482,12 @@ function go_update15()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes") . "
-  ADD `navbar_img` varchar(255) NOT NULL default 'transparent' COMMENT 'navbar­I´º¹Ï'  after `navbar_icon`;
+  ADD `navbar_img` varchar(255) NOT NULL default 'transparent' COMMENT 'navbarèƒŒæ™¯åœ–'  after `navbar_icon`;
   ";
     $xoopsDB->queryF($sql);
 }
 
-//·s¼W°Ï¶ô¤º®e³]©wÄæ¦ì
+//æ–°å¢å€å¡Šå…§å®¹è¨­å®šæ¬„ä½
 function chk_chk16()
 {
     global $xoopsDB;
@@ -505,7 +514,7 @@ function go_update16()
     $xoopsDB->queryF($sql);
 }
 
-//·s¼W°ß¤@¯Á¤Ş
+//æ–°å¢å”¯ä¸€ç´¢å¼•
 function chk_chk17()
 {
     global $xoopsDB;
@@ -548,7 +557,7 @@ function go_update18()
     return true;
 }
 
-//­×¥¿col_snÄæ¦ì
+//ä¿®æ­£col_snæ¬„ä½
 function chk_files_center()
 {
     global $xoopsDB;
@@ -563,7 +572,50 @@ function chk_files_center()
     return false;
 }
 
-//°õ¦æ§ó·s
+//æ–°å¢ logo_center æ¬„ä½
+function chk_chk19()
+{
+    global $xoopsDB;
+    $sql    = "select count(`logo_center`) from " . $xoopsDB->prefix("tad_themes");
+    $result = $xoopsDB->query($sql);
+    if (empty($result)) {
+        return true;
+    }
+
+    return false;
+}
+
+function go_update19()
+{
+    global $xoopsDB;
+    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes") . " ADD `logo_center` enum('0','1') NOT NULL default '0' after `logo_left`";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
+
+}
+
+//æ–°å¢ link_cate_name æ¬„ä½
+function chk_chk20()
+{
+    global $xoopsDB;
+    $sql    = "select count(`link_cate_name`) from " . $xoopsDB->prefix("tad_themes_menu");
+    $result = $xoopsDB->query($sql);
+    if (empty($result)) {
+        return true;
+    }
+
+    return false;
+}
+
+function go_update20()
+{
+    global $xoopsDB;
+    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes_menu") . " ADD `link_cate_name` varchar(255) NOT NULL default '', ADD
+  `link_cate_sn` smallint(5) unsigned NOT NULL default 0";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
+
+}
+
+//åŸ·è¡Œæ›´æ–°
 function go_update_files_center()
 {
     global $xoopsDB;
@@ -572,31 +624,31 @@ function go_update_files_center()
     return true;
 }
 
-//§R°£¿ù»~ªº­«½ÆÄæ¦ì¤Î¼ËªOÀÉ
+//åˆªé™¤éŒ¯èª¤çš„é‡è¤‡æ¬„ä½åŠæ¨£æ¿æª”
 function chk_tad_themes_block()
 {
     global $xoopsDB;
     //die(var_export($xoopsConfig));
     include XOOPS_ROOT_PATH . '/modules/tad_themes/xoops_version.php';
 
-    //¥ı§ä¥X¸Ó¦³ªº°Ï¶ô¥H¤Î¹ïÀ³¼ËªO
+    //å…ˆæ‰¾å‡ºè©²æœ‰çš„å€å¡Šä»¥åŠå°æ‡‰æ¨£æ¿
     foreach ($modversion['blocks'] as $i => $block) {
         $show_func                = $block['show_func'];
         $tpl_file_arr[$show_func] = $block['template'];
         $tpl_desc_arr[$show_func] = $block['description'];
     }
 
-    //§ä¥X¥Ø«e©Ò¦³ªº¼ËªOÀÉ
+    //æ‰¾å‡ºç›®å‰æ‰€æœ‰çš„æ¨£æ¿æª”
     $sql = "SELECT bid,name,visible,show_func,template FROM `" . $xoopsDB->prefix("newblocks") . "`
     WHERE `dirname` = 'tad_themes' ORDER BY `func_num`";
     $result = $xoopsDB->query($sql);
     while (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result)) {
-        //°²¦p²{¦³ªº°Ï¶ô©M¼ËªO¹ï¤£¤W´N§R±¼
+        //å‡å¦‚ç¾æœ‰çš„å€å¡Šå’Œæ¨£æ¿å°ä¸ä¸Šå°±åˆªæ‰
         if ($template != $tpl_file_arr[$show_func]) {
             $sql = "delete from " . $xoopsDB->prefix("newblocks") . " where bid='{$bid}'";
             $xoopsDB->queryF($sql);
 
-            //³s¦P¼ËªO¥H¤Î¼ËªO¹êÅéÀÉ®×¤]­n§R±¼
+            //é€£åŒæ¨£æ¿ä»¥åŠæ¨£æ¿å¯¦é«”æª”æ¡ˆä¹Ÿè¦åˆªæ‰
             $sql = "delete from " . $xoopsDB->prefix("tplfile") . " as a
             left join " . $xoopsDB->prefix("tplsource") . "  as b on a.tpl_id=b.tpl_id
             where a.tpl_refid='$bid' and a.tpl_module='tad_themes' and a.tpl_type='block'";
@@ -611,23 +663,23 @@ function chk_tad_themes_block()
 
 }
 
-//«Ø¥ß¥Ø¿ı
+//å»ºç«‹ç›®éŒ„
 function mk_dir($dir = "")
 {
-    //­YµL¥Ø¿ı¦WºÙ¨q¥XÄµ§i°T®§
+    //è‹¥ç„¡ç›®éŒ„åç¨±ç§€å‡ºè­¦å‘Šè¨Šæ¯
     if (empty($dir)) {
         return;
     }
 
-    //­Y¥Ø¿ı¤£¦s¦bªº¸Ü«Ø¥ß¥Ø¿ı
+    //è‹¥ç›®éŒ„ä¸å­˜åœ¨çš„è©±å»ºç«‹ç›®éŒ„
     if (!is_dir($dir)) {
         umask(000);
-        //­Y«Ø¥ß¥¢±Ñ¨q¥XÄµ§i°T®§
+        //è‹¥å»ºç«‹å¤±æ•—ç§€å‡ºè­¦å‘Šè¨Šæ¯
         mkdir($dir, 0777);
     }
 }
 
-//«ş¨©¥Ø¿ı
+//æ‹·è²ç›®éŒ„
 function full_copy($source = "", $target = "")
 {
     if (is_dir($source)) {
