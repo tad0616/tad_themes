@@ -1,200 +1,210 @@
-Tad Themes 4.1.1 (2017-01-07 釋出)
+Tad Themes 4.3 (2017-06-16 release)
 =================================================
-1.將RWD調整成1024下才運作
+1.Improve compatibility with older versions of PHP
 
 
-Tad Themes 4.1（2016-06-05 釋出）
-==================================================================
-1.加入logo置中功能
-2.支援XOOPS 2.5.8
-
-
-Tad Themes 4.0.1（2016-05-26 釋出）
-==================================================================
-1.移除 BootStrap2 殘留語法
-
-
-Tad Themes 4.0（2016-05-21 釋出）
+Tad Themes 4.2 (2017-05-12 release)
 =================================================
-1.修正區塊標題圖片無法上傳的問題
+1. Add profile export function
 
 
-Tad Themes 3.9（2016-05-17 釋出）
+Tad Themes 4.1.1 (2017-01-07 release)
 =================================================
-1.支援 PHP7
-2.移除BootStrap2設定
-3.加入圖片上傳即套用功能
+1. Adjust the RWD to 1024 to operate
 
 
-Tad Themes 3.8（2016-01-20 釋出）
+Tad Themes 4.1 (2016-06-05 release)
+================================================== ================
+1. Add logo to the function
+2. Support XOOPS 2.5.8
+
+
+Tad Themes 4.0.1 (2016-05-26 release)
+================================================== ================
+1. Remove the BootStrap2 residual syntax
+
+
+Tad Themes 4.0 (2016-05-21 release)
 =================================================
-1.補充缺少的英文語系
-2.修正額外設定無法上傳圖片問題
+1. Fixed block title picture can not upload the problem
 
 
-Tad Themes 3.7（2015-06-25 釋出）
+Tad Themes 3.9 (2016-05-17 release)
 =================================================
-1.修正PHP語法使之符合PSR2規範
-2.修正切換佈景時，資料匯入不正確的問題
-3.加入可自由切換Bootstrap2或Bootstrap3的功能
+Support PHP7
+2. Remove the BootStrap2 setting
+3. Add picture upload function
 
 
-Tad Themes 3.6（2015-03-23 釋出）
+Tad Themes 3.8 (2016-01-20 release)
 =================================================
-1.修正MySQL嚴格模式下無法更新設定的問題
-2.調整函數位置，以方便其他模組引用。
-3.新增bootstrap3樣板
-4.修正選單無法儲存的問題
+1. Add the missing English language
+2. Fix additional settings can not upload picture problems
 
 
-Tad Themes 3.51（2014-09-25 釋出）
+Tad Themes 3.7 (released by 2015-06-25)
 =================================================
-1.修改程式，使之符合無障礙網頁規範
-2.修正MySQL嚴格模式下無法儲存設定的問題
+1. Fix the PHP syntax to conform to the PSR2 specification
+2. Correct the problem of incorrect importation of data when editing the scenery
+3. Join the free to switch Bootstrap2 or Bootstrap3 function
 
 
-Tad Themes 3.5（2014-09-22 釋出）
+Tad Themes 3.6 (released by 2015-03-23)
 =================================================
-1.修正自訂選單頁面一開始會多出一個form的問題
+1. Fixed MySQL strict mode can not update the set of problems
+2. Adjust the function position to facilitate other module references.
+3. Added bootstrap3 template
+4. Fix the problem that the menu can not be saved
 
 
-Tad Themes 3.4（2014-07-05 釋出）
+Tad Themes 3.51 (released on 2014-09-25)
 =================================================
- 1.修正區塊標題底圖無法刪除的問題
- 2.修正額外設定的上傳圖檔在沒有上傳圖檔前無法選擇預設圖片的問題
- 3.調整檔案上傳欄位col_sn為mediumint(9)格式
- 4.修正頁籤無法記住上次位置的問題
+1. Modify the program to comply with the accessibility guidelines
+2. Fixed MySQL strict mode can not save the set of problems
 
 
-Tad Themes 3.3（2014-06-05 釋出）
+Tad Themes 3.5 (released on 2014-09-22)
 =================================================
- 1.新增混合型佈景（寬度採固定寬度，各區域採 bootstrap 方式）
+1. Fixed a custom menu page at the beginning of a more form of the problem
 
-Tad Themes 3.2（2014-05-23 釋出）
+
+Tad Themes 3.4 (released 2014-07-05)
 =================================================
- 1.修正全自訂布景無法改為固定式HTML佈景的bug
- 2.新增佈景區塊可以從config.php分別去設定各區預設值
+ 1. Fixed the problem that the block title map can not be deleted
+ 2. Fixed an additional upload file that could not be selected without uploading a picture.
+ 3. Adjust the file upload field col_sn to mediumint (9) format
+ 4. Fix the tab can not remember the last position
 
 
-Tad Themes 3.1（2014-05-17 釋出）
+Tad Themes 3.3 (released on 2014-06-05)
 =================================================
- 1.修正config.php若關閉頁籤則無法讀取預設值的問題
- 2.修正垂直選單區塊與垂直bootstrap區塊一起使用時會導致空白頁的問題
- 3.修正後台選單設定，排序不正確的問題
- 4.後台選單設定新增直接拉動以移動分類的功能
- 5.後台選單編輯時，以燈箱效果來設定之
- 6.選單新增燈箱效果
- 7.安裝佈景時改為沒有自訂檔案時才會匯入預設檔案
- 8.額外設定新增array格式，支援多維陣列。
+ 1. Add hybrid scenery (width of the fixed width, the regional miningstrap way)
 
-
-Tad Themes 3.0（2014-05-07 釋出）
+Tad Themes 3.2 (released in 2014-05-23)
 =================================================
- 1.修正區塊標題底圖無法選擇的bug
- 2.區塊標題設定新增套用到所有區域功能
- 3.新增區塊樣式手動線上設定，大幅提昇設定彈性。
+ 1. Fixed bug where the custom set can not be changed to a fixed HTML set
+ 2. New section can be set from config.php to set the default value of each district
 
 
-Tad Themes 2.9（2014-05-02 釋出）
+Tad Themes 3.1 (released by 2014-05-17)
 =================================================
- 1.修正匯入佈景額外設定時無法讀取常數預設值的bug
- 2.修正顯示額外變數不正確的問題
- 3.大幅修正佈景結構，以簡化維護難度及提昇界面彈性
- 4.加入輸入欄位驗證功能以提昇正確性
- 5.解決新版FireFox或chrome若顏色選擇透明時，會呈現出黑色的問題。
- 6.修正在某特定類型佈景無法套用swf的問題
- 7.修正預覽圖左右區域顏色與前台顯示不一致的問題
+ 1. Fix config.php If you close the tab, you can not read the default value
+ 2. Correcting the use of vertical menu blocks with vertical bootstrap blocks can cause problems with blank pages
+ 3. Fixed background menu settings, sorting is not correct
+ 4. Background menu settings to increase the direct pull to move the classification of the function
+ 5. When the background menu is edited, set it with the light box effect
+ 6. Add a new light box effect
+ 7. When you install the scene, you can import the default file without changing the file
+ 8. Additional settings array format, support multi-dimensional array.
 
 
-Tad Themes 2.8（2014-04-09 釋出）
+Tad Themes 3.0 (released from 2014-05-07)
 =================================================
- 1.修正垂直選單區塊在某些頁面會導致頁面空白的bug
- 2.修正上方隱藏選單回首頁連結有誤的bug
- 3.下拉選單可取消bootstrap圖示
- 4.滑動圖片可以自行拉動排序
- 5.新增一個較單純的垂直選單
- 6.新增內容區域底色設定
- 7.新增導覽列背景圖功能
+ 1. Fixed bug where the block title map can not be selected
+ 2. Block title settings are added to all zone functions
+ 3. Added block style manual line settings, a substantial increase in flexibility.
 
 
-Tad Themes 2.7（2014-03-16 釋出）
+Tad Themes 2.9 (released from 2014-05-02)
 =================================================
- 1.修正logo圖設定位於頁面上時，區塊的滑動區會重複出現logo圖的bug
- 2.新增垂直選單
- 3.自訂選單加上 BootStrap 圖示的下拉選單
- 4.自訂選單的icon圖示及banner圖示加上刪除功能
+ 1. Fixed bug where the constant setting can not be read when setting the default setting
+ 2. Fixed an issue where the additional variables were incorrect
+ 3. A substantial revision of the structure to simplify the maintenance of the difficulty and enhance the interface flexibility
+ 4. Add the input field verification function to improve the correctness
+ 5. Resolve the new version of FireFox or chrome If the color selection transparent, it will show a black problem.
+ 6. Fixed in a particular type of scenery can not apply swf problem
+ 7. Fix the problem that the left and right areas of the preview are inconsistent with the foreground display
 
 
-Tad Themes 2.6（2014-03-13 釋出）
+Tad Themes 2.8 (released on 2014-04-09)
 =================================================
- 1.主logo可以自設要以頁面為主還是以滑動圖文為主來進行定位
- 2.加入佈景額外設定的功能，各佈景可各自設定需要的設定項目
- 3.區塊標題獨立成一個設定表，並讓各個區域都可以獨立設定
- 4.加入區塊標題字型大小設定
- 5.新增不呈現導覽列的功能
- 6.自動匯入功能會過濾掉Thumbs.db
- 7.上傳滑動圖片預設不將檔名寫入說明
+ 1. Fixing the vertical menu block on some pages will cause the page to be blank
+ 2. Fix the top of the hidden menu back to the wrong link
+ 3. The drop-down menu cancels the bootstrap icon
+ 4. Slide the picture to pull the sort by itself
+ 5. Add a more simple vertical menu
+ 6. Add content area background settings
+ 7. Added navigation bar background function
 
 
-Tad Themes 2.5（2014-03-05 釋出）
+Tad Themes 2.7 (released from 2014-03-16)
 =================================================
- 1.精簡不必要的函數
- 2.調整滑動圖片，當使用的是bootstrap佈景時，上限調為1920（HTML模式則視版面寬度多少就會是多少）
- 3.精簡不必要的檔案
- 4.選單可以加上圖示（僅提供選單區塊使用，下拉選單無作用）
- 5.新增上方隱藏選單
- 6.開始支援彈性佈景（可自調bootstrap或html模式）
- 7.開放bootstrap的上下邊界設定，不再強制設定
- 8.可以針對自訂選單的項目加入專屬橫幅（會出現在原滑動圖文處）
+ 1. When the logo is set on the page, the sliding area of ​​the block will repeat the logo of the logo
+ 2. Add a vertical menu
+ 3. Customize the menu with the BootStrap icon drop-down menu
+ 4. Customize the icon icon for the menu and the banner icon plus the delete function
 
-Tad Themes 2.4（2014-01-16 釋出）
+
+Tad Themes 2.6 (released from 2014-03-13)
 =================================================
- 1.增加導覽列網站標題的地方可以直接上傳圖檔取代之的功能
+ 1. Main logo can be set up to the main page or slide to the main positioning
+ 2. Add the additional function of the setting, each setting can set the required setting items
+ 3. The block title is independent of a setting table and allows each area to be set independently
+ 4. Add the block header font size setting
+ 5. Add the function that does not render the navigation bar
+ 6. The automatic import function filters out Thumbs.db
+ 7. Upload Slide Picture Preset does not write a description of the file name
 
-Tad Themes 2.3（2014-01-02 釋出）
+
+Tad Themes 2.5 (released from 2014-03-05)
 =================================================
- 1.修改後台佈景設定界面，以更清楚，更直觀的方向來改進。
- 2.新增隱藏工具列網站標題的選項（以便放置logo圖）
- 3.精簡語系
- 4.新增選單文字顏色設定
- 5.縮小滑動區域離本文的距離，並新增其寬度及高度之設定。
+ 1. Simplify unnecessary functions
+ 2. Adjust the sliding picture, when using the bootstrap scenery, the ceiling is adjusted to 1920 (HTML mode, depending on how much the width of the layout will be)
+ 3. Streamline unnecessary files
+ 4. The menu can be illustrated (only available for menu blocks, no drop-down menu)
+ 5. Add the top hidden menu
+ 6. Begin to support the flexibility set (can bootstrap or html mode)
+ 7. Open bootstrap upper and lower border settings, no longer set
+ 8. You can add a unique banner for a custom menu (which will appear in the original slide)
 
-Tad Themes 2.2（2013-11-09 釋出）
+Tad Themes 2.4 (released from 2014-01-16)
 =================================================
- 1.修正在MySQL嚴格模式下無法安裝的問題
+ 1. Increase the navigation site site title can be directly uploaded to replace the function of the picture
 
-Tad Themes 2.1（2013-10-28 釋出）
+Tad Themes 2.3 (released on 2014-01-02)
 =================================================
- 1.後台界面全面重寫，套入BootStrap界面
- 2.修改選單第二層子選單無法使用的問題。
- 3.套用新的TadUpFiles.php上傳機制
- 4.加入開關主選單設定
+ 1. Modify the background set interface to a more clear, more intuitive direction to improve.
+ 2. Add the option to hide the title of the toolbar (in order to place the logo map)
+ 3. Refined language
+ 4. Add a menu text color setting
+ 5. Reduce the distance from the sliding area and increase its width and height.
 
-
-Tad Themes 2.0（2013-07-29 釋出）
+Tad Themes 2.2 (released by 2013-11-09)
 =================================================
- 1.改為XOOPS2.5架構
- 2.修正後台新增選單時，無法正確新增的問題
- 3.修正選單無法儲存排序的bug
- 4.修正school2013佈景，「上中左、上中右」及「下中左、下中右」區塊無法正確分欄的問題。
- 5.修正school2013佈景，下方區塊強制改為最多4個區塊，以避免區塊重疊。
- 6.school2012、school2013上方選單主動加入「主選單」功能
+ 1. Fix the problem that can not be installed in MySQL strict mode
 
-
-Tad Themes 1.2（2013-06-06 釋出）
+Tad Themes 2.1 (released on 2013-10-28)
 =================================================
- 1.修正在首頁時，連入後台管理頁按鈕連結位置不正確的bug
- 2.調整school2013選單與內文空白過大的問題。
- 3.改為XOOPS2.5模組結構
- 4.選單功能新增連結到新視窗的設定
- 5.新增滑動圖片區塊（可把佈景的滑動圖片移至區塊）
+ 1. Background interface full rewrite, set BootStrap interface
+ 2. Modify the problem that the second level of the menu can not be used.
+ 3. Apply the new TadUpFiles.php upload mechanism
+ 4. Add the switch main menu settings
 
 
-Tad Themes 1.1（2013-02-25 釋出）
+Tad Themes 2.0 (released 2013-07-29)
 =================================================
- 1.新增選單功能！
- 2.已製作語系，亦支援Big5中文網站
- 3.加入bootstrap佈景的支援
- 4.滑動圖片已可直接從後台秀出文字
- 5.新增區塊標題的各種設定功能！（by hirokofan）
- 6.新增選單位置、顏色等設定功能！（by hirokofan）
+ 1. Change to XOOPS2.5 architecture
+ 2. Fixed the problem that the new menu can not be added when the background is added
+ 3. The correction menu can not save the sorted bug
+ 4. To fix the problem of school2013, "the upper left, the middle and the right" and "the next left and right" blocks.
+ 5. Fix the school2013 set, the lower block forced to up to four blocks to avoid block overlap.
+ 6.school2012, school2013 above the menu to join the "main menu" function
+
+
+Tad Themes 1.2 (released on 2013-06-06)
+=================================================
+ 1. Fixed on the home page, the link to the background management page button link location is not correct bug
+ 2. Adjust the school2013 menu and the text is too large problem.
+ 3. Change to XOOPS2.5 module structure
+ 4. Menu function Add a link to the new window
+ 5. Add a new sliding picture block (you can move the picture to the block block)
+
+
+Tad Themes 1.1 (released by 2013-02-25)
+=================================================
+ 1. New menu function!
+ 2. has made the language, also supports Big5 Chinese website
+ 3. Join the bootstrap set of support
+ 4. Slide the picture has been directly from the background show the text
+ 5. Add various settings for block title! (By hirokofan)
+ 6. Add menu location, color and other settings! (By hirokofan)

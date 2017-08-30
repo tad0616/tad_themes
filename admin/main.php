@@ -216,7 +216,7 @@ function tad_themes_form()
     //$op="replace_tad_themes";
 
     if ($theme_kind == 'bootstrap3') {
-        $theme_kind_txt = _MA_TADTHEMES_THEME_KIND_BOOTSTRAP;
+        $theme_kind_txt = _MA_TADTHEMES_THEME_KIND_BOOTSTRAP3;
         $chang_css      = change_css_bootstrap($theme_width, $lb_width);
         $theme_unit     = _MA_TADTHEMES_COL;
     } elseif ($theme_kind == 'mix') {
@@ -1023,7 +1023,7 @@ function get_blocks_values($theme_id = "", $block_position = "")
     }
 
     $i      = 0;
-    $values = "";
+    $values = array();
     foreach ($block_position_title as $position => $title) {
 
         $values[$i]['theme_id']            = $db[$position]['theme_id'];
@@ -1050,6 +1050,367 @@ function get_blocks_values($theme_id = "", $block_position = "")
     }
     return $values;
 }
+
+function export_config($theme_id = '')
+{
+    global $xoopsConfig, $xoopsDB;
+    $theme_name = $xoopsConfig['theme_set'];
+    include XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
+    // foreach ($config_enable as $k => $v) {
+    //     $$k = $v['default'];
+    // }
+    //抓取預設值
+    $DBV = get_tad_themes();
+    // die(var_export($DBV));
+    foreach ($DBV as $k => $v) {
+        $$k                           = $v;
+        $config_enable[$k]['default'] = $v;
+    }
+    // die(var_export($config_enable));
+    $bg_img_default = $bg_img_default_text = $logo_img_default = $logo_img_default_text = $bt_bg_img_default = $bt_bg_img_default_text = $navbar_img_default = $navbar_img_default_text = $navlogo_img_default = $navlogo_img_default_text = '';
+    if ($config_enable['bg_img']['default']) {
+        $bg_img_default      = basename($config_enable['bg_img']['default']);
+        $bg_img_default_text = "\n// 請下載 {$config_enable['bg_img']['default']} 並上傳至 " . XOOPS_ROOT_PATH . "/themes/{$theme_name}/images/bg/ 下";
+    }
+    if ($config_enable['logo_img']['default']) {
+        $logo_img_default      = basename($config_enable['logo_img']['default']);
+        $logo_img_default_text = "\n// 請下載 {$config_enable['logo_img']['default']} 並上傳至 " . XOOPS_ROOT_PATH . "/themes/{$theme_name}/images/logo/ 下";
+    }
+
+    if ($config_enable['navbar_img']['default']) {
+        $navbar_img_default      = basename($config_enable['navbar_img']['default']);
+        $navbar_img_default_text = "\n// 請下載 {$config_enable['navbar_img']['default']} 並上傳至 " . XOOPS_ROOT_PATH . "/themes/{$theme_name}/images/navbg/ 下";
+    }
+    if ($config_enable['navlogo_img']['default']) {
+        $navlogo_img_default      = basename($config_enable['navlogo_img']['default']);
+        $navlogo_img_default_text = "\n// 請下載 {$config_enable['navlogo_img']['default']} 並上傳至 " . XOOPS_ROOT_PATH . "/themes/{$theme_name}/images/nav_logo/ 下";
+    }
+
+    //取得區塊設定
+    $sql    = "select * from " . $xoopsDB->prefix("tad_themes_blocks") . " where `theme_id`='{$theme_id}'";
+    $result = $xoopsDB->query($sql) or web_error($sql);
+    while ($all = $xoopsDB->fetchArray($result)) {
+        $block_position          = $all['block_position'];
+        $blocks[$block_position] = $all;
+    }
+
+    $bs = array('block_config', 'bt_text', 'bt_text_padding', 'bt_text_size', 'bt_bg_color', 'bt_bg_img', 'bt_bg_repeat', 'bt_radius', 'block_style', 'block_title_style', 'block_content_style');
+
+    foreach ($bs as $col) {
+        $sql = "select `$col` from
+        (
+            select count(*) as c, `$col` from `" . $xoopsDB->prefix("tad_themes_blocks") . "` WHERE `theme_id` = '{$theme_id}' group by `$col`
+        ) tmp
+        order by c desc limit 1";
+
+        $result                 = $xoopsDB->query($sql) or web_error($sql);
+        list($bt_default[$col]) = $xoopsDB->fetchRow($result);
+        if ($col == "bt_bg_img") {
+            if ($bt_default[$col] and $bt_default[$col] != 'transparent') {
+                $bt_bg_img_default      = basename($bt_default[$col]);
+                $bt_bg_img_default_text = "\n// 請下載 {$bt_default[$col]} 並上傳至 " . XOOPS_ROOT_PATH . "/themes/{$theme_name}/images/bt_bg/ 下";
+            }
+        }
+    }
+
+    $position_blocks = '';
+    foreach ($blocks as $block_position => $b) {
+        foreach ($b as $k => $v) {
+            if (in_array($k, $bs)) {
+                if ($bt_default[$k] != $v) {
+                    if ($k == "bt_bg_img") {
+                        if ($v and $v != 'transparent') {
+                            $bt_bg_img_default_text .= "\n// 請下載 {$v} 並上傳至 " . XOOPS_ROOT_PATH . "/themes/{$theme_name}/images/bt_bg/ 下";
+                            $v = basename($v);
+                        }
+                    }
+                    $position_blocks .= "\$config_enable['{$k}']['{$block_position}']=array('enable'=>1, 'min'=>'' , 'max'=>'' , 'require'=>0 , 'default'=>'{$v}');\n";
+                }
+            }
+        }
+    }
+
+    // die(var_export($blocks));
+    $file = "<?php{$bg_img_default_text}{$logo_img_default_text}{$bt_bg_img_default_text}{$navbar_img_default_text}{$navlogo_img_default_text}
+//佈景種類是否可自訂
+\$theme_change={$theme_change};
+
+//預設佈景種類 bootstrap3 , html , mix
+\$theme_kind='{$theme_kind}';
+
+//可選用佈景種類 bootstrap3 , html , mix （\$theme_change=1 時才有用）
+\$theme_kind_arr = '{$theme_kind_arr}';
+
+//引入哪些選單？ all(含 my_menu,admin,user),my_menu,admin,user
+\$menu_var_kind='{$menu_var_kind}';
+
+//額外顏色設定 如： bootstrap3/themes/light/Cerulean
+\$theme_color='{$theme_color}';
+
+/*
+tabs-1 版面基礎設定
+*/
+
+\$config_tabs[1]={$config_tabs[1]};
+
+//版面類型[自]，值： theme_type_1 ~ theme_type_8
+\$config_enable['theme_type']=array('enable'=>'{$config_enable['theme_type']['enable']}', 'min'=>'{$config_enable['theme_type']['min']}' , 'max'=>'{$config_enable['theme_type']['max']}' , 'require'=>'{$config_enable['theme_type']['require']}' , 'default'=>'{$config_enable['theme_type']['default']}');
+
+//版面寬度[自]，值：若bootstrap模式，最大值為 12，若 html 模式，則輸入預設版面寬度，如： 980
+\$config_enable['theme_width']=array('enable'=>'{$config_enable['theme_width']['enable']}', 'min'=>'{$config_enable['theme_width']['min']}' , 'max'=>'{$config_enable['theme_width']['max']}' , 'require'=>'{$config_enable['theme_width']['require']}' , 'default'=>'{$config_enable['theme_width']['default']}');
+
+//內容區顏色[theme_type_x.html]
+\$config_enable['base_color']=array('enable'=>'{$config_enable['base_color']['enable']}', 'min'=>'{$config_enable['base_color']['min']}' , 'max'=>'{$config_enable['base_color']['max']}' , 'require'=>'{$config_enable['base_color']['require']}' , 'default'=>'{$config_enable['base_color']['default']}');
+
+//左區域顏色[theme_type_1.html]
+\$config_enable['lb_color']=array('enable'=>'{$config_enable['lb_color']['enable']}', 'min'=>'{$config_enable['lb_color']['min']}' , 'max'=>'{$config_enable['lb_color']['max']}' , 'require'=>'{$config_enable['lb_color']['require']}' , 'default'=>'{$config_enable['lb_color']['default']}');
+
+//中區域顏色[theme_type_x.html]
+\$config_enable['cb_color']=array('enable'=>'{$config_enable['cb_color']['enable']}', 'min'=>'{$config_enable['cb_color']['min']}' , 'max'=>'{$config_enable['cb_color']['max']}' , 'require'=>'{$config_enable['cb_color']['require']}' , 'default'=>'{$config_enable['cb_color']['default']}');
+
+//右區域顏色[theme_type_2~4.html]
+\$config_enable['rb_color']=array('enable'=>'{$config_enable['rb_color']['enable']}', 'min'=>'{$config_enable['rb_color']['min']}' , 'max'=>'{$config_enable['rb_color']['max']}' , 'require'=>'{$config_enable['rb_color']['require']}' , 'default'=>'{$config_enable['rb_color']['default']}');
+
+//左區域寬度[theme_type_x.html]，值：若 bootstrap 模式，最大值為 12，若 html 模式，則輸入預設左區域寬度，如： 220
+\$config_enable['lb_width']=array('enable'=>'{$config_enable['lb_width']['enable']}', 'min'=>'{$config_enable['lb_width']['min']}' , 'max'=>'{$config_enable['lb_width']['max']}' , 'require'=>'{$config_enable['lb_width']['require']}' , 'default'=>'{$config_enable['lb_width']['default']}');
+
+//右區域寬度[theme_type_2~8.html]，值：若 bootstrap 模式，最大值為 12，若 html 模式，則輸入預設右區域寬度，如： 220
+\$config_enable['rb_width']=array('enable'=>'{$config_enable['rb_width']['enable']}', 'min'=>'{$config_enable['rb_width']['min']}' , 'max'=>'{$config_enable['rb_width']['max']}' , 'require'=>'{$config_enable['rb_width']['require']}' , 'default'=>'{$config_enable['rb_width']['default']}');
+
+//中左區塊寬度[無]
+\$config_enable['clb_width']=array('enable'=>'{$config_enable['clb_width']['enable']}', 'min'=>'{$config_enable['clb_width']['min']}' , 'max'=>'{$config_enable['clb_width']['max']}' , 'require'=>'{$config_enable['clb_width']['require']}' , 'default'=>'{$config_enable['clb_width']['default']}');
+
+//中右區塊寬度[無]
+\$config_enable['crb_width']=array('enable'=>'{$config_enable['crb_width']['enable']}', 'min'=>'{$config_enable['crb_width']['min']}' , 'max'=>'{$config_enable['crb_width']['max']}' , 'require'=>'{$config_enable['crb_width']['require']}' , 'default'=>'{$config_enable['crb_width']['default']}');
+
+//離上邊界距離[自]
+\$config_enable['margin_top']=array('enable'=>'{$config_enable['margin_top']['enable']}', 'min'=>'{$config_enable['margin_top']['min']}' , 'max'=>'{$config_enable['margin_top']['max']}' , 'require'=>'{$config_enable['margin_top']['require']}' , 'default'=>'{$config_enable['margin_top']['default']}');
+
+//文字大小[theme_css.html]
+\$config_enable['font_size']=array('enable'=>'{$config_enable['font_size']['enable']}', 'min'=>'{$config_enable['font_size']['min']}' , 'max'=>'{$config_enable['font_size']['max']}' , 'require'=>'{$config_enable['font_size']['require']}' , 'default'=>'{$config_enable['font_size']['default']}');
+
+//離下邊界距離[自]
+\$config_enable['margin_bottom']=array('enable'=>'{$config_enable['margin_bottom']['enable']}', 'min'=>'{$config_enable['margin_bottom']['min']}' , 'max'=>'{$config_enable['margin_bottom']['max']}' , 'require'=>'{$config_enable['margin_bottom']['require']}' , 'default'=>'{$config_enable['margin_bottom']['default']}');
+
+//文字顏色[theme_css.html]
+\$config_enable['font_color']=array('enable'=>'{$config_enable['font_color']['enable']}', 'min'=>'{$config_enable['font_color']['min']}' , 'max'=>'{$config_enable['font_color']['max']}' , 'require'=>'{$config_enable['font_color']['require']}' , 'default'=>'{$config_enable['font_color']['default']}');
+
+//連結顏色[theme_css.html]
+\$config_enable['link_color']=array('enable'=>'{$config_enable['link_color']['enable']}', 'min'=>'{$config_enable['link_color']['min']}' , 'max'=>'{$config_enable['link_color']['max']}' , 'require'=>'{$config_enable['link_color']['require']}' , 'default'=>'{$config_enable['link_color']['default']}');
+
+//移到連結顏色[theme_css.html]
+\$config_enable['hover_color']=array('enable'=>'{$config_enable['hover_color']['enable']}', 'min'=>'{$config_enable['hover_color']['min']}' , 'max'=>'{$config_enable['hover_color']['max']}' , 'require'=>'{$config_enable['hover_color']['require']}' , 'default'=>'{$config_enable['hover_color']['default']}');
+
+/*
+tabs-2 背景圖
+*/
+
+\$config_tabs[2]={$config_tabs[2]};
+
+//上傳背景圖[theme_css.html]，值：可指定置於「themes/佈景/images/bg/」下的某一檔案名稱
+\$config_enable['bg_img']=array('enable'=>'{$config_enable['bg_img']['enable']}', 'min'=>'{$config_enable['bg_img']['min']}' , 'max'=>'{$config_enable['bg_img']['max']}' , 'require'=>'{$config_enable['bg_img']['require']}' , 'default'=>'{$bg_img_default}');
+
+//背景顏色[theme_css.html]
+\$config_enable['bg_color']=array('enable'=>'{$config_enable['bg_color']['enable']}', 'min'=>'{$config_enable['bg_color']['min']}' , 'max'=>'{$config_enable['bg_color']['max']}' , 'require'=>'{$config_enable['bg_color']['require']}' , 'default'=>'{$config_enable['bg_color']['default']}');
+
+//背景重複[theme_css.html]，值： repeat （重複）, repeat-x （水平重複）, repeat-y （垂直重複）, no-repeat （不重複）
+\$config_enable['bg_repeat']=array('enable'=>'{$config_enable['bg_repeat']['enable']}', 'min'=>'{$config_enable['bg_repeat']['min']}' , 'max'=>'{$config_enable['bg_repeat']['max']}' , 'require'=>'{$config_enable['bg_repeat']['require']}' , 'default'=>'{$config_enable['bg_repeat']['default']}');
+
+//背景模式[theme_css.html]，值： scroll （捲動）,fixed （固定）
+\$config_enable['bg_attachment']=array('enable'=>'{$config_enable['bg_attachment']['enable']}', 'min'=>'{$config_enable['bg_attachment']['min']}' , 'max'=>'{$config_enable['bg_attachment']['max']}' , 'require'=>'{$config_enable['bg_attachment']['require']}' , 'default'=>'{$config_enable['bg_attachment']['default']}');
+
+//背景位置[theme_css.html]，值： left top （預設，左上）, right top （右上）, left bottom （左下）, right bottom （右下）, center center （中中）, center top （中上）, center bottom （中下）
+\$config_enable['bg_position']=array('enable'=>'{$config_enable['bg_position']['enable']}', 'min'=>'{$config_enable['bg_position']['min']}' , 'max'=>'{$config_enable['bg_position']['max']}' , 'require'=>'{$config_enable['bg_position']['require']}' , 'default'=>'{$config_enable['bg_position']['default']}');
+
+
+/*
+tabs-3 滑動圖片
+*/
+
+\$config_tabs[3]={$config_tabs[3]};
+
+//佈景圖片寬度[slideshow_responsive.html]，值：若bootstrap模式，最大值為 12，若 html 模式，則輸入預設佈景圖片寬度，如： 980
+\$config_enable['slide_width']=array('enable'=>'{$config_enable['slide_width']['enable']}', 'min'=>'{$config_enable['slide_width']['min']}' , 'max'=>'{$config_enable['slide_width']['max']}' , 'require'=>'{$config_enable['slide_width']['require']}' , 'default'=>'{$config_enable['slide_width']['default']}');
+
+//佈景圖片高度[slideshow_responsive.html]，值：數值，單位一律為 px
+\$config_enable['slide_height']=array('enable'=>'{$config_enable['slide_height']['enable']}', 'min'=>'{$config_enable['slide_height']['min']}' , 'max'=>'{$config_enable['slide_height']['max']}' , 'require'=>'{$config_enable['slide_height']['require']}' , 'default'=>'{$config_enable['slide_height']['default']}');
+
+//是否可上傳滑動圖片[slideshow_responsive.html]
+\$config_enable['use_slide']=array('enable'=>'{$config_enable['use_slide']['enable']}', 'min'=>'{$config_enable['use_slide']['min']}' , 'max'=>'{$config_enable['use_slide']['max']}' , 'require'=>'{$config_enable['use_slide']['require']}' , 'default'=>'{$config_enable['use_slide']['default']}');
+
+
+/*
+tabs-4 logo圖
+*/
+
+\$config_tabs[4]={$config_tabs[4]};
+
+// 上傳logo圖[logo.html]，值：可指定置於「themes/佈景/images/logo/」下的某一檔案名稱
+\$config_enable['logo_img']=array('enable'=>'{$config_enable['logo_img']['enable']}', 'min'=>'{$config_enable['logo_img']['min']}' , 'max'=>'{$config_enable['logo_img']['max']}' , 'require'=>'{$config_enable['logo_img']['require']}' , 'default'=>'{$logo_img_default}');
+
+//logo圖位置[logo.html]，值： slide （在滑動圖文上）, page （在頁面上）
+\$config_enable['logo_position']=array('enable'=>'{$config_enable['logo_position']['enable']}', 'min'=>'{$config_enable['logo_position']['min']}' , 'max'=>'{$config_enable['logo_position']['max']}' , 'require'=>'{$config_enable['logo_position']['require']}' , 'default'=>'{$config_enable['logo_position']['default']}');
+
+//Logo離上方距離[logo.html]，值：數值，單位一律為 px
+\$config_enable['logo_top']=array('enable'=>'{$config_enable['logo_top']['enable']}', 'min'=>'{$config_enable['logo_top']['min']}' , 'max'=>'{$config_enable['logo_top']['max']}' , 'require'=>'{$config_enable['logo_top']['require']}' , 'default'=>'{$config_enable['logo_top']['default']}');
+
+//Logo離右邊距離[logo.html]，值：數值，單位一律為 px
+\$config_enable['logo_right']=array('enable'=>'{$config_enable['logo_right']['enable']}', 'min'=>'{$config_enable['logo_right']['min']}' , 'max'=>'{$config_enable['logo_right']['max']}' , 'require'=>'{$config_enable['logo_right']['require']}' , 'default'=>'{$config_enable['logo_right']['default']}');
+
+//Logo離下方距離[logo.html]，值：數值，單位一律為 px
+\$config_enable['logo_bottom']=array('enable'=>'{$config_enable['logo_bottom']['enable']}', 'min'=>'{$config_enable['logo_bottom']['min']}' , 'max'=>'{$config_enable['logo_bottom']['max']}' , 'require'=>'{$config_enable['logo_bottom']['require']}' , 'default'=>'{$config_enable['logo_bottom']['default']}');
+
+//Logo離左邊距離[logo.html]，值：數值，單位一律為 px
+\$config_enable['logo_left']=array('enable'=>'{$config_enable['logo_left']['enable']}', 'min'=>'{$config_enable['logo_left']['min']}' , 'max'=>'{$config_enable['logo_left']['max']}' , 'require'=>'{$config_enable['logo_left']['require']}' , 'default'=>'{$config_enable['logo_left']['default']}');
+
+//Logo置中[logo.html]，值：1,0
+\$config_enable['logo_center']=array('enable'=>'{$config_enable['logo_center']['enable']}', 'min'=>'{$config_enable['logo_center']['min']}' , 'max'=>'{$config_enable['logo_center']['max']}' , 'require'=>'{$config_enable['logo_center']['require']}' , 'default'=>'{$config_enable['logo_center']['default']}');
+
+
+/*
+tabs-5 區塊標題列
+*/
+
+\$config_tabs[5]={$config_tabs[5]};
+
+//區塊標題文字大小[theme_css_blocks.html]，值：數值含單位
+\$config_enable['bt_text_size']=array('enable'=>'{$config_enable['bt_text_size']['enable']}', 'min'=>'{$config_enable['bt_text_size']['min']}' , 'max'=>'{$config_enable['bt_text_size']['max']}' , 'require'=>'{$config_enable['bt_text_size']['require']}' , 'default'=>'{$bt_default['bt_text_size']}');
+
+//區塊標題縮排[theme_css_blocks.html]，值：數值，單位一律為 px
+\$config_enable['bt_text_padding']=array('enable'=>'{$config_enable['bt_text_padding']['enable']}', 'min'=>'{$config_enable['bt_text_padding']['min']}' , 'max'=>'{$config_enable['bt_text_padding']['max']}' , 'require'=>'{$config_enable['bt_text_padding']['require']}' , 'default'=>'{$bt_default['bt_text_padding']}');
+
+//區塊標題文字顏色[theme_css_blocks.html]
+\$config_enable['bt_text']=array('enable'=>'{$config_enable['bt_text']['enable']}', 'min'=>'{$config_enable['bt_text']['min']}' , 'max'=>'{$config_enable['bt_text']['max']}' , 'require'=>'{$config_enable['bt_text']['require']}' , 'default'=>'{$bt_default['bt_text']}');
+
+//區塊標題背景顏色[theme_css_blocks.html]
+\$config_enable['bt_bg_color']=array('enable'=>'{$config_enable['bt_bg_color']['enable']}', 'min'=>'{$config_enable['bt_bg_color']['min']}' , 'max'=>'{$config_enable['bt_bg_color']['max']}' , 'require'=>'{$config_enable['bt_bg_color']['require']}' , 'default'=>'{$bt_default['bt_bg_color']}');
+
+//區塊標題圓角設定[theme_css_blocks.html]，值： 1 （圓角）, 0 （直角）
+\$config_enable['bt_radius']=array('enable'=>'{$config_enable['bt_radius']['enable']}', 'min'=>'{$config_enable['bt_radius']['min']}' , 'max'=>'{$config_enable['bt_radius']['max']}' , 'require'=>'{$config_enable['bt_radius']['require']}' , 'default'=>'{$bt_default['bt_radius']}');
+
+//區塊標題設定按鈕[theme_css_blocks.html]，值： right （右）, left （左）
+\$config_enable['block_config']=array('enable'=>'{$config_enable['block_config']['enable']}', 'min'=>'{$config_enable['block_config']['min']}' , 'max'=>'{$config_enable['block_config']['max']}' , 'require'=>'{$config_enable['block_config']['require']}' , 'default'=>'{$bt_default['block_config']}');
+
+//區塊標題背景圖[theme_css_blocks.html]
+\$config_enable['bt_bg_img']=array('enable'=>'{$config_enable['bt_bg_img']['enable']}', 'min'=>'{$config_enable['bt_bg_img']['min']}' , 'max'=>'{$config_enable['bt_bg_img']['max']}' , 'require'=>'{$config_enable['bt_bg_img']['require']}' , 'default'=>'{$bt_bg_img_default}');
+
+//區塊標題背景重複[theme_css_blocks.html]，值： 1 （重複）, 0 （不重複）
+\$config_enable['bt_bg_repeat']=array('enable'=>'{$config_enable['bt_bg_repeat']['enable']}', 'min'=>'{$config_enable['bt_bg_repeat']['min']}' , 'max'=>'{$config_enable['bt_bg_repeat']['max']}' , 'require'=>'{$config_enable['bt_bg_repeat']['require']}' , 'default'=>'{$bt_default['bt_bg_repeat']}');
+
+//區塊整體樣式手動設定[theme_css_blocks.html]，值： 1 （重複）, 0 （不重複）
+\$config_enable['block_style']=array('enable'=>'{$config_enable['block_style']['enable']}', 'min'=>'{$config_enable['block_style']['min']}' , 'max'=>'{$config_enable['block_style']['max']}' , 'require'=>'{$config_enable['block_style']['require']}' , 'default'=>'{$bt_default['block_style']}');
+
+//區塊標題區樣式手動設定[theme_css_blocks.html]，值： 1 （重複）, 0 （不重複）
+\$config_enable['block_title_style']=array('enable'=>'{$config_enable['block_title_style']['enable']}', 'min'=>'{$config_enable['block_title_style']['min']}' , 'max'=>'{$config_enable['block_title_style']['max']}' , 'require'=>'{$config_enable['block_title_style']['require']}' , 'default'=>'{$bt_default['block_title_style']}');
+
+//區塊內容區樣式手動設定[theme_css_blocks.html]，值： 1 （重複）, 0 （不重複）
+\$config_enable['block_content_style']=array('enable'=>'{$config_enable['block_content_style']['enable']}', 'min'=>'{$config_enable['block_content_style']['min']}' , 'max'=>'{$config_enable['block_content_style']['max']}' , 'require'=>'{$config_enable['block_content_style']['require']}' , 'default'=>'{$bt_default['block_content_style']}');
+
+/*
+若沒指定位置（如上方預設），那就是全部區塊預設值，若欲指定位置，只要多一個索引值即可：
+\$config_enable['bt_xx']['leftBlock']：左區塊設定
+\$config_enable['bt_xx']['rightBlock']：右區塊設定
+\$config_enable['bt_xx']['centerBlock']：上中區塊設定
+\$config_enable['bt_xx']['centerLeftBlock']：上中左區塊設定
+\$config_enable['bt_xx']['centerRightBlock']：上中右區塊設定
+\$config_enable['bt_xx']['centerBottomBlock']：下中區塊設定
+\$config_enable['bt_xx']['centerBottomLeftBlock']：下中左區塊設定
+\$config_enable['bt_xx']['centerBottomRightBlock']：下中右區塊設定
+例如：
+\$config_enable['bt_bg_color']['leftBlock']=array('enable'=>1, 'min'=>'' , 'max'=>'' , 'require'=>0 , 'default'=>'#7CBBBB');
+\$config_enable['bt_bg_color']['rightBlock']=array('enable'=>1, 'min'=>'' , 'max'=>'' , 'require'=>0 , 'default'=>'#D2C38E');
+*/
+{$position_blocks}
+/*
+tabs-6 導覽工具列
+*/
+
+\$config_tabs[6]={$config_tabs[6]};
+
+//導覽工具列位置[navbar.html]，值： navbar-fixed-top （固定上方）, navbar-fixed-bottom （固定下方）, navbar-static-top （滑動圖片上方）, navbar-static-bottom （滑動圖片下方）, default （佈景預設值）, not-use （不使用）
+\$config_enable['navbar_pos']=array('enable'=>'{$config_enable['navbar_pos']['enable']}', 'min'=>'{$config_enable['navbar_pos']['min']}' , 'max'=>'{$config_enable['navbar_pos']['max']}' , 'require'=>'{$config_enable['navbar_pos']['require']}' , 'default'=>'{$config_enable['navbar_pos']['default']}');
+
+//導覽工具列 漸層顏色(top)[theme_css_navbar.html]
+\$config_enable['navbar_bg_top']=array('enable'=>'{$config_enable['navbar_bg_top']['enable']}', 'min'=>'{$config_enable['navbar_bg_top']['min']}' , 'max'=>'{$config_enable['navbar_bg_top']['max']}' , 'require'=>'{$config_enable['navbar_bg_top']['require']}' , 'default'=>'{$config_enable['navbar_bg_top']['default']}');
+
+//導覽工具列 漸層顏色(bottom)[theme_css_navbar.html]
+\$config_enable['navbar_bg_bottom']=array('enable'=>'{$config_enable['navbar_bg_bottom']['enable']}', 'min'=>'{$config_enable['navbar_bg_bottom']['min']}' , 'max'=>'{$config_enable['navbar_bg_bottom']['max']}' , 'require'=>'{$config_enable['navbar_bg_bottom']['require']}' , 'default'=>'{$config_enable['navbar_bg_bottom']['default']}');
+
+//導覽工具列 連結區塊底色[theme_css_navbar.html]
+\$config_enable['navbar_hover']=array('enable'=>'{$config_enable['navbar_hover']['enable']}', 'min'=>'{$config_enable['navbar_hover']['min']}' , 'max'=>'{$config_enable['navbar_hover']['max']}' , 'require'=>'{$config_enable['navbar_hover']['require']}' , 'default'=>'{$config_enable['navbar_hover']['default']}');
+
+//上傳導覽列背景圖[navbar.html]，值：可指定置於「themes/佈景/images/nav_bg/」下的某一檔案名稱
+\$config_enable['navbar_img']=array('enable'=>'{$config_enable['navbar_img']['enable']}', 'min'=>'{$config_enable['navbar_img']['min']}' , 'max'=>'{$config_enable['navbar_img']['max']}' , 'require'=>'{$config_enable['navbar_img']['require']}' , 'default'=>'{$navbar_img_default}');
+
+//導覽工具列 文字顏色[theme_css_navbar.html]
+\$config_enable['navbar_color']=array('enable'=>'{$config_enable['navbar_color']['enable']}', 'min'=>'{$config_enable['navbar_color']['min']}' , 'max'=>'{$config_enable['navbar_color']['max']}' , 'require'=>'{$config_enable['navbar_color']['require']}' , 'default'=>'{$config_enable['navbar_color']['default']}');
+
+//導覽工具列 文字移過顏色[theme_css_navbar.html]
+\$config_enable['navbar_color_hover']=array('enable'=>'{$config_enable['navbar_color_hover']['enable']}', 'min'=>'{$config_enable['navbar_color_hover']['min']}' , 'max'=>'{$config_enable['navbar_color_hover']['max']}' , 'require'=>'{$config_enable['navbar_color_hover']['require']}' , 'default'=>'{$config_enable['navbar_color_hover']['default']}');
+
+//導覽工具列 圖示顏色[navbar.html]，值： icon-white （白色圖案）, '' （黑色圖案）
+\$config_enable['navbar_icon']=array('enable'=>'{$config_enable['navbar_icon']['enable']}', 'min'=>'{$config_enable['navbar_icon']['min']}' , 'max'=>'{$config_enable['navbar_icon']['max']}' , 'require'=>'{$config_enable['navbar_icon']['require']}' , 'default'=>'{$config_enable['navbar_icon']['default']}');
+
+// 上傳導覽列logo圖[navbar.html]，值：可指定置於「themes/佈景/images/navlogo/」下的某一檔案名稱
+\$config_enable['navlogo_img']=array('enable'=>'{$config_enable['navlogo_img']['enable']}', 'min'=>'{$config_enable['navlogo_img']['min']}' , 'max'=>'{$config_enable['navlogo_img']['max']}' , 'require'=>'{$config_enable['navlogo_img']['require']}' , 'default'=>'{$navlogo_img_default}');
+  ";
+    header("Content-type: text/php");
+    header("Content-Disposition: attachment; filename=config.php");
+    echo $file;
+    exit;
+}
+
+function export_config2($theme_id = '')
+{
+    global $xoopsConfig, $xoopsDB;
+    $theme_name = $xoopsConfig['theme_set'];
+    include_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/config2.php";
+
+    $config2 = '';
+    $sql     = "select * from " . $xoopsDB->prefix("tad_themes_config2") . " where `theme_id`='{$theme_id}'";
+    $result  = $xoopsDB->query($sql) or web_error($sql);
+    while ($all = $xoopsDB->fetchArray($result)) {
+        $col           = $all['name'];
+        $config2[$col] = $all;
+    }
+    $all_col = $default_v = '';
+    foreach ($theme_config as $i => $c2) {
+        $col             = $c2['name'];
+        $default_v[$col] = $config2[$col]['value'];
+        $all_col[]       = $col;
+    }
+
+    $myts = MyTextSanitizer::getInstance();
+
+    // die(var_export($default_v));
+    $handle = fopen(XOOPS_ROOT_PATH . "/themes/{$theme_name}/config2.php", "r");
+    header("Content-type: text/php");
+    header("Content-Disposition: attachment; filename=config2.php");
+
+    if ($handle) {
+        while (($buffer = fgets($handle, 4096)) !== false) {
+            if (strpos($buffer, "'name'") !== false) {
+                list($opt, $val) = explode("=", $buffer);
+                $val             = trim($val);
+                $val             = str_replace(';', '', $val);
+                $val             = str_replace('"', '', $val);
+                $val             = str_replace(' ', '', $val);
+                // die($val);
+                $new_default = $myts->addSlashes($default_v[$val]);
+            } elseif (strpos($buffer, "'default'") !== false) {
+                list($opt, $val) = explode("=", $buffer);
+                $val             = trim($val);
+                $val             = str_replace('"', '', $val);
+                $buffer          = "\$theme_config[\$i]['default'] = \"$new_default\";\n";
+            }
+            echo $buffer;
+        }
+
+        fclose($handle);
+    }
+
+    exit;
+}
 /*-----------執行動作判斷區----------*/
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op       = system_CleanVars($_REQUEST, 'op', '', 'string');
@@ -1063,14 +1424,12 @@ switch ($op) {
         $theme_id = insert_tad_themes();
         header("location: {$_SERVER['PHP_SELF']}?theme_id=$theme_id");
         exit;
-        break;
 
     //更新資料
     case "update_tad_themes":
         update_tad_themes($theme_id);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
 
     //輸入表格
     case "tad_themes_form":
@@ -1082,7 +1441,16 @@ switch ($op) {
         delete_tad_themes($theme_id);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
+
+    //匯出資料
+    case "export_config":
+        export_config($theme_id);
+        exit;
+
+    //匯出資料
+    case "export_config2":
+        export_config2($theme_id);
+        exit;
 
     //預設動作
     default:

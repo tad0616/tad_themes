@@ -143,3 +143,5 @@ define("_MA_TADTHEMES_TARGET_FANCYBOX", "ColorBox");
 define("_MA_TADTHEMES_OF_LEVEL", "Parent");
 define("_MA_TADTHEMES_ICON", "fontawesome icon");
 define("_MA_TADTHEMES_LOGO_CENTER", "center");
+define("_MA_TADTHEMES_EXPORT", "Export config.php");
+define("_MA_TADTHEMES_EXPORT2", "Export config2.php");

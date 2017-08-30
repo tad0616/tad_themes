@@ -146,3 +146,5 @@ define("_MA_TADTHEMES_TARGET_FANCYBOX", "燈箱效果");
 define("_MA_TADTHEMES_OF_LEVEL", "父分類");
 define("_MA_TADTHEMES_ICON", "選擇 fontawesome 圖示");
 define("_MA_TADTHEMES_LOGO_CENTER", "置中");
+define("_MA_TADTHEMES_EXPORT", "匯出 config.php 設定檔");
+define("_MA_TADTHEMES_EXPORT2", "匯出 config2.php 設定檔");

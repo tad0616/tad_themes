@@ -80,6 +80,8 @@
           <{$theme_name}><{$smarty.const._MA_TAD_THEMES_FORM}>
 
           <a href="javascript:delete_tad_themes_config(<{$theme_id}>)" class="btn btn-danger"><{$smarty.const._MA_TADTHEMES_TO_DEFAULT}></a>
+          <a href="main.php?op=export_config&theme_id=<{$theme_id}>" class="btn btn-success"><{$smarty.const._MA_TADTHEMES_EXPORT}></a>
+          <a href="main.php?op=export_config2&theme_id=<{$theme_id}>" class="btn btn-info"><{$smarty.const._MA_TADTHEMES_EXPORT2}></a>
         </h1>
         <div class="alert alert-info">
           <{$smarty.const._MA_TADTHEMES_CHANGE_KIND_DESC}>
