@@ -52,7 +52,6 @@ function vertical_menu($options)
 //區塊編輯函式 (tad_themes_top_menu_edit)
 function vertical_menu_edit($options)
 {
-
     $block_menu_options = block_menu_options($options[0]);
 
     $checked1 = $options[1] == 1 ? "checked" : "";
@@ -85,19 +84,18 @@ if (!function_exists("block_menu_options")) {
       i=0;
       var arr = new Array();";
 
-        $sql    = "select menuid,itemname,status,of_level from " . $xoopsDB->prefix("tad_themes_menu") . " order by position";
+        $sql    = "SELECT menuid,itemname,status,of_level FROM " . $xoopsDB->prefix("tad_themes_menu") . " ORDER BY position";
         $result = $xoopsDB->query($sql);
         $option = "";
         while (list($menuid, $itemname, $status, $of_level) = $xoopsDB->fetchRow($result)) {
-
-            $js .= "if(document.getElementById('c{$menuid}').checked){
+            $js      .= "if(document.getElementById('c{$menuid}').checked){
          arr[i] = document.getElementById('c{$menuid}').value;
          i++;
         }";
             $ckecked = (in_array($menuid, $sc)) ? "checked" : "";
             $color   = $of_level == '0' ? "blue" : "black";
             $color   = $status == '1' ? $color : "gray";
-            $option .= "
+            $option  .= "
         <span style='white-space:nowrap;'>
           <label for='c{$menuid}' style='color:$color'>
           <input type='checkbox' id='c{$menuid}' value='{$menuid}' class='bbv' onChange=bbv() $ckecked>
