@@ -38,11 +38,11 @@ function auto_import_theme()
     $navbar_img  = !empty($navbar_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/nav_bg/{$navbar_img}" : "";
     $theme_type  = empty($theme_type) ? "theme_type_2" : $theme_type;
 
-    $logo_top    = intval($logo_top);
-    $logo_right  = intval($logo_right);
-    $logo_bottom = intval($logo_bottom);
-    $logo_left   = intval($logo_left);
-    $logo_center = intval($logo_center);
+    $logo_top    = (int)$logo_top;
+    $logo_right  = (int)$logo_right;
+    $logo_bottom = (int)$logo_bottom;
+    $logo_left   = (int)$logo_left;
+    $logo_center = (int)$logo_center;
 
     $theme_id = get_theme_id($theme_name);
     if (empty($theme_id)) {
@@ -195,9 +195,9 @@ function save_blocks($theme_id = "", $import = false)
         $block_title_style   = $block_title_style_arr[$position];
         $block_content_style = $block_content_style_arr[$position];
 
-        $bt_text_padding = intval($bt_text_padding);
-        $bt_bg_repeat    = intval($bt_bg_repeat);
-        $bt_radius       = intval($bt_radius);
+        $bt_text_padding = (int)$bt_text_padding;
+        $bt_bg_repeat    = (int)$bt_bg_repeat;
+        $bt_radius       = (int)$bt_radius;
 
         $sql = "replace into " . $xoopsDB->prefix("tad_themes_blocks") . "  (`theme_id` , `block_position` , `block_config` , `bt_text` , `bt_text_padding` , `bt_text_size` , `bt_bg_color` , `bt_bg_img` , `bt_bg_repeat` , `bt_radius`, `block_style`, `block_title_style`, `block_content_style`) values('{$theme_id}' , '{$position}' , '{$block_config}' , '{$bt_text}' , '{$bt_text_padding}' , '{$bt_text_size}' , '{$bt_bg_color}' , '{$bt_bg_img}' , '{$bt_bg_repeat}' , '{$bt_radius}' , '{$block_style}' , '{$block_title_style}' , '{$block_content_style}')";
 

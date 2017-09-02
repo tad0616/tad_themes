@@ -2,8 +2,8 @@
 /*-----------引入檔案區--------------*/
 include "../../../include/cp_header.php";
 
-$of_level = intval(str_replace("node-_", "", $_POST['of_level']));
-$menuid   = intval(str_replace("node-_", "", $_POST['menuid']));
+$of_level = (int)str_replace("node-_", "", $_POST['of_level']);
+$menuid   = (int)str_replace("node-_", "", $_POST['menuid']);
 
 if ($of_level == $menuid) {
     die(_MA_TREETABLE_MOVE_ERROR1 . "(" . date("Y-m-d H:i:s") . ")");

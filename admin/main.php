@@ -752,11 +752,11 @@ function insert_tad_themes()
     $sql = "update " . $xoopsDB->prefix("tad_themes") . " set `theme_enable`='0'";
     $xoopsDB->query($sql) or web_error($sql);
 
-    $_POST['logo_top']    = intval($_POST['logo_top']);
-    $_POST['logo_right']  = intval($_POST['logo_right']);
-    $_POST['logo_bottom'] = intval($_POST['logo_bottom']);
-    $_POST['logo_left']   = intval($_POST['logo_left']);
-    $_POST['logo_center'] = intval($_POST['logo_center']);
+    $_POST['logo_top']    = (int)$_POST['logo_top'];
+    $_POST['logo_right']  = (int)$_POST['logo_right'];
+    $_POST['logo_bottom'] = (int)$_POST['logo_bottom'];
+    $_POST['logo_left']   = (int)$_POST['logo_left'];
+    $_POST['logo_center'] = (int)$_POST['logo_center'];
 
     //此處增加7+4項by hc
     $sql = "insert into " . $xoopsDB->prefix("tad_themes") . "
@@ -830,11 +830,11 @@ function update_tad_themes($theme_id = "")
     $_POST['slide_width']  = $myts->addSlashes($_POST['slide_width']);
     $_POST['slide_height'] = $myts->addSlashes($_POST['slide_height']);
 
-    $_POST['logo_top']    = intval($_POST['logo_top']);
-    $_POST['logo_right']  = intval($_POST['logo_right']);
-    $_POST['logo_bottom'] = intval($_POST['logo_bottom']);
-    $_POST['logo_left']   = intval($_POST['logo_left']);
-    $_POST['logo_center'] = intval($_POST['logo_center']);
+    $_POST['logo_top']    = (int)$_POST['logo_top'];
+    $_POST['logo_right']  = (int)$_POST['logo_right'];
+    $_POST['logo_bottom'] = (int)$_POST['logo_bottom'];
+    $_POST['logo_left']   = (int)$_POST['logo_left'];
+    $_POST['logo_center'] = (int)$_POST['logo_center'];
 
     $sql = "update " . $xoopsDB->prefix("tad_themes") . " set
     `theme_name` = '{$_POST['theme_name']}' ,
