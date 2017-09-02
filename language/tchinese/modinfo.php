@@ -17,5 +17,3 @@ define("_MI_TADTHEMES_BNAME3","垂直BootStrap選單");
 define("_MI_TADTHEMES_BDESC3","垂直BootStrap選單");
 define("_MI_TADTHEMES_BNAME4","垂直選單");
 define("_MI_TADTHEMES_BDESC4","垂直選單");
-
-?>
