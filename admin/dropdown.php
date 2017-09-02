@@ -263,7 +263,7 @@ function list_tad_themes_menu($add_of_level = "", $menuid = "")
 {
     global $xoopsDB, $xoopsModule, $xoopsTpl, $xoTheme;
 
-    $all = get_tad_level_menu("", "", $menuid, "", $add_of_level);
+    $all = get_tad_level_menu(0, 0, $menuid, "", $add_of_level);
 
     $op     = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
     $option = "";
@@ -533,9 +533,9 @@ function del_pic($type, $menuid)
 
 /*-----------執行動作判斷區----------*/
 $op       = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-$menuid   = (!isset($_REQUEST['menuid'])) ? "" : intval($_REQUEST['menuid']);
-$of_level = (!isset($_REQUEST['of_level'])) ? "" : intval($_REQUEST['of_level']);
-$status   = (!isset($_REQUEST['status'])) ? "1" : intval($_REQUEST['status']);
+$menuid   = (!isset($_REQUEST['menuid'])) ? "" : (int)$_REQUEST['menuid'];
+$of_level = (!isset($_REQUEST['of_level'])) ? "" : (int)$_REQUEST['of_level'];
+$status   = (!isset($_REQUEST['status'])) ? "1" : (int)$_REQUEST['status'];
 $type     = (!isset($_REQUEST['type'])) ? "" : $_REQUEST['type'];
 
 $xoopsTpl->assign('now_op', $op);

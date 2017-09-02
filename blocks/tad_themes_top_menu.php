@@ -35,7 +35,6 @@ function tad_themes_top_menu($options)
 //區塊編輯函式 (tad_themes_top_menu_edit)
 function tad_themes_top_menu_edit($options)
 {
-
     $block_menu_options = block_menu_options($options[0]);
     $form               = "
   {$block_menu_options['js']}
@@ -60,17 +59,16 @@ if (!function_exists("block_menu_options")) {
       i=0;
       var arr = new Array();";
 
-        $sql    = "select menuid,itemname from " . $xoopsDB->prefix("tad_themes_menu") . " where of_level=0  order by position";
+        $sql    = "SELECT menuid,itemname FROM " . $xoopsDB->prefix("tad_themes_menu") . " WHERE of_level=0  ORDER BY position";
         $result = $xoopsDB->query($sql);
         $option = "";
         while (list($menuid, $itemname) = $xoopsDB->fetchRow($result)) {
-
-            $js .= "if(document.getElementById('c{$menuid}').checked){
+            $js      .= "if(document.getElementById('c{$menuid}').checked){
          arr[i] = document.getElementById('c{$menuid}').value;
          i++;
         }";
             $ckecked = (in_array($menuid, $sc)) ? "checked" : "";
-            $option .= "<span style='white-space:nowrap;'><input type='checkbox' id='c{$menuid}' value='{$menuid}' class='bbv' onChange=bbv() $ckecked><label for='c{$menuid}'>$itemname</label></span> ";
+            $option  .= "<span style='white-space:nowrap;'><input type='checkbox' id='c{$menuid}' value='{$menuid}' class='bbv' onChange=bbv() $ckecked><label for='c{$menuid}'>$itemname</label></span> ";
         }
 
         $js .= "document.getElementById('bb').value=arr.join(',');
