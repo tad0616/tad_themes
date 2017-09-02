@@ -263,7 +263,7 @@ function list_tad_themes_menu($add_of_level = "", $menuid = "")
 {
     global $xoopsDB, $xoopsModule, $xoopsTpl, $xoTheme;
 
-    $all = get_tad_level_menu("", "", $menuid, "", $add_of_level);
+    $all = get_tad_level_menu(0, 0, $menuid, "", $add_of_level);
 
     $op     = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
     $option = "";
