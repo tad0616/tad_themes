@@ -191,7 +191,7 @@ class ModuleAdmin
 
             case "tadtools":
 
-                $mhandler         = xoops_gethandler('module');
+                $mhandler         = xoops_getHandler('module');
                 $xModule          = $mhandler->getByDirname("tadtools");
                 $tadtools_version = round($xModule->getVar('version') / 100, 2);
                 if (substr($tadtools_version, 0, 9) < $value) {
