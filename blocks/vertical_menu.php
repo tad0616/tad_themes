@@ -9,7 +9,7 @@ function vertical_menu($options)
     //$menu=explode(",",$options[0]);
     $sql    = "select `menuid`,`itemname`,`itemurl`,`target`,`icon`,`position` from " . $xoopsDB->prefix("tad_themes_menu") . " where $in order by position";
     $result = $xoopsDB->query($sql);
-    $menu   = "";
+    $menu   = array();
 
     $dir = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_icons";
     $url = XOOPS_URL . "/uploads/tad_themes/menu_icons";
@@ -88,14 +88,14 @@ if (!function_exists("block_menu_options")) {
         $result = $xoopsDB->query($sql);
         $option = "";
         while (list($menuid, $itemname, $status, $of_level) = $xoopsDB->fetchRow($result)) {
-            $js      .= "if(document.getElementById('c{$menuid}').checked){
+            $js .= "if(document.getElementById('c{$menuid}').checked){
          arr[i] = document.getElementById('c{$menuid}').value;
          i++;
         }";
             $ckecked = (in_array($menuid, $sc)) ? "checked" : "";
             $color   = $of_level == '0' ? "blue" : "black";
             $color   = $status == '1' ? $color : "gray";
-            $option  .= "
+            $option .= "
         <span style='white-space:nowrap;'>
           <label for='c{$menuid}' style='color:$color'>
           <input type='checkbox' id='c{$menuid}' value='{$menuid}' class='bbv' onChange=bbv() $ckecked>

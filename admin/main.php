@@ -370,6 +370,13 @@ function tad_themes_form()
     $mColorPicker      = new mColorPicker('.color');
     $mColorPicker_code = $mColorPicker->render();
     $xoopsTpl->assign('mColorPicker_code', $mColorPicker_code);
+    // if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/spectrum.php")) {
+    //     redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+    // }
+    // include_once XOOPS_ROOT_PATH . "/modules/tadtools/spectrum.php";
+    // $spectrum      = new spectrum('.color');
+    // $spectrum_code = $spectrum->render();
+    // $xoopsTpl->assign('spectrum_code', $spectrum_code);
 
     $xoTheme->addScript('modules/tadtools/jqueryCookie/jquery.cookie.js');
 }
@@ -752,11 +759,11 @@ function insert_tad_themes()
     $sql = "update " . $xoopsDB->prefix("tad_themes") . " set `theme_enable`='0'";
     $xoopsDB->query($sql) or web_error($sql);
 
-    $_POST['logo_top']    = (int)$_POST['logo_top'];
-    $_POST['logo_right']  = (int)$_POST['logo_right'];
-    $_POST['logo_bottom'] = (int)$_POST['logo_bottom'];
-    $_POST['logo_left']   = (int)$_POST['logo_left'];
-    $_POST['logo_center'] = (int)$_POST['logo_center'];
+    $_POST['logo_top']    = (int) $_POST['logo_top'];
+    $_POST['logo_right']  = (int) $_POST['logo_right'];
+    $_POST['logo_bottom'] = (int) $_POST['logo_bottom'];
+    $_POST['logo_left']   = (int) $_POST['logo_left'];
+    $_POST['logo_center'] = (int) $_POST['logo_center'];
 
     //此處增加7+4項by hc
     $sql = "insert into " . $xoopsDB->prefix("tad_themes") . "
@@ -830,11 +837,11 @@ function update_tad_themes($theme_id = "")
     $_POST['slide_width']  = $myts->addSlashes($_POST['slide_width']);
     $_POST['slide_height'] = $myts->addSlashes($_POST['slide_height']);
 
-    $_POST['logo_top']    = (int)$_POST['logo_top'];
-    $_POST['logo_right']  = (int)$_POST['logo_right'];
-    $_POST['logo_bottom'] = (int)$_POST['logo_bottom'];
-    $_POST['logo_left']   = (int)$_POST['logo_left'];
-    $_POST['logo_center'] = (int)$_POST['logo_center'];
+    $_POST['logo_top']    = (int) $_POST['logo_top'];
+    $_POST['logo_right']  = (int) $_POST['logo_right'];
+    $_POST['logo_bottom'] = (int) $_POST['logo_bottom'];
+    $_POST['logo_left']   = (int) $_POST['logo_left'];
+    $_POST['logo_center'] = (int) $_POST['logo_center'];
 
     $sql = "update " . $xoopsDB->prefix("tad_themes") . " set
     `theme_name` = '{$_POST['theme_name']}' ,
@@ -1366,14 +1373,15 @@ function export_config2($theme_id = '')
     $theme_name = $xoopsConfig['theme_set'];
     include_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/config2.php";
 
-    $config2 = '';
+    $config2 = array();
     $sql     = "select * from " . $xoopsDB->prefix("tad_themes_config2") . " where `theme_id`='{$theme_id}'";
     $result  = $xoopsDB->query($sql) or web_error($sql);
     while ($all = $xoopsDB->fetchArray($result)) {
         $col           = $all['name'];
         $config2[$col] = $all;
     }
-    $all_col = $default_v = '';
+    $all_col = $default_v = array();
+
     foreach ($theme_config as $i => $c2) {
         $col             = $c2['name'];
         $default_v[$col] = $config2[$col]['value'];

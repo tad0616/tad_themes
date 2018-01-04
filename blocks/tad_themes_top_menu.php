@@ -8,7 +8,7 @@ function tad_themes_top_menu($options)
     //$menu=explode(",",$options[0]);
     $sql    = "select `menuid`,`itemname`,`itemurl`,`target`,`icon` from " . $xoopsDB->prefix("tad_themes_menu") . " where menuid in({$options[0]}) order by position";
     $result = $xoopsDB->query($sql);
-    $menu   = "";
+    $menu   = array();
     $i      = 1;
 
     $dir = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_icons";
@@ -63,12 +63,12 @@ if (!function_exists("block_menu_options")) {
         $result = $xoopsDB->query($sql);
         $option = "";
         while (list($menuid, $itemname) = $xoopsDB->fetchRow($result)) {
-            $js      .= "if(document.getElementById('c{$menuid}').checked){
-         arr[i] = document.getElementById('c{$menuid}').value;
-         i++;
-        }";
+            $js .= "if(document.getElementById('c{$menuid}').checked){
+            arr[i] = document.getElementById('c{$menuid}').value;
+            i++;
+            }";
             $ckecked = (in_array($menuid, $sc)) ? "checked" : "";
-            $option  .= "<span style='white-space:nowrap;'><input type='checkbox' id='c{$menuid}' value='{$menuid}' class='bbv' onChange=bbv() $ckecked><label for='c{$menuid}'>$itemname</label></span> ";
+            $option .= "<span style='white-space:nowrap;'><input type='checkbox' id='c{$menuid}' value='{$menuid}' class='bbv' onChange=bbv() $ckecked><label for='c{$menuid}'>$itemname</label></span> ";
         }
 
         $js .= "document.getElementById('bb').value=arr.join(',');

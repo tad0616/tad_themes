@@ -8,7 +8,7 @@ include_once "../function.php";
 //tad_themes_menu編輯表單
 function tad_themes_menu_form($of_level = "0", $menuid = "", $mode = "return")
 {
-    global $xoopsDB, $xoopsTpl;
+    global $xoopsDB, $xoopsTpl, $xoTheme;
 
     //抓取預設值
     if (!empty($menuid)) {
@@ -19,18 +19,24 @@ function tad_themes_menu_form($of_level = "0", $menuid = "", $mode = "return")
 
     //預設值設定
 
-    $menuid      = (!isset($DBV['menuid'])) ? $menuid : $DBV['menuid'];
-    $of_level    = (!isset($DBV['of_level'])) ? $of_level : $DBV['of_level'];
-    $position    = (!isset($DBV['position'])) ? get_max_sort($of_level) : $DBV['position'];
-    $itemname    = (!isset($DBV['itemname'])) ? "" : $DBV['itemname'];
-    $itemurl     = (!isset($DBV['itemurl'])) ? "" : $DBV['itemurl'];
+    $menuid = (!isset($DBV['menuid'])) ? $menuid : $DBV['menuid'];
+    $of_level = (!isset($DBV['of_level'])) ? $of_level : $DBV['of_level'];
+    $position = (!isset($DBV['position'])) ? get_max_sort($of_level) : $DBV['position'];
+    $itemname = (!isset($DBV['itemname'])) ? "" : $DBV['itemname'];
+    $itemurl = (!isset($DBV['itemurl'])) ? "" : $DBV['itemurl'];
     $membersonly = (!isset($DBV['membersonly'])) ? "" : $DBV['membersonly'];
-    $status      = (!isset($DBV['status'])) ? "" : $DBV['status'];
-    $target      = (!isset($DBV['target'])) ? "" : $DBV['target'];
-    $mainmenu    = (!isset($DBV['mainmenu'])) ? "" : $DBV['mainmenu'];
-    $icon        = (!isset($DBV['icon'])) ? "" : $DBV['icon'];
+    $status = (!isset($DBV['status'])) ? "" : $DBV['status'];
+    $target = (!isset($DBV['target'])) ? "" : $DBV['target'];
+    $mainmenu = (!isset($DBV['mainmenu'])) ? "" : $DBV['mainmenu'];
+    $icon = (!isset($DBV['icon'])) ? "" : $DBV['icon'];
 
     $xoopsTpl->assign('icon', $icon);
+    $ver = intval(str_replace('.', '', substr(XOOPS_VERSION, 6, 5)));
+    if ($ver >= 259) {
+        $migrate = '/modules/tadtools/jquery/jquery-migrate-3.0.0.min.js';
+    } else {
+        $migrate = '/modules/tadtools/jquery/jquery-migrate-1.4.1.min.js';
+    }
 
     $op = (empty($menuid)) ? "insert_tad_themes_menu" : "update_tad_themes_menu";
 
@@ -106,7 +112,7 @@ function tad_themes_menu_form($of_level = "0", $menuid = "", $mode = "return")
 
     if ($mode == "die") {
         $jquery = get_jquery();
-        $main2  = "
+        $main2 = "
         <!DOCTYPE html>
         <html lang='zh-TW'>
           <head>
@@ -120,6 +126,7 @@ function tad_themes_menu_form($of_level = "0", $menuid = "", $mode = "return")
 
             <script src='" . XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.js' type='text/javascript'></script>
             <script src='" . XOOPS_URL . "/modules/tadtools/bootstrap3/js/bootstrap.min.js'></script>
+            <script src='" . XOOPS_URL . $migrate . "'></script>
             <link href='" . XOOPS_URL . "/modules/tad_themes/class/fontawesome-iconpicker/css/fontawesome-iconpicker.min.css' rel='stylesheet'>
             <script src='" . XOOPS_URL . "/modules/tad_themes/class/fontawesome-iconpicker/js/fontawesome-iconpicker.js'></script>
           </head>
@@ -177,21 +184,21 @@ if (!function_exists('thumbnail')) {
         // Get new sizes
         list($old_width, $old_height) = getimagesize($filename);
 
-        $percent   = ($old_width > $old_height) ? round($width / $old_width, 2) : round($width / $old_height, 2);
-        $newwidth  = ($old_width > $old_height) ? $width : round($old_width * $percent, 0);
+        $percent = ($old_width > $old_height) ? round($width / $old_width, 2) : round($width / $old_height, 2);
+        $newwidth = ($old_width > $old_height) ? $width : round($old_width * $percent, 0);
         $newheight = ($old_width > $old_height) ? round($old_height * $percent, 0) : $width;
 
         // Load
         $thumb = imagecreatetruecolor($newwidth, $newheight);
         if ($type == "image/jpeg" or $type == "image/jpg" or $type == "image/pjpg" or $type == "image/pjpeg") {
             $source = imagecreatefromjpeg($filename);
-            $type   = "image/jpeg";
+            $type = "image/jpeg";
         } elseif ($type == "image/png") {
             $source = imagecreatefrompng($filename);
-            $type   = "image/png";
+            $type = "image/png";
         } elseif ($type == "image/gif") {
             $source = imagecreatefromgif($filename);
-            $type   = "image/gif";
+            $type = "image/gif";
         } else {
             die($type);
         }
@@ -213,8 +220,8 @@ if (!function_exists('thumbnail')) {
 function get_max_sort($of_level = "")
 {
     global $xoopsDB, $xoopsModule;
-    $sql        = "select max(position) from " . $xoopsDB->prefix("tad_themes_menu") . " where of_level='$of_level'";
-    $result     = $xoopsDB->query($sql) or web_error($sql);
+    $sql = "select max(position) from " . $xoopsDB->prefix("tad_themes_menu") . " where of_level='$of_level'";
+    $result = $xoopsDB->query($sql) or web_error($sql);
     list($sort) = $xoopsDB->fetchRow($result);
     return ++$sort;
 }
@@ -235,9 +242,9 @@ function insert_tad_themes_menu()
     //處理上傳的檔案
     if (!empty($_FILES['image']['name'])) {
         $file_ending = substr(strtolower($_FILES['image']["name"]), -3); //file extension
-        $dir         = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_icons";
+        $dir = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_icons";
         mk_dir($dir);
-        $filename    = $_FILES['image']['tmp_name'];
+        $filename = $_FILES['image']['tmp_name'];
         $thumb_name1 = "{$dir}/{$menuid}_64.png";
         thumbnail($filename, $thumb_name1, $type_to_mime[$file_ending], 64);
         $thumb_name2 = "{$dir}/{$menuid}_32.png";
@@ -246,11 +253,11 @@ function insert_tad_themes_menu()
 
     if (!empty($_FILES['banner_image']['name'])) {
         $file_ending = substr(strtolower($_FILES['banner_image']["name"]), -3); //file extension
-        $dir         = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_banner";
+        $dir = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_banner";
         mk_dir($dir);
-        $filename    = $_FILES['banner_image']['tmp_name'];
+        $filename = $_FILES['banner_image']['tmp_name'];
         $destination = "{$dir}/{$menuid}.png";
-        $thumb       = "{$dir}/{$menuid}_thumb.png";
+        $thumb = "{$dir}/{$menuid}_thumb.png";
         move_uploaded_file($filename, $destination);
         thumbnail($destination, $thumb, $type_to_mime[$file_ending], 120);
     }
@@ -265,7 +272,7 @@ function list_tad_themes_menu($add_of_level = "", $menuid = "")
 
     $all = get_tad_level_menu(0, 0, $menuid, "", $add_of_level);
 
-    $op     = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
+    $op = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
     $option = "";
 
     //$all=(empty($all))?"<tr><td colspan=2>".tad_themes_menu_form()."</td></tr>":$all;
@@ -283,7 +290,7 @@ function list_tad_themes_menu($add_of_level = "", $menuid = "")
     include_once XOOPS_ROOT_PATH . "/modules/tadtools/treetable.php";
 
     //treetable($show_jquery=true , $sn="cat_sn" , $of_sn="of_cat_sn" , $tbl_id="#tbl" , $post_url="save_drag.php" ,$folder_class=".folder", $msg="#save_msg" ,$expanded=true,$sort_id="", $sort_url="save_sort.php", $sort_msg="#save_msg2")
-    $treetable      = new treetable(false, "menuid", "of_level", "#tbl", "save_drag.php", ".folder", "#save_msg", true, ".sort", "save_sort.php", "#save_msg");
+    $treetable = new treetable(false, "menuid", "of_level", "#tbl", "save_drag.php", ".folder", "#save_msg", true, ".sort", "save_sort.php", "#save_msg");
     $treetable_code = $treetable->render();
 
     $xoopsTpl->assign('treetable_code', $treetable_code);
@@ -292,7 +299,7 @@ function list_tad_themes_menu($add_of_level = "", $menuid = "")
         redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
     }
     include_once XOOPS_ROOT_PATH . "/modules/tadtools/fancybox.php";
-    $fancybox      = new fancybox('.edit_dropdown', '800', '400');
+    $fancybox = new fancybox('.edit_dropdown', '800', '400');
     $fancybox_code = $fancybox->render();
     $xoopsTpl->assign('fancybox_code', $fancybox_code);
 
@@ -306,20 +313,20 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = "", $this_menuid = "
 {
     global $xoopsDB, $xoopsUser, $xoopsModule;
 
-    $left      = $level * 30;
+    $left = $level * 30;
     $font_size = 16 - ($level * 2);
     $level += 1;
 
     $left = (empty($left)) ? 4 : $left;
 
     $option = "";
-    $sql    = "select `menuid`,`of_level`,`itemname`,`position`,`itemurl`,`status`,`mainmenu`,`target`,`icon`,`link_cate_name`, `link_cate_sn` from " . $xoopsDB->prefix("tad_themes_menu") . " where of_level='{$of_level}'  order by position";
+    $sql = "select `menuid`,`of_level`,`itemname`,`position`,`itemurl`,`status`,`mainmenu`,`target`,`icon`,`link_cate_name`, `link_cate_sn` from " . $xoopsDB->prefix("tad_themes_menu") . " where of_level='{$of_level}'  order by position";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
-    $op         = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-    $dir        = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_icons";
+    $op = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
+    $dir = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_icons";
     $banner_dir = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_banner";
-    $url        = XOOPS_URL . "/uploads/tad_themes/menu_icons";
+    $url = XOOPS_URL . "/uploads/tad_themes/menu_icons";
     $banner_url = XOOPS_URL . "/uploads/tad_themes/menu_banner";
     while (list($menuid, $of_level, $itemname, $position, $itemurl, $status, $mainmenu, $target, $icon, $link_cate_name, $link_cate_sn) = $xoopsDB->fetchRow($result)) {
 
@@ -329,12 +336,12 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = "", $this_menuid = "
 
         $status_tool = ($status == '1') ? "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=0' class='btn btn-xs btn-warning'>" . _TAD_UNABLE . "</a>" : "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=1' class='btn btn-xs btn-info'>" . _TAD_ENABLE . "</a>";
 
-        $status_color  = ($status == '1') ? "" : "style='background-color:#D0D0D0'";
+        $status_color = ($status == '1') ? "" : "style='background-color:#D0D0D0'";
         $status_color2 = ($status == '1') ? "" : "background-color:#D0D0D0";
-        $target_icon   = ($target == "_blank") ? "<span class='label' style='padding: 2px 4px;'>" . _MA_TADTHEMES_TARGET_BLANK . "</span>" : "";
-        $target_icon   = ($target == "popup") ? "<span class='label label-success' style='padding: 2px 4px;'>popup</span>" : $target_icon;
+        $target_icon = ($target == "_blank") ? "<span class='label' style='padding: 2px 4px;'>" . _MA_TADTHEMES_TARGET_BLANK . "</span>" : "";
+        $target_icon = ($target == "popup") ? "<span class='label label-success' style='padding: 2px 4px;'>popup</span>" : $target_icon;
 
-        $class  = (empty($of_level)) ? "" : "class='child-of-node-{$of_level}'";
+        $class = (empty($of_level)) ? "" : "class='child-of-node-{$of_level}'";
         $parent = empty($of_level) ? "" : "data-tt-parent-id='$of_level'";
 
         $icon = "";
@@ -385,9 +392,9 @@ function get_tad_themes_menu($menuid = "")
         return;
     }
 
-    $sql    = "select * from " . $xoopsDB->prefix("tad_themes_menu") . " where menuid='$menuid'";
+    $sql = "select * from " . $xoopsDB->prefix("tad_themes_menu") . " where menuid='$menuid'";
     $result = $xoopsDB->query($sql) or web_error($sql);
-    $data   = $xoopsDB->fetchArray($result);
+    $data = $xoopsDB->fetchArray($result);
     return $data;
 }
 
@@ -405,9 +412,9 @@ function update_tad_themes_menu($menuid = "")
     //處理上傳的檔案
     if (!empty($_FILES['image']['name'])) {
         $file_ending = substr(strtolower($_FILES['image']["name"]), -3); //file extension
-        $dir         = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_icons";
+        $dir = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_icons";
         mk_dir($dir);
-        $filename    = $_FILES['image']['tmp_name'];
+        $filename = $_FILES['image']['tmp_name'];
         $thumb_name1 = "{$dir}/{$menuid}_64.png";
         thumbnail($filename, $thumb_name1, $type_to_mime[$file_ending], 64);
         $thumb_name2 = "{$dir}/{$menuid}_32.png";
@@ -416,11 +423,11 @@ function update_tad_themes_menu($menuid = "")
 
     if (!empty($_FILES['banner_image']['name'])) {
         $file_ending = substr(strtolower($_FILES['banner_image']["name"]), -3); //file extension
-        $dir         = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_banner";
+        $dir = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_banner";
         mk_dir($dir);
-        $filename    = $_FILES['banner_image']['tmp_name'];
+        $filename = $_FILES['banner_image']['tmp_name'];
         $destination = "{$dir}/{$menuid}.png";
-        $thumb       = "{$dir}/{$menuid}_thumb.png";
+        $thumb = "{$dir}/{$menuid}_thumb.png";
         move_uploaded_file($filename, $destination);
         thumbnail($destination, $thumb, $type_to_mime[$file_ending], 120);
     }
@@ -449,7 +456,7 @@ function get_tad_all_menu($of_level = 0, $level = 0, $v = "", $this_menuid = "",
     $level += 1;
 
     $option = "";
-    $sql    = "select `menuid`,`of_level`,`itemname` from " . $xoopsDB->prefix("tad_themes_menu") . " where of_level='{$of_level}'  order by position";
+    $sql = "select `menuid`,`of_level`,`itemname` from " . $xoopsDB->prefix("tad_themes_menu") . " where of_level='{$of_level}'  order by position";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
     while (list($menuid, $of_level, $itemname) = $xoopsDB->fetchRow($result)) {
@@ -459,7 +466,7 @@ function get_tad_all_menu($of_level = 0, $level = 0, $v = "", $this_menuid = "",
         }
 
         $selected = ($v == $menuid) ? "selected" : "";
-        $color    = ($level == '1') ? "#330033" : "#990099";
+        $color = ($level == '1') ? "#330033" : "#990099";
         $option .= "<option value='{$menuid}' style=color:{$color};' $selected>{$blank}{$itemname}</option>";
         $option .= get_tad_all_menu($menuid, $level, $v, $this_menuid, $no_self);
     }
@@ -482,18 +489,18 @@ function auto_import()
     global $xoopsDB, $xoopsUser, $xoopsModule;
 
     $position = get_max_sort(0);
-    $sql      = "insert into " . $xoopsDB->prefix("tad_themes_menu") . " (`of_level`,`position`,`itemname`,`itemurl`,`membersonly`,`status`) values(0,'{$position}','" . _MA_TADTHEMES_WEB_MENU . "','','0','1')";
+    $sql = "insert into " . $xoopsDB->prefix("tad_themes_menu") . " (`of_level`,`position`,`itemname`,`itemurl`,`membersonly`,`status`) values(0,'{$position}','" . _MA_TADTHEMES_WEB_MENU . "','','0','1')";
     $xoopsDB->queryF($sql) or web_error($sql);
 
     //取得最後新增資料的流水編號
     $of_level = $xoopsDB->getInsertId();
 
-    $sql    = "select name,dirname from " . $xoopsDB->prefix("modules") . " where isactive='1' and hasmain='1' order by weight";
+    $sql = "select name,dirname from " . $xoopsDB->prefix("modules") . " where isactive='1' and hasmain='1' order by weight";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
     while (list($name, $dirname) = $xoopsDB->fetchRow($result)) {
         $position = get_max_sort($of_level);
-        $sql      = "insert into " . $xoopsDB->prefix("tad_themes_menu") . " (`of_level`,`position`,`itemname`,`itemurl`,`membersonly`,`status`) values('{$of_level}','{$position}','{$name}','" . XOOPS_URL . "/modules/{$dirname}/','0','1')";
+        $sql = "insert into " . $xoopsDB->prefix("tad_themes_menu") . " (`of_level`,`position`,`itemname`,`itemurl`,`membersonly`,`status`) values('{$of_level}','{$position}','{$name}','" . XOOPS_URL . "/modules/{$dirname}/','0','1')";
         $xoopsDB->queryF($sql) or web_error($sql);
     }
 
@@ -511,12 +518,12 @@ function tad_themes_menu_status($menuid, $status)
 function del_pic($type, $menuid)
 {
     if ($type == "icon") {
-        $dir   = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_icons";
+        $dir = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_icons";
         $file1 = "{$dir}/{$menuid}_64.png";
         $file2 = "{$dir}/{$menuid}_32.png";
 
     } elseif ($type == "banner") {
-        $dir   = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_banner";
+        $dir = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_banner";
         $file1 = "{$dir}/{$menuid}.png";
         $file2 = "{$dir}/{$menuid}_thumb.png";
     }
@@ -532,11 +539,11 @@ function del_pic($type, $menuid)
 }
 
 /*-----------執行動作判斷區----------*/
-$op       = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-$menuid   = (!isset($_REQUEST['menuid'])) ? "" : (int)$_REQUEST['menuid'];
-$of_level = (!isset($_REQUEST['of_level'])) ? "" : (int)$_REQUEST['of_level'];
-$status   = (!isset($_REQUEST['status'])) ? "1" : (int)$_REQUEST['status'];
-$type     = (!isset($_REQUEST['type'])) ? "" : $_REQUEST['type'];
+$op = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
+$menuid = (!isset($_REQUEST['menuid'])) ? "" : (int) $_REQUEST['menuid'];
+$of_level = (!isset($_REQUEST['of_level'])) ? "" : (int) $_REQUEST['of_level'];
+$status = (!isset($_REQUEST['status'])) ? "1" : (int) $_REQUEST['status'];
+$type = (!isset($_REQUEST['type'])) ? "" : $_REQUEST['type'];
 
 $xoopsTpl->assign('now_op', $op);
 
