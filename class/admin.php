@@ -313,7 +313,7 @@ class ModuleAdmin
         $ret .= "</table>\n";
 
         //        $ret .= "<div align=\"center\">";
-        //        $ret .= "<a href=\"http://www.xoops.org\" target=\"_blank\"><img src=\"" . $path . "xoopsmicrobutton.gif\" alt=\"XOOPS\" title=\"XOOPS\"></a>";
+        //        $ret .= "<a href=\"https://xoops.org\" target=\"_blank\"><img src=\"" . $path . "xoopsmicrobutton.gif\" alt=\"XOOPS\" title=\"XOOPS\"></a>";
         //        $ret .= "</div>";
 
         return $ret;
@@ -336,7 +336,7 @@ class ModuleAdmin
         $ret .= "</tr>\n";
         $ret .= "</table>\n";
         $ret .= "<div align=\"center\">";
-        //        $ret .= "<a href=\"http://www.xoops.org\" target=\"_blank\"><img src=\"" . $path . "xoopsmicrobutton.gif\" alt=\"XOOPS\" title=\"XOOPS\"></a>";
+        //        $ret .= "<a href=\"https://xoops.org\" target=\"_blank\"><img src=\"" . $path . "xoopsmicrobutton.gif\" alt=\"XOOPS\" title=\"XOOPS\"></a>";
         $ret .= "</div>";
         return $ret;
     }
