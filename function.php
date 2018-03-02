@@ -5,6 +5,9 @@ if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php")) {
 }
 include_once XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php";
 
+include_once XOOPS_ROOT_PATH . "/modules/tadtools/TadDataCenter.php";
+$TadDataCenter = new TadDataCenter('tad_themes');
+
 /********************* 自訂函數 *********************/
 
 define("_THEME_BG_PATH", XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/bg");

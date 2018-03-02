@@ -1,0 +1,118 @@
+<div class="row">
+    <div class="col-sm-5">
+        <{if $enable.bg_img}>
+            <div class="form-group">
+                <!-- 上傳 背景圖-->
+                <label class="col-sm-4 control-label">
+                    <{$smarty.const._MA_TAD_THEMES_UPLOAD}>
+                    <{$smarty.const._MA_TADTHEMES_BG_IMG}>
+                </label>
+                <div class="col-sm-8">
+                    <{$upform_bg}>
+                </div>
+            </div>
+        <{else}>
+            <input type="hidden" name="bg_img" id="bg_img" value="<{$bg_img}>">
+        <{/if}>
+
+
+        <{if $enable.bg_color}>
+            <div class="form-group">
+                <!-- 背景顏色-->
+                <label class="col-sm-4 control-label">
+                    <{$smarty.const._MA_TADTHEMES_BG_COLOR}>
+                </label>
+                <div class="col-sm-8">
+                    <input type="text" name="bg_color" id="bg_color" value="<{$bg_color}>" class="form-control <{$validate.bg_color}>" data-text="hidden" data-hex="true" style="height: 42px; width: 100%;" onChange="change_css();">
+                </div>
+            </div>
+        <{else}>
+            <input type="hidden" name="bg_color" id="bg_color" value="<{$bg_color}>">
+        <{/if}>
+
+        <{if $enable.bg_repeat}>
+        <div class="form-group">
+            <!-- 背景重複-->
+            <label class="col-sm-4 control-label">
+                <{$smarty.const._MA_TADTHEMES_BG_REPEAT}>
+            </label>
+            <div class="col-sm-8">
+            <select name="bg_repeat" id="bg_repeat" class="form-control <{$validate.bg_repeat}>" onChange="change_css();">
+                <option value="repeat" <{if $bg_repeat=="repeat"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_REPEAT_NORMAL}></option>
+                <option value="repeat-x" <{if $bg_repeat=="repeat-x"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_REPEAT_X}></option>
+                <option value="repeat-y" <{if $bg_repeat=="repeat-y"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_REPEAT_Y}></option>
+                <option value="no-repeat" <{if $bg_repeat=="no-repeat"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_NO_REPEAT}></option>
+                <option value="no-repeat; background-size: cover" <{if $bg_repeat=="no-repeat; background-size: cover"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_NO_REPEAT_COVER}></option>
+                <option value="no-repeat; background-size: contain" <{if $bg_repeat=="no-repeat; background-size: contain"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_NO_REPEAT_CONTAIN}></option>
+            </select>
+            </div>
+        </div>
+        <{else}>
+        <input type="hidden" name="bg_repeat" id="bg_repeat" value="<{$bg_repeat}>">
+        <{/if}>
+
+
+        <{if $enable.bg_attachment}>
+        <div class="form-group">
+            <!-- 背景模式-->
+            <label class="col-sm-4 control-label">
+                <{$smarty.const._MA_TADTHEMES_BG_ATTACHMENT}>
+            </label>
+            <div class="col-sm-8">
+            <select name="bg_attachment" id="bg_attachment" class="form-control <{$validate.bg_attachment}>" onChange="change_css();">
+                <option value="scroll" <{if $bg_attachment=="scroll"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_ATTACHMENT_SCROLL}></option>
+                <option value="fixed" <{if $bg_attachment=="fixed"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_ATTACHMENT_FIXED}></option>
+            </select>
+            </div>
+        </div>
+        <{else}>
+        <input type="hidden" name="bg_attachment" id="bg_attachment" value="<{$bg_attachment}>">
+        <{/if}>
+
+
+        <{if $enable.bg_position}>
+        <div class="form-group">
+            <!-- 背景位置-->
+            <label class="col-sm-4 control-label">
+                <{$smarty.const._MA_TADTHEMES_BG_POSITION}>
+            </label>
+            <div class="col-sm-8">
+                <select name="bg_position" id="bg_position" class="form-control <{$validate.bg_position}>" onChange="change_css();">
+                    <option value="" <{if $bg_position=="left top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_LT}></option>
+                    <option value="right top" <{if $bg_position=="right top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_RT}></option>
+                    <option value="left bottom" <{if $bg_position=="left bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_LB}></option>
+                    <option value="right bottom" <{if $bg_position=="right bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_RB}></option>
+                    <option value="center center" <{if $bg_position=="center center"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_CC}></option>
+                    <option value="center top" <{if $bg_position=="center top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_CT}></option>
+                    <option value="center bottom" <{if $bg_position=="center bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_CB}></option>
+                </select>
+            </div>
+        </div>
+        <{else}>
+        <input type="hidden" name="bg_position" id="bg_position" value="<{$bg_position}>">
+        <{/if}>
+    </div>
+
+    <!--選擇預設 背景圖-->
+    <div class="col-sm-7">
+        <{if $all_bg and $enable.bg_img=="1"}>
+        <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+            <label for="bg_img0" style="width:60px; height:60px;border:1px dotted gray;" >
+                <input type="radio" name="bg_img" id="bg_img0" onChange="$('.del_img_box').show(); preview_img('bg',$(this).val());" value="" <{if $bg_img==""}>checked<{/if}>>
+                <{$smarty.const._MA_TADTHEMES_NONE}><{$smarty.const._MA_TADTHEMES_BG_IMG}>
+            </label>
+        </div>
+        <{foreach from=$all_bg item=bg}>
+            <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+            <label for="bg_img<{$bg.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$bg.tb_path}>);background-position:center center;border:1px solid gray;" >
+                <input type="radio" name="bg_img" id="bg_img<{$bg.files_sn}>" onChange="$('.del_img_box').show(); $('#del_img<{$bg.files_sn}>').hide(); preview_img('bg',$(this).val());" value="<{$bg.path}>" <{if $bg_img==$bg.path}>checked<{/if}>>
+            </label>
+
+            <label class="del_img_box" style="font-size:12px;" id="del_img<{$bg.files_sn}>">
+                <input type="checkbox" value="<{$bg.files_sn}>" name="del_file[<{$bg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
+            </label>
+            </div>
+        <{/foreach}>
+        <{/if}>
+    </div>
+</div>

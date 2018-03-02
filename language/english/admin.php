@@ -46,7 +46,7 @@ define("_MA_TADTHEMES_LOGO_PAGE", "on page");
 define("_MA_TADTHEMES_NAVLOGO_IMG", "NavBar logo");
 define("_MA_TADTHEMES_SLIDE_WIDTH", "Slide Width");
 define("_MA_TADTHEMES_SLIDE_HEIGHT", "Slide Height");
-define("_MA_TADTHEMES_SLIDE_DESC", "<ol><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Width =0 (hide slide)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Height = 0(auto height)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>You can input \"<b><u>[url]http://some.web.url[/url]</u></b>\" to add link for slide image.</li></ol>");
+define("_MA_TADTHEMES_SLIDE_DESC", "<ol><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Width =0 (hide slide)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Height = 0(auto height)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>You can input \"<b><u>[url]http://some.web.url[/url]</u></b>\" to add link for slide image. </li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'><span style='color: red;'>[url_blank]http://some.web.url[/url_blank]</span>  can open the link in a new window.</li></ol>");
 define("_MA_TAD_THEMES_FORM", "Theme Setup");
 define("_MA_TAD_THEMES_NOT_TAD_THEME", "Defaut Theme \"%s\" can't compatible with Tad Theme.<div>\"%s\" not founded.</div>");
 define("_MA_TAD_THEMES_TYPE1", "2 Columns (All Left)");
@@ -64,17 +64,17 @@ define("_MA_TAD_THEMES_RIGHT", "Right Zone");
 define("_MA_TAD_THEMES_FOOT", "Foot");
 define("_MA_TAD_THEMES_UPLOAD", "Upload ");
 define("_MA_TADTHEMES_NOTICE", "<ul style='line-height:2em;'>
-  <li>Content and Center Zone width need more than 550px</li>
+  <li style='line-height:180%;list-style-position:outside;'>Content and Center Zone width need more than 550px</li>
   </ul>");
 define("_MA_TADTHEMES_NOTICE2", "<ul style='line-height:2em;'>
-  <li>All pictures can be uploaded directly to FTP, the system will automatically be added to the database, and generate thumbnails.
+  <li style='line-height:180%;list-style-position:outside;'>All pictures can be uploaded directly to FTP, the system will automatically be added to the database, and generate thumbnails.
     <ul style='list-style-type:circle;margin-left:20px;'>
-      <li>Background images : /themes/YourTheme/images/bg</li>
-      <li>Slide images: /themes/YourTheme/images/slide</li>
-      <li>Logo images: /themes/YourTheme/images/logo</li>
-      <li>Blocks background images: /themes/YourTheme/images/bt_bg</li>
-      <li>Navbar background images: /themes/YourTheme/images/nav_bg</li>
-      <li>Navbar logo images: /themes/YourTheme/images/navlogo</li>
+      <li style='line-height:180%;list-style-position:outside;'>Background images : /themes/YourTheme/images/bg</li>
+      <li style='line-height:180%;list-style-position:outside;'>Slide images: /themes/YourTheme/images/slide</li>
+      <li style='line-height:180%;list-style-position:outside;'>Logo images: /themes/YourTheme/images/logo</li>
+      <li style='line-height:180%;list-style-position:outside;'>Blocks background images: /themes/YourTheme/images/bt_bg</li>
+      <li style='line-height:180%;list-style-position:outside;'>Navbar background images: /themes/YourTheme/images/nav_bg</li>
+      <li style='line-height:180%;list-style-position:outside;'>Navbar logo images: /themes/YourTheme/images/navlogo</li>
     </ul>
   </li>
   <li>When you delete pictures, all from the background deleted, do not just delete FTP photo!</li>
@@ -145,3 +145,6 @@ define("_MA_TADTHEMES_ICON", "fontawesome icon");
 define("_MA_TADTHEMES_LOGO_CENTER", "center");
 define("_MA_TADTHEMES_EXPORT", "Export config.php");
 define("_MA_TADTHEMES_EXPORT2", "Export config2.php");
+
+define('_MA_TADTHEMES_NAVBAR_PY', 'Navigation options padding top and bottom');
+define('_MA_TADTHEMES_NAVBAR_PX', 'Navigation options padding left and right');

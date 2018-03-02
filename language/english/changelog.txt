@@ -1,48 +1,62 @@
-Tad Themes 4.4 (2018-01-04 released)
+Tad Themes 4.6 (released on 2018-02-13)
+=================================================
+1. Add tad_themes_data_center table
+2  new navbar options distance setting
+3. Fixed layout settings, some fields set the wrong item
+
+
+Tad Themes 4.5 (released on 2018-02-11)
+=================================================
+1. Fixed sliding picture upload sometimes overwrite other picture problems
+2. Add [url_blank] tab, slide the link can be opened in a new window
+3. Modify the background interface for the adaptive mode
+
+
+Tad Themes 4.4 (released on 2018-01-04)
 =================================================
 1. Fix the font awesome menu
 2. Support PHP 7.1
 
 
-Tad Themes 4.3 (2017-06-16 release)
+Tad Themes 4.3 (released on 2017-06-16)
 =================================================
 1.Improve compatibility with older versions of PHP
 
 
-Tad Themes 4.2 (2017-05-12 release)
+Tad Themes 4.2 (released on 2017-05-12)
 =================================================
 1. Add profile export function
 
 
-Tad Themes 4.1.1 (2017-01-07 release)
+Tad Themes 4.1.1 (released on 2017-01-07)
 =================================================
 1. Adjust the RWD to 1024 to operate
 
 
-Tad Themes 4.1 (2016-06-05 release)
+Tad Themes 4.1 (released on 2016-06-05)
 ================================================== ================
 1. Add logo to the function
 2. Support XOOPS 2.5.8
 
 
-Tad Themes 4.0.1 (2016-05-26 release)
+Tad Themes 4.0.1 (released on 2016-05-26)
 ================================================== ================
 1. Remove the BootStrap2 residual syntax
 
 
-Tad Themes 4.0 (2016-05-21 release)
+Tad Themes 4.0 (released on 2016-05-21)
 =================================================
 1. Fixed block title picture can not upload the problem
 
 
-Tad Themes 3.9 (2016-05-17 release)
+Tad Themes 3.9 (released on 2016-05-17)
 =================================================
 Support PHP7
 2. Remove the BootStrap2 setting
 3. Add picture upload function
 
 
-Tad Themes 3.8 (2016-01-20 release)
+Tad Themes 3.8 (released on 2016-01-20)
 =================================================
 1. Add the missing English language
 2. Fix additional settings can not upload picture problems

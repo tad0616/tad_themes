@@ -9,7 +9,7 @@ include_once "../auto_import_theme.php";
 //tad_themes編輯表單
 function tad_themes_form()
 {
-    global $xoopsDB, $xoopsUser, $xoopsConfig, $xoopsTpl, $block_position_title, $xoTheme;
+    global $xoopsDB, $xoopsUser, $xoopsConfig, $xoopsTpl, $block_position_title, $xoTheme, $TadDataCenter;
 
     $myts = MyTextSanitizer::getInstance();
 
@@ -370,15 +370,25 @@ function tad_themes_form()
     $mColorPicker      = new mColorPicker('.color');
     $mColorPicker_code = $mColorPicker->render();
     $xoopsTpl->assign('mColorPicker_code', $mColorPicker_code);
-    // if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/spectrum.php")) {
-    //     redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
-    // }
-    // include_once XOOPS_ROOT_PATH . "/modules/tadtools/spectrum.php";
-    // $spectrum      = new spectrum('.color');
-    // $spectrum_code = $spectrum->render();
-    // $xoopsTpl->assign('spectrum_code', $spectrum_code);
 
     $xoTheme->addScript('modules/tadtools/jqueryCookie/jquery.cookie.js');
+
+    if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/easy_responsive_tabs.php")) {
+        redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+    }
+    include_once XOOPS_ROOT_PATH . "/modules/tadtools/easy_responsive_tabs.php";
+    $responsive_tabs = new easy_responsive_tabs('#themeTab');
+    $responsive_tabs->rander('tab_identifier_parent');
+
+    $block_tabs = new easy_responsive_tabs('#bt_tabs', 'vertical');
+    $block_tabs->rander('tab_identifier_child');
+
+    $TadDataCenter->set_col('theme_id', $theme_id);
+    $xoopsTpl->assign('navbar_py_input', $TadDataCenter->getForm('return', 'input', 'navbar_py', 'text', $navbar_py));
+    $xoopsTpl->assign('navbar_py_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_py', 'hidden', $navbar_py));
+
+    $xoopsTpl->assign('navbar_px_input', $TadDataCenter->getForm('return', 'input', 'navbar_px', 'text', $navbar_px));
+    $xoopsTpl->assign('navbar_px_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_px', 'hidden', $navbar_px));
 }
 
 function change_css_bootstrap($theme_width = "12", $theme_left_width = "")
@@ -399,9 +409,9 @@ function change_css_bootstrap($theme_width = "12", $theme_left_width = "")
     var theme_div_width= theme_width+11;
 
     //滑動圖文框原始高
-    var slide_height_org = $('#slide_height').val();
+    // var slide_height_org = $('#slide_height').val();
     //滑動圖文框模擬高
-    var slide_height= Math.round(slide_height_org/4);
+    var slide_height= 30;
 
     //模擬區之外框高
     var theme_div_height=230+slide_height;
@@ -419,25 +429,25 @@ function change_css_bootstrap($theme_width = "12", $theme_left_width = "")
     $('#preview_zone').css('background-position',$('#bg_position').val());
 
     if(theme_type=='theme_type_1'){
-      $('#left_block').css('background-color',$('#lb_color').val()).css('color',$('#font_color').val());
-      $('#right_block').css('background-color',$('#lb_color').val()).css('color',$('#font_color').val());
+        $('#left_block').css('background-color',$('#lb_color').val()).css('color',$('#font_color').val());
+        $('#right_block').css('background-color',$('#lb_color').val()).css('color',$('#font_color').val());
     }else if(theme_type=='theme_type_2'){
-      $('#left_block').css('background-color',$('#rb_color').val()).css('color',$('#font_color').val());
-      $('#right_block').css('background-color',$('#rb_color').val()).css('color',$('#font_color').val());
+        $('#left_block').css('background-color',$('#rb_color').val()).css('color',$('#font_color').val());
+        $('#right_block').css('background-color',$('#rb_color').val()).css('color',$('#font_color').val());
     }else{
-      $('#left_block').css('background-color',$('#lb_color').val()).css('color',$('#font_color').val());
-      $('#right_block').css('background-color',$('#rb_color').val()).css('color',$('#font_color').val());
+        $('#left_block').css('background-color',$('#lb_color').val()).css('color',$('#font_color').val());
+        $('#right_block').css('background-color',$('#rb_color').val()).css('color',$('#font_color').val());
     }
     $('#center_block').css('background-color',$('#cb_color').val()).css('color',$('#font_color').val());
     $('#theme_head').css('color',$('#link_color').val()).hover( function () {
-      $(this).css('color',$('#hover_color').val());
+        $(this).css('color',$('#hover_color').val());
     },function () {
-      $(this).css('color',$('#link_color').val());
+        $(this).css('color',$('#link_color').val());
     });
     $('#theme_foot').css('color',$('#link_color').val()).hover( function () {
-      $(this).css('color',$('#hover_color').val());
+        $(this).css('color',$('#hover_color').val());
     },function () {
-      $(this).css('color',$('#link_color').val());
+        $(this).css('color',$('#link_color').val());
     });
 
 
@@ -448,35 +458,35 @@ function change_css_bootstrap($theme_width = "12", $theme_left_width = "")
 
 
     if(theme_type!='theme_type_8'){
-      if($('#lb_width').val()==theme_width_org){
-        $('#lb_width').val(lb_width_org);
-      }
-      if($('#rb_width').val()==theme_width_org){
-        $('#rb_width').val(lb_width_org);
-      }
+        if($('#lb_width').val()==theme_width_org){
+            $('#lb_width').val(lb_width_org);
+        }
+        if($('#rb_width').val()==theme_width_org){
+            $('#rb_width').val(lb_width_org);
+        }
     }
 
     if(theme_type=='theme_type_1'){
-      $('#lb_width').attr('readonly',false);
-      $('#rb_width').val($('#lb_width').val()).attr('readonly','readonly');
+        $('#lb_width').attr('readonly',false);
+        $('#rb_width').val($('#lb_width').val()).attr('readonly','readonly');
     }else if(theme_type=='theme_type_2'){
-      $('#lb_width').attr('readonly',false);
-      $('#rb_width').val($('#lb_width').val()).attr('readonly','readonly');
+        $('#rb_width').attr('readonly',false);
+        $('#lb_width').val($('#rb_width').val()).attr('readonly','readonly');
     }else if(theme_type=='theme_type_3'){
-      $('#lb_width').attr('readonly',false);
-      $('#rb_width').val({$theme_width}).attr('readonly','readonly');
+        $('#lb_width').attr('readonly',false);
+        $('#rb_width').val({$theme_width}).attr('readonly','readonly');
     }else if(theme_type=='theme_type_4'){
-      $('#lb_width').attr('readonly',false);
-      $('#rb_width').val({$theme_width}).attr('readonly','readonly');
+        $('#lb_width').attr('readonly',false);
+        $('#rb_width').val({$theme_width}).attr('readonly','readonly');
     }else if(theme_type=='theme_type_5' || theme_type=='theme_type_6' || theme_type=='theme_type_7' ){
-      $('#lb_width').attr('readonly',false);
-      $('#rb_width').attr('readonly',false);
+        $('#lb_width').attr('readonly',false);
+        $('#rb_width').attr('readonly',false);
     }else if(theme_type=='theme_type_8'){
-      $('#lb_width').val(theme_width_org).attr('readonly','readonly');
-      $('#rb_width').val(theme_width_org).attr('readonly','readonly');
+        $('#lb_width').val(theme_width_org).attr('readonly','readonly');
+        $('#rb_width').val(theme_width_org).attr('readonly','readonly');
     }else{
-      $('#lb_width').attr('readonly',false);
-      $('#rb_width').attr('readonly',false);
+        $('#lb_width').attr('readonly',false);
+        $('#rb_width').attr('readonly',false);
     }
 
     //左區塊原始寬
@@ -586,8 +596,8 @@ function change_css($theme_width, $theme_left_width)
     //var preview_width = Math.round(theme_width_org/2);
     var preview_width = $('#preview_width').width();
     var theme_div_width= theme_width+11;
-    var slide_height_org = $('#slide_height').val();
-    var slide_height= Math.round(slide_height_org/4);
+    // var slide_height_org = $('#slide_height').val();
+    var slide_height= 30;
     var theme_div_height=230+slide_height;
     var theme_margin_top_org = $('#margin_top').val();
     var theme_margin_top= Math.round(theme_margin_top_org/4);
@@ -745,7 +755,7 @@ function change_css($theme_width, $theme_left_width)
 //新增資料到tad_themes中
 function insert_tad_themes()
 {
-    global $xoopsDB, $xoopsUser, $xoopsConfig;
+    global $xoopsDB, $xoopsUser, $xoopsConfig, $TadDataCenter;
 
     $myts                  = MyTextSanitizer::getInstance();
     $_POST['theme_width']  = $myts->addSlashes($_POST['theme_width']);
@@ -773,6 +783,9 @@ function insert_tad_themes()
 
     //取得最後新增資料的流水編號
     $theme_id = $xoopsDB->getInsertId();
+
+    $TadDataCenter->set_col('theme_id', $theme_id);
+    $TadDataCenter->saveData();
 
     $slide_width = ($_POST['theme_kind'] == 'bootstrap3') ? 1920 : $_POST['slide_width'];
 
@@ -804,7 +817,7 @@ function insert_tad_themes()
 //更新tad_themes某一筆資料
 function update_tad_themes($theme_id = "")
 {
-    global $xoopsDB, $xoopsUser, $xoopsConfig;
+    global $xoopsDB, $xoopsUser, $xoopsConfig, $TadDataCenter;
 
     //切換佈景類型
     if (isset($_POST['old_theme_kind']) and $_POST['old_theme_kind'] !== $_POST['theme_kind']) {
@@ -889,6 +902,9 @@ function update_tad_themes($theme_id = "")
     where theme_id='$theme_id'";
     //die($sql);
     $xoopsDB->queryF($sql) or web_error($sql);
+
+    $TadDataCenter->set_col('theme_id', $theme_id);
+    $TadDataCenter->saveData();
 
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$_POST['theme_name']}");
 
@@ -1430,13 +1446,13 @@ switch ($op) {
     //新增資料
     case "insert_tad_themes":
         $theme_id = insert_tad_themes();
-        header("location: {$_SERVER['PHP_SELF']}?theme_id=$theme_id");
+        header("location: {$_SERVER['HTTP_REFERER']}");
         exit;
 
     //更新資料
     case "update_tad_themes":
         update_tad_themes($theme_id);
-        header("location: {$_SERVER['PHP_SELF']}");
+        header("location: {$_SERVER['HTTP_REFERER']}");
         exit;
 
     //輸入表格

@@ -46,7 +46,7 @@ define("_MA_TADTHEMES_LOGO_PAGE", "置於頁面上");
 define("_MA_TADTHEMES_NAVLOGO_IMG", "導覽列logo圖");
 define("_MA_TADTHEMES_SLIDE_WIDTH", "滑動區域寬度");
 define("_MA_TADTHEMES_SLIDE_HEIGHT", "滑動區域高度");
-define("_MA_TADTHEMES_SLIDE_DESC", "<ol><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>寬度為 0 時表示不顯示滑動區域</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>高度為 0 時表示自動判斷高度。</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>圖片說明框中可輸入說明，在說明框中輸入<span style='color:blue;'>[url]http://網址[/url]</span>則可替圖片加上連結。</li></ol>");
+define("_MA_TADTHEMES_SLIDE_DESC", "<ol><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>寬度為 0 時表示不顯示滑動區域</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>高度為 0 時表示自動判斷高度。</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>圖片說明框中可輸入說明，在說明框中輸入 <span style='color:blue;'>[url]http://網址[/url]</span> 可替圖片加上連結。</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>用<span style='color: red;'>[url_blank]http://網址[/url_blank]</span> 則可將連結開在新視窗。</li></ol>");
 define("_MA_TAD_THEMES_FORM", "佈景設定");
 
 define("_MA_TAD_THEMES_NOT_TAD_THEME", "目前使用之佈景「%s」非 Tad Theme 相容佈景，無法使用此工具。<div>該佈景找不到「%s」檔案。</div>");
@@ -66,21 +66,21 @@ define("_MA_TAD_THEMES_RIGHT", "右區域");
 define("_MA_TAD_THEMES_FOOT", "頁尾");
 define("_MA_TAD_THEMES_UPLOAD", "上傳");
 define("_MA_TADTHEMES_NOTICE", "<ul style='line-height:2em;'>
-  <li>主內容區建議至少維持 550px 以上寬度！</li>
-  <li>切換「版面類型」時，部份欄位值會自動調整，或設為唯讀。</li>
+  <li style='line-height:180%;list-style-position:outside;'>主內容區建議至少維持 550px 以上寬度！</li>
+  <li style='line-height:180%;list-style-position:outside;'>切換「版面類型」時，部份欄位值會自動調整，或設為唯讀。</li>
   </ul>");
 define("_MA_TADTHEMES_NOTICE2", "<ul style='line-height:2em;'>
-  <li>所有圖片亦可直接FTP上傳，系統會自動將之加入資料庫，並產生縮圖。
+  <li style='line-height:180%;list-style-position:outside;'>所有圖片亦可直接FTP上傳，系統會自動將之加入資料庫，並產生縮圖。
     <ul style='list-style-type:circle;margin-left:20px;'>
-      <li>頁面背景傳至「/themes/佈景名稱/images/bg」下</li>
-      <li>滑動圖片傳至「/themes/佈景名稱/images/slide」下</li>
-      <li>logo圖傳至「/themes/佈景名稱/images/logo」下</li>
-      <li>區塊背景傳至「/themes/佈景名稱/images/bt_bg」下</li>
-      <li>導覽列背景傳至「/themes/佈景名稱/images/nav_bg」下</li>
-      <li>導覽列logo圖傳至「/themes/佈景名稱/images/navlogo」下</li>
+      <li style='line-height:180%;list-style-position:outside;'>頁面背景傳至「/themes/佈景名稱/images/bg」下</li>
+      <li style='line-height:180%;list-style-position:outside;'>滑動圖片傳至「/themes/佈景名稱/images/slide」下</li>
+      <li style='line-height:180%;list-style-position:outside;'>logo圖傳至「/themes/佈景名稱/images/logo」下</li>
+      <li style='line-height:180%;list-style-position:outside;'>區塊背景傳至「/themes/佈景名稱/images/bt_bg」下</li>
+      <li style='line-height:180%;list-style-position:outside;'>導覽列背景傳至「/themes/佈景名稱/images/nav_bg」下</li>
+      <li style='line-height:180%;list-style-position:outside;'>導覽列logo圖傳至「/themes/佈景名稱/images/navlogo」下</li>
     </ul>
   </li>
-  <li>刪除圖片時，一律從後台刪除，勿直接刪除FTP圖片！</li>
+  <li style='line-height:180%;list-style-position:outside;'>刪除圖片時，一律從後台刪除，勿直接刪除FTP圖片！</li>
   </ul>");
 define("_MA_TADTHEMES_LOGO_PLACE", "logo圖位置調整");
 define("_MA_TADTHEMES_FONT_SIZE", "文字大小");
@@ -148,3 +148,6 @@ define("_MA_TADTHEMES_ICON", "選擇 fontawesome 圖示");
 define("_MA_TADTHEMES_LOGO_CENTER", "置中");
 define("_MA_TADTHEMES_EXPORT", "匯出 config.php 設定檔");
 define("_MA_TADTHEMES_EXPORT2", "匯出 config2.php 設定檔");
+
+define('_MA_TADTHEMES_NAVBAR_PY', '導覽選項上下距離');
+define('_MA_TADTHEMES_NAVBAR_PX', '導覽選項左右距離');
