@@ -115,5 +115,7 @@ CREATE TABLE `tad_themes_data_center` (
 `data_name` varchar(100) NOT NULL default '' COMMENT '資料名稱',
 `data_value` text NOT NULL COMMENT '儲存值',
 `data_sort` mediumint(9) unsigned NOT NULL  COMMENT '排序',
+`col_id` varchar(100) NOT NULL COMMENT '辨識字串',
+`update_time` datetime NOT NULL COMMENT '更新時間',
 PRIMARY KEY  (`mid`,`col_name`,`col_sn`,`data_name`,`data_sort`)
 ) ENGINE=MyISAM;

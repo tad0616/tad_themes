@@ -85,13 +85,15 @@ function xoops_module_update_tad_themes(&$module, $old_version)
         go_update_files_center();
     }
 
-
     if (!chk_chk21()) {
         go_update21();
     }
 
     chk_tad_themes_block();
-
+    //調整檔案上傳欄位col_sn為mediumint(9)格式
+    if (chk_data_center()) {
+        go_update_data_center();
+    }
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes");
     return true;
 }
@@ -668,8 +670,6 @@ function chk_tad_themes_block()
 
 }
 
-
-
 //新增 tad_themes_data_center 資料表
 function chk_chk21()
 {
@@ -698,7 +698,29 @@ function go_update21()
     $xoopsDB->queryF($sql);
 }
 
+//加入id以及時間欄位
+function chk_data_center()
+{
+    global $xoopsDB;
+    $sql    = "select count(`update_time`) from " . $xoopsDB->prefix("tad_themes_data_center");
+    $result = $xoopsDB->query($sql);
+    if (empty($result)) {
+        return true;
+    }
 
+    return false;
+}
+
+//執行更新
+function go_update_data_center()
+{
+    global $xoopsDB;
+    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes_data_center") . "
+    ADD `col_id` varchar(100) NOT NULL COMMENT '辨識字串',
+    ADD  `update_time` datetime NOT NULL COMMENT '更新時間'";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, $xoopsDB->error());
+    return true;
+}
 
 //建立目錄
 function mk_dir($dir = "")

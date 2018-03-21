@@ -149,5 +149,21 @@ define("_MA_TADTHEMES_LOGO_CENTER", "置中");
 define("_MA_TADTHEMES_EXPORT", "匯出 config.php 設定檔");
 define("_MA_TADTHEMES_EXPORT2", "匯出 config2.php 設定檔");
 
-define('_MA_TADTHEMES_NAVBAR_PY','導覽選項上下距離');
-define('_MA_TADTHEMES_NAVBAR_PX','導覽選項左右距離');
+define('_MA_TADTHEMES_NAVBAR_PY', '導覽選項上下距離');
+define('_MA_TADTHEMES_NAVBAR_PX', '導覽選項左右距離');
+
+define('_MA_TADTHEMES_LOGO_DESIGN', '簡易Logo設計');
+define('_MA_TADTHEMES_LOGO_INPUT_TEXT', '輸入文字');
+define('_MA_TADTHEMES_LOGO_TEXT_COLOR', '文字顏色');
+define('_MA_TADTHEMES_LOGO_BORDER_COLOR', '邊框顏色');
+define('_MA_TADTHEMES_LOGO_TEXT_SIZE', '文字大小');
+define('_MA_TADTHEMES_LOGO_BORDER_SIZE', '外框粗細');
+define('_MA_TADTHEMES_LOGO_SELECT_FONT', '選擇字型');
+define('_MA_TADTHEMES_LOGO_MAKE_PNG', '產生圖片');
+define('_MA_TADTHEMES_LOGO_NEED_FONT', '請至少先上傳一個字型');
+define('_MA_TADTHEMES_LOGO_SAVE_PIC', '儲存圖片');
+define('_MA_TADTHEMES_LOGO_DEMO_BGCOLOR', '範例背景色：');
+define('_MA_TADTHEMES_FONT_TOOL', '字型檔管理');
+define('_MA_TADTHEMES_FONT_UPLOAD', '上傳字型檔');
+define('_MA_TADTHEMES_FONT_NOTE', '僅支援 ttf、otf、ttc 字型檔，若無字型，可從<a href="https://forum.gamer.com.tw/C.php?bsn=60076&snA=3906436" target="_blank">這裡下載</a>');
+define('_MA_TADTHEMES_FONT_SAVE', '儲存字型檔');

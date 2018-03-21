@@ -1,3 +1,9 @@
+Tad Themes 4.7 (released on 2018-03-21)
+=================================================
+1. Fix invalid issue of [url_blank] tag in sliding image block
+2. Added simple Logo design function
+
+
 Tad Themes 4.6 (released on 2018-02-13)
 =================================================
 1. Add tad_themes_data_center table

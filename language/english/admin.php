@@ -148,3 +148,19 @@ define("_MA_TADTHEMES_EXPORT2", "Export config2.php");
 
 define('_MA_TADTHEMES_NAVBAR_PY', 'Navigation options padding top and bottom');
 define('_MA_TADTHEMES_NAVBAR_PX', 'Navigation options padding left and right');
+
+Define('_MA_TADTHEMES_LOGO_DESIGN', 'Simple Logo Design');
+Define('_MA_TADTHEMES_LOGO_INPUT_TEXT', 'Enter text');
+Define('_MA_TADTHEMES_LOGO_TEXT_COLOR', 'Text Color');
+Define('_MA_TADTHEMES_LOGO_BORDER_COLOR', 'Border Color');
+Define('_MA_TADTHEMES_LOGO_TEXT_SIZE', 'Text size');
+Define('_MA_TADTHEMES_LOGO_BORDER_SIZE', 'outline size');
+Define('_MA_TADTHEMES_LOGO_SELECT_FONT', 'Select font');
+Define('_MA_TADTHEMES_LOGO_MAKE_PNG', 'Generate image');
+Define('_MA_TADTHEMES_LOGO_NEED_FONT', 'Please upload at least one font');
+Define('_MA_TADTHEMES_LOGO_SAVE_PIC', 'Save Picture');
+Define('_MA_TADTHEMES_LOGO_DEMO_BGCOLOR', 'Example Background Color:');
+Define('_MA_TADTHEMES_FONT_TOOL', 'Font File Management');
+Define('_MA_TADTHEMES_FONT_UPLOAD', 'Upload font file');
+Define('_MA_TADTHEMES_FONT_NOTE', 'Only supports ttf, otf, ttc font files. If there is no font, it can be from <a href="https://forum.gamer.com.tw/C.php?bsn=60076&snA= 3906436" target="_blank">Download here</a>');
+Define('_MA_TADTHEMES_FONT_SAVE', 'Save font files');

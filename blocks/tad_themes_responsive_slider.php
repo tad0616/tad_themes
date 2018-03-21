@@ -66,15 +66,34 @@ function tad_themes_responsive_slider($options)
                 //$this->assign($k,$$k);
             }
             $slide_images++;
-            $url = XOOPS_URL;
+
             if ($description) {
+                // preg_match_all("/\](.*)\[/", $description, $matches);
+                // $url         = isset($matches[1][0]) ? $matches[1][0] : XOOPS_URL;
+                // $description = str_replace("[url]{$url}[/url]", "", $description);
+
                 preg_match_all("/\](.*)\[/", $description, $matches);
-                $url         = isset($matches[1][0]) ? $matches[1][0] : XOOPS_URL;
-                $description = str_replace("[url]{$url}[/url]", "", $description);
+                $url = $matches[1][0];
+                if (empty($url)) {
+                    $url = XOOPS_URL;
+                }
+
+                if (strpos($description, 'url_blank') !== false) {
+                    $description  = str_replace("[url_blank]{$url}[/url_blank]", "", $description);
+                    $slide_target = "target='_blank'";
+                } else {
+                    $description  = str_replace("[url]{$url}[/url]", "", $description);
+                    $slide_target = "";
+                }
             }
 
-            $title = $date = "";
-            $ResponsiveSlides->add_content($files_sn, $title, $description, XOOPS_URL . "/uploads/tad_themes/{$xoopsConfig['theme_set']}/slide/{$file_name}", $date, $url);
+            if (strtolower(substr($file_name, -3)) == "swf" and $slide_width <= 12) {
+                $slide_width = round((100 / 12) * 12, 0) . "%";
+                if ($slide_height == 0) {
+                    $slide_height = 250;
+                }
+            }
+            $ResponsiveSlides->add_content($files_sn, $title, $description, XOOPS_URL . "/uploads/tad_themes/{$xoopsConfig['theme_set']}/slide/{$file_name}", $date, $url, $slide_width, $slide_height, $slide_target);
         }
 
         if (empty($slide_images)) {
