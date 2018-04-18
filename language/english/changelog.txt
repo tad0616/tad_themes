@@ -1,3 +1,9 @@
+Tad Themes 4.8 (released on 2018-04-18)
+=================================================
+1. After the theme settings are saved, the tab will return to the last position
+2. Menu Settings Add Watchable Group Settings
+
+
 Tad Themes 4.7 (released on 2018-03-21)
 =================================================
 1. Fix invalid issue of [url_blank] tag in sliding image block
