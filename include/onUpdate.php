@@ -89,6 +89,9 @@ function xoops_module_update_tad_themes(&$module, $old_version)
         go_update21();
     }
 
+    if (chk_chk22()) {
+        go_update22();
+    }
     chk_tad_themes_block();
     //調整檔案上傳欄位col_sn為mediumint(9)格式
     if (chk_data_center()) {
@@ -619,8 +622,28 @@ function go_update20()
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes_menu") . " ADD `link_cate_name` varchar(255) NOT NULL default '', ADD
   `link_cate_sn` smallint(5) unsigned NOT NULL default 0";
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
-
 }
+
+//新增 read_group 欄位
+function chk_chk22()
+{
+    global $xoopsDB;
+    $sql    = "select count(`read_group`) from " . $xoopsDB->prefix("tad_themes_menu");
+    $result = $xoopsDB->query($sql);
+    if (empty($result)) {
+        return true;
+    }
+
+    return false;
+}
+
+function go_update22()
+{
+    global $xoopsDB;
+    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes_menu") . " ADD `read_group` varchar(255) NOT NULL default ''";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
+}
+
 
 //執行更新
 function go_update_files_center()

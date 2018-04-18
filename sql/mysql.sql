@@ -94,6 +94,7 @@ CREATE TABLE `tad_themes_menu` (
   `icon` varchar(255) NOT NULL default 'fa-th-list',
   `link_cate_name` varchar(255) NOT NULL default '',
   `link_cate_sn` smallint(5) unsigned NOT NULL default 0,
+  `read_group` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`menuid`),
   KEY `of_level` (`of_level`)
 )  ENGINE=MyISAM;
