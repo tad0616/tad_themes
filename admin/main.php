@@ -1452,7 +1452,7 @@ switch ($op) {
     //更新資料
     case "update_tad_themes":
         update_tad_themes($theme_id);
-        header("location: {$_SERVER['HTTP_REFERER']}");
+        header("location: {$_COOKIE['themeTab_baseURI']}");
         exit;
 
     //輸入表格
@@ -1485,4 +1485,5 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
+$xoopsTpl->assign('themeTab_baseURI',$_COOKIE['themeTab_baseURI']);
 include_once 'footer.php';

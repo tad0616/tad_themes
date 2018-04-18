@@ -55,6 +55,12 @@
                 <img src="<{$pic}>" alt="logo">
             </span>
             <input type="hidden" name="op" value="save_pic">
+            <input type="hidden" name="title" value="<{$title}>">
+            <input type="hidden" name="size" value="<{$size}>">
+            <input type="hidden" name="border_size" value="<{$border_size}>">
+            <input type="hidden" name="color" value="<{$color}>">
+            <input type="hidden" name="border_color" value="<{$border_color}>">
+            <input type="hidden" name="font_file_sn" value="<{$font_file_sn}>">
             <input type="hidden" name="name" value="<{$name}>">
             <button type="submit" class="btn btn-success"><{$smarty.const._MA_TADTHEMES_LOGO_SAVE_PIC}></button>
         </div>

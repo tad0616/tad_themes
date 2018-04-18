@@ -56,50 +56,50 @@ function tad_themes_menu_form($of_level = "0", $menuid = "", $mode = "return")
     }
 
     $main = "
-      <form method='post' id='myForm' enctype='multipart/form-data' class='form-horizontal' role='form'>
+    <form method='post' id='myForm' enctype='multipart/form-data' class='form-horizontal' role='form'>
         <div class='form-group'>
-          <label class='col-xs-3 control-label' for='icon'>" . _MA_TADTHEMES_ICON . _TAD_FOR . "</label>
-          <div class='col-xs-3'>
-            <input name='icon' class='selectpicker form-control' value='{$icon}' type='text' />
-          </div>
-          $get_tad_all_menu
+            <label class='col-xs-3 control-label' for='icon'>" . _MA_TADTHEMES_ICON . _TAD_FOR . "</label>
+            <div class='col-xs-3'>
+                <input name='icon' class='selectpicker form-control' value='{$icon}' type='text' />
+            </div>
+            $get_tad_all_menu
         </div>
 
 
         <div class='form-group'>
-          <label class='col-xs-3 control-label' for='itemname'>" . _MA_TADTHEMES_ITEMNAME . _TAD_FOR . "</label>
-          <div class='col-xs-8'>
-            <input type='text' name='itemname' id='itemname' value='{$itemname}' class='form-control' placeholder='" . _MA_TADTHEMES_ITEMNAME . "'>
-          </div>
+            <label class='col-xs-3 control-label' for='itemname'>" . _MA_TADTHEMES_ITEMNAME . _TAD_FOR . "</label>
+            <div class='col-xs-8'>
+                <input type='text' name='itemname' id='itemname' value='{$itemname}' class='form-control' placeholder='" . _MA_TADTHEMES_ITEMNAME . "'>
+            </div>
         </div>
 
         <div class='form-group'>
-          <label class='col-xs-3 control-label' for='itemurl'>" . _MA_TADTHEMES_ITEMURL . _TAD_FOR . "</label>
-          <div class='col-xs-5'>
-            <input type='text' name='itemurl' id='itemurl' value='{$itemurl}' class='form-control' placeholder='" . _MA_TADTHEMES_ITEMURL . "'>
-          </div>
-          <div class='col-xs-3'>
-            <select name='target' class='form-control'>
-              <option value='_self'></option>
-              <option value='_blank' " . chk($target, "_blank", 0, 'selected') . ">" . _MA_TADTHEMES_TARGET_BLANK . "</option>
-              <option value='popup' " . chk($target, "popup", 0, 'selected') . ">" . _MA_TADTHEMES_TARGET_FANCYBOX . "</option>
-            </select>
-          </div>
+            <label class='col-xs-3 control-label' for='itemurl'>" . _MA_TADTHEMES_ITEMURL . _TAD_FOR . "</label>
+            <div class='col-xs-5'>
+                <input type='text' name='itemurl' id='itemurl' value='{$itemurl}' class='form-control' placeholder='" . _MA_TADTHEMES_ITEMURL . "'>
+            </div>
+            <div class='col-xs-3'>
+                <select name='target' class='form-control'>
+                    <option value='_self'></option>
+                    <option value='_blank' " . chk($target, "_blank", 0, 'selected') . ">" . _MA_TADTHEMES_TARGET_BLANK . "</option>
+                    <option value='popup' " . chk($target, "popup", 0, 'selected') . ">" . _MA_TADTHEMES_TARGET_FANCYBOX . "</option>
+                </select>
+            </div>
         </div>
 
 
         <div class='form-group'>
-          <label class='col-xs-3 control-label' for='image'>" . _MA_TADTHEMES_ITEMICON . _TAD_FOR . "</label>
-          <div class='col-xs-8'>
-            <input type='file' name='image' id='image'>
-          </div>
+            <label class='col-xs-3 control-label' for='image'>" . _MA_TADTHEMES_ITEMICON . _TAD_FOR . "</label>
+            <div class='col-xs-8'>
+                <input type='file' name='image' id='image'>
+            </div>
         </div>
 
         <div class='form-group'>
-          <label class='col-xs-3 control-label' for='banner_image'>" . _MA_TADTHEMES_ITEMBANNER . _TAD_FOR . "</label>
-          <div class='col-xs-8'>
-            <input type='file' name='banner_image' id='banner_image'>
-          </div>
+            <label class='col-xs-3 control-label' for='banner_image'>" . _MA_TADTHEMES_ITEMBANNER . _TAD_FOR . "</label>
+            <div class='col-xs-8'>
+                <input type='file' name='banner_image' id='banner_image'>
+            </div>
         </div>
 
         <input type='hidden' name='menuid' value='{$menuid}'>
@@ -108,65 +108,65 @@ function tad_themes_menu_form($of_level = "0", $menuid = "", $mode = "return")
         <input type='hidden' name='position' value='{$position}'>
         <button type='button' id='submit' class='btn btn-primary'>" . _TAD_SAVE . "</button>
 
-      </form>";
+    </form>";
 
     if ($mode == "die") {
         $jquery = get_jquery();
         $main2 = "
         <!DOCTYPE html>
         <html lang='zh-TW'>
-          <head>
-            <meta charset='utf-8'>
-            <title></title>
-            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-            <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/bootstrap3/css/bootstrap.css' />
+            <head>
+                <meta charset='utf-8'>
+                <title></title>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/bootstrap3/css/bootstrap.css' />
 
-            <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/css/xoops_adm.css' />
-            <link href='" . XOOPS_URL . "/modules/tadtools/css/font-awesome/css/font-awesome.min.css' rel='stylesheet'>
+                <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/css/xoops_adm.css' />
+                <link href='" . XOOPS_URL . "/modules/tadtools/css/font-awesome/css/font-awesome.min.css' rel='stylesheet'>
 
-            <script src='" . XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.js' type='text/javascript'></script>
-            <script src='" . XOOPS_URL . "/modules/tadtools/bootstrap3/js/bootstrap.min.js'></script>
-            <script src='" . XOOPS_URL . $migrate . "'></script>
-            <link href='" . XOOPS_URL . "/modules/tad_themes/class/fontawesome-iconpicker/css/fontawesome-iconpicker.min.css' rel='stylesheet'>
-            <script src='" . XOOPS_URL . "/modules/tad_themes/class/fontawesome-iconpicker/js/fontawesome-iconpicker.js'></script>
-          </head>
-          <body>
+                <script src='" . XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.js' type='text/javascript'></script>
+                <script src='" . XOOPS_URL . "/modules/tadtools/bootstrap3/js/bootstrap.min.js'></script>
+                <script src='" . XOOPS_URL . $migrate . "'></script>
+                <link href='" . XOOPS_URL . "/modules/tad_themes/class/fontawesome-iconpicker/css/fontawesome-iconpicker.min.css' rel='stylesheet'>
+                <script src='" . XOOPS_URL . "/modules/tad_themes/class/fontawesome-iconpicker/js/fontawesome-iconpicker.js'></script>
+            </head>
+            <body>
 
-            <div class='container-fluid'>
-                <div class='row'>
-                    <div class='col-xs-12'>
-                        $main
+                <div class='container-fluid'>
+                    <div class='row'>
+                        <div class='col-xs-12'>
+                            $main
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <script type='text/javascript'>
-              $(document).ready(function(){
-                $('.selectpicker').iconpicker();
+                <script type='text/javascript'>
+                    $(document).ready(function(){
+                    $('.selectpicker').iconpicker();
 
-                $('#myForm').bind('submit', function()
-                  {
-                    $.ajax({
-                      type: 'POST',
-                      url: '{$_SERVER['PHP_SELF']}',
-                      //data: $(this).serializeArray(),
-                      data: new FormData( this ),
-                      processData: false,
-                      contentType: false,
-                      success: function(data) {
-                        parent.$.fancybox.close();
-                      }
+                    $('#myForm').bind('submit', function()
+                        {
+                        $.ajax({
+                            type: 'POST',
+                            url: '{$_SERVER['PHP_SELF']}',
+                            //data: $(this).serializeArray(),
+                            data: new FormData( this ),
+                            processData: false,
+                            contentType: false,
+                            success: function(data) {
+                            parent.$.fancybox.close();
+                            }
+                        });
+                        });
+                    $('#submit').click(function(e)
+                    {
+                        $('#myForm').trigger('submit');
+                        e.preventDefault();
+
                     });
-                  });
-                $('#submit').click(function(e)
-                {
-                    $('#myForm').trigger('submit');
-                    e.preventDefault();
-
-                });
-              });
-            </script>
-          </body>
+                    });
+                </script>
+            </body>
         </html>
         ";
         die($main2);

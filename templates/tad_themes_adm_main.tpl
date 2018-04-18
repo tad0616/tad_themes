@@ -57,7 +57,6 @@
 </script>
 
 <div class="container-fluid">
-
   <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" role="form" class="form-horizontal" >
     <div class="row">
       <div class="col-sm-8">

@@ -22,10 +22,10 @@ function tad_themes_logo_form()
     $title = isset($_GET['title']) ? $_GET['title'] : '';
     $xoopsTpl->assign('title', $title);
 
-    $size = isset($_GET['size']) ? $_GET['size'] : '30';
+    $size = isset($_GET['size']) ? $_GET['size'] : '24';
     $xoopsTpl->assign('size', $size);
 
-    $border_size = isset($_GET['border_size']) ? $_GET['border_size'] : '3';
+    $border_size = isset($_GET['border_size']) ? $_GET['border_size'] : '2';
     $xoopsTpl->assign('border_size', $border_size);
 
     $color = isset($_GET['color']) ? $_GET['color'] : '#00a3a8';
@@ -66,6 +66,7 @@ function tad_themes_logo_form()
             closedir($dh);
         }
     }
+    arsort($logos);
     $xoopsTpl->assign('logos', $logos);
 
     if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/sweet_alert.php")) {
@@ -85,7 +86,7 @@ function tad_themes_logo_form()
 }
 
 //製作logo圖
-function mkTitlePic($title = "", $size = 30, $border_size = 3, $color = "#00a3a8", $border_color = "#FFFFFF", $font_file_sn = 0)
+function mkTitlePic($title = "", $size = 24, $border_size = 2, $color = "#00a3a8", $border_color = "#FFFFFF", $font_file_sn = 0)
 {
     global $TadUpFontFiles;
     $font = $TadUpFontFiles->get_file($font_file_sn);
@@ -191,11 +192,11 @@ $op           = system_CleanVars($_REQUEST, 'op', '', 'string');
 $theme_id     = system_CleanVars($_REQUEST, 'theme_id', 0, 'int');
 $files_sn     = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
 $title        = system_CleanVars($_REQUEST, 'title', '', 'string');
-$size         = system_CleanVars($_REQUEST, 'size', 30, 'int');
+$size         = system_CleanVars($_REQUEST, 'size', 24, 'int');
 $color        = system_CleanVars($_REQUEST, 'color', '#00a3a8', 'string');
 $border_color = system_CleanVars($_REQUEST, 'border_color', '#ffffff', 'string');
 $font_file_sn = system_CleanVars($_REQUEST, 'font_file_sn', 0, 'int');
-$border_size  = system_CleanVars($_REQUEST, 'border_size', 3, 'int');
+$border_size  = system_CleanVars($_REQUEST, 'border_size', 2, 'int');
 $name         = system_CleanVars($_REQUEST, 'name', '', 'string');
 $logo         = system_CleanVars($_REQUEST, 'logo', '', 'string');
 
