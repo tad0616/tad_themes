@@ -640,7 +640,7 @@ function chk_chk22()
 function go_update22()
 {
     global $xoopsDB;
-    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes_menu") . " ADD `read_group` varchar(255) NOT NULL default ''";
+    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes_menu") . " ADD `read_group` varchar(255) NOT NULL default '1,2,3'";
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
