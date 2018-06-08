@@ -79,7 +79,7 @@ CREATE TABLE `tad_themes_files_center` (
   `sub_dir` varchar(255) NOT NULL default '',
   PRIMARY KEY (`files_sn`),
   UNIQUE KEY `col_name` (`col_name`,`col_sn`,`sort`)
-)  ENGINE=MyISAM;
+)  ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tad_themes_menu` (
   `menuid` mediumint(8) unsigned NOT NULL auto_increment,
@@ -97,7 +97,7 @@ CREATE TABLE `tad_themes_menu` (
   `read_group` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`menuid`),
   KEY `of_level` (`of_level`)
-)  ENGINE=MyISAM;
+)  ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `tad_themes_config2` (
@@ -106,7 +106,7 @@ CREATE TABLE `tad_themes_config2` (
   `type` varchar(255) NOT NULL default '',
   `value` text NOT NULL,
   PRIMARY KEY  (`theme_id`,`name`)
-)  ENGINE=MyISAM;
+)  ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `tad_themes_data_center` (
@@ -116,7 +116,7 @@ CREATE TABLE `tad_themes_data_center` (
 `data_name` varchar(100) NOT NULL default '' COMMENT '資料名稱',
 `data_value` text NOT NULL COMMENT '儲存值',
 `data_sort` mediumint(9) unsigned NOT NULL  COMMENT '排序',
-`col_id` varchar(100) NOT NULL COMMENT '辨識字串',
+`col_id` varchar(100) NOT NULL default '' COMMENT '辨識字串',
 `update_time` datetime NOT NULL COMMENT '更新時間',
 PRIMARY KEY  (`mid`,`col_name`,`col_sn`,`data_name`,`data_sort`)
-) ENGINE=MyISAM;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

@@ -1,7 +1,15 @@
-Tad Themes 4.8 (released on 2018-04-18)
+Tad Themes 4.9 (released on 2018-06-08)
+=================================================
+1. Support database strict mode
+2. Add navbar text size settings
+3. Shadows appear automatically when the navbar is locked
+
+
+Tad Themes 4.8 (released on 2018-05-14)
 =================================================
 1. After the theme settings are saved, the tab will return to the last position
 2. Menu Settings Add Watchable Group Settings
+3. Remove the tchinese Big5 language
 
 
 Tad Themes 4.7 (released on 2018-03-21)

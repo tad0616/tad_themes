@@ -253,7 +253,7 @@ function insert_tad_themes_menu()
     $icon       = $myts->addSlashes($_POST['icon']);
     $read_group = implode(',', $_POST['read_group']);
 
-    $sql = "insert into " . $xoopsDB->prefix("tad_themes_menu") . " (`of_level`,`position`,`itemname`,`itemurl`,`membersonly`,`status`,`mainmenu`,`target`,`icon`,`read_group`) values('{$of_level}','{$position}','{$itemname}','{$itemurl}','0','1',0,'{$target}','{$icon}','{$read_group}')";
+    $sql = "insert into " . $xoopsDB->prefix("tad_themes_menu") . " (`of_level`,`position`,`itemname`,`itemurl`,`membersonly`,`status`,`mainmenu`,`target`,`icon`,`read_group`) values('{$of_level}', '{$position}', '{$itemname}', '{$itemurl}', '0', '1', '0', '{$target}', '{$icon}', '{$read_group}')";
     $xoopsDB->query($sql) or web_error($sql);
     //取得最後新增資料的流水編號
     $menuid = $xoopsDB->getInsertId();
@@ -575,13 +575,13 @@ function del_pic($type, $menuid)
 
 
 /*-----------執行動作判斷區----------*/
-$op       = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-$menuid   = (!isset($_REQUEST['menuid'])) ? "" : (int) $_REQUEST['menuid'];
-$of_level = (!isset($_REQUEST['of_level'])) ? "" : (int) $_REQUEST['of_level'];
-$status   = (!isset($_REQUEST['status'])) ? "1" : (int) $_REQUEST['status'];
-$type     = (!isset($_REQUEST['type'])) ? "" : $_REQUEST['type'];
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op       = system_CleanVars($_REQUEST, 'op', '', 'string');
+$menuid = system_CleanVars($_REQUEST, 'menuid', 0, 'int');
+$of_level = system_CleanVars($_REQUEST, 'of_level', 0, 'int');
+$status = system_CleanVars($_REQUEST, 'status', 1, 'int');
+$type       = system_CleanVars($_REQUEST, 'type', '', 'string');
 
-$xoopsTpl->assign('now_op', $op);
 
 switch ($op) {
 
@@ -589,59 +589,60 @@ switch ($op) {
     case "update_tad_themes_menu":
         update_tad_themes_menu($menuid);
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
-        break;
+        exit;
 
     //新增資料
     case "insert_tad_themes_menu":
         insert_tad_themes_menu();
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
-        break;
+        exit;
 
     //刪除資料
     case "delete_tad_themes_menu":
         delete_tad_themes_menu($menuid);
         header("location: {$_SERVER['PHP_SELF']}");
-        break;
+        exit;
 
     //新增項目
     case "add_tad_themes_menu";
-        $main = tad_themes_menu_form($of_level, $menuid, "die");
+        tad_themes_menu_form($of_level, $menuid, "die");
         break;
 
     //儲存排序
     case "save_sort":
         save_sort();
         header("location: {$_SERVER['PHP_SELF']}");
-        break;
+        exit;
 
     //修改項目
     case "modify_tad_themes_menu":
-        $main = tad_themes_menu_form($of_level, $menuid, "die");
+        tad_themes_menu_form($of_level, $menuid, "die");
         break;
 
     //修改項目
     case "import":
         auto_import();
         header("location: {$_SERVER['PHP_SELF']}");
-        break;
+        exit;
 
     case "tad_themes_menu_status":
         tad_themes_menu_status($menuid, $status);
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
-        break;
+        exit;
 
     case "del_pic":
         del_pic($type, $menuid);
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
-        break;
+        exit;
 
     //預設動作
     default:
         //$main=mk_menu();
-        $main = list_tad_themes_menu();
+        list_tad_themes_menu();
         break;
 
 }
 
 /*-----------秀出結果區--------------*/
+$xoopsTpl->assign('now_op', $op);
 include_once 'footer.php';

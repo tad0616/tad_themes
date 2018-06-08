@@ -109,11 +109,10 @@ define("_MA_TADTHEMES_NAVBAR_POSITION_3", "滑動圖文上方");
 define("_MA_TADTHEMES_NAVBAR_POSITION_6", "滑動圖文下方");
 define("_MA_TADTHEMES_NAVBAR_POSITION_4", "佈景預設呈現方式");
 define("_MA_TADTHEMES_NAVBAR_POSITION_5", "不使用導覽列");
-define("_MA_TADTHEMES_NAVBAR_BG_COLOR", "漸層顏色");
-define("_MA_TADTHEMES_NAVBAR_HOVER_COLOR", "連結區塊底色");
+define("_MA_TADTHEMES_NAVBAR_BG_COLOR", "選項底色（可漸層）");
 define("_MA_TADTHEMES_TARGET_BLANK", "新視窗");
-define("_MA_TADTHEMES_NAVBAR_COLOR", "文字顏色");
-define("_MA_TADTHEMES_NAVBAR_COLOR_HOVER", "文字移過顏色");
+define("_MA_TADTHEMES_NAVBAR_COLOR", "選項文字顏色");
+define("_MA_TADTHEMES_NAVBAR_COLOR_HOVER", "滑鼠移過時文字顏色");
 define("_MA_TADTHEMES_NAVBAR_ICON_COLOR", "圖示顏色");
 define("_MA_TADTHEMES_NAVBAR_ICON_WHITE", "白色圖示");
 define("_MA_TADTHEMES_NAVBAR_ICON_BLACK", "黑色圖示");
@@ -150,7 +149,7 @@ define("_MA_TADTHEMES_EXPORT", "匯出 config.php 設定檔");
 define("_MA_TADTHEMES_EXPORT2", "匯出 config2.php 設定檔");
 
 define('_MA_TADTHEMES_NAVBAR_PY', '導覽選項上下距離');
-define('_MA_TADTHEMES_NAVBAR_PX', '導覽選項左右距離');
+define('_MA_TADTHEMES_NAVBAR_PX', '左右距離');
 
 define('_MA_TADTHEMES_LOGO_DESIGN', '簡易Logo設計');
 define('_MA_TADTHEMES_LOGO_INPUT_TEXT', '輸入文字');
@@ -168,3 +167,7 @@ define('_MA_TADTHEMES_FONT_UPLOAD', '上傳字型檔');
 define('_MA_TADTHEMES_FONT_NOTE', '僅支援 ttf、otf、ttc 字型檔，若無字型，可從<a href="https://forum.gamer.com.tw/C.php?bsn=60076&snA=3906436" target="_blank">這裡下載</a>或<a href="http://www.sozi.cn/dabaoxiazai/201603107272.html" target="_blank">下載免費商用字型</a>');
 define('_MA_TADTHEMES_FONT_SAVE', '儲存字型檔');
 define('_MA_TADTHEMES_READGROUP', '可讀群組');
+
+define('_MA_TADTHEMES_NAVBAR_FONT_SIZE', '選項文字大小');
+define('_MA_TADTHEMES_NAVBAR_CHANGE', '漸層至');
+define('_MA_TADTHEMES_NAVBAR_HOVER_COLOR', '底色為');

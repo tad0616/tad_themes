@@ -164,4 +164,8 @@ define('_MA_TADTHEMES_FONT_TOOL', 'Font File Management');
 define('_MA_TADTHEMES_FONT_UPLOAD', 'Upload font file');
 define('_MA_TADTHEMES_FONT_NOTE', 'Only supports ttf, otf, ttc font files. If there is no font, it can be from <a href="https://forum.gamer.com.tw/C.php?bsn=60076&snA= 3906436" target="_blank">Download here</a> or <a href="http://www.sozi.cn/dabaoxiazai/201603107272.html" target="_blank">Download here</a>');
 define('_MA_TADTHEMES_FONT_SAVE', 'Save font files');
-define('_MA_TADTHEMES_READGROUP', '可讀群組');
+define('_MA_TADTHEMES_READGROUP', 'Readable group');
+
+define('_MA_TADTHEMES_NAVBAR_FONT_SIZE', 'Option text size');
+define('_MA_TADTHEMES_NAVBAR_CHANGE', 'Gradient to');
+define('_MA_TADTHEMES_NAVBAR_HOVER_COLOR', 'Background');

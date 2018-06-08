@@ -92,6 +92,11 @@ function xoops_module_update_tad_themes(&$module, $old_version)
     if (chk_chk22()) {
         go_update22();
     }
+
+    if (chk_chk23()) {
+        go_update23();
+    }
+
     chk_tad_themes_block();
     //調整檔案上傳欄位col_sn為mediumint(9)格式
     if (chk_data_center()) {
@@ -644,6 +649,30 @@ function go_update22()
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
+//嚴格模式修正
+function chk_chk23()
+{
+    global $xoopsDB;
+    
+    $sql = "SELECT COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE table_name = '" . $xoopsDB->prefix("tad_themes_files_center") . "' AND COLUMN_NAME = 'col_id'";
+
+    $result = $xoopsDB->query($sql);
+    list($COLUMN_DEFAULT)=$xoopsDB->fetchRow($result);
+    if (is_null($COLUMN_DEFAULT) or $COLUMN_DEFAULT=="NULL") {
+        return true;
+    }
+
+    return false;
+}
+
+function go_update23()
+{
+    global $xoopsDB;
+
+    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes_data_center") . " CHANGE `col_id` `col_id` varchar(100) NOT NULL DEFAULT '' COMMENT '辨識字串' AFTER `data_sort`";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
+}
 
 //執行更新
 function go_update_files_center()
@@ -739,25 +768,27 @@ function go_update_data_center()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes_data_center") . "
-    ADD `col_id` varchar(100) NOT NULL COMMENT '辨識字串',
+    ADD `col_id` varchar(100) NOT NULL DEFAULT '' COMMENT '辨識字串',
     ADD  `update_time` datetime NOT NULL COMMENT '更新時間'";
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, $xoopsDB->error());
     return true;
 }
 
 //建立目錄
-function mk_dir($dir = "")
-{
-    //若無目錄名稱秀出警告訊息
-    if (empty($dir)) {
-        return;
-    }
+if (!function_exists('mk_dir')) {
+    function mk_dir($dir = "")
+    {
+        //若無目錄名稱秀出警告訊息
+        if (empty($dir)) {
+            return;
+        }
 
-    //若目錄不存在的話建立目錄
-    if (!is_dir($dir)) {
-        umask(000);
-        //若建立失敗秀出警告訊息
-        mkdir($dir, 0777);
+        //若目錄不存在的話建立目錄
+        if (!is_dir($dir)) {
+            umask(000);
+            //若建立失敗秀出警告訊息
+            mkdir($dir, 0777);
+        }
     }
 }
 
