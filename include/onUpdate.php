@@ -93,15 +93,17 @@ function xoops_module_update_tad_themes(&$module, $old_version)
         go_update22();
     }
 
+    //加入id以及時間欄位
+    if (chk_data_center()) {
+        go_update_data_center();
+    }
+
     if (chk_chk23()) {
         go_update23();
     }
 
     chk_tad_themes_block();
-    //調整檔案上傳欄位col_sn為mediumint(9)格式
-    if (chk_data_center()) {
-        go_update_data_center();
-    }
+
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes");
     return true;
 }
@@ -143,16 +145,16 @@ function go_update2()
 {
     global $xoopsDB;
     $sql = "CREATE TABLE `" . $xoopsDB->prefix("tad_themes_menu") . "` (
-  `menuid` smallint(5) unsigned NOT NULL auto_increment,
-  `of_level` smallint(5) unsigned NOT NULL default 0,
-  `position` smallint(5) unsigned NOT NULL default 0,
-  `itemname` varchar(255) NOT NULL default '',
-  `itemurl` varchar(255) NOT NULL default '',
-  `membersonly` enum('0','1') NOT NULL,
-  `status` enum('1','0') NOT NULL,
-  PRIMARY KEY  (`menuid`),
-  KEY `of_level` (`of_level`)
-)  ENGINE=MyISAM;";
+    `menuid` smallint(5) unsigned NOT NULL auto_increment,
+    `of_level` smallint(5) unsigned NOT NULL default 0,
+    `position` smallint(5) unsigned NOT NULL default 0,
+    `itemname` varchar(255) NOT NULL default '',
+    `itemurl` varchar(255) NOT NULL default '',
+    `membersonly` enum('0','1') NOT NULL,
+    `status` enum('1','0') NOT NULL,
+    PRIMARY KEY  (`menuid`),
+    KEY `of_level` (`of_level`)
+    )  ENGINE=MyISAM;";
     $xoopsDB->queryF($sql);
 }
 
@@ -173,13 +175,13 @@ function go_update3()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes") . "
-  ADD `block_config` enum('right','left') NOT NULL DEFAULT 'right',
-  ADD `bt_text` varchar(255) NOT NULL DEFAULT '',
-  ADD `bt_text_padding` tinyint(4) NOT NULL DEFAULT '33',
-  ADD `bt_bg_color` varchar(255) NOT NULL DEFAULT '',
-  ADD `bt_bg_img` varchar(255) NOT NULL DEFAULT '',
-  ADD `bt_bg_repeat` enum('0','1') NOT NULL DEFAULT '0',
-  ADD `bt_radius` enum('0','1') NOT NULL DEFAULT '1'";
+    ADD `block_config` enum('right','left') NOT NULL DEFAULT 'right',
+    ADD `bt_text` varchar(255) NOT NULL DEFAULT '',
+    ADD `bt_text_padding` tinyint(4) NOT NULL DEFAULT '33',
+    ADD `bt_bg_color` varchar(255) NOT NULL DEFAULT '',
+    ADD `bt_bg_img` varchar(255) NOT NULL DEFAULT '',
+    ADD `bt_bg_repeat` enum('0','1') NOT NULL DEFAULT '0',
+    ADD `bt_radius` enum('0','1') NOT NULL DEFAULT '1'";
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
@@ -653,13 +655,13 @@ function go_update22()
 function chk_chk23()
 {
     global $xoopsDB;
-    
+
     $sql = "SELECT COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS
   WHERE table_name = '" . $xoopsDB->prefix("tad_themes_files_center") . "' AND COLUMN_NAME = 'col_id'";
 
-    $result = $xoopsDB->query($sql);
-    list($COLUMN_DEFAULT)=$xoopsDB->fetchRow($result);
-    if (is_null($COLUMN_DEFAULT) or $COLUMN_DEFAULT=="NULL") {
+    $result               = $xoopsDB->query($sql);
+    list($COLUMN_DEFAULT) = $xoopsDB->fetchRow($result);
+    if (is_null($COLUMN_DEFAULT) or $COLUMN_DEFAULT == "NULL") {
         return true;
     }
 

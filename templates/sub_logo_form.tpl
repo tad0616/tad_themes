@@ -10,7 +10,7 @@
         <div class="form-group">
             <label class="col-sm-2 control-label"><{$smarty.const._MA_TADTHEMES_LOGO_TEXT_COLOR}></label>
             <div class="col-sm-4">
-                <input type="text" name="color" class="form-control" value="#<{$color}>" id="color" data-text="hidden" data-hex="true" style="height: 42px;">
+                <input type="text" name="color" class="form-control" value="#<{$color}>" id="font_color" data-text="hidden" data-hex="true" style="height: 42px;">
             </div>
             <label class="col-sm-2 control-label"><{$smarty.const._MA_TADTHEMES_LOGO_BORDER_COLOR}></label>
             <div class="col-sm-4">

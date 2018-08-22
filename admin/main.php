@@ -1456,7 +1456,11 @@ switch ($op) {
     //更新資料
     case "update_tad_themes":
         update_tad_themes($theme_id);
-        header("location: {$_COOKIE['themeTab_baseURI']}");
+        if(isset($_COOKIE['themeTab_baseURI'])){
+            header("location: {$_COOKIE['themeTab_baseURI']}");
+        }else{
+            header("location: {$_SERVER['PHP_SELF']}");
+        }
         exit;
 
     //輸入表格

@@ -9,14 +9,6 @@
     change_css();
     preview_img("bg","<{$bg_img}>");
 
-    // $("#bt_tabs").tabs({
-    //   activate: function (e, ui) {
-    //       $.cookie('selected-tab', ui.newTab.index(), { path: '/' });
-    //   },
-    //   active: $.cookie('selected-tab')
-    // }).addClass( "ui-tabs-vertical ui-helper-clearfix" );
-    // $("#bt_tabs li").removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
-
     <{if $logo_position=="page"}>
       $("#logo_place_setup").hide();
     <{else}>

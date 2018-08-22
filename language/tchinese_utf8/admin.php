@@ -164,7 +164,7 @@ define('_MA_TADTHEMES_LOGO_SAVE_PIC', '儲存圖片');
 define('_MA_TADTHEMES_LOGO_DEMO_BGCOLOR', '範例背景色：');
 define('_MA_TADTHEMES_FONT_TOOL', '字型檔管理');
 define('_MA_TADTHEMES_FONT_UPLOAD', '上傳字型檔');
-define('_MA_TADTHEMES_FONT_NOTE', '僅支援 ttf、otf、ttc 字型檔，若無字型，可從<a href="https://forum.gamer.com.tw/C.php?bsn=60076&snA=3906436" target="_blank">這裡下載</a>或<a href="http://www.sozi.cn/dabaoxiazai/201603107272.html" target="_blank">下載免費商用字型</a>');
+define('_MA_TADTHEMES_FONT_NOTE', '僅支援 ttf、otf、ttc 字型檔，若無字型，可從<a href="https://forum.gamer.com.tw/C.php?bsn=60076&snA=3906436" target="_blank">這裡下載</a>或<a href="http://www.fonts.net.cn/" target="_blank">這裡</a>');
 define('_MA_TADTHEMES_FONT_SAVE', '儲存字型檔');
 define('_MA_TADTHEMES_READGROUP', '可讀群組');
 

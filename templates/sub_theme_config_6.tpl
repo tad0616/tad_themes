@@ -92,7 +92,7 @@
 
 
         <!--導覽工具列 文字大小-->
-        <{if $enable.navbar_px=="1"}>
+        <{if $enable.navbar_font_size!="0"}>
             <div class="form-group">
                 <label class="col-sm-4 control-label">                    
                     <{$smarty.const._MA_TADTHEMES_NAVBAR_FONT_SIZE}>
