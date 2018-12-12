@@ -6,6 +6,7 @@ define('_TAD_NEED_TADTOOLS', 'This module need tadtools module. You can download
 define("_MA_TADTHEMES_THEME_BASE", "Theme Setup");
 define("_MA_TADTHEMES_THEME_KIND", "Theme Kind");
 define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP3", "（XOOPS bootstrap3 themes)");
+define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP4", "（XOOPS bootstrap4 themes)");
 define("_MA_TADTHEMES_THEME_KIND_HTML", "(XOOPS themes)");
 define("_MA_TADTHEMES_THEME_KIND_MIX", "(bootstrap only for blocks)");
 define("_MA_TADTHEMES_THEME_TYPE", "Theme Type");

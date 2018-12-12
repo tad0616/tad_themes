@@ -1,5 +1,5 @@
-<div class="form-group">
-    <label class="col-sm-2 control-label">
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label text-sm-right">
         <{$config.text}>
     </label>
     <div class="col-sm-5">
@@ -12,12 +12,27 @@
         <{elseif $config.type=="textarea"}>
             <textarea name="<{$config.name}>" class="form-control" rows=4 style="font-size:0.8em;"><{$config.value}></textarea>
         <{elseif $config.type=="yesno"}>
-            <label class="radio-inline">
-                <input type="radio" name="<{$config.name}>" id="<{$config.name}>1" value="1" <{if $config.value==1}>checked<{/if}> ><{$smarty.const._YES}>
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="<{$config.name}>" id="<{$config.name}>0" value="0" <{if $config.value==0}>checked<{/if}> ><{$smarty.const._NO}>
-            </label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="<{$config.name}>" id="<{$config.name}>1" value="1" <{if $config.value==1}>checked<{/if}>>
+                <label class="form-check-label" for="<{$config.name}>1"><{$smarty.const._YES}></label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="<{$config.name}>" id="<{$config.name}>0" value="0" <{if $config.value==0}>checked<{/if}>>
+                <label class="form-check-label" for="<{$config.name}>0"><{$smarty.const._NO}></label>
+            </div>
+        <{elseif $config.type=="radio"}>
+            <{foreach from=$config.options key=val item=opt}>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="<{$config.name}>" id="<{$config.name}>_<{$val}>" value="<{$val}>" <{if $config.value==$val}>checked<{/if}>>
+                    <label class="form-check-label" for="<{$config.name}>_<{$val}>"><{$opt}></label>
+                </div>
+            <{/foreach}>
+        <{elseif $config.type=="select"}>
+            <select name="<{$config.name}>" id="<{$config.name}>" class="form-control">
+                <{foreach from=$config.options key=val item=opt}>
+                    <option value="<{$val}>" <{if $config.value==$val}>selected<{/if}>><{$opt}></option>
+                <{/foreach}>
+            </select>
         <{elseif $config.type=="file"}>
             <{$config.form}>
         <{/if}>

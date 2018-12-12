@@ -335,7 +335,7 @@ function list_tad_themes_menu($add_of_level = "", $menuid = "")
 function get_tad_level_menu($of_level = 0, $level = 0, $v = "", $this_menuid = "", $add_of_level = "0")
 {
     global $xoopsDB, $xoopsUser, $xoopsModule;
-
+    $btn_xs=$_SESSION['bootstrap']==4?'btn-sm':'btn-xs';
     $left      = $level * 30;
     $font_size = 16 - ($level * 2);
     $level += 1;
@@ -357,7 +357,7 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = "", $this_menuid = "
 
         $add_img = ($level >= 3) ? "" : "<a href='{$_SERVER['PHP_SELF']}?op=add_tad_themes_menu&of_level={$menuid}' class='edit_dropdown' data-fancybox-type='iframe'><i class='fa fa-plus-circle fa-2x text-success' aria-hidden='true' title='" . sprintf(_MA_TADTHEMES_ADDITEM, $itemname) . "'></i></a>";
 
-        $status_tool = ($status == '1') ? "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=0' class='btn btn-xs btn-warning'>" . _TAD_UNABLE . "</a>" : "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=1' class='btn btn-xs btn-info'>" . _TAD_ENABLE . "</a>";
+        $status_tool = ($status == '1') ? "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=0' class='btn $btn_xs btn-warning'>" . _TAD_UNABLE . "</a>" : "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=1' class='btn $btn_xs btn-info'>" . _TAD_ENABLE . "</a>";
 
         $status_color  = ($status == '1') ? "" : "style='background-color:#D0D0D0'";
         $status_color2 = ($status == '1') ? "" : "background-color:#D0D0D0";
@@ -387,8 +387,8 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = "", $this_menuid = "
           $add_img
         </td>
         <td $status_color>
-          <a href=\"javascript:delete_tad_themes_menu_func($menuid);\" class='btn btn-xs btn-danger'>" . _TAD_DEL . "</a>
-          <a href='{$_SERVER['PHP_SELF']}?op=modify_tad_themes_menu&menuid=$menuid#menuid_{$menuid}' class='btn btn-xs btn-success edit_dropdown' data-fancybox-type='iframe'>" . _TAD_EDIT . "</a>
+          <a href=\"javascript:delete_tad_themes_menu_func($menuid);\" class='btn $btn_xs btn-danger'>" . _TAD_DEL . "</a>
+          <a href='{$_SERVER['PHP_SELF']}?op=modify_tad_themes_menu&menuid=$menuid#menuid_{$menuid}' class='btn $btn_xs btn-success edit_dropdown' data-fancybox-type='iframe'>" . _TAD_EDIT . "</a>
           $status_tool
 
           $icon
@@ -464,7 +464,7 @@ function update_tad_themes_menu($menuid = "")
         move_uploaded_file($filename, $destination);
         thumbnail($destination, $thumb, $type_to_mime[$file_ending], 120);
     }
-    
+
     return $menuid;
 }
 
@@ -637,7 +637,6 @@ switch ($op) {
 
     //預設動作
     default:
-        //$main=mk_menu();
         list_tad_themes_menu();
         break;
 
@@ -645,4 +644,5 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('now_op', $op);
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_themes/css/module.css');
 include_once 'footer.php';

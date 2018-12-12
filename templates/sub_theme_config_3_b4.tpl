@@ -4,14 +4,16 @@
 
             <!--滑動圖片寬度-->
             <{if $enable.slide_width=="1"}>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-sm-right">
                         <{$smarty.const._MA_TADTHEMES_SLIDE_WIDTH}>
                     </label>
                     <div class="col-sm-8">
                         <div class="input-group">
                             <input type="text" name="slide_width" class="form-control <{$validate.slide_width}>" value="<{$slide_width}>" id="slide_width" onChange="change_css();">
-                            <span class="input-group-addon"><{if $theme_kind=="mix"}>px<{else}><{$theme_unit}><{/if}></span>
+                            <div class="input-group-append">
+                                <span class="input-group-text"><{if $theme_kind=="mix"}>px<{else}><{$theme_unit}><{/if}></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -21,14 +23,16 @@
 
             <!--滑動圖片高度-->
             <{if $enable.slide_height=="1"}>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-sm-right">
                         <{$smarty.const._MA_TADTHEMES_SLIDE_HEIGHT}>
                     </label>
                     <div class="col-sm-8">
                         <div class="input-group">
                             <input type="text" name="slide_height" class="form-control <{$validate.slide_height}>" value="<{$slide_height}>" id="slide_height" onChange="change_css();">
-                            <span class="input-group-addon">px</span>
+                            <div class="input-group-append">
+                                <span class="input-group-text">px</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -51,9 +55,9 @@
 </div>
 
 <{if $enable.slide_width=="1" or $enable.slide_height=="1" or $enable.use_slide=="1"}>
-    <div class="form-group">
+    <div class="form-group row">
         <!-- 背景模式-->
-        <label class="col-sm-2 control-label">
+        <label class="col-sm-2 col-form-label text-sm-right">
             <{$smarty.const._MA_TAD_THEMES_UPLOAD}>
             <{$smarty.const._MA_TAD_THEMES_HEAD}>
         </label>
@@ -68,6 +72,6 @@
     <input type="hidden" name="config2[]" value="config2_slide">
     <hr>
     <{foreach from=$config2_slide item=config}>
-        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
+        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other_b4.tpl"}>
     <{/foreach}>
 <{/if}>

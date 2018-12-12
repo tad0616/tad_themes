@@ -4,8 +4,8 @@
         <div class="col-sm-6">
             <!--導覽工具列位置-->
             <{if $enable.navbar_pos=="1"}>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label"><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION}></label>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-sm-right"><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION}></label>
                     <div class="col-sm-8">
                         <select name="navbar_pos" id="navbar_pos" class="form-control <{$validate.navbar_pos}>">
                             <option value="navbar-fixed-top" <{if $navbar_pos=="navbar-fixed-top"}>selected<{/if}>>
@@ -24,15 +24,17 @@
 
             <!--導覽工具列 漸層顏色(top) -->
             <{if $enable.navbar_bg_top=="1"}>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-sm-right">
                         <{$smarty.const._MA_TADTHEMES_NAVBAR_BG_COLOR}>
                     </label>
                     <div class="col-sm-8">
                         <div class="input-group">
                             <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>" class="form-control <{$validate.navbar_bg_top}>" data-text="hidden" data-hex="true" style="height: 42px;">
                             <{if $enable.navbar_bg_bottom=="1"}>
-                                <span class="input-group-addon"><{$smarty.const._MA_TADTHEMES_NAVBAR_CHANGE}></span>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><{$smarty.const._MA_TADTHEMES_NAVBAR_CHANGE}></span>
+                                </div>
                                 <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>" class="form-control <{$validate.navbar_bg_bottom}>" data-text="hidden" data-hex="true" style="height: 42px;">
                             <{else}>
                                 <input type="hidden" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>">
@@ -46,8 +48,8 @@
 
             <!--導覽工具列 滑鼠移過顏色-->
             <{if $enable.navbar_color_hover=="1"}>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label text-sm-right">
                         <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR_HOVER}>
                     </label>
                     <div class="col-sm-8">
@@ -55,7 +57,9 @@
                             <input type="text" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>" class="form-control <{$validate.navbar_color_hover}>" data-text="hidden" data-hex="true" style="height: 42px;">
 
                             <{if $enable.navbar_hover=="1"}>
-                                <span class="input-group-addon"><{$smarty.const._MA_TADTHEMES_NAVBAR_HOVER_COLOR}></span>
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><{$smarty.const._MA_TADTHEMES_NAVBAR_HOVER_COLOR}></span>
+                                </div>
                                 <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>" class="form-control <{$validate.navbar_hover}>" data-text="hidden" data-hex="true" style="height: 42px;">
                             <{else}>
                                 <input type="hidden" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>">
@@ -77,8 +81,8 @@
     <div class="col-sm-6">
         <!--導覽工具列 文字顏色-->
         <{if $enable.navbar_color=="1"}>
-            <div class="form-group">
-                <label class="col-sm-4 control-label">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-sm-right">
 
                     <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR}>
                 </label>
@@ -93,14 +97,16 @@
 
         <!--導覽工具列 文字大小-->
         <{if $enable.navbar_font_size!="0"}>
-            <div class="form-group">
-                <label class="col-sm-4 control-label">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-sm-right">
                     <{$smarty.const._MA_TADTHEMES_NAVBAR_FONT_SIZE}>
                 </label>
                 <div class="col-sm-8">
                     <div class="input-group">
                         <{$navbar_font_size_input}>
-                        <span class="input-group-addon">%</span>
+                        <div class="input-group-append">
+                            <span class="input-group-text">%</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -112,8 +118,8 @@
 
         <!--導覽工具列 圖示顏色-->
         <{if $enable.navbar_icon=="1"}>
-            <div class="form-group">
-                <label class="col-sm-4 control-label">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-sm-right">
 
                     <{$smarty.const._MA_TADTHEMES_NAVBAR_ICON_COLOR}>
                 </label>
@@ -136,26 +142,30 @@
 
         <!--導覽工具列 導覽選項上下距離-->
         <{if $enable.navbar_py=="1"}>
-            <div class="form-group">
-                <label class="col-sm-4 control-label">
+            <div class="form-group row">
+                <label class="col-sm-4 col-form-label text-sm-right">
 
                     <{$smarty.const._MA_TADTHEMES_NAVBAR_PY}>
                 </label>
                 <div class="col-sm-3">
                     <div class="input-group">
                         <{$navbar_py_input}>
-                        <span class="input-group-addon">px</span>
+                        <div class="input-group-append">
+                            <span class="input-group-text">px</span>
+                        </div>
                     </div>
                 </div>
                 <{if $enable.navbar_px=="1"}>
 
-                <label class="col-sm-2 control-label">
+                <label class="col-sm-2 col-form-label text-sm-right">
                     <{$smarty.const._MA_TADTHEMES_NAVBAR_PX}>
                 </label>
                 <div class="col-sm-3">
                     <div class="input-group">
                         <{$navbar_px_input}>
-                        <span class="input-group-addon">px</span>
+                        <div class="input-group-append">
+                            <span class="input-group-text">px</span>
+                        </div>
                     </div>
                 </div>
                 <{else}>
@@ -177,7 +187,7 @@
         <{if $enable.navbar_img=="1"}>
             <div class="row">
                 <!-- 上傳navbar_img圖-->
-                <label class="col-sm-4 control-label">
+                <label class="col-sm-4 col-form-label text-sm-right">
                     <{$smarty.const._MA_TAD_THEMES_UPLOAD}><{$smarty.const._MA_TADTHEMES_NAVBAR_IMG}>
                 </label>
                 <div class="col-sm-8">
@@ -224,7 +234,7 @@
         <{if $enable.navlogo_img=="1"}>
             <div class="row">
                 <!-- 上傳logo圖-->
-                <label class="col-sm-4 control-label">
+                <label class="col-sm-4 col-form-label text-sm-right">
                     <{$smarty.const._MA_TAD_THEMES_UPLOAD}><{$smarty.const._MA_TADTHEMES_NAVLOGO_IMG}>
                 </label>
                 <div class="col-sm-8">
@@ -268,6 +278,6 @@
     <input type="hidden" name="config2[]" value="config2_nav">
     <hr>
     <{foreach from=$config2_nav item=config}>
-        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
+        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other_b4.tpl"}>
     <{/foreach}>
 <{/if}>

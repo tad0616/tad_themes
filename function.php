@@ -208,7 +208,9 @@ function TadUpFilesNavBg()
 function update_tadtools_setup($theme = "", $theme_kind = "")
 {
     global $xoopsDB, $xoopsConfig;
-    if ($theme_kind == "bootstrap3") {
+    if ($theme_kind == "bootstrap4") {
+        $bootstrap_color = $theme_kind;
+    } elseif ($theme_kind == "bootstrap3") {
         $bootstrap_color = $theme_kind;
     } else {
         $bootstrap_color = "bootstrap3";

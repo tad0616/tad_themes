@@ -5,6 +5,7 @@
 <input type="hidden" id="cb_color" name="cb_color" value="<{$cb_color}>">
 <input type="hidden" id="rb_color" name="rb_color" value="<{$rb_color}>">
 <input type="hidden" id="lb_width" name="lb_width" value="<{$lb_width}>">
+<input type="hidden" id="cb_width" name="cb_width" value="<{$cb_width}>">
 <input type="hidden" id="rb_width" name="rb_width" value="<{$rb_width}>">
 <input type="hidden" id="clb_width" name="clb_width" value="<{$clb_width}>">
 <input type="hidden" id="crb_width" name="crb_width" value="<{$crb_width}>">

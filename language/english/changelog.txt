@@ -1,3 +1,9 @@
+Tad Themes 5.0 (released on 2018-08-23)
+==========================================================
+1. Fixed the problem that pressing the storage in the background under chrome may cause blank space.
+2. Fixed the problem that the color is incorrect when designing the logo
+
+
 Tad Themes 4.9 (released on 2018-06-08)
 =================================================
 1. Support database strict mode

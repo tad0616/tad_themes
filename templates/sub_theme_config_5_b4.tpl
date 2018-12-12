@@ -18,10 +18,10 @@
                         <{$smarty.const._MA_TADTHEMES_BLOCK_ALL_POSITION}>
                     </label>
 
-                    <div class="form-group">
+                    <div class="form-group row">
                         <!-- 區塊標題文字大小-->
                         <{if $enable.bt_text_size=="1"}>
-                            <label class="col-sm-2 control-label">
+                            <label class="col-sm-2 col-form-label text-sm-right">
                                 <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_SIZE}>
                             </label>
                             <div class="col-sm-4">
@@ -33,13 +33,15 @@
 
                         <!-- 區塊標題文字縮排-->
                         <{if $enable.bt_text_padding=="1"}>
-                            <label class="col-sm-2 control-label">
+                            <label class="col-sm-2 col-form-label text-sm-right">
                                 <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_PADDING}>
                             </label>
                             <div class="col-sm-4">
                                 <div class="input-group">
                                     <input type="text" name="bt_text_padding[<{$block.block_position}>]" class="form-control <{$validate.bt_text_padding}>" value="<{$block.bt_text_padding}>" id="bt_text_padding_<{$block.block_position}>">
-                                    <span class="input-group-addon">px</span>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">px</span>
+                                    </div>
                                 </div>
                             </div>
                         <{else}>
@@ -47,14 +49,14 @@
                         <{/if}>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group row">
                         <!-- 區塊標題列文字顏色-->
                         <{if $enable.bt_text=="1"}>
-                            <label class="col-sm-2 control-label">
+                            <label class="col-sm-2 col-form-label text-sm-right">
                                 <{$smarty.const._MA_TADTHEMES_FONT_COLOR}>
                             </label>
                             <div class="col-sm-4">
-                                <input type="text" name="bt_text[<{$block.block_position}>]" id="bt_text_<{$block.block_position}>" value="<{$block.bt_text}>" class="col-sm-10 <{$validate.bt_text}>"  data-hex="true" style="height: 42px; width: 60%;">
+                                <input type="text" name="bt_text[<{$block.block_position}>]" id="bt_text_<{$block.block_position}>" value="<{$block.bt_text}>" class="form-control color-picker <{$validate.bt_text}>"  data-hex="true">
                             </div>
                         <{else}>
                             <input type="hidden" name="bt_text" id="bt_text" value="<{$bt_text}>">
@@ -62,21 +64,21 @@
 
                         <!-- 區塊標題列背景顏色-->
                         <{if $enable.bt_bg_color=="1"}>
-                            <label class="col-sm-2 control-label">
+                            <label class="col-sm-2 col-form-label text-sm-right">
                                 <{$smarty.const._MA_TADTHEMES_BG_COLOR}>
                             </label>
                             <div class="col-sm-4">
-                                <input type="text" name="bt_bg_color[<{$block.block_position}>]" id="bt_bg_color_<{$block.block_position}>" value="<{$block.bt_bg_color}>" class="col-sm-10 <{$validate.bt_bg_color}>" data-hex="true" style="height: 42px; width: 60%;">
+                                <input type="text" name="bt_bg_color[<{$block.block_position}>]" id="bt_bg_color_<{$block.block_position}>" value="<{$block.bt_bg_color}>" class="form-control color-picker <{$validate.bt_bg_color}>" data-hex="true">
                             </div>
                         <{else}>
                             <input type="hidden" name="bt_bg_color" id="bt_bg_color" value="<{$bt_bg_color}>">
                         <{/if}>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group row">
                         <!-- 區塊標題圓角設定-->
                         <{if $enable.bt_radius=="1"}>
-                            <label class="col-sm-2 control-label">
+                            <label class="col-sm-2 col-form-label text-sm-right">
                                 <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_RADIUS}>
                             </label>
 
@@ -92,7 +94,7 @@
 
                         <!-- 區塊標題工具按鈕-->
                         <{if $enable.block_config=="1"}>
-                            <label class="col-sm-2 control-label">
+                            <label class="col-sm-2 col-form-label text-sm-right">
                                 <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_BUTTOM}>
                             </label>
 
@@ -107,10 +109,10 @@
                         <{/if}>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group row">
                         <!-- 上傳區塊標題列背景圖-->
                         <{if $enable.bt_bg_img=="1"}>
-                            <label class="col-sm-2 control-label">
+                            <label class="col-sm-2 col-form-label text-sm-right">
                                 <{$smarty.const._MA_TAD_THEMES_UPLOAD}>
                                 <{$smarty.const._MA_TADTHEMES_BG_IMG}>
                             </label>
@@ -123,7 +125,7 @@
 
                         <!-- 區塊標題列背景重複-->
                         <{if $enable.bt_bg_repeat=="1"}>
-                            <label class="col-sm-2 control-label">
+                            <label class="col-sm-2 col-form-label text-sm-right">
                                 <{$smarty.const._MA_TADTHEMES_BG_REPEAT}>
                             </label>
                             <div class="col-sm-4">
@@ -140,7 +142,7 @@
 
                     <!-- 選擇預設區塊標題列背景圖-->
                     <{if $block.all_bt_bg and $enable.bt_bg_img=='1'}>
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-sm-12">
                                 <div style="width:60px; height:86px; display:inline-block; margin:4px;">
                                     <label for="bt_bg_img0_<{$block.block_position}>" style="width:60px; height:60px;border:1px dotted gray;" >
@@ -162,7 +164,7 @@
                         </div>
                     <{/if}>
 
-                    <div class="form-group">
+                    <div class="form-group row">
                         <!-- 區塊整體樣式-->
                         <{if $enable.block_style=="1"}>
                             <div class="col-sm-12">
@@ -175,7 +177,7 @@
                         <{/if}>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group row">
                         <!-- 區塊標題樣式-->
                         <{if $enable.block_title_style=="1"}>
                             <div class="col-sm-12">
@@ -188,7 +190,7 @@
                         <{/if}>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group row">
                         <!-- 區塊內容樣式-->
                         <{if $enable.block_content_style=="1"}>
                             <div class="col-sm-12">
@@ -213,6 +215,6 @@
     <input type="hidden" name="config2[]" value="config2_block">
     <hr>
     <{foreach from=$config2_block item=config}>
-        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
+        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other_b4.tpl"}>
     <{/foreach}>
 <{/if}>

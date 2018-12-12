@@ -5,6 +5,7 @@ include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.ph
 define('_TAD_NEED_TADTOOLS', '需要 tadtools 模組，可至<a href="http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1" target="_blank">XOOPS輕鬆架</a>下載。');
 define("_MA_TADTHEMES_THEME_BASE", "版面基本設定");
 define("_MA_TADTHEMES_THEME_KIND", "佈景類型");
+define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP4", "（bootstrap 4 響應式佈景，可以適用在網站及行動裝置上並自動調整版面，全版按比例分為12欄，若以1024解析度來說，每一欄約80px。）");
 define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP3", "（bootstrap 3 響應式佈景，可以適用在網站及行動裝置上並自動調整版面，全版按比例分為12欄，若以1024解析度來說，每一欄約80px。）");
 define("_MA_TADTHEMES_THEME_KIND_HTML", "（一般的XOOPS網頁佈景）");
 define("_MA_TADTHEMES_THEME_KIND_MIX", "（版面寬度採用固定式，但版面欄位採 bootstrap 的12欄位式）");
@@ -133,7 +134,7 @@ define("_MA_TADTHEMES_BLOCK_BOTTOM_CENTER", "下中區域");
 define("_MA_TADTHEMES_BLOCK_BOTTOM_LEFT", "下中左區域");
 define("_MA_TADTHEMES_BLOCK_BOTTOM_RIGHT", "下中右區域");
 define("_MA_TADTHEMES_BLOCK_TITLE_SIZE", "文字大小");
-define("_MA_TADTHEMES_TO_DEFAULT", "清除此佈景所有設定以恢復成預設值");
+define("_MA_TADTHEMES_TO_DEFAULT", "恢復成預設值");
 define("_MA_TADTHEMES_DEL_CONFIRM", "這會清除此佈景所有設定，並恢復成預設值！確定要執行？");
 define("_MA_TADTHEMES_BASE_COLOR", "內容區顏色");
 define("_MA_TADTHEMES_NAVBAR_IMG", "導覽列背景圖");
@@ -164,7 +165,7 @@ define('_MA_TADTHEMES_LOGO_SAVE_PIC', '儲存圖片');
 define('_MA_TADTHEMES_LOGO_DEMO_BGCOLOR', '範例背景色：');
 define('_MA_TADTHEMES_FONT_TOOL', '字型檔管理');
 define('_MA_TADTHEMES_FONT_UPLOAD', '上傳字型檔');
-define('_MA_TADTHEMES_FONT_NOTE', '僅支援 ttf、otf、ttc 字型檔，若無字型，可從<a href="https://forum.gamer.com.tw/C.php?bsn=60076&snA=3906436" target="_blank">這裡下載</a>或<a href="http://www.fonts.net.cn/" target="_blank">這裡</a>');
+define('_MA_TADTHEMES_FONT_NOTE', '僅支援 ttf、otf、ttc 字型檔，若無字型，可參考<a href="https://mrmad.com.tw/free-chinese-font" target="_blank">免費中文字體總整理，可用於商業使用</a>或<a href="http://www.fonts.net.cn/" target="_blank">這裡</a>');
 define('_MA_TADTHEMES_FONT_SAVE', '儲存字型檔');
 define('_MA_TADTHEMES_READGROUP', '可讀群組');
 

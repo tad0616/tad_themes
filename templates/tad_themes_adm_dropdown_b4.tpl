@@ -18,11 +18,10 @@
     }
 </script>
 
-
 <a href="dropdown.php?op=import" class="btn btn-info"><{$smarty.const._MA_TADTHEMES_IMPORT_MENU}></a>
+
 <div class="container-fluid">
     <div class="row">
-
         <div id="save_msg"></div>
 
         <table id="tbl" class="table table-striped table-hover" style="width:auto;">

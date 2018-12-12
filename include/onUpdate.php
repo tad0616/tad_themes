@@ -101,6 +101,10 @@ function xoops_module_update_tad_themes(&$module, $old_version)
     if (chk_chk23()) {
         go_update23();
     }
+    if (chk_chk24()) {
+        go_update24();
+    }
+
 
     chk_tad_themes_block();
 
@@ -673,6 +677,33 @@ function go_update23()
     global $xoopsDB;
 
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes_data_center") . " CHANGE `col_id` `col_id` varchar(100) NOT NULL DEFAULT '' COMMENT '辨識字串' AFTER `data_sort`";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
+}
+
+//新增 cb_width 欄位
+function chk_chk24()
+{
+    global $xoopsDB;
+    $sql    = "select count(`cb_width`) from " . $xoopsDB->prefix("tad_themes");
+    $result = $xoopsDB->query($sql);
+    if (empty($result)) {
+        return true;
+    }
+
+    return false;
+}
+
+function go_update24()
+{
+    global $xoopsDB;
+    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes") . " ADD `cb_width` varchar(255) NOT NULL default '' AFTER `lb_width`";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
+
+    $sql = "update " . $xoopsDB->prefix("tad_themes") . " set `cb_width` = (`theme_width` - `lb_width` - `rb_width`) where theme_kind!='mix'";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
+
+
+    $sql = "update " . $xoopsDB->prefix("tad_themes") . " set `cb_width` = (12 - `lb_width` - `rb_width`) where theme_kind='mix'";
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 

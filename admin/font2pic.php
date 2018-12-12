@@ -238,4 +238,5 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('op', $op);
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_themes/css/module.css');
 include_once 'footer.php';

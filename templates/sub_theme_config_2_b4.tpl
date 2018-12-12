@@ -1,9 +1,9 @@
 <div class="row">
     <div class="col-sm-5">
         <{if $enable.bg_img}>
-            <div class="form-group">
+            <div class="form-group row">
                 <!-- 上傳 背景圖-->
-                <label class="col-sm-4 control-label">
+                <label class="col-sm-4 col-form-label text-sm-right">
                     <{$smarty.const._MA_TAD_THEMES_UPLOAD}>
                     <{$smarty.const._MA_TADTHEMES_BG_IMG}>
                 </label>
@@ -17,13 +17,13 @@
 
 
         <{if $enable.bg_color}>
-            <div class="form-group">
+            <div class="form-group row">
                 <!-- 背景顏色-->
-                <label class="col-sm-4 control-label">
+                <label class="col-sm-4 col-form-label text-sm-right">
                     <{$smarty.const._MA_TADTHEMES_BG_COLOR}>
                 </label>
                 <div class="col-sm-8">
-                    <input type="text" name="bg_color" id="bg_color" value="<{$bg_color}>" class="col-sm-10 <{$validate.bg_color}>" data-hex="true" style="height: 42px; width: 100%;" onChange="change_css();">
+                    <input type="text" name="bg_color" id="bg_color" value="<{$bg_color}>" class="form-control color-picker <{$validate.bg_color}>" data-hex="true"  onChange="change_css();">
                 </div>
             </div>
         <{else}>
@@ -31,9 +31,9 @@
         <{/if}>
 
         <{if $enable.bg_repeat}>
-        <div class="form-group">
+        <div class="form-group row">
             <!-- 背景重複-->
-            <label class="col-sm-4 control-label">
+            <label class="col-sm-4 col-form-label text-sm-right">
                 <{$smarty.const._MA_TADTHEMES_BG_REPEAT}>
             </label>
             <div class="col-sm-8">
@@ -53,9 +53,9 @@
 
 
         <{if $enable.bg_attachment}>
-        <div class="form-group">
+        <div class="form-group row">
             <!-- 背景模式-->
-            <label class="col-sm-4 control-label">
+            <label class="col-sm-4 col-form-label text-sm-right">
                 <{$smarty.const._MA_TADTHEMES_BG_ATTACHMENT}>
             </label>
             <div class="col-sm-8">
@@ -71,9 +71,9 @@
 
 
         <{if $enable.bg_position}>
-        <div class="form-group">
+        <div class="form-group row">
             <!-- 背景位置-->
-            <label class="col-sm-4 control-label">
+            <label class="col-sm-4 col-form-label text-sm-right">
                 <{$smarty.const._MA_TADTHEMES_BG_POSITION}>
             </label>
             <div class="col-sm-8">
@@ -121,6 +121,6 @@
     <input type="hidden" name="config2[]" value="config2_bg">
     <hr>
     <{foreach from=$config2_bg item=config}>
-        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
+        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other_b4.tpl"}>
     <{/foreach}>
 <{/if}>

@@ -4,6 +4,7 @@ CREATE TABLE `tad_themes` (
   `theme_type` varchar(255) NOT NULL default '' COMMENT '版面類型',
   `theme_width` varchar(255) NOT NULL default '' COMMENT '頁面寬度',
   `lb_width` varchar(255) NOT NULL default '' COMMENT '左區塊寬度',
+  `cb_width` varchar(255) NOT NULL default '' COMMENT '中間區塊寬度',
   `rb_width` varchar(255) NOT NULL default '' COMMENT '右區塊寬度',
   `clb_width` varchar(255) NOT NULL default '' COMMENT '中左區塊寬度',
   `crb_width` varchar(255) NOT NULL default '' COMMENT '中右區塊寬度',

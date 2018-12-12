@@ -1,35 +1,35 @@
 <h2><{$smarty.const._MA_TADTHEMES_LOGO_DESIGN}></h2>
 <{if $fonts}>
-    <form action="font2pic.php" id="myForm" method="post" role="form" class="form-horizontal">
-        <div class="form-group">
-            <label for="title" class="col-sm-2 control-label"><{$smarty.const._MA_TADTHEMES_LOGO_INPUT_TEXT}></label>
+    <form action="font2pic.php" id="myForm" method="post" role="form">
+        <div class="form-group row">
+            <label for="title" class="col-sm-2 col-form-label text-sm-right"><{$smarty.const._MA_TADTHEMES_LOGO_INPUT_TEXT}></label>
             <div class="col-sm-10">
                 <input type="text" class="form-control validate[required]" name="title" id="title" placeholder="<{$smarty.const._MA_TADTHEMES_LOGO_INPUT_TEXT}>" value="<{$title}>">
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label"><{$smarty.const._MA_TADTHEMES_LOGO_TEXT_COLOR}></label>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label text-sm-right"><{$smarty.const._MA_TADTHEMES_LOGO_TEXT_COLOR}></label>
             <div class="col-sm-4">
-                <input type="text" name="color" class="col-sm-10" value="#<{$color}>" id="font_color" data-hex="true">
+                <input type="text" name="color" class="form-control color-picker" value="#<{$color}>" id="font_color" data-hex="true">
             </div>
-            <label class="col-sm-2 control-label"><{$smarty.const._MA_TADTHEMES_LOGO_BORDER_COLOR}></label>
+            <label class="col-sm-2 col-form-label text-sm-right"><{$smarty.const._MA_TADTHEMES_LOGO_BORDER_COLOR}></label>
             <div class="col-sm-4">
-                <input type="text" name="border_color" class="col-sm-10" value="#<{$border_color}>" id="border_color" data-hex="true">
+                <input type="text" name="border_color" class="form-control color-picker" value="#<{$border_color}>" id="border_color" data-hex="true">
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label"><{$smarty.const._MA_TADTHEMES_LOGO_TEXT_SIZE}></label>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label text-sm-right"><{$smarty.const._MA_TADTHEMES_LOGO_TEXT_SIZE}></label>
             <div class="col-sm-4">
                 <input type="text" class="form-control validate[required]" name="size" id="size" placeholder="<{$smarty.const._MA_TADTHEMES_LOGO_TEXT_SIZE}>" value="<{$size}>">
             </div>
-            <label class="col-sm-2 control-label"><{$smarty.const._MA_TADTHEMES_LOGO_BORDER_SIZE}></label>
+            <label class="col-sm-2 col-form-label text-sm-right"><{$smarty.const._MA_TADTHEMES_LOGO_BORDER_SIZE}></label>
             <div class="col-sm-4">
                 <input type="text" class="form-control validate[required]" name="border_size" id="border_size" placeholder="<{$smarty.const._MA_TADTHEMES_LOGO_BORDER_SIZE}>" value="<{$border_size}>">
             </div>
         </div>
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label"><{$smarty.const._MA_TADTHEMES_LOGO_SELECT_FONT}></label>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label text-sm-right"><{$smarty.const._MA_TADTHEMES_LOGO_SELECT_FONT}></label>
             <div class="col-sm-10">
                 <{foreach from=$fonts key=file_sn item=font}>
                     <label class="radio-inline">
@@ -75,7 +75,7 @@
     </script>
 
     <div class="text-right">
-            <{$smarty.const._MA_TADTHEMES_LOGO_DEMO_BGCOLOR}><input type="text" id="bg_color" value="#3c3c3c" class="col-sm-10" data-hex="true" onChange="change_css();">
+            <{$smarty.const._MA_TADTHEMES_LOGO_DEMO_BGCOLOR}><input type="text" id="bg_color" value="#3c3c3c" data-hex="true" onChange="change_css();">
     </div>
 
     <div id="demo" style="background-color: #3c3c3c;padding:10px; ">
