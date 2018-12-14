@@ -8,11 +8,10 @@
                     <label class="col-sm-4 col-form-label text-sm-right"><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION}></label>
                     <div class="col-sm-8">
                         <select name="navbar_pos" id="navbar_pos" class="form-control <{$validate.navbar_pos}>">
-                            <option value="navbar-fixed-top" <{if $navbar_pos=="navbar-fixed-top"}>selected<{/if}>>
+                            <option value="fixed-top" <{if $navbar_pos=="fixed-top"}>selected<{/if}>>
                             <{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_1}></option>
-                            <option value="navbar-fixed-bottom" <{if $navbar_pos=="navbar-fixed-bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_2}></option>
-                            <option value="navbar-static-top" <{if $navbar_pos=="navbar-static-top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_3}></option>
-                            <option value="navbar-static-bottom" <{if $navbar_pos=="navbar-static-bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_6}></option>
+                            <option value="fixed-bottom" <{if $navbar_pos=="fixed-bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_2}></option>
+                            <option value="sticky-top" <{if $navbar_pos=="sticky-top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_3}></option>
                             <option value="default" <{if $navbar_pos=="default"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_4}></option>
                             <option value="not-use" <{if $navbar_pos=="not-use"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_5}></option>
                         </select>
