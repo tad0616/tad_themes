@@ -108,7 +108,7 @@
                     <div class="resp-tabs-container tab_identifier_parent">
                         <{if $config_tabs.1}>
                             <div>
-                                <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_1_b4.tpl"}>
+                                <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_1.tpl"}>
                             </div>
                         <{else}>
                             <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_no_config_1.tpl"}>
@@ -116,7 +116,7 @@
 
                         <{if $config_tabs.2}>
                             <div>
-                                <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_2_b4.tpl"}>
+                                <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_2.tpl"}>
                             </div>
                         <{else}>
                             <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_no_config_2.tpl"}>
@@ -124,7 +124,7 @@
 
                         <{if $config_tabs.3}>
                             <div>
-                                <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_3_b4.tpl"}>
+                                <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_3.tpl"}>
                             </div>
                         <{else}>
                             <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_no_config_3.tpl"}>
@@ -132,7 +132,7 @@
 
                         <{if $config_tabs.4}>
                         <div>
-                            <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_4_b4.tpl"}>
+                            <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_4.tpl"}>
                         </div>
                         <{else}>
                             <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_no_config_4.tpl"}>
@@ -140,7 +140,7 @@
 
                         <{if $config_tabs.5}>
                             <div>
-                                <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_5_b4.tpl"}>
+                                <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_5.tpl"}>
                             </div>
                         <{else}>
                             <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_no_config_5.tpl"}>
@@ -148,7 +148,7 @@
 
                         <{if $config_tabs.6}>
                             <div>
-                                <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_6_b4.tpl"}>
+                                <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_6.tpl"}>
                             </div>
                         <{else}>
                             <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_no_config_6.tpl"}>
@@ -159,7 +159,7 @@
                             <div>
                                 <input type="hidden" name="config2[]" value="config2">
                                 <{foreach from=$config2 item=config}>
-                                    <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other_b4.tpl"}>
+                                    <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
                                 <{/foreach}>
                             </div>
                         <{/if}>

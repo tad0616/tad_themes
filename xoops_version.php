@@ -15,10 +15,10 @@ $modversion['dirname']     = basename(__DIR__);
 
 //---模組狀態資訊---//
 $modversion['release_date']        = '2018/08/23';
-$modversion['module_website_url']  = 'http://tad0616.net/';
+$modversion['module_website_url']  = 'https://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status']       = 'release';
-$modversion['author_website_url']  = 'http://tad0616.net/';
+$modversion['author_website_url']  = 'https://tad0616.net/';
 $modversion['author_website_name'] = _MI_TAD_WEB;
 $modversion['min_php']             = 5.4;
 $modversion['min_xoops']           = '2.5.7';
@@ -65,24 +65,12 @@ $modversion['templates'][$i]['file']        = 'tad_themes_adm_main.tpl';
 $modversion['templates'][$i]['description'] = 'tad_themes_adm_main.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_themes_adm_main_b4.tpl';
-$modversion['templates'][$i]['description'] = 'tad_themes_adm_main_b4.tpl';
-
-$i++;
 $modversion['templates'][$i]['file']        = 'tad_themes_adm_dropdown.tpl';
 $modversion['templates'][$i]['description'] = 'tad_themes_adm_dropdown.tpl';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_themes_adm_dropdown_b4.tpl';
-$modversion['templates'][$i]['description'] = 'tad_themes_adm_dropdown_b4.tpl';
-
-$i++;
 $modversion['templates'][$i]['file']        = 'tad_themes_adm_font2pic.tpl';
 $modversion['templates'][$i]['description'] = 'tad_themes_adm_font2pic.tpl';
-
-$i++;
-$modversion['templates'][$i]['file']        = 'tad_themes_adm_font2pic_b4.tpl';
-$modversion['templates'][$i]['description'] = 'tad_themes_adm_font2pic_b4.tpl';
 
 //---偏好設定---//
 $modversion['config']                   = array();

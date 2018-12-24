@@ -215,6 +215,6 @@
     <input type="hidden" name="config2[]" value="config2_block">
     <hr>
     <{foreach from=$config2_block item=config}>
-        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other_b4.tpl"}>
+        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
     <{/foreach}>
 <{/if}>

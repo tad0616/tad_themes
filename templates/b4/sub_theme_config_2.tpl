@@ -121,6 +121,6 @@
     <input type="hidden" name="config2[]" value="config2_bg">
     <hr>
     <{foreach from=$config2_bg item=config}>
-        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other_b4.tpl"}>
+        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
     <{/foreach}>
 <{/if}>

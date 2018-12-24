@@ -1,0 +1,17 @@
+<input type="hidden" id="theme_type" name="theme_type" value="<{$theme_type}>">
+<input type="hidden" id="theme_width" name="theme_width" value="<{$theme_width}>">
+<input type="hidden" id="base_color" name="base_color" value="<{$base_color}>">
+<input type="hidden" id="lb_color" name="lb_color" value="<{$lb_color}>">
+<input type="hidden" id="cb_color" name="cb_color" value="<{$cb_color}>">
+<input type="hidden" id="rb_color" name="rb_color" value="<{$rb_color}>">
+<input type="hidden" id="lb_width" name="lb_width" value="<{$lb_width}>">
+<input type="hidden" id="cb_width" name="cb_width" value="<{$cb_width}>">
+<input type="hidden" id="rb_width" name="rb_width" value="<{$rb_width}>">
+<input type="hidden" id="clb_width" name="clb_width" value="<{$clb_width}>">
+<input type="hidden" id="crb_width" name="crb_width" value="<{$crb_width}>">
+<input type="hidden" id="margin_top" name="margin_top" value="<{$margin_top}>">
+<input type="hidden" id="font_size" name="font_size" value="<{$font_size}>">
+<input type="hidden" id="margin_bottom" name="margin_bottom" value="<{$margin_bottom}>">
+<input type="hidden" id="font_color" name="font_color" value="<{$font_color}>">
+<input type="hidden" id="link_color" name="link_color" value="<{$link_color}>">
+<input type="hidden" id="hover_color" name="hover_color" value="<{$hover_color}>">

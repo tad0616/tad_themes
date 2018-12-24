@@ -39,6 +39,6 @@ $xoTheme->addStylesheet(XOOPS_URL . "/modules/" . $xoopsModule->getVar('dirname'
 //$xoTheme->addScript("browse.php?Frameworks/jquery/jquery.js");
 //$xoTheme->addScript("browse.php?modules/" . $xoopsModule->getVar("dirname") . "/js/admin.js");
 
-if ($_SESSION['bootstrap'] == 4) {
-    $xoopsOption['template_main'] = str_replace('.tpl', '_b4.tpl', $xoopsOption['template_main']);
-}
+// if ($_SESSION['bootstrap'] == 4) {
+//     $xoopsOption['template_main'] = str_replace('.tpl', '.tpl', $xoopsOption['template_main']);
+// }
