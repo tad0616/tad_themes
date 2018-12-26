@@ -69,6 +69,11 @@
 
 
 <{if $config2_slide}>
+    <hr>
+    <h4>
+        <{$smarty.const._MA_TAD_THEMES_HEAD}><{$smarty.const._MA_TADTHEMES_CONFIG2}>
+        <a href="main.php?op=export_config2&theme_id=<{$theme_id}>&type=config2_slide" class="btn btn-info pull-right"><{$smarty.const._MA_TADTHEMES_EXPORT2|sprintf:'config2_slide'}></a>
+    </h4>
     <input type="hidden" name="config2[]" value="config2_slide">
     <hr>
     <{foreach from=$config2_slide item=config}>

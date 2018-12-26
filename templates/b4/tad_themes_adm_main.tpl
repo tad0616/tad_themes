@@ -1,8 +1,7 @@
-<link href="<{$xoops_url}>/modules/tadtools/css/font-awesome/css/font-awesome.css" rel="stylesheet">
-
-<{$jquery}>
 <script type="text/javascript">
     $(document).ready(function(){
+
+        $('select.selectpicker').selectpicker();
         change_css();
         preview_img("bg","<{$bg_img}>");
 
@@ -52,7 +51,6 @@
 
                     <a href="javascript:delete_tad_themes_config(<{$theme_id}>)" class="btn btn-danger"><{$smarty.const._MA_TADTHEMES_TO_DEFAULT}></a>
                     <a href="main.php?op=export_config&theme_id=<{$theme_id}>" class="btn btn-success"><{$smarty.const._MA_TADTHEMES_EXPORT}></a>
-                    <a href="main.php?op=export_config2&theme_id=<{$theme_id}>" class="btn btn-info"><{$smarty.const._MA_TADTHEMES_EXPORT2}></a>
                 </h1>
                 <div class="alert alert-info">
                     <{$smarty.const._MA_TADTHEMES_CHANGE_KIND_DESC}>
@@ -161,6 +159,7 @@
                                 <{foreach from=$config2 item=config}>
                                     <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
                                 <{/foreach}>
+                                <a href="main.php?op=export_config2&theme_id=<{$theme_id}>&type=config2" class="btn btn-info"><{$smarty.const._MA_TADTHEMES_EXPORT2|sprintf:'config2'}></a>
                             </div>
                         <{/if}>
                     </div>

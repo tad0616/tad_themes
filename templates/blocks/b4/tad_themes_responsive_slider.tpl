@@ -1,1 +1,3 @@
-<{$block}>
+<div class="row">
+    <{$block}>
+</div>

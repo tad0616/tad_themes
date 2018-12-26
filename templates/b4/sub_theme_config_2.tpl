@@ -123,4 +123,6 @@
     <{foreach from=$config2_bg item=config}>
         <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
     <{/foreach}>
+
+    <a href="main.php?op=export_config2&theme_id=<{$theme_id}>&type=config2_bg" class="btn btn-info"><{$smarty.const._MA_TADTHEMES_EXPORT2|sprintf:'config2_bg'}></a>
 <{/if}>

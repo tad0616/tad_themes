@@ -47,8 +47,8 @@ function auto_import_theme()
     $theme_id = get_theme_id($theme_name);
     if (empty($theme_id)) {
         $sql = "insert into " . $xoopsDB->prefix("tad_themes") . "
-        (`theme_name` , `theme_type` , `theme_width` , `lb_width` , `rb_width` , `clb_width` , `crb_width` , `base_color` , `lb_color` , `cb_color` , `rb_color` , `margin_top` , `margin_bottom` , `bg_img` , `bg_color`  , `bg_repeat`  , `bg_attachment`  , `bg_position`  , `logo_img`  , `logo_position`  , `navlogo_img` , `logo_top` , `logo_right` , `logo_bottom` , `logo_left` , `logo_center` , `theme_enable` , `slide_width` , `slide_height` , `font_size` , `font_color` , `link_color` , `hover_color` , `theme_kind` , `navbar_pos` , `navbar_bg_top` , `navbar_bg_bottom` , `navbar_hover` , `navbar_color` , `navbar_color_hover` , `navbar_icon`, `navbar_img`)
-        values('{$theme_name}' , '{$theme_type}', '{$theme_width}' , '{$lb_width}' , '{$rb_width}' , '{$clb_width}' , '{$crb_width}' , '{$base_color}' , '{$lb_color}' , '{$cb_color}' , '{$rb_color}' , '{$margin_top}' , '{$margin_bottom}' , '{$bg_img}' , '{$bg_color}' , '{$bg_repeat}' , '{$bg_attachment}' , '{$bg_position}' , '{$logo_img}', '{$logo_position}' , '{$navlogo_img}' , '{$logo_top}' , '{$logo_right}' , '{$logo_bottom}' , '{$logo_left}' , '{$logo_center}' , '1' , '{$slide_width}' , '{$slide_height}' , '{$font_size}' , '{$font_color}' , '{$link_color}' , '{$hover_color}' , '{$theme_kind}', '{$navbar_pos}','{$navbar_bg_top}','{$navbar_bg_bottom}','{$navbar_hover}','{$navbar_color}','{$navbar_color_hover}','{$navbar_icon}','{$navbar_img}')";
+        (`theme_name` , `theme_type` , `theme_width` , `lb_width` , `cb_width` , `rb_width` , `clb_width` , `crb_width` , `base_color` , `lb_color` , `cb_color` , `rb_color` , `margin_top` , `margin_bottom` , `bg_img` , `bg_color`  , `bg_repeat`  , `bg_attachment`  , `bg_position`  , `logo_img`  , `logo_position`  , `navlogo_img` , `logo_top` , `logo_right` , `logo_bottom` , `logo_left` , `logo_center` , `theme_enable` , `slide_width` , `slide_height` , `font_size` , `font_color` , `link_color` , `hover_color` , `theme_kind` , `navbar_pos` , `navbar_bg_top` , `navbar_bg_bottom` , `navbar_hover` , `navbar_color` , `navbar_color_hover` , `navbar_icon`, `navbar_img`)
+        values('{$theme_name}' , '{$theme_type}', '{$theme_width}' , '{$lb_width}', '{$cb_width}' , '{$rb_width}' , '{$clb_width}' , '{$crb_width}' , '{$base_color}' , '{$lb_color}' , '{$cb_color}' , '{$rb_color}' , '{$margin_top}' , '{$margin_bottom}' , '{$bg_img}' , '{$bg_color}' , '{$bg_repeat}' , '{$bg_attachment}' , '{$bg_position}' , '{$logo_img}', '{$logo_position}' , '{$navlogo_img}' , '{$logo_top}' , '{$logo_right}' , '{$logo_bottom}' , '{$logo_left}' , '{$logo_center}' , '1' , '{$slide_width}' , '{$slide_height}' , '{$font_size}' , '{$font_color}' , '{$link_color}' , '{$hover_color}' , '{$theme_kind}', '{$navbar_pos}','{$navbar_bg_top}','{$navbar_bg_bottom}','{$navbar_hover}','{$navbar_color}','{$navbar_color_hover}','{$navbar_icon}','{$navbar_img}')";
         $xoopsDB->queryF($sql) or web_error($sql);
 
         //取得最後新增資料的流水編號
@@ -59,6 +59,7 @@ function auto_import_theme()
         `theme_type`='{$theme_type}' ,
         `theme_width`='{$theme_width}' ,
         `lb_width`='{$lb_width}' ,
+        `cb_width`='{$cb_width}' ,
         `rb_width`='{$rb_width}' ,
         `clb_width`='{$clb_width}' ,
         `crb_width`='{$crb_width}' ,
@@ -114,7 +115,7 @@ function auto_import_theme()
 
     //儲存區塊設定
     save_blocks($theme_id, true);
-    save_config2($theme_id, true);
+    import_config2($theme_id);
 
 }
 
@@ -215,49 +216,11 @@ function save_blocks($theme_id = "", $import = false)
 }
 
 //儲存額外設定值
-function save_config2($theme_id = "", $import = false)
+function import_config2($theme_id = "", $import = false)
 {
-    global $xoopsDB, $xoopsConfig;
-    $TadUpFiles_config2 = TadUpFiles_config2();
-    $theme_name         = $xoopsConfig['theme_set'];
-    //額外佈景設定
-    $myts = MyTextSanitizer::getInstance();
-    foreach ($_POST['config2'] as $config2) {
+    global $config2_files;
+    save_config2($theme_id, $config2_files);
 
-        if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php")) {
-            require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
-            require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php";
-            /*
-            $theme_config[$i]['name']="footer_height";
-            $theme_config[$i]['text']=TF_FOOTER_HEIGHT;
-            $theme_config[$i]['type']="text";
-            $theme_config[$i]['default']="200px";
-             */
-            foreach ($theme_config as $k => $config) {
-                $name  = $config['name'];
-                $value = isset($_POST[$name]) ? $myts->addSlashes($_POST[$name]) : $config['default'];
-
-                $sql = "replace into " . $xoopsDB->prefix("tad_themes_config2") . " (`theme_id`, `name`, `type`, `value`) values($theme_id , '{$config['name']}' , '{$config['type']}' , '{$value}')";
-                $xoopsDB->queryF($sql) or web_error($sql);
-
-                if ($config['type'] == "file") {
-                    $TadUpFiles_config2->set_col("config2_{$config['name']}", $theme_id);
-                    $filename = $TadUpFiles_config2->upload_file("config2_{$config['name']}", null, null, null, "", true);
-                    if ($filename) {
-                        update_theme_config2($config['name'], $filename, $theme_id, $theme_name);
-                    }
-                }
-            }
-        }
-    }
-}
-//更新佈景的某個設定值
-function update_theme_config2($col = "", $file_name = "", $theme_id = "", $theme_name = "")
-{
-    global $xoopsDB, $xoopsUser, $xoopsConfig;
-    $file_name_url = XOOPS_URL . "/uploads/tad_themes/{$theme_name}/config2/{$file_name}";
-    $sql           = "update " . $xoopsDB->prefix("tad_themes_config2") . " set `value` = '{$file_name_url}' where theme_id='$theme_id' and `name`='{$col}'";
-    $xoopsDB->queryF($sql) or web_error($sql);
 }
 
 //取得佈景編號

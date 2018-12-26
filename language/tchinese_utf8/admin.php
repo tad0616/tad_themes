@@ -3,7 +3,7 @@ include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.ph
 
 //需加入模組語系
 define('_TAD_NEED_TADTOOLS', '需要 tadtools 模組，可至<a href="http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1" target="_blank">XOOPS輕鬆架</a>下載。');
-define("_MA_TADTHEMES_THEME_BASE", "版面基本設定");
+define("_MA_TADTHEMES_THEME_BASE", "基本版面");
 define("_MA_TADTHEMES_THEME_KIND", "佈景類型");
 define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP4", "（bootstrap 4 響應式佈景，可以適用在網站及行動裝置上並自動調整版面，全版按比例分為12欄，若以1024解析度來說，每一欄約80px。）");
 define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP3", "（bootstrap 3 響應式佈景，可以適用在網站及行動裝置上並自動調整版面，全版按比例分為12欄，若以1024解析度來說，每一欄約80px。）");
@@ -121,7 +121,7 @@ define("_MA_TADTHEMES_CHANGE_KIND_DESC", "此佈景支援線上切換佈景類�
 define("_MA_TADTHEMES_CHANGE_KIND", "切換佈景類型");
 define("_MA_TADTHEMES_ITEMICON", "上傳項目圖示");
 define("_MA_TADTHEMES_ITEMBANNER", "上傳項目專屬橫幅");
-define("_MA_TADTHEMES_CONFIG2", "額外佈景設定");
+define("_MA_TADTHEMES_CONFIG2", "額外設定");
 define("_MA_TADTHEMES_DEFAULT", "預設值");
 define("_MA_TADTHEMES_BLOCK_POSITION", "欲設定的區域");
 define("_MA_TADTHEMES_BLOCK_ALL_POSITION", "套用到所有區域");
@@ -147,7 +147,7 @@ define("_MA_TADTHEMES_OF_LEVEL", "父分類");
 define("_MA_TADTHEMES_ICON", "選擇圖示");
 define("_MA_TADTHEMES_LOGO_CENTER", "置中");
 define("_MA_TADTHEMES_EXPORT", "匯出 config.php 設定檔");
-define("_MA_TADTHEMES_EXPORT2", "匯出 config2.php 設定檔");
+define("_MA_TADTHEMES_EXPORT2", "匯出 %s.php 設定檔");
 
 define('_MA_TADTHEMES_NAVBAR_PY', '導覽選項上下距離');
 define('_MA_TADTHEMES_NAVBAR_PX', '左右距離');

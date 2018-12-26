@@ -33,6 +33,12 @@
                     <option value="<{$val}>" <{if $config.value==$val}>selected<{/if}>><{$opt}></option>
                 <{/foreach}>
             </select>
+        <{elseif $config.type=="selectpicker"}>
+            <select name="<{$config.name}>" id="<{$config.name}>" class="form-control selectpicker">
+                <{foreach from=$config.options key=val item=opt}>
+                    <option data-content="<img src='<{$config.images.$val}>'> <{$opt}>" value="<{$val}>" <{if $config.value==$val}>selected<{/if}>></option>
+                <{/foreach}>
+            </select>
         <{elseif $config.type=="file"}>
             <{$config.form}>
         <{/if}>

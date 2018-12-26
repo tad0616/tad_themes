@@ -224,6 +224,11 @@
 </div>
 
 <{if $config2_base}>
+    <hr>
+    <h4>
+        <{$smarty.const._MA_TADTHEMES_THEME_BASE}><{$smarty.const._MA_TADTHEMES_CONFIG2}>
+        <a href="main.php?op=export_config2&theme_id=<{$theme_id}>&type=config2_base" class="btn btn-info pull-right"><{$smarty.const._MA_TADTHEMES_EXPORT2|sprintf:'config2_base'}></a>
+    </h4>
     <input type="hidden" name="config2[]" value="config2_base">
     <hr>
     <{foreach from=$config2_base item=config}>

@@ -108,7 +108,7 @@
     <label class="col-sm-2 control-label"><{$smarty.const._MA_TADTHEMES_CB_WIDTH}></label>
     <div class="col-sm-2">
         <div id="cb_width"></div>
-        <input type="hidden" name="cb_width" id="cb_width" value="<{$cb_width}>">
+        <input type="hidden" name="cb_width" id="cb_width" value="<{$cb_width}>" onChange="change_css();">
     </div>
 
     <!--右區塊寬度-->

@@ -3,6 +3,7 @@ Tad Themes 5.1 (released from 2019-01-01)
 1. Support BootStrap4
 2. Add more flexible set settings
 3. Attached support panoramic picture
+4. Support PHP 7.3
 
 
 Tad Themes 5.0 (released on 2018-08-23)

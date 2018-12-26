@@ -44,9 +44,9 @@ function vertical_bootstrap_menu_edit($options)
 {
     $block_menu_options = block_menu_options($options[0]);
     $form               = "
-  {$block_menu_options['js']}
-  {$block_menu_options['form']}
-  <INPUT type='hidden' name='options[0]' id='bb' value='{$options[0]}'>";
+    {$block_menu_options['js']}
+    {$block_menu_options['form']}
+    <INPUT type='hidden' name='options[0]' id='bb' value='{$options[0]}'>";
 
     return $form;
 }
@@ -62,26 +62,26 @@ if (!function_exists("block_menu_options")) {
         }
 
         $js = "<script>
-    function bbv(){
-      i=0;
-      var arr = new Array();";
+        function bbv(){
+        i=0;
+        var arr = new Array();";
 
         $sql    = "SELECT menuid,itemname,status FROM " . $xoopsDB->prefix("tad_themes_menu") . " ORDER BY position";
         $result = $xoopsDB->query($sql);
         $option = "";
         while (list($menuid, $itemname, $status) = $xoopsDB->fetchRow($result)) {
             $js .= "if(document.getElementById('c{$menuid}').checked){
-            arr[i] = document.getElementById('c{$menuid}').value;
-            i++;
-            }";
+                arr[i] = document.getElementById('c{$menuid}').value;
+                i++;
+                }";
             $ckecked = (in_array($menuid, $sc)) ? "checked" : "";
             $color   = $status == '1' ? "black" : "gray";
             $option .= "<span style='white-space:nowrap;'><input type='checkbox' id='c{$menuid}' value='{$menuid}' class='bbv' onChange=bbv() $ckecked><label for='c{$menuid}' style='color:$color'>$itemname</label></span> ";
         }
 
         $js .= "document.getElementById('bb').value=arr.join(',');
-    }
-    </script>";
+        }
+        </script>";
 
         $main['js']   = $js;
         $main['form'] = $option;

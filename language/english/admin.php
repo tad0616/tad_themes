@@ -145,7 +145,7 @@ define("_MA_TADTHEMES_OF_LEVEL", "Parent");
 define("_MA_TADTHEMES_ICON", "icon");
 define("_MA_TADTHEMES_LOGO_CENTER", "center");
 define("_MA_TADTHEMES_EXPORT", "Export config.php");
-define("_MA_TADTHEMES_EXPORT2", "Export config2.php");
+define("_MA_TADTHEMES_EXPORT2", "Export %s.php");
 
 define('_MA_TADTHEMES_NAVBAR_PY', 'Navigation options padding top and bottom');
 define('_MA_TADTHEMES_NAVBAR_PX', 'Navigation options padding left and right');

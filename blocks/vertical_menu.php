@@ -2,7 +2,7 @@
 //區塊主函式 (vertical_menu)
 function vertical_menu($options)
 {
-    global $xoopsDB;
+    global $xoopsDB, $xoTheme;
     include_once XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php";
     include_once XOOPS_ROOT_PATH . "/modules/tad_themes/function_block.php";
     $in = empty($options[0]) ? "status='1' and of_level=0" : "menuid in({$options[0]})";
@@ -46,6 +46,9 @@ function vertical_menu($options)
         $jquery_pin_code          = $jquery_pin->render('.vertical_menu');
         $block['jquery_pin_code'] = $jquery_pin_code;
     }
+
+    $xoTheme->addStylesheet('modules/tadtools/css/vertical_menu.css');
+
     return $block;
 }
 
@@ -58,13 +61,13 @@ function vertical_menu_edit($options)
     $checked0 = $options[1] == 0 ? "checked" : "";
 
     $form = "
-  {$block_menu_options['js']}
-  {$block_menu_options['form']}
-  <INPUT type='hidden' name='options[0]' id='bb' value='{$options[0]}'><br>
-  <label>" . _MB_TADTHEMES_PIN_MENU . "</label>
-  <input type='radio' name='options[1]' id='pin1' value='1' $checked1>" . _YES . "
-  <input type='radio' name='options[1]' id='pin0' value='0' $checked0>" . _NO . "
-  ";
+    {$block_menu_options['js']}
+    {$block_menu_options['form']}
+    <INPUT type='hidden' name='options[0]' id='bb' value='{$options[0]}'><br>
+    <label>" . _MB_TADTHEMES_PIN_MENU . "</label>
+    <input type='radio' name='options[1]' id='pin1' value='1' $checked1>" . _YES . "
+    <input type='radio' name='options[1]' id='pin0' value='0' $checked0>" . _NO . "
+    ";
 
     return $form;
 }
