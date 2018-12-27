@@ -35,7 +35,6 @@
 
     <{$chang_css}>
 
-
     function delete_tad_themes_config(theme_id){
         var sure = window.confirm("<{$smarty.const._MA_TADTHEMES_DEL_CONFIRM}>");
         if (!sure)  return;
@@ -52,7 +51,7 @@
 
                     <a href="javascript:delete_tad_themes_config(<{$theme_id}>)" class="btn btn-danger"><{$smarty.const._MA_TADTHEMES_TO_DEFAULT}></a>
                     <a href="main.php?op=export_config&theme_id=<{$theme_id}>" class="btn btn-success"><{$smarty.const._MA_TADTHEMES_EXPORT}></a>
-                    <a href="main.php?op=export_config2&theme_id=<{$theme_id}>" class="btn btn-info"><{$smarty.const._MA_TADTHEMES_EXPORT2}></a>
+                    <a href="main.php?op=export_config2&theme_id=<{$theme_id}>" class="btn btn-info"><{$smarty.const._MA_TADTHEMES_EXPORT2|sprintf:'config2'}></a>
                 </h1>
                 <div class="alert alert-info">
                     <{$smarty.const._MA_TADTHEMES_CHANGE_KIND_DESC}>
