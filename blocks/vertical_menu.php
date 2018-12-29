@@ -62,12 +62,22 @@ function vertical_menu_edit($options)
 
     $form = "
     {$block_menu_options['js']}
-    {$block_menu_options['form']}
-    <INPUT type='hidden' name='options[0]' id='bb' value='{$options[0]}'><br>
-    <label>" . _MB_TADTHEMES_PIN_MENU . "</label>
-    <input type='radio' name='options[1]' id='pin1' value='1' $checked1>" . _YES . "
-    <input type='radio' name='options[1]' id='pin0' value='0' $checked0>" . _NO . "
-    ";
+    <ol class='my-form'>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADTHEMES_MENU_OPTIONS . "</lable>
+            <div class='my-content'>
+                {$block_menu_options['form']}
+                <input type='hidden' name='options[0]' value='{$options[0]}'>
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADTHEMES_PIN_MENU . "</lable>
+            <div class='my-content'>
+                <input type='radio' name='options[1]' id='pin1' value='1' $checked1>" . _YES . "
+                <input type='radio' name='options[1]' id='pin0' value='0' $checked0>" . _NO . "
+            </div>
+        </li>
+    </ol>";
 
     return $form;
 }

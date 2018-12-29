@@ -22,7 +22,7 @@ function tad_themes_logo_form()
     $title = isset($_GET['title']) ? $_GET['title'] : '';
     $xoopsTpl->assign('title', $title);
 
-    $size = isset($_GET['size']) ? $_GET['size'] : '24';
+    $size = isset($_GET['size']) ? $_GET['size'] : '16';
     $xoopsTpl->assign('size', $size);
 
     $border_size = isset($_GET['border_size']) ? $_GET['border_size'] : '2';

@@ -1,5 +1,5 @@
 <?php
-//區塊主函式 (vertical_bootstrap_menu)
+//區塊主函式 (垂直BootStrap選單)
 function vertical_bootstrap_menu($options)
 {
     global $xoopsDB;
@@ -45,8 +45,15 @@ function vertical_bootstrap_menu_edit($options)
     $block_menu_options = block_menu_options($options[0]);
     $form               = "
     {$block_menu_options['js']}
-    {$block_menu_options['form']}
-    <INPUT type='hidden' name='options[0]' id='bb' value='{$options[0]}'>";
+    <ol class='my-form'>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADTHEMES_MENU_OPTIONS . "</lable>
+            <div class='my-content'>
+                {$block_menu_options['form']}
+                <input type='hidden' name='options[0]' value='{$options[0]}'>
+            </div>
+        </li>
+    </ol>";
 
     return $form;
 }
