@@ -41,7 +41,7 @@ function import_img($path = '', $col_name = "logo", $col_sn = '', $desc = "", $s
 
     $sql = "select files_sn,file_name,original_filename from " . $xoopsDB->prefix("tad_themes_files_center") . " where col_name='{$col_name}' and col_sn='{$col_sn}'";
 
-    $result          = $xoopsDB->query($sql) or web_error($sql);
+    $result          = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
     $db_files_amount = 0;
     while (list($files_sn, $file_name, $original_filename) = $xoopsDB->fetchRow($result)) {
         $db_files[$files_sn] = $original_filename;
@@ -218,14 +218,14 @@ function update_tadtools_setup($theme = "", $theme_kind = "")
     }
 
     $sql    = "select `tt_theme_kind` from `" . $xoopsDB->prefix("tadtools_setup") . "` where `tt_theme`='{$theme}'";
-    $result = $xoopsDB->queryF($sql) or web_error($sql);
+    $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 
     list($old_tt_theme_kind) = $xoopsDB->fetchRow($result);
 
     if ($theme_kind !== $old_tt_theme_kind) {
         $sql = "replace into `" . $xoopsDB->prefix("tadtools_setup") . "` (`tt_theme` , `tt_use_bootstrap`,`tt_bootstrap_color` , `tt_theme_kind`) values('{$theme}', '0', '{$bootstrap_color}', '{$theme_kind}')";
 
-        $xoopsDB->queryF($sql) or web_error($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
     }
 }
 
@@ -254,7 +254,7 @@ function save_config2($theme_id = "", $config2_arr = array())
                 $value = isset($_POST[$name]) ? $myts->addSlashes($_POST[$name]) : $config['default'];
 
                 $sql = "replace into " . $xoopsDB->prefix("tad_themes_config2") . " (`theme_id`, `name`, `type`, `value`) values($theme_id , '{$config['name']}' , '{$config['type']}' , '{$value}')";
-                $xoopsDB->queryF($sql) or web_error($sql);
+                $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 
                 if ($config['type'] == "file") {
                     $TadUpFiles_config2->set_col("config2_{$config['name']}", $theme_id);
@@ -273,5 +273,5 @@ function update_theme_config2($col = "", $file_name = "", $theme_id = "", $theme
     global $xoopsDB, $xoopsUser, $xoopsConfig;
     $file_name_url = XOOPS_URL . "/uploads/tad_themes/{$theme_name}/config2/{$file_name}";
     $sql           = "update " . $xoopsDB->prefix("tad_themes_config2") . " set `value` = '{$file_name_url}' where theme_id='$theme_id' and `name`='{$col}'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 }
