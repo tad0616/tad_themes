@@ -804,7 +804,7 @@ function insert_tad_themes()
     $_POST['slide_height'] = $myts->addSlashes($_POST['slide_height']);
 
     $sql = "update " . $xoopsDB->prefix("tad_themes") . " set `theme_enable`='0'";
-    $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $_POST['logo_top']    = (int) $_POST['logo_top'];
     $_POST['logo_right']  = (int) $_POST['logo_right'];
@@ -816,7 +816,7 @@ function insert_tad_themes()
     $sql = "insert into " . $xoopsDB->prefix("tad_themes") . "
     (`theme_name` , `theme_type` , `theme_width` , `lb_width`, `cb_width` , `rb_width` , `clb_width` , `crb_width`, `base_color` , `lb_color` , `cb_color` , `rb_color` , `margin_top` , `margin_bottom` , `bg_img` , `bg_color`  , `bg_repeat`  , `bg_attachment`  , `bg_position`  , `logo_img` , `logo_position` , `logo_top` , `logo_right` , `logo_bottom` , `logo_left`, `logo_center` , `theme_enable` , `slide_width` , `slide_height` , `font_size` , `font_color` , `link_color` , `hover_color` , `theme_kind`, `navbar_pos` , `navbar_bg_top` , `navbar_bg_bottom` , `navbar_hover` , `navbar_color` , `navbar_color_hover` , `navbar_icon` , `navbar_img`)
     values('{$_POST['theme_name']}', '{$_POST['theme_type']}', '{$_POST['theme_width']}', '{$_POST['lb_width']}', '{$_POST['cb_width']}', '{$_POST['rb_width']}', '{$_POST['clb_width']}', '{$_POST['crb_width']}', '{$_POST['base_color']}', '{$_POST['lb_color']}', '{$_POST['cb_color']}', '{$_POST['rb_color']}', '{$_POST['margin_top']}', '{$_POST['margin_bottom']}', '{$_POST['bg_img']}', '{$_POST['bg_color']}', '{$_POST['bg_repeat']}', '{$_POST['bg_attachment']}', '{$_POST['bg_position']}', '{$_POST['logo_img']}', '{$_POST['logo_position']}', '{$_POST['navlogo_img']}', '{$_POST['logo_top']}', '{$_POST['logo_right']}', '{$_POST['logo_bottom']}', '{$_POST['logo_left']}', '{$_POST['logo_center']}', '1', '{$_POST['slide_width']}', '{$_POST['slide_height']}', '{$_POST['font_size']}', '{$_POST['font_color']}', '{$_POST['link_color']}', '{$_POST['hover_color']}', '{$_POST['theme_kind']}','{$_POST['navbar_pos']}','{$_POST['navbar_bg_top']}','{$_POST['navbar_bg_bottom']}','{$_POST['navbar_hover']}','{$_POST['navbar_color']}','{$_POST['navbar_color_hover']}','{$_POST['navbar_icon']}','{$_POST['navbar_img']}')";
-    $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     $theme_id = $xoopsDB->getInsertId();
@@ -947,7 +947,7 @@ function update_tad_themes($theme_id = "")
     `navbar_img` = '{$_POST['navbar_img']}'
     where theme_id='$theme_id'";
     //die($sql);
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     $TadDataCenter->set_col('theme_id', $theme_id);
     $TadDataCenter->saveData();
@@ -999,7 +999,7 @@ function update_theme($col = "", $folder = "", $file_name = "", $theme_id = "", 
     global $xoopsDB, $xoopsUser, $xoopsConfig;
     $file_name_url = XOOPS_URL . "/uploads/tad_themes/{$theme_name}/{$folder}/{$file_name}";
     $sql           = "update " . $xoopsDB->prefix("tad_themes") . " set `{$col}` = '{$file_name_url}' where theme_id='$theme_id'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 
 //以流水號取得某筆tad_themes資料
@@ -1015,7 +1015,7 @@ function get_tad_themes()
     }
 
     $sql    = "select * from " . $xoopsDB->prefix("tad_themes") . " where theme_name = '{$xoopsConfig['theme_set']}'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $data   = $xoopsDB->fetchArray($result);
     return $data;
 }
@@ -1025,11 +1025,11 @@ function delete_tad_themes($theme_id = "")
 {
     global $xoopsDB, $xoopsConfig, $block_position_title;
     $sql = "delete from " . $xoopsDB->prefix("tad_themes") . " where theme_id='$theme_id'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     $sql = "delete from " . $xoopsDB->prefix("tad_themes_blocks") . " where theme_id='$theme_id'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     $sql = "delete from " . $xoopsDB->prefix("tad_themes_config2") . " where theme_id='$theme_id'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     $TadUpFilesSlide = TadUpFilesSlide();
     $TadUpFilesSlide->set_col('slide', $theme_id);
@@ -1059,7 +1059,7 @@ function get_config2_values($theme_id = "")
 {
     global $xoopsDB, $xoopsConfig;
     $sql    = "select `name`, `type`, `value` from " . $xoopsDB->prefix("tad_themes_config2") . " where `theme_id` = '{$theme_id}'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     //`theme_id`, `name`, `type`, `value`
     while (list($name, $type, $value) = $xoopsDB->fetchRow($result)) {
         $values[$name] = $value;
@@ -1082,7 +1082,7 @@ function get_blocks_values($theme_id = "", $block_position = "")
 
     $and_block_position = !empty($block_position) ? "and `block_position` = '{$block_position}'" : "";
     $sql                = "select * from " . $xoopsDB->prefix("tad_themes_blocks") . " where `theme_id` = '{$theme_id}' {$and_block_position}";
-    $result             = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result             = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     //`theme_id`, `block_position`, `block_config`, `bt_text`, `bt_text_padding`, `bt_text_size`, `bt_bg_color`, `bt_bg_img`, `bt_bg_repeat`, `bt_radius`
     while ($all = $xoopsDB->fetchArray($result)) {
         $block_position      = $all['block_position'];
@@ -1155,7 +1155,7 @@ function export_config($theme_id = '')
 
     //取得區塊設定
     $sql    = "select * from " . $xoopsDB->prefix("tad_themes_blocks") . " where `theme_id` = '{$theme_id}'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while ($all = $xoopsDB->fetchArray($result)) {
         $block_position          = $all['block_position'];
         $blocks[$block_position] = $all;
@@ -1170,7 +1170,7 @@ function export_config($theme_id = '')
         ) tmp
         order by c desc limit 1";
 
-        $result                 = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+        $result                 = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         list($bt_default[$col]) = $xoopsDB->fetchRow($result);
         if ($col == "bt_bg_img") {
             if ($bt_default[$col] and $bt_default[$col] != 'transparent') {
@@ -1441,7 +1441,7 @@ function export_config2($theme_id = '', $type = '')
 
     $config2 = array();
     $sql     = "select * from " . $xoopsDB->prefix("tad_themes_config2") . " where `theme_id` = '{$theme_id}'";
-    $result  = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result  = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while ($all = $xoopsDB->fetchArray($result)) {
         $col           = $all['name'];
         $config2[$col] = $all;

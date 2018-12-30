@@ -22,7 +22,7 @@ function chk_cate_path($menuid, $to_menuid)
     global $xoopsDB;
     //抓出子目錄的編號
     $sql    = "select menuid from " . $xoopsDB->prefix("tad_themes_menu") . " where of_level='{$menuid}'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while (list($sub_menuid) = $xoopsDB->fetchRow($result)) {
         if (chk_cate_path($sub_menuid, $to_menuid)) {
             return true;
