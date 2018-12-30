@@ -3,6 +3,8 @@
 function vertical_menu($options)
 {
     global $xoopsDB, $xoTheme;
+    $xoTheme->addStylesheet('modules/tadtools/css/vertical_menu.css');
+
     include_once XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php";
     include_once XOOPS_ROOT_PATH . "/modules/tad_themes/function_block.php";
     $in = empty($options[0]) ? "status='1' and of_level=0" : "menuid in({$options[0]})";
@@ -46,8 +48,6 @@ function vertical_menu($options)
         $jquery_pin_code          = $jquery_pin->render('.vertical_menu');
         $block['jquery_pin_code'] = $jquery_pin_code;
     }
-
-    $xoTheme->addStylesheet('modules/tadtools/css/vertical_menu.css');
 
     return $block;
 }
