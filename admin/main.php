@@ -824,7 +824,7 @@ function insert_tad_themes()
     $TadDataCenter->set_col('theme_id', $theme_id);
     $TadDataCenter->saveData();
 
-    $slide_width = ($_POST['theme_kind'] == 'bootstrap3') ? 1920 : $_POST['slide_width'];
+    $slide_width = ($_POST['theme_kind'] == 'bootstrap3' or $_POST['theme_kind'] == 'bootstrap4') ? 1920 : $_POST['slide_width'];
 
     $TadUpFilesSlide = TadUpFilesSlide();
     $TadUpFilesSlide->set_col('slide', $theme_id);
@@ -954,7 +954,7 @@ function update_tad_themes($theme_id = "")
 
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$_POST['theme_name']}");
 
-    $slide_width = ($_POST['theme_kind'] == 'bootstrap3') ? 1920 : $_POST['slide_width'];
+    $slide_width = ($_POST['theme_kind'] == 'bootstrap3' or $_POST['theme_kind'] == 'bootstrap4') ? 1920 : $_POST['slide_width'];
 
     $TadUpFilesSlide = TadUpFilesSlide();
     $TadUpFilesSlide->set_col('slide', $theme_id);
