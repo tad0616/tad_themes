@@ -1,3 +1,8 @@
+Tad Themes 5.2 (released from 2019-02-11)
+==========================================================
+1. Fixed block unable to set menu option problem
+
+
 Tad Themes 5.1 (released from 2019-01-01)
 ==========================================================
 1. Support BootStrap4

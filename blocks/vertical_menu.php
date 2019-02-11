@@ -67,7 +67,7 @@ function vertical_menu_edit($options)
             <lable class='my-label'>" . _MB_TADTHEMES_MENU_OPTIONS . "</lable>
             <div class='my-content'>
                 {$block_menu_options['form']}
-                <input type='hidden' name='options[0]' value='{$options[0]}'>
+                <input type='hidden' name='options[0]' id='bb' value='{$options[0]}'>
             </div>
         </li>
         <li class='my-row'>

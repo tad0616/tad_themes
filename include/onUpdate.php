@@ -135,7 +135,7 @@ function go_fc_tag()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_themes_files_center") . "
-    ADD `upload_date` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '上傳時間',
+    ADD `upload_date` DATETIME NOT NULL COMMENT '上傳時間',
     ADD `uid` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT 0 COMMENT '上傳者',
     ADD `tag` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '註記'
     ";
