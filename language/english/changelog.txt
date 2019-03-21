@@ -1,3 +1,8 @@
+Tad Themes 5.3 (released from 2019-03-21)
+==========================================================
+1. Fix the BootStrap3 template
+
+
 Tad Themes 5.2 (released from 2019-02-11)
 ==========================================================
 1. Fixed block unable to set menu option problem
