@@ -9,7 +9,7 @@ include_once "../auto_import_theme.php";
 //tad_themes編輯表單
 function tad_themes_form()
 {
-    global $xoopsDB, $xoopsUser, $xoopsConfig, $xoopsTpl, $block_position_title, $xoTheme, $TadDataCenter,$config2_files;
+    global $xoopsDB, $xoopsUser, $xoopsConfig, $xoopsTpl, $block_position_title, $xoTheme, $TadDataCenter, $config2_files;
 
     $theme_name = $xoopsConfig['theme_set'];
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}");
@@ -361,14 +361,14 @@ function tad_themes_form()
     $block_tabs->rander('tab_identifier_child');
 
     $TadDataCenter->set_col('theme_id', $theme_id);
-    $xoopsTpl->assign('navbar_py_input', $TadDataCenter->getForm('return', 'input', 'navbar_py', 'text', $navbar_py));
-    $xoopsTpl->assign('navbar_py_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_py', 'hidden', $navbar_py));
+    $xoopsTpl->assign('navbar_py_input', $TadDataCenter->getForm('return', 'input', 'navbar_py', 'text', $navbar_py, null, array('class' =>'form-control')));
+    $xoopsTpl->assign('navbar_py_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_py', 'hidden', $navbar_py, null, array('class' =>'form-control')));
 
-    $xoopsTpl->assign('navbar_px_input', $TadDataCenter->getForm('return', 'input', 'navbar_px', 'text', $navbar_px));
-    $xoopsTpl->assign('navbar_px_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_px', 'hidden', $navbar_px));
+    $xoopsTpl->assign('navbar_px_input', $TadDataCenter->getForm('return', 'input', 'navbar_px', 'text', $navbar_px, null, array('class' =>'form-control')));
+    $xoopsTpl->assign('navbar_px_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_px', 'hidden', $navbar_px, null, array('class' =>'form-control')));
 
-    $xoopsTpl->assign('navbar_font_size_input', $TadDataCenter->getForm('return', 'input', 'navbar_font_size', 'text', 100));
-    $xoopsTpl->assign('navbar_font_size_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_font_size', 'hidden', 100));
+    $xoopsTpl->assign('navbar_font_size_input', $TadDataCenter->getForm('return', 'input', 'navbar_font_size', 'text', 100, null, array('class' =>'form-control')));
+    $xoopsTpl->assign('navbar_font_size_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_font_size', 'hidden', 100, null, array('class' =>'form-control')));
 }
 
 function mk_config2($theme_id = "", $theme_name = "", $config2_file = "")
@@ -394,7 +394,7 @@ function mk_config2($theme_id = "", $theme_name = "", $config2_file = "")
             $config2[$k]['value']   = $value;
             $config2[$k]['default'] = $config['default'];
             $config2[$k]['options'] = $config['options'];
-            $config2[$k]['images'] = $config['images'];
+            $config2[$k]['images']  = $config['images'];
 
             if ($config['type'] == "file") {
                 import_img($config['default'], "config2_{$config_name}", $theme_id, "");
@@ -413,10 +413,10 @@ function mk_config2($theme_id = "", $theme_name = "", $config2_file = "")
 
 function change_css_bootstrap($theme_width = "12", $theme_left_width = "", $theme_center_width = "")
 {
-    $theme_width      = empty($theme_width) ? 12 : $theme_width;
-    $theme_left_width = (empty($theme_left_width) or $theme_left_width == $theme_width) ? 3 : $theme_left_width;
+    $theme_width        = empty($theme_width) ? 12 : $theme_width;
+    $theme_left_width   = (empty($theme_left_width) or $theme_left_width == $theme_width) ? 3 : $theme_left_width;
     $theme_center_width = (empty($theme_center_width) or $theme_center_width == $theme_width) ? 9 : $theme_center_width;
-    $main             = "
+    $main               = "
     function change_css(){
         //原始頁寬，如:12
         var theme_width_org = {$theme_width};
@@ -845,7 +845,7 @@ function insert_tad_themes()
     save_blocks($theme_id);
 
     //儲存額外設定值
-    save_config2($theme_id,$_POST['config2']);
+    save_config2($theme_id, $_POST['config2']);
     return $theme_id;
 }
 
@@ -988,7 +988,7 @@ function update_tad_themes($theme_id = "")
     save_blocks($theme_id);
 
     //儲存額外設定值
-    save_config2($theme_id,$_POST['config2']);
+    save_config2($theme_id, $_POST['config2']);
     //$TadUpFiles->upload_file($upname,$width,$thumb_width,$files_sn,$desc,$safe_name=false,$hash=false);
     return $theme_id;
 }
@@ -1469,7 +1469,7 @@ function export_config2($theme_id = '', $type = '')
                 $val             = str_replace(';', '', $val);
                 $val             = str_replace('"', '', $val);
                 $val             = str_replace(' ', '', $val);
-                $new_default = $myts->addSlashes($default_v[$val]);
+                $new_default     = $myts->addSlashes($default_v[$val]);
             } elseif (strpos($buffer, "'default'") !== false) {
                 list($opt, $val) = explode("=", $buffer);
                 $val             = trim($val);

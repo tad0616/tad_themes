@@ -10,11 +10,11 @@
         <div class="form-group">
             <label class="col-sm-2 control-label"><{$smarty.const._MA_TADTHEMES_LOGO_TEXT_COLOR}></label>
             <div class="col-sm-4">
-                <input type="text" name="color" class="col-sm-10" value="#<{$color}>" id="font_color" data-hex="true">
+                <input type="text" name="color" class="col-sm-10 form-control color-picker " value="#<{$color}>" id="font_color" data-hex="true">
             </div>
             <label class="col-sm-2 control-label"><{$smarty.const._MA_TADTHEMES_LOGO_BORDER_COLOR}></label>
             <div class="col-sm-4">
-                <input type="text" name="border_color" class="col-sm-10" value="#<{$border_color}>" id="border_color" data-hex="true">
+                <input type="text" name="border_color" class="col-sm-10 form-control color-picker" value="#<{$border_color}>" id="border_color" data-hex="true">
             </div>
         </div>
         <div class="form-group">
@@ -75,7 +75,7 @@
     </script>
 
     <div class="text-right">
-            <{$smarty.const._MA_TADTHEMES_LOGO_DEMO_BGCOLOR}><input type="text" id="bg_color" value="#3c3c3c" class="col-sm-10" data-hex="true" onChange="change_css();">
+            <{$smarty.const._MA_TADTHEMES_LOGO_DEMO_BGCOLOR}><input type="text" id="bg_color" value="#3c3c3c" class="col-sm-10 form-control color-picker" data-hex="true" onChange="change_css();">
     </div>
 
     <div id="demo" style="background-color: #3c3c3c;padding:10px; ">

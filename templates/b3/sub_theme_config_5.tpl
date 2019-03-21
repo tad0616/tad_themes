@@ -54,7 +54,7 @@
                                 <{$smarty.const._MA_TADTHEMES_FONT_COLOR}>
                             </label>
                             <div class="col-sm-4">
-                                <input type="text" name="bt_text[<{$block.block_position}>]" id="bt_text_<{$block.block_position}>" value="<{$block.bt_text}>" class="col-sm-10 <{$validate.bt_text}>"  data-hex="true" style="height: 42px; width: 60%;">
+                                <input type="text" name="bt_text[<{$block.block_position}>]" id="bt_text_<{$block.block_position}>" value="<{$block.bt_text}>" class="col-sm-10 form-control color-picker <{$validate.bt_text}>"  data-hex="true" style="height: 42px; width: 60%;">
                             </div>
                         <{else}>
                             <input type="hidden" name="bt_text" id="bt_text" value="<{$bt_text}>">
@@ -66,7 +66,7 @@
                                 <{$smarty.const._MA_TADTHEMES_BG_COLOR}>
                             </label>
                             <div class="col-sm-4">
-                                <input type="text" name="bt_bg_color[<{$block.block_position}>]" id="bt_bg_color_<{$block.block_position}>" value="<{$block.bt_bg_color}>" class="col-sm-10 <{$validate.bt_bg_color}>" data-hex="true" style="height: 42px; width: 60%;">
+                                <input type="text" name="bt_bg_color[<{$block.block_position}>]" id="bt_bg_color_<{$block.block_position}>" value="<{$block.bt_bg_color}>" class="col-sm-10 form-control color-picker <{$validate.bt_bg_color}>" data-hex="true" style="height: 42px; width: 60%;">
                             </div>
                         <{else}>
                             <input type="hidden" name="bt_bg_color" id="bt_bg_color" value="<{$bt_bg_color}>">

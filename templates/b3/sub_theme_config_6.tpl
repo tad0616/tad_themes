@@ -30,10 +30,10 @@
                     </label>
                     <div class="col-sm-8">
                         <div class="input-group">
-                            <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>" class="form-control <{$validate.navbar_bg_top}>" data-text="hidden" data-hex="true" style="height: 42px;">
+                            <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>" class="form-control form-control color-picker <{$validate.navbar_bg_top}>" data-text="hidden" data-hex="true" style="height: 42px;">
                             <{if $enable.navbar_bg_bottom=="1"}>
                                 <span class="input-group-addon"><{$smarty.const._MA_TADTHEMES_NAVBAR_CHANGE}></span>
-                                <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>" class="form-control <{$validate.navbar_bg_bottom}>" data-text="hidden" data-hex="true" style="height: 42px;">
+                                <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>" class="form-control form-control color-picker <{$validate.navbar_bg_bottom}>" data-text="hidden" data-hex="true" style="height: 42px;">
                             <{else}>
                                 <input type="hidden" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>">
                             <{/if}>
@@ -52,11 +52,11 @@
                     </label>
                     <div class="col-sm-8">
                         <div class="input-group">
-                            <input type="text" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>" class="form-control <{$validate.navbar_color_hover}>" data-text="hidden" data-hex="true" style="height: 42px;">
+                            <input type="text" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>" class=" form-control color-picker <{$validate.navbar_color_hover}>" data-text="hidden" data-hex="true" style="height: 42px;">
 
                             <{if $enable.navbar_hover=="1"}>
                                 <span class="input-group-addon"><{$smarty.const._MA_TADTHEMES_NAVBAR_HOVER_COLOR}></span>
-                                <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>" class="form-control <{$validate.navbar_hover}>" data-text="hidden" data-hex="true" style="height: 42px;">
+                                <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>" class=" form-control color-picker <{$validate.navbar_hover}>" data-text="hidden" data-hex="true" style="height: 42px;">
                             <{else}>
                                 <input type="hidden" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>">
                             <{/if}>
@@ -83,7 +83,7 @@
                     <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR}>
                 </label>
                 <div class="col-sm-8">
-                    <input type="text" name="navbar_color" id="navbar_color" value="<{$navbar_color}>" class="form-control <{$validate.navbar_color}>" data-text="hidden" data-hex="true" style="height: 42px;">
+                    <input type="text" name="navbar_color" id="navbar_color" value="<{$navbar_color}>" class=" form-control color-picker <{$validate.navbar_color}>" data-text="hidden" data-hex="true" style="height: 42px;">
                 </div>
             </div>
         <{else}>

@@ -46,7 +46,7 @@
     </label>
     <div class="col-sm-2">
         <{if $enable.base_color}>
-            <input type="text" name="base_color" class="col-sm-10 <{$validate.base_color}>" value="<{$base_color}>" id="base_color" data-hex="true" onChange="change_css();">
+            <input type="text" name="base_color" class="col-sm-10 form-control color-picker <{$validate.base_color}>" value="<{$base_color}>" id="base_color" data-hex="true" onChange="change_css();">
         <{else}>
             <input type="hidden" name="base_color" id="base_color" value="<{$base_color}>">
         <{/if}>
@@ -61,7 +61,7 @@
             <{$smarty.const._MA_TADTHEMES_LB_COLOR}>
         </label>
         <div class="col-sm-2">
-            <input type="text" name="lb_color" id="lb_color" value="<{$lb_color}>" class="col-sm-10 <{$validate.lb_color}>" data-hex="true" onChange="change_css();">
+            <input type="text" name="lb_color" id="lb_color" value="<{$lb_color}>" class="col-sm-10 form-control color-picker <{$validate.lb_color}>" data-hex="true" onChange="change_css();">
         </div>
     <{else}>
         <input type="hidden" name="lb_color" id="lb_color" value="<{$lb_color}>">
@@ -73,7 +73,7 @@
             <{$smarty.const._MA_TADTHEMES_CB_COLOR}>
         </label>
         <div class="col-sm-2">
-            <input type="text" name="cb_color" id="cb_color" value="<{$cb_color}>" class="col-sm-10 <{$validate.cb_color}>" data-hex="true" onChange="change_css();">
+            <input type="text" name="cb_color" id="cb_color" value="<{$cb_color}>" class="col-sm-10 form-control color-picker <{$validate.cb_color}>" data-hex="true" onChange="change_css();">
         </div>
     <{else}>
         <input type="hidden" name="cb_color" id="cb_color" value="<{$cb_color}>">
@@ -83,7 +83,7 @@
     <{if $enable.rb_color}>
         <label class="col-sm-2 control-label"><{$smarty.const._MA_TADTHEMES_RB_COLOR}></label>
         <div class="col-sm-2">
-            <input type="text" name="rb_color" id="rb_color" value="<{$rb_color}>" class="col-sm-10 <{$validate.rb_color}>" data-hex="true" onChange="change_css();">
+            <input type="text" name="rb_color" id="rb_color" value="<{$rb_color}>" class="col-sm-10 form-control color-picker <{$validate.rb_color}>" data-hex="true" onChange="change_css();">
         </div>
     <{else}>
         <input type="hidden" name="rb_color" id="rb_color" value="<{$rb_color}>">
@@ -176,7 +176,7 @@
             <{$smarty.const._MA_TADTHEMES_FONT_COLOR}>
         </label>
         <div class="col-sm-2">
-            <input type="text" name="font_color" id="font_color" value="<{$font_color}>" class="col-sm-10 <{$validate.font_color}>" data-hex="true" onChange="change_css();">
+            <input type="text" name="font_color" id="font_color" value="<{$font_color}>" class="col-sm-10 form-control color-picker <{$validate.font_color}>" data-hex="true" onChange="change_css();">
         </div>
     <{else}>
         <input type="hidden" name="font_color" id="font_color" value="<{$font_color}>">
@@ -188,7 +188,7 @@
             <{$smarty.const._MA_TADTHEMES_LINK_COLOR}>
         </label>
         <div class="col-sm-2">
-            <input type="text" name="link_color" id="link_color" value="<{$link_color}>" class="col-sm-10 <{$validate.link_color}>" data-hex="true" onChange="change_css();">
+            <input type="text" name="link_color" id="link_color" value="<{$link_color}>" class="col-sm-10 form-control color-picker <{$validate.link_color}>" data-hex="true" onChange="change_css();">
         </div>
     <{else}>
         <input type="hidden" name="link_color" id="link_color" value="<{$link_color}>">
@@ -200,7 +200,7 @@
             <{$smarty.const._MA_TADTHEMES_HOVER_COLOR}>
         </label>
         <div class="col-sm-2">
-            <input type="text" name="hover_color" id="hover_color" value="<{$hover_color}>" class="col-sm-10 <{$validate.hover_color}>" data-hex="true" onChange="change_css();">
+            <input type="text" name="hover_color" id="hover_color" value="<{$hover_color}>" class="col-sm-10 form-control color-picker <{$validate.hover_color}>" data-hex="true" onChange="change_css();">
         </div>
     <{else}>
         <input type="hidden" name="hover_color" id="hover_color" value="<{$hover_color}>">
