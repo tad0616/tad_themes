@@ -966,7 +966,7 @@ function update_tad_themes($theme_id = "")
         update_theme("bg_img", 'bg', $bg_img, $theme_id, $_POST['theme_name']);
     }
     $TadUpFilesLogo = TadUpFilesLogo();
-    $TadUpFilesLogo->set_col('logo', $theme_id, $_POST['theme_name']);
+    $TadUpFilesLogo->set_col('logo', $theme_id);
     $logo_img = $TadUpFilesLogo->upload_file('logo', 2048, null, null, "", true);
     if ($logo_img) {
         update_theme("logo_img", 'logo', $logo_img, $theme_id, $_POST['theme_name']);
