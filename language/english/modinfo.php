@@ -5,6 +5,7 @@ define("_MI_TADTHEMES_NAME", "Theme admin");
 define("_MI_TADTHEMES_DESC", "The module can be used to setup specific theme.");
 define("_MI_TADTHEMES_ADMENU1", "Theme configuration");
 define("_MI_TADTHEMES_ADMENU2", "Menu configuration");
+define("_MI_TADTHEMES_ADMENU3", "Logo design");
 define("_MI_TADTHEMES_BNAME1", "responsive slider");
 define("_MI_TADTHEMES_BDESC1", "responsive slider block");
 define("_MI_TADTHEMES_AUTO_MENU", "Main menu dropdown?");

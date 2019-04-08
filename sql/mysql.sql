@@ -4,6 +4,7 @@ CREATE TABLE `tad_themes` (
   `theme_type` varchar(255) NOT NULL default '' COMMENT '版面類型',
   `theme_width` varchar(255) NOT NULL default '' COMMENT '頁面寬度',
   `lb_width` varchar(255) NOT NULL default '' COMMENT '左區塊寬度',
+  `cb_width` varchar(255) NOT NULL default '' COMMENT '中間區塊寬度',
   `rb_width` varchar(255) NOT NULL default '' COMMENT '右區塊寬度',
   `clb_width` varchar(255) NOT NULL default '' COMMENT '中左區塊寬度',
   `crb_width` varchar(255) NOT NULL default '' COMMENT '中右區塊寬度',
@@ -25,6 +26,7 @@ CREATE TABLE `tad_themes` (
   `logo_right` smallint(5) unsigned NOT NULL default 0 COMMENT 'Logo離右邊距離',
   `logo_bottom` smallint(5) unsigned NOT NULL default 0 COMMENT 'Logo離下方距離',
   `logo_left` smallint(5) unsigned NOT NULL default 0 COMMENT 'Logo離左邊距離',
+  `logo_center` enum('0','1') NOT NULL default '0' COMMENT 'Logo 置中',
   `theme_enable` enum('1','0') NOT NULL default '1' COMMENT '使用狀況',
   `slide_width` varchar(255) NOT NULL default '' COMMENT '佈景圖片寬度',
   `slide_height` varchar(255) NOT NULL default '' COMMENT '佈景圖片高度',
@@ -76,9 +78,12 @@ CREATE TABLE `tad_themes_files_center` (
   `original_filename` varchar(255) NOT NULL default '',
   `hash_filename` varchar(255) NOT NULL default '',
   `sub_dir` varchar(255) NOT NULL default '',
+  `upload_date` datetime NOT NULL COMMENT '上傳時間',
+  `uid` mediumint(8) unsigned NOT NULL default 0 COMMENT '上傳者',
+  `tag` varchar(255) NOT NULL default '' COMMENT '註記',
   PRIMARY KEY (`files_sn`),
   UNIQUE KEY `col_name` (`col_name`,`col_sn`,`sort`)
-)  ENGINE=MyISAM;
+)  ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tad_themes_menu` (
   `menuid` mediumint(8) unsigned NOT NULL auto_increment,
@@ -90,10 +95,13 @@ CREATE TABLE `tad_themes_menu` (
   `status` enum('1','0') NOT NULL,
   `mainmenu` enum('0','1') NOT NULL default '0',
   `target` varchar(255) NOT NULL default '',
-  `icon` varchar(255) NOT NULL default 'icon-th-list',
+  `icon` varchar(255) NOT NULL default 'fa-th-list',
+  `link_cate_name` varchar(255) NOT NULL default '',
+  `link_cate_sn` smallint(5) unsigned NOT NULL default 0,
+  `read_group` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`menuid`),
   KEY `of_level` (`of_level`)
-)  ENGINE=MyISAM;
+)  ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `tad_themes_config2` (
@@ -102,4 +110,17 @@ CREATE TABLE `tad_themes_config2` (
   `type` varchar(255) NOT NULL default '',
   `value` text NOT NULL,
   PRIMARY KEY  (`theme_id`,`name`)
-)  ENGINE=MyISAM;
+)  ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `tad_themes_data_center` (
+`mid` mediumint(9) unsigned NOT NULL  COMMENT '模組編號',
+`col_name` varchar(100) NOT NULL default '' COMMENT '欄位名稱',
+`col_sn` mediumint(9) unsigned NOT NULL COMMENT '欄位編號',
+`data_name` varchar(100) NOT NULL default '' COMMENT '資料名稱',
+`data_value` text NOT NULL COMMENT '儲存值',
+`data_sort` mediumint(9) unsigned NOT NULL  COMMENT '排序',
+`col_id` varchar(100) NOT NULL default '' COMMENT '辨識字串',
+`update_time` datetime NOT NULL COMMENT '更新時間',
+PRIMARY KEY  (`mid`,`col_name`,`col_sn`,`data_name`,`data_sort`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

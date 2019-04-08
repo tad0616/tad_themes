@@ -2,14 +2,16 @@
 //區塊主函式 (vertical_menu)
 function vertical_menu($options)
 {
-    global $xoopsDB;
+    global $xoopsDB, $xoTheme;
+    $xoTheme->addStylesheet('modules/tadtools/css/vertical_menu.css');
+
     include_once XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php";
     include_once XOOPS_ROOT_PATH . "/modules/tad_themes/function_block.php";
     $in = empty($options[0]) ? "status='1' and of_level=0" : "menuid in({$options[0]})";
     //$menu=explode(",",$options[0]);
     $sql    = "select `menuid`,`itemname`,`itemurl`,`target`,`icon`,`position` from " . $xoopsDB->prefix("tad_themes_menu") . " where $in order by position";
     $result = $xoopsDB->query($sql);
-    $menu   = "";
+    $menu   = array();
 
     $dir = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_icons";
     $url = XOOPS_URL . "/uploads/tad_themes/menu_icons";
@@ -46,26 +48,36 @@ function vertical_menu($options)
         $jquery_pin_code          = $jquery_pin->render('.vertical_menu');
         $block['jquery_pin_code'] = $jquery_pin_code;
     }
+
     return $block;
 }
 
 //區塊編輯函式 (tad_themes_top_menu_edit)
 function vertical_menu_edit($options)
 {
-
     $block_menu_options = block_menu_options($options[0]);
 
     $checked1 = $options[1] == 1 ? "checked" : "";
     $checked0 = $options[1] == 0 ? "checked" : "";
 
     $form = "
-  {$block_menu_options['js']}
-  {$block_menu_options['form']}
-  <INPUT type='hidden' name='options[0]' id='bb' value='{$options[0]}'><br>
-  <label>" . _MB_TADTHEMES_PIN_MENU . "</label>
-  <input type='radio' name='options[1]' id='pin1' value='1' $checked1>" . _YES . "
-  <input type='radio' name='options[1]' id='pin0' value='0' $checked0>" . _NO . "
-  ";
+    {$block_menu_options['js']}
+    <ol class='my-form'>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADTHEMES_MENU_OPTIONS . "</lable>
+            <div class='my-content'>
+                {$block_menu_options['form']}
+                <input type='hidden' name='options[0]' id='bb' value='{$options[0]}'>
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADTHEMES_PIN_MENU . "</lable>
+            <div class='my-content'>
+                <input type='radio' name='options[1]' id='pin1' value='1' $checked1>" . _YES . "
+                <input type='radio' name='options[1]' id='pin0' value='0' $checked0>" . _NO . "
+            </div>
+        </li>
+    </ol>";
 
     return $form;
 }
@@ -85,11 +97,10 @@ if (!function_exists("block_menu_options")) {
       i=0;
       var arr = new Array();";
 
-        $sql    = "select menuid,itemname,status,of_level from " . $xoopsDB->prefix("tad_themes_menu") . " order by position";
+        $sql    = "SELECT menuid,itemname,status,of_level FROM " . $xoopsDB->prefix("tad_themes_menu") . " ORDER BY position";
         $result = $xoopsDB->query($sql);
         $option = "";
         while (list($menuid, $itemname, $status, $of_level) = $xoopsDB->fetchRow($result)) {
-
             $js .= "if(document.getElementById('c{$menuid}').checked){
          arr[i] = document.getElementById('c{$menuid}').value;
          i++;

@@ -2,8 +2,8 @@
 /*-----------引入檔案區--------------*/
 include "../../../include/cp_header.php";
 
-$of_level = intval(str_replace("node-_", "", $_POST['of_level']));
-$menuid   = intval(str_replace("node-_", "", $_POST['menuid']));
+$of_level = (int)str_replace("node-_", "", $_POST['of_level']);
+$menuid   = (int)str_replace("node-_", "", $_POST['menuid']);
 
 if ($of_level == $menuid) {
     die(_MA_TREETABLE_MOVE_ERROR1 . "(" . date("Y-m-d H:i:s") . ")");
@@ -22,7 +22,7 @@ function chk_cate_path($menuid, $to_menuid)
     global $xoopsDB;
     //抓出子目錄的編號
     $sql    = "select menuid from " . $xoopsDB->prefix("tad_themes_menu") . " where of_level='{$menuid}'";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while (list($sub_menuid) = $xoopsDB->fetchRow($result)) {
         if (chk_cate_path($sub_menuid, $to_menuid)) {
             return true;

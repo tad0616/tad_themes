@@ -21,6 +21,12 @@ $adminmenu[$i]['desc']  = _MI_TADTHEMES_ADMENU2;
 $adminmenu[$i]['icon']  = 'images/admin/menu.png';
 
 $i++;
+$adminmenu[$i]['title'] = _MI_TADTHEMES_ADMENU3;
+$adminmenu[$i]['link']  = "admin/font2pic.php";
+$adminmenu[$i]['desc']  = _MI_TADTHEMES_ADMENU3;
+$adminmenu[$i]['icon']  = 'images/admin/edit-text.png';
+
+$i++;
 $adminmenu[$i]['title'] = _MI_TAD_ADMIN_ABOUT;
 $adminmenu[$i]['link']  = 'admin/about.php';
 $adminmenu[$i]['desc']  = _MI_TAD_ADMIN_ABOUT_DESC;

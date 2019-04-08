@@ -6,6 +6,7 @@ define('_TAD_NEED_TADTOOLS', 'This module need tadtools module. You can download
 define("_MA_TADTHEMES_THEME_BASE", "Theme Setup");
 define("_MA_TADTHEMES_THEME_KIND", "Theme Kind");
 define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP3", "（XOOPS bootstrap3 themes)");
+define("_MA_TADTHEMES_THEME_KIND_BOOTSTRAP4", "（XOOPS bootstrap4 themes)");
 define("_MA_TADTHEMES_THEME_KIND_HTML", "(XOOPS themes)");
 define("_MA_TADTHEMES_THEME_KIND_MIX", "(bootstrap only for blocks)");
 define("_MA_TADTHEMES_THEME_TYPE", "Theme Type");
@@ -46,7 +47,7 @@ define("_MA_TADTHEMES_LOGO_PAGE", "on page");
 define("_MA_TADTHEMES_NAVLOGO_IMG", "NavBar logo");
 define("_MA_TADTHEMES_SLIDE_WIDTH", "Slide Width");
 define("_MA_TADTHEMES_SLIDE_HEIGHT", "Slide Height");
-define("_MA_TADTHEMES_SLIDE_DESC", "<ol><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Width =0 (hide slide)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Height = 0(auto height)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>You can input \"<b><u>[url]http://some.web.url[/url]</u></b>\" to add link for slide image.</li></ol>");
+define("_MA_TADTHEMES_SLIDE_DESC", "<ol><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Width =0 (hide slide)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Height = 0(auto height)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>You can input \"<b><u>[url]http://some.web.url[/url]</u></b>\" to add link for slide image. </li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'><span style='color: red;'>[url_blank]http://some.web.url[/url_blank]</span>  can open the link in a new window.</li></ol>");
 define("_MA_TAD_THEMES_FORM", "Theme Setup");
 define("_MA_TAD_THEMES_NOT_TAD_THEME", "Defaut Theme \"%s\" can't compatible with Tad Theme.<div>\"%s\" not founded.</div>");
 define("_MA_TAD_THEMES_TYPE1", "2 Columns (All Left)");
@@ -64,17 +65,17 @@ define("_MA_TAD_THEMES_RIGHT", "Right Zone");
 define("_MA_TAD_THEMES_FOOT", "Foot");
 define("_MA_TAD_THEMES_UPLOAD", "Upload ");
 define("_MA_TADTHEMES_NOTICE", "<ul style='line-height:2em;'>
-  <li>Content and Center Zone width need more than 550px</li>
+  <li style='line-height:180%;list-style-position:outside;'>Content and Center Zone width need more than 550px</li>
   </ul>");
 define("_MA_TADTHEMES_NOTICE2", "<ul style='line-height:2em;'>
-  <li>All pictures can be uploaded directly to FTP, the system will automatically be added to the database, and generate thumbnails.
+  <li style='line-height:180%;list-style-position:outside;'>All pictures can be uploaded directly to FTP, the system will automatically be added to the database, and generate thumbnails.
     <ul style='list-style-type:circle;margin-left:20px;'>
-      <li>Background images : /themes/YourTheme/images/bg</li>
-      <li>Slide images: /themes/YourTheme/images/slide</li>
-      <li>Logo images: /themes/YourTheme/images/logo</li>
-      <li>Blocks background images: /themes/YourTheme/images/bt_bg</li>
-      <li>Navbar background images: /themes/YourTheme/images/nav_bg</li>
-      <li>Navbar logo images: /themes/YourTheme/images/navlogo</li>
+      <li style='line-height:180%;list-style-position:outside;'>Background images : /themes/YourTheme/images/bg</li>
+      <li style='line-height:180%;list-style-position:outside;'>Slide images: /themes/YourTheme/images/slide</li>
+      <li style='line-height:180%;list-style-position:outside;'>Logo images: /themes/YourTheme/images/logo</li>
+      <li style='line-height:180%;list-style-position:outside;'>Blocks background images: /themes/YourTheme/images/bt_bg</li>
+      <li style='line-height:180%;list-style-position:outside;'>Navbar background images: /themes/YourTheme/images/nav_bg</li>
+      <li style='line-height:180%;list-style-position:outside;'>Navbar logo images: /themes/YourTheme/images/navlogo</li>
     </ul>
   </li>
   <li>When you delete pictures, all from the background deleted, do not just delete FTP photo!</li>
@@ -85,8 +86,8 @@ define("_MA_TADTHEMES_FONT_COLOR", "font color");
 define("_MA_TADTHEMES_LINK_COLOR", "link color");
 define("_MA_TADTHEMES_HOVER_COLOR", "hover color");
 define("_MA_TADTHEMES_COL", "");
-define("_MA_TADTHEMES_ITEMNAME", "Name");
-define("_MA_TADTHEMES_ITEMURL", "URL");
+define("_MA_TADTHEMES_ITEMNAME", "Item Name");
+define("_MA_TADTHEMES_ITEMURL", "Item URL");
 define("_MA_TADTHEMES_ADDITEM", "Add item in %s");
 define("_MA_TADTHEMES_SAVE_SORT", "Drag sort");
 define("_MA_TADTHEMES_ROOT", "Root");
@@ -141,4 +142,31 @@ define("_MA_TADTHEMES_BLOCK_CONTENT_STYLE", "Block content CSS");
 define("_MA_TADTHEMES_YOUR_STYLE", "Your style content");
 define("_MA_TADTHEMES_TARGET_FANCYBOX", "ColorBox");
 define("_MA_TADTHEMES_OF_LEVEL", "Parent");
-define("_MA_TADTHEMES_ICON", "fontawesome icon");
+define("_MA_TADTHEMES_ICON", "icon");
+define("_MA_TADTHEMES_LOGO_CENTER", "center");
+define("_MA_TADTHEMES_EXPORT", "Export config.php");
+define("_MA_TADTHEMES_EXPORT2", "Export %s.php");
+
+define('_MA_TADTHEMES_NAVBAR_PY', 'Navigation options padding top and bottom');
+define('_MA_TADTHEMES_NAVBAR_PX', 'Navigation options padding left and right');
+
+define('_MA_TADTHEMES_LOGO_DESIGN', 'Simple Logo Design');
+define('_MA_TADTHEMES_LOGO_INPUT_TEXT', 'Enter text');
+define('_MA_TADTHEMES_LOGO_TEXT_COLOR', 'Text Color');
+define('_MA_TADTHEMES_LOGO_BORDER_COLOR', 'Border Color');
+define('_MA_TADTHEMES_LOGO_TEXT_SIZE', 'Text size');
+define('_MA_TADTHEMES_LOGO_BORDER_SIZE', 'outline size');
+define('_MA_TADTHEMES_LOGO_SELECT_FONT', 'Select font');
+define('_MA_TADTHEMES_LOGO_MAKE_PNG', 'Generate image');
+define('_MA_TADTHEMES_LOGO_NEED_FONT', 'Please upload at least one font');
+define('_MA_TADTHEMES_LOGO_SAVE_PIC', 'Save Picture');
+define('_MA_TADTHEMES_LOGO_DEMO_BGCOLOR', 'Example Background Color:');
+define('_MA_TADTHEMES_FONT_TOOL', 'Font File Management');
+define('_MA_TADTHEMES_FONT_UPLOAD', 'Upload font file');
+define('_MA_TADTHEMES_FONT_NOTE', 'Only supports ttf, otf, ttc font files. If there is no font, it can be from <a href="https://forum.gamer.com.tw/C.php?bsn=60076&snA= 3906436" target="_blank">Download here</a> or <a href="http://www.fonts.net.cn/" target="_blank">Download here</a>');
+define('_MA_TADTHEMES_FONT_SAVE', 'Save font files');
+define('_MA_TADTHEMES_READGROUP', 'Readable group');
+
+define('_MA_TADTHEMES_NAVBAR_FONT_SIZE', 'Option text size');
+define('_MA_TADTHEMES_NAVBAR_CHANGE', 'Gradient to');
+define('_MA_TADTHEMES_NAVBAR_HOVER_COLOR', 'Background');
