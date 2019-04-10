@@ -1,4 +1,7 @@
 <?php
+
+use XoopsModules\Tad_themes\Utility;
+
 function xoops_module_uninstall_tad_themes(&$module)
 {
     global $xoopsDB;
@@ -9,27 +12,3 @@ function xoops_module_uninstall_tad_themes(&$module)
     return true;
 }
 
-function tad_themes_tad_themes_delete_directory($dirname)
-{
-    if (is_dir($dirname)) {
-        $dir_handle = opendir($dirname);
-    }
-
-    if (!$dir_handle) {
-        return false;
-    }
-
-    while ($file = readdir($dir_handle)) {
-        if ($file != "." && $file != "..") {
-            if (!is_dir($dirname . "/" . $file)) {
-                unlink($dirname . "/" . $file);
-            } else {
-                tad_themes_tad_themes_delete_directory($dirname . '/' . $file);
-            }
-
-        }
-    }
-    closedir($dir_handle);
-    rmdir($dirname);
-    return true;
-}
