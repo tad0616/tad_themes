@@ -2,13 +2,13 @@
 function xoops_module_install_tad_themes(&$module)
 {
 
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes");
+    tad_themes_mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes");
 
     return true;
 }
 
 //建立目錄
-function mk_dir($dir = "")
+function tad_themes_mk_dir($dir = "")
 {
     //若無目錄名稱秀出警告訊息
     if (empty($dir)) {
@@ -24,7 +24,7 @@ function mk_dir($dir = "")
 }
 
 //拷貝目錄
-function full_copy($source = "", $target = "")
+function tad_themes_full_copy($source = "", $target = "")
 {
     if (is_dir($source)) {
         @mkdir($target);
@@ -36,7 +36,7 @@ function full_copy($source = "", $target = "")
 
             $Entry = $source . '/' . $entry;
             if (is_dir($Entry)) {
-                full_copy($Entry, $target . '/' . $entry);
+                tad_themes_full_copy($Entry, $target . '/' . $entry);
                 continue;
             }
             copy($Entry, $target . '/' . $entry);
