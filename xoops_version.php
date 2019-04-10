@@ -41,7 +41,7 @@ $modversion['tables'][2]        = "tad_themes_files_center";
 $modversion['tables'][3]        = "tad_themes_menu";
 $modversion['tables'][4]        = "tad_themes_blocks";
 $modversion['tables'][5]        = "tad_themes_config2";
-$modversion['tables'][5]        = "tad_themes_data_center";
+$modversion['tables'][6]        = "tad_themes_data_center";
 
 //---管理介面設定---//
 $modversion['hasAdmin']   = 1;
