@@ -85,6 +85,24 @@ function tad_themes_logo_form()
 
 }
 
+function strLength($str, $charset = 'utf-8')
+{
+    if ($charset == 'utf-8') {
+        $str = iconv('utf-8', 'big5', $str);
+    }
+
+    $num   = strlen($str);
+    $cnNum = 0;
+    for ($i = 0; $i < $num; $i++) {
+        if (ord(substr($str, $i, 1)) > 127) {
+            $cnNum++;
+        }
+    }
+    $enNum  = $num - ($cnNum * 2);
+    $number = ($enNum / 2) + $cnNum;
+    return ceil($number);
+}
+
 //製作logo圖
 function mkTitlePic($title = "", $size = 24, $border_size = 2, $color = "#00a3a8", $border_color = "#FFFFFF", $font_file_sn = 0)
 {
@@ -94,7 +112,7 @@ function mkTitlePic($title = "", $size = 24, $border_size = 2, $color = "#00a3a8
     // die(var_export($font));
     //找字數
     if (function_exists('mb_strlen')) {
-        $n = mb_strlen($title, 'UTF-8');
+        $n = strLength($title);
     } else {
         $n = strlen($title) / 3;
     }
