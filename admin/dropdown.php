@@ -33,7 +33,7 @@ function tad_themes_menu_form($of_level = "0", $menuid = "", $mode = "return")
     $read_group       = (!isset($DBV['read_group'])) ? [1, 2, 3] : $DBV['read_group'];
     $read_group_array = explode(',', $read_group);
     $xoopsTpl->assign('icon', $icon);
-    $ver = intval(str_replace('.', '', substr(XOOPS_VERSION, 6, 5)));
+    $ver = (int)str_replace('.', '', substr(XOOPS_VERSION, 6, 5));
     if ($ver >= 259) {
         $migrate = '/modules/tadtools/jquery/jquery-migrate-3.0.0.min.js';
     } else {
