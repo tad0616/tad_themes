@@ -54,7 +54,7 @@ function tad_themes_logo_form()
     $mColorPicker->render();
 
     $dir   = XOOPS_ROOT_PATH . "/uploads/logo/";
-    $logos = array();
+    $logos = [];
     // Open a known directory, and proceed to read its contents
     if (is_dir($dir)) {
         if ($dh = opendir($dir)) {

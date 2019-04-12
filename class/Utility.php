@@ -438,7 +438,7 @@ class Utility
     {
         global $xoopsDB;
 
-        $block_position = array("leftBlock", "rightBlock", "centerBlock", "centerLeftBlock", "centerRightBlock", "centerBottomBlock", "centerBottomLeftBlock", "centerBottomRightBlock");
+        $block_position = ["leftBlock", "rightBlock", "centerBlock", "centerLeftBlock", "centerRightBlock", "centerBottomBlock", "centerBottomLeftBlock", "centerBottomRightBlock"];
 
         $sql = "CREATE TABLE `" . $xoopsDB->prefix("tad_themes_blocks") . "` (
     `theme_id` smallint(6) unsigned NOT NULL AUTO_INCREMENT COMMENT '佈景編號',

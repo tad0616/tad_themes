@@ -27,9 +27,9 @@ function genColorCodeFromText($text, $min_brightness = 100, $spec = 10)
     }
 
     $hash   = md5($text); //Gen hash of text
-    $colors = array();
+    $colors = [];
     for ($i = 0; $i < 3; $i++) {
-        $colors[$i] = max(array(round(((hexdec(substr($hash, $spec * $i, $spec))) / hexdec(str_pad('', $spec, 'F'))) * 255), $min_brightness));
+        $colors[$i] = max([round(((hexdec(substr($hash, $spec * $i, $spec))) / hexdec(str_pad('', $spec, 'F'))) * 255), $min_brightness]);
     }
     //convert hash into 3 decimal values between 0 and 255
     if ($min_brightness > 0) //only check brightness requirements if min_brightness is about 100

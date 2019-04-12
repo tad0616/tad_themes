@@ -15,7 +15,7 @@ function tad_themes_menu_form($of_level = "0", $menuid = "", $mode = "return")
     if (!empty($menuid)) {
         $DBV = get_tad_themes_menu($menuid);
     } else {
-        $DBV = array();
+        $DBV = [];
     }
 
     //預設值設定
@@ -30,7 +30,7 @@ function tad_themes_menu_form($of_level = "0", $menuid = "", $mode = "return")
     $target           = (!isset($DBV['target'])) ? "" : $DBV['target'];
     $mainmenu         = (!isset($DBV['mainmenu'])) ? "" : $DBV['mainmenu'];
     $icon             = (!isset($DBV['icon'])) ? "" : $DBV['icon'];
-    $read_group       = (!isset($DBV['read_group'])) ? array(1, 2, 3) : $DBV['read_group'];
+    $read_group       = (!isset($DBV['read_group'])) ? [1, 2, 3] : $DBV['read_group'];
     $read_group_array = explode(',', $read_group);
     $xoopsTpl->assign('icon', $icon);
     $ver = intval(str_replace('.', '', substr(XOOPS_VERSION, 6, 5)));

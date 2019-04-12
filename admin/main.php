@@ -27,7 +27,7 @@ function tad_themes_form()
     //抓取預設值
     $DBV = get_tad_themes();
     if (empty($DBV)) {
-        $DBV = array();
+        $DBV = [];
     }
 
     //設定「theme_id」欄位預設值
@@ -234,7 +234,7 @@ function tad_themes_form()
         $theme_unit     = "px";
     }
 
-    $theme_kind_txt_arr = array('bootstrap4' => _MA_TADTHEMES_THEME_KIND_BOOTSTRAP4, 'bootstrap3' => _MA_TADTHEMES_THEME_KIND_BOOTSTRAP3, 'html' => _MA_TADTHEMES_THEME_KIND_HTML, 'mix' => _MA_TADTHEMES_THEME_KIND_MIX);
+    $theme_kind_txt_arr = ['bootstrap4' => _MA_TADTHEMES_THEME_KIND_BOOTSTRAP4, 'bootstrap3' => _MA_TADTHEMES_THEME_KIND_BOOTSTRAP3, 'html' => _MA_TADTHEMES_THEME_KIND_HTML, 'mix' => _MA_TADTHEMES_THEME_KIND_MIX];
 
     if (!file_exists(TADTOOLS_PATH . "/formValidator.php")) {
         redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
@@ -361,14 +361,14 @@ function tad_themes_form()
     $block_tabs->rander('tab_identifier_child');
 
     $TadDataCenter->set_col('theme_id', $theme_id);
-    $xoopsTpl->assign('navbar_py_input', $TadDataCenter->getForm('return', 'input', 'navbar_py', 'text', $navbar_py, null, array('class' =>'form-control')));
-    $xoopsTpl->assign('navbar_py_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_py', 'hidden', $navbar_py, null, array('class' =>'form-control')));
+    $xoopsTpl->assign('navbar_py_input', $TadDataCenter->getForm('return', 'input', 'navbar_py', 'text', $navbar_py, null, ['class' =>'form-control']));
+    $xoopsTpl->assign('navbar_py_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_py', 'hidden', $navbar_py, null, ['class' =>'form-control']));
 
-    $xoopsTpl->assign('navbar_px_input', $TadDataCenter->getForm('return', 'input', 'navbar_px', 'text', $navbar_px, null, array('class' =>'form-control')));
-    $xoopsTpl->assign('navbar_px_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_px', 'hidden', $navbar_px, null, array('class' =>'form-control')));
+    $xoopsTpl->assign('navbar_px_input', $TadDataCenter->getForm('return', 'input', 'navbar_px', 'text', $navbar_px, null, ['class' =>'form-control']));
+    $xoopsTpl->assign('navbar_px_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_px', 'hidden', $navbar_px, null, ['class' =>'form-control']));
 
-    $xoopsTpl->assign('navbar_font_size_input', $TadDataCenter->getForm('return', 'input', 'navbar_font_size', 'text', 100, null, array('class' =>'form-control')));
-    $xoopsTpl->assign('navbar_font_size_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_font_size', 'hidden', 100, null, array('class' =>'form-control')));
+    $xoopsTpl->assign('navbar_font_size_input', $TadDataCenter->getForm('return', 'input', 'navbar_font_size', 'text', 100, null, ['class' =>'form-control']));
+    $xoopsTpl->assign('navbar_font_size_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_font_size', 'hidden', 100, null, ['class' =>'form-control']));
 }
 
 function mk_config2($theme_id = "", $theme_name = "", $config2_file = "")
@@ -617,7 +617,7 @@ function change_css_bootstrap($theme_width = "12", $theme_left_width = "", $them
     return $main;
 }
 
-function get_validate($col = array())
+function get_validate($col = [])
 {
     if ($col['enable'] == '1') {
         $v_item[] = $col['require'] ? "required" : "";
@@ -1090,7 +1090,7 @@ function get_blocks_values($theme_id = "", $block_position = "")
     }
 
     $i      = 0;
-    $values = array();
+    $values = [];
     foreach ($block_position_title as $position => $title) {
 
         $values[$i]['theme_id']            = $db[$position]['theme_id'];
@@ -1161,7 +1161,7 @@ function export_config($theme_id = '')
         $blocks[$block_position] = $all;
     }
 
-    $bs = array('block_config', 'bt_text', 'bt_text_padding', 'bt_text_size', 'bt_bg_color', 'bt_bg_img', 'bt_bg_repeat', 'bt_radius', 'block_style', 'block_title_style', 'block_content_style');
+    $bs = ['block_config', 'bt_text', 'bt_text_padding', 'bt_text_size', 'bt_bg_color', 'bt_bg_img', 'bt_bg_repeat', 'bt_radius', 'block_style', 'block_title_style', 'block_content_style'];
 
     foreach ($bs as $col) {
         $sql = "select `$col` from
@@ -1439,14 +1439,14 @@ function export_config2($theme_id = '', $type = '')
     $theme_name = $xoopsConfig['theme_set'];
     include_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$type}.php";
 
-    $config2 = array();
+    $config2 = [];
     $sql     = "select * from " . $xoopsDB->prefix("tad_themes_config2") . " where `theme_id` = '{$theme_id}'";
     $result  = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while ($all = $xoopsDB->fetchArray($result)) {
         $col           = $all['name'];
         $config2[$col] = $all;
     }
-    $all_col = $default_v = array();
+    $all_col = $default_v = [];
 
     foreach ($theme_config as $i => $c2) {
         $col             = $c2['name'];

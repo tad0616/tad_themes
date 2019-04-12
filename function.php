@@ -17,9 +17,9 @@ define("_THEME_BT_BG_PATH", XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set'
 define("_THEME_NAVLOGO_PATH", XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/navlogo");
 define("_THEME_NAV_BG_PATH", XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/nav_bg");
 
-$block_position_title = array("leftBlock" => _MA_TADTHEMES_BLOCK_LEFT, "rightBlock" => _MA_TADTHEMES_BLOCK_RIGHT, "centerBlock" => _MA_TADTHEMES_BLOCK_TOP_CENTER, "centerLeftBlock" => _MA_TADTHEMES_BLOCK_TOP_LEFT, "centerRightBlock" => _MA_TADTHEMES_BLOCK_TOP_RIGHT, "centerBottomBlock" => _MA_TADTHEMES_BLOCK_BOTTOM_CENTER, "centerBottomLeftBlock" => _MA_TADTHEMES_BLOCK_BOTTOM_LEFT, "centerBottomRightBlock" => _MA_TADTHEMES_BLOCK_BOTTOM_RIGHT);
+$block_position_title = ["leftBlock" => _MA_TADTHEMES_BLOCK_LEFT, "rightBlock" => _MA_TADTHEMES_BLOCK_RIGHT, "centerBlock" => _MA_TADTHEMES_BLOCK_TOP_CENTER, "centerLeftBlock" => _MA_TADTHEMES_BLOCK_TOP_LEFT, "centerRightBlock" => _MA_TADTHEMES_BLOCK_TOP_RIGHT, "centerBottomBlock" => _MA_TADTHEMES_BLOCK_BOTTOM_CENTER, "centerBottomLeftBlock" => _MA_TADTHEMES_BLOCK_BOTTOM_LEFT, "centerBottomRightBlock" => _MA_TADTHEMES_BLOCK_BOTTOM_RIGHT];
 
-$config2_files = array('config2_base', 'config2_bg', 'config2_slide', 'config2_logo', 'config2_block', 'config2_nav', 'config2');
+$config2_files = ['config2_base', 'config2_bg', 'config2_slide', 'config2_logo', 'config2_block', 'config2_nav', 'config2'];
 /********************* 預設函數 *********************/
 
 //取得圖片選項
@@ -37,7 +37,7 @@ function import_img($path = '', $col_name = "logo", $col_sn = '', $desc = "", $s
         return;
     }
 
-    $db_files = array();
+    $db_files = [];
 
     $sql = "select files_sn,file_name,original_filename from " . $xoopsDB->prefix("tad_themes_files_center") . " where col_name='{$col_name}' and col_sn='{$col_sn}'";
 
@@ -230,7 +230,7 @@ function update_tadtools_setup($theme = "", $theme_kind = "")
 }
 
 //儲存額外設定值
-function save_config2($theme_id = "", $config2_arr = array())
+function save_config2($theme_id = "", $config2_arr = [])
 {
     global $xoopsDB, $xoopsConfig;
     $TadUpFiles_config2 = TadUpFiles_config2();

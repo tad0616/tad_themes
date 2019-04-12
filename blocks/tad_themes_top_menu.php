@@ -8,7 +8,7 @@ function tad_themes_top_menu($options)
     //$menu=explode(",",$options[0]);
     $sql    = "select `menuid`,`itemname`,`itemurl`,`target`,`icon` from " . $xoopsDB->prefix("tad_themes_menu") . " where menuid in({$options[0]}) order by position";
     $result = $xoopsDB->query($sql);
-    $menu   = array();
+    $menu   = [];
     $i      = 1;
 
     $dir = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_icons";

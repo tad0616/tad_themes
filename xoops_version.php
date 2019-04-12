@@ -1,5 +1,5 @@
 <?php
-$modversion = array();
+$modversion = [];
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADTHEMES_NAME;
@@ -25,7 +25,7 @@ $modversion['min_xoops']           = '2.5.7';
 $modversion['min_tadtools']        = '2.04';
 
 //---paypal資訊---//
-$modversion['paypal']                  = array();
+$modversion['paypal']                  = [];
 $modversion['paypal']['business']      = 'tad0616@gmail.com';
 $modversion['paypal']['item_name']     = 'Donation : ' . _MI_TAD_WEB;
 $modversion['paypal']['amount']        = 0;
@@ -59,7 +59,7 @@ $modversion['onUpdate']    = "include/onUpdate.php";
 $modversion['onUninstall'] = "include/onUninstall.php";
 
 //---樣板設定---//
-$modversion['templates']                    = array();
+$modversion['templates']                    = [];
 $i                                          = 0;
 $modversion['templates'][$i]['file']        = 'tad_themes_adm_main.tpl';
 $modversion['templates'][$i]['description'] = 'tad_themes_adm_main.tpl';
@@ -73,7 +73,7 @@ $modversion['templates'][$i]['file']        = 'tad_themes_adm_font2pic.tpl';
 $modversion['templates'][$i]['description'] = 'tad_themes_adm_font2pic.tpl';
 
 //---偏好設定---//
-$modversion['config']                   = array();
+$modversion['config']                   = [];
 $modversion['config'][0]['name']        = 'auto_mainmenu';
 $modversion['config'][0]['title']       = '_MI_TADTHEMES_AUTO_MENU';
 $modversion['config'][0]['description'] = '_MI_TADTHEMES_AUTO_MENU_DESC';

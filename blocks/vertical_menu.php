@@ -11,7 +11,7 @@ function vertical_menu($options)
     //$menu=explode(",",$options[0]);
     $sql    = "select `menuid`,`itemname`,`itemurl`,`target`,`icon`,`position` from " . $xoopsDB->prefix("tad_themes_menu") . " where $in order by position";
     $result = $xoopsDB->query($sql);
-    $menu   = array();
+    $menu   = [];
 
     $dir = XOOPS_ROOT_PATH . "/uploads/tad_themes/menu_icons";
     $url = XOOPS_URL . "/uploads/tad_themes/menu_icons";
