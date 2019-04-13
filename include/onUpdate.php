@@ -107,7 +107,6 @@ function xoops_module_update_tad_themes(&$module, $old_version)
         Utility::go_update24();
     }
 
-
     Utility::chk_tad_themes_block();
 
     //新增檔案欄位
@@ -115,8 +114,7 @@ function xoops_module_update_tad_themes(&$module, $old_version)
         Utility::go_fc_tag();
     }
 
+    Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_themes');
 
-    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes");
     return true;
 }
-
