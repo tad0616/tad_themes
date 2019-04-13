@@ -62,7 +62,7 @@ function tad_themes_form()
         foreach ($config_enable as $k => $v) {
             $$k = $v['default'];
             $enable[$k] = $v['enable'];
-            if ('theme_width' == $k) {
+            if ('theme_width' === $k) {
                 if (false === mb_strpos($DBV['theme_kind'], 'bootstrap')) {
                     $v['max'] = '';
                     $v['min'] = '';
@@ -215,15 +215,15 @@ function tad_themes_form()
     $op = (empty($theme_id)) ? 'insert_tad_themes' : 'update_tad_themes';
     //$op="replace_tad_themes";
 
-    if ('bootstrap4' == $theme_kind) {
+    if ('bootstrap4' === $theme_kind) {
         $theme_kind_txt = _MA_TADTHEMES_THEME_KIND_BOOTSTRAP4;
         $chang_css = change_css_bootstrap($theme_width, $lb_width, $cb_width);
         $theme_unit = _MA_TADTHEMES_COL;
-    } elseif ('bootstrap3' == $theme_kind) {
+    } elseif ('bootstrap3' === $theme_kind) {
         $theme_kind_txt = _MA_TADTHEMES_THEME_KIND_BOOTSTRAP3;
         $chang_css = change_css_bootstrap($theme_width, $lb_width);
         $theme_unit = _MA_TADTHEMES_COL;
-    } elseif ('mix' == $theme_kind) {
+    } elseif ('mix' === $theme_kind) {
         $theme_kind_txt = _MA_TADTHEMES_THEME_KIND_MIX;
         $chang_css = change_css_bootstrap(12, $lb_width);
         $theme_unit = _MA_TADTHEMES_COL;
@@ -394,7 +394,7 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
             $config2[$k]['options'] = $config['options'];
             $config2[$k]['images'] = $config['images'];
 
-            if ('file' == $config['type']) {
+            if ('file' === $config['type']) {
                 import_img($config['default'], "config2_{$config_name}", $theme_id, '');
                 $TadUpFiles_config2->set_col("config2_{$config_name}", $theme_id);
                 $config2[$k]['form'] = $TadUpFiles_config2->upform(false, "config2_{$config_name}", null, false);
@@ -623,7 +623,7 @@ function get_validate($col = [])
         $v_item[] = $col['min'] ? "min[{$col['min']}]" : '';
         $v_item[] = $col['max'] ? "max[{$col['max']}]" : '';
         $class = implode(',', $v_item);
-        if (',,' == $class) {
+        if (',,' === $class) {
             return;
         }
 
@@ -824,7 +824,7 @@ function insert_tad_themes()
     $TadDataCenter->set_col('theme_id', $theme_id);
     $TadDataCenter->saveData();
 
-    $slide_width = ('bootstrap3' == $_POST['theme_kind'] or 'bootstrap4' == $_POST['theme_kind']) ? 1920 : $_POST['slide_width'];
+    $slide_width = ('bootstrap3' === $_POST['theme_kind'] or 'bootstrap4' === $_POST['theme_kind']) ? 1920 : $_POST['slide_width'];
 
     $TadUpFilesSlide = TadUpFilesSlide();
     $TadUpFilesSlide->set_col('slide', $theme_id);
@@ -857,19 +857,19 @@ function update_tad_themes($theme_id = '')
 
     //切換佈景類型
     if (isset($_POST['old_theme_kind']) and $_POST['old_theme_kind'] !== $_POST['theme_kind']) {
-        if ('mix' == $_POST['theme_kind']) {
+        if ('mix' === $_POST['theme_kind']) {
             $_POST['theme_width'] = 980;
             $_POST['lb_width'] = 3;
             $_POST['cb_width'] = 6;
             $_POST['rb_width'] = 3;
             $_POST['slide_width'] = 980;
-        } elseif ('html' == $_POST['theme_kind']) {
+        } elseif ('html' === $_POST['theme_kind']) {
             $_POST['theme_width'] = 980;
             $_POST['lb_width'] = 240;
             $_POST['cb_width'] = 500;
             $_POST['rb_width'] = 240;
             $_POST['slide_width'] = 980;
-        } elseif ('bootstrap4' == $_POST['theme_kind']) {
+        } elseif ('bootstrap4' === $_POST['theme_kind']) {
             $_POST['theme_width'] = 12;
             $_POST['lb_width'] = 'auto';
             $_POST['cb_width'] = 9;
@@ -955,7 +955,7 @@ function update_tad_themes($theme_id = '')
 
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$_POST['theme_name']}");
 
-    $slide_width = ('bootstrap3' == $_POST['theme_kind'] or 'bootstrap4' == $_POST['theme_kind']) ? 1920 : $_POST['slide_width'];
+    $slide_width = ('bootstrap3' === $_POST['theme_kind'] or 'bootstrap4' === $_POST['theme_kind']) ? 1920 : $_POST['slide_width'];
 
     $TadUpFilesSlide = TadUpFilesSlide();
     $TadUpFilesSlide->set_col('slide', $theme_id);
@@ -1175,8 +1175,8 @@ function export_config($theme_id = '')
 
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         list($bt_default[$col]) = $xoopsDB->fetchRow($result);
-        if ('bt_bg_img' == $col) {
-            if ($bt_default[$col] and 'transparent' != $bt_default[$col]) {
+        if ('bt_bg_img' === $col) {
+            if ($bt_default[$col] and 'transparent' !== $bt_default[$col]) {
                 $bt_bg_img_default = basename($bt_default[$col]);
                 $bt_bg_img_default_text = "\n// 請下載 {$bt_default[$col]} 並上傳至 " . XOOPS_ROOT_PATH . "/themes/{$theme_name}/images/bt_bg/ 下";
             }
@@ -1188,8 +1188,8 @@ function export_config($theme_id = '')
         foreach ($b as $k => $v) {
             if (in_array($k, $bs, true)) {
                 if ($bt_default[$k] != $v) {
-                    if ('bt_bg_img' == $k) {
-                        if ($v and 'transparent' != $v) {
+                    if ('bt_bg_img' === $k) {
+                        if ($v and 'transparent' !== $v) {
                             $bt_bg_img_default_text .= "\n// 請下載 {$v} 並上傳至 " . XOOPS_ROOT_PATH . "/themes/{$theme_name}/images/bt_bg/ 下";
                             $v = basename($v);
                         }

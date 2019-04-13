@@ -22,7 +22,7 @@ function tad_themes_responsive_slider($options)
     $block = '';
 
     if (!empty($logo_img)) {
-        if ('page' == $logo_position) {
+        if ('page' === $logo_position) {
             $block = '';
         } else {
             $logo_place = '';
@@ -86,7 +86,7 @@ function tad_themes_responsive_slider($options)
                 }
             }
 
-            if ('swf' == mb_strtolower(mb_substr($file_name, -3)) and $slide_width <= 12) {
+            if ('swf' === mb_strtolower(mb_substr($file_name, -3)) and $slide_width <= 12) {
                 $slide_width = round((100 / 12) * 12, 0) . '%';
                 if (0 == $slide_height) {
                     $slide_height = 250;

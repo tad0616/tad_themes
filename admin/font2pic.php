@@ -86,7 +86,7 @@ function tad_themes_logo_form()
 
 function strLength($str, $charset = 'utf-8')
 {
-    if ($charset == 'utf-8') {
+    if ($charset === 'utf-8') {
         $str = iconv('utf-8', 'big5', $str);
     }
 
@@ -144,7 +144,7 @@ function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8
         $title = iconv('UTF-8', 'shift_jis', $title);
     }
     imagettftext($im, $size, 0, $x, $y, $text_color, $font[$font_file_sn]['physical_file_path'], $title);
-    if ('transparent' != $border_color) {
+    if ('transparent' !== $border_color) {
         imagettftextoutline(
             $im, // image location ( you should use a variable )
             $size, // font size
@@ -191,7 +191,7 @@ function delete_dirfile($dirname)
     }
 
     while ($file = readdir($dir_handle)) {
-        if ('.' != $file && '..' != $file) {
+        if ('.' !== $file && '..' !== $file) {
             if (!is_dir($dirname . '/' . $file)) {
                 unlink($dirname . '/' . $file);
             } else {

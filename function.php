@@ -54,13 +54,13 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
     if (is_dir($path)) {
         if ($dh = opendir($path)) {
             while (false !== ($file = readdir($dh))) {
-                if ('.' == $file or '..' == $file or 'Thumbs.db' == $file) {
+                if ('.' === $file or '..' === $file or 'Thumbs.db' === $file) {
                     continue;
                 }
 
                 $type = filetype($path . '/' . $file);
 
-                if ('dir' != $type) {
+                if ('dir' !== $type) {
                     if (!in_array($file, $db_files, true)) {
                         import_file($path . '/' . $file, $col_name, $col_sn, null, null, $desc, $safe_name);
                     }
@@ -82,7 +82,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
 
     //die("file_name={$file_name} , col_name={$col_name} , col_sn={$col_sn} , main_width={$main_width} , thumb_width={$thumb_width} , desc={$desc} , safe_name={$safe_name} ");
 
-    if ('slide' == $col_name) {
+    if ('slide' === $col_name) {
         $TadUpFilesSlide = TadUpFilesSlide();
         if (is_object($TadUpFilesSlide)) {
             $TadUpFilesSlide->set_col($col_name, $col_sn);
@@ -90,7 +90,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         } else {
             die('Need TadUpFilesSlide Object!');
         }
-    } elseif ('bg' == $col_name) {
+    } elseif ('bg' === $col_name) {
         $TadUpFilesBg = TadUpFilesBg();
         if (is_object($TadUpFilesBg)) {
             $TadUpFilesBg->set_col($col_name, $col_sn);
@@ -98,7 +98,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         } else {
             die('Need TadUpFilesBg Object!');
         }
-    } elseif ('logo' == $col_name) {
+    } elseif ('logo' === $col_name) {
         $TadUpFilesLogo = TadUpFilesLogo();
         if (is_object($TadUpFilesLogo)) {
             $TadUpFilesLogo->set_col($col_name, $col_sn);
@@ -106,7 +106,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         } else {
             die('Need TadUpFilesLogo Object!');
         }
-    } elseif ('navlogo' == $col_name) {
+    } elseif ('navlogo' === $col_name) {
         $TadUpFilesNavLogo = TadUpFilesNavLogo();
         if (is_object($TadUpFilesNavLogo)) {
             $TadUpFilesNavLogo->set_col($col_name, $col_sn);
@@ -114,7 +114,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         } else {
             die('Need TadUpFilesNavLogo Object!');
         }
-    } elseif ('navbar_img' == $col_name) {
+    } elseif ('navbar_img' === $col_name) {
         $TadUpFilesNavBg = TadUpFilesNavBg();
         if (is_object($TadUpFilesNavBg)) {
             $TadUpFilesNavBg->set_col($col_name, $col_sn);
@@ -122,7 +122,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         } else {
             die('Need TadUpFilesNavBg Object!');
         }
-    } elseif ('bt_bg' == mb_substr($col_name, 0, 5)) {
+    } elseif ('bt_bg' === mb_substr($col_name, 0, 5)) {
         $TadUpFilesBt_bg = TadUpFilesBt_bg();
         if (is_object($TadUpFilesBt_bg)) {
             $TadUpFilesBt_bg->set_col($col_name, $col_sn);
@@ -215,9 +215,9 @@ function TadUpFilesNavBg()
 function update_tadtools_setup($theme = '', $theme_kind = '')
 {
     global $xoopsDB, $xoopsConfig;
-    if ('bootstrap4' == $theme_kind) {
+    if ('bootstrap4' === $theme_kind) {
         $bootstrap_color = $theme_kind;
-    } elseif ('bootstrap3' == $theme_kind) {
+    } elseif ('bootstrap3' === $theme_kind) {
         $bootstrap_color = $theme_kind;
     } else {
         $bootstrap_color = 'bootstrap3';
@@ -261,7 +261,7 @@ function save_config2($theme_id = '', $config2_arr = [])
                 $sql = 'replace into ' . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`) values($theme_id , '{$config['name']}' , '{$config['type']}' , '{$value}')";
                 $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
-                if ('file' == $config['type']) {
+                if ('file' === $config['type']) {
                     $TadUpFiles_config2->set_col("config2_{$config['name']}", $theme_id);
                     $filename = $TadUpFiles_config2->upload_file("config2_{$config['name']}", null, null, null, '', true);
                     if ($filename) {

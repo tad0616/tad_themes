@@ -124,7 +124,7 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
 
     </form>';
 
-    if ('die' == $mode) {
+    if ('die' === $mode) {
         $jquery = get_jquery();
         $main2 = "
         <!DOCTYPE html>
@@ -204,13 +204,13 @@ if (!function_exists('thumbnail')) {
 
         // Load
         $thumb = imagecreatetruecolor($newwidth, $newheight);
-        if ('image/jpeg' == $type or 'image/jpg' == $type or 'image/pjpg' == $type or 'image/pjpeg' == $type) {
+        if ('image/jpeg' === $type or 'image/jpg' === $type or 'image/pjpg' === $type or 'image/pjpeg' === $type) {
             $source = imagecreatefromjpeg($filename);
             $type = 'image/jpeg';
-        } elseif ('image/png' == $type) {
+        } elseif ('image/png' === $type) {
             $source = imagecreatefrompng($filename);
             $type = 'image/png';
-        } elseif ('image/gif' == $type) {
+        } elseif ('image/gif' === $type) {
             $source = imagecreatefromgif($filename);
             $type = 'image/gif';
         } else {
@@ -360,8 +360,8 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '
 
         $status_color = ('1' == $status) ? '' : "style='background-color:#D0D0D0'";
         $status_color2 = ('1' == $status) ? '' : 'background-color:#D0D0D0';
-        $target_icon = ('_blank' == $target) ? "<span class='label' style='padding: 2px 4px;'>" . _MA_TADTHEMES_TARGET_BLANK . '</span>' : '';
-        $target_icon = ('popup' == $target) ? "<span class='label label-success' style='padding: 2px 4px;'>popup</span>" : $target_icon;
+        $target_icon = ('_blank' === $target) ? "<span class='label' style='padding: 2px 4px;'>" . _MA_TADTHEMES_TARGET_BLANK . '</span>' : '';
+        $target_icon = ('popup' === $target) ? "<span class='label label-success' style='padding: 2px 4px;'>popup</span>" : $target_icon;
 
         $class = (empty($of_level)) ? '' : "class='child-of-node-{$of_level}'";
         $parent = empty($of_level) ? '' : "data-tt-parent-id='$of_level'";
@@ -550,11 +550,11 @@ function tad_themes_menu_status($menuid, $status)
 //刪除圖片
 function del_pic($type, $menuid)
 {
-    if ('icon' == $type) {
+    if ('icon' === $type) {
         $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
         $file1 = "{$dir}/{$menuid}_64.png";
         $file2 = "{$dir}/{$menuid}_32.png";
-    } elseif ('banner' == $type) {
+    } elseif ('banner' === $type) {
         $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_banner';
         $file1 = "{$dir}/{$menuid}.png";
         $file2 = "{$dir}/{$menuid}_thumb.png";
