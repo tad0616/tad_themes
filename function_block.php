@@ -26,16 +26,14 @@ function genColorCodeFromText($text, $min_brightness = 100, $spec = 10)
         throw new Exception("$min_brightness is out of range");
     }
 
-    $hash   = md5($text); //Gen hash of text
-    $colors = array();
+    $hash = md5($text); //Gen hash of text
+    $colors = [];
     for ($i = 0; $i < 3; $i++) {
-        $colors[$i] = max(array(round(((hexdec(substr($hash, $spec * $i, $spec))) / hexdec(str_pad('', $spec, 'F'))) * 255), $min_brightness));
+        $colors[$i] = max([round(((hexdec(mb_substr($hash, $spec * $i, $spec))) / hexdec(str_pad('', $spec, 'F'))) * 255), $min_brightness]);
     }
     //convert hash into 3 decimal values between 0 and 255
-    if ($min_brightness > 0) //only check brightness requirements if min_brightness is about 100
-    {
-        while (array_sum($colors) / 3 < $min_brightness) //loop until brightness is above or equal to min_brightness
-        {
+    if ($min_brightness > 0) { //only check brightness requirements if min_brightness is about 100
+        while (array_sum($colors) / 3 < $min_brightness) { //loop until brightness is above or equal to min_brightness
             for ($i = 0; $i < 3; $i++) {
                 $colors[$i] += 10;
             }

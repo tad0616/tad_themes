@@ -1,32 +1,32 @@
 <?php
 //引入TadTools的函式庫
-if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php")) {
-    redirect_header("http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1", 3, _TAD_NEED_TADTOOLS);
+if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php')) {
+    redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
 }
-include_once XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php";
+include_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
 
-include_once XOOPS_ROOT_PATH . "/modules/tadtools/TadDataCenter.php";
+include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadDataCenter.php';
 $TadDataCenter = new TadDataCenter('tad_themes');
 
 /********************* 自訂函數 *********************/
 
-define("_THEME_BG_PATH", XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/bg");
-define("_THEME_LOGO_PATH", XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/logo");
-define("_THEME_SLIDE_PATH", XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/slide");
-define("_THEME_BT_BG_PATH", XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/bt_bg");
-define("_THEME_NAVLOGO_PATH", XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/navlogo");
-define("_THEME_NAV_BG_PATH", XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/nav_bg");
+define('_THEME_BG_PATH', XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/bg");
+define('_THEME_LOGO_PATH', XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/logo");
+define('_THEME_SLIDE_PATH', XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/slide");
+define('_THEME_BT_BG_PATH', XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/bt_bg");
+define('_THEME_NAVLOGO_PATH', XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/navlogo");
+define('_THEME_NAV_BG_PATH', XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/nav_bg");
 
-$block_position_title = array("leftBlock" => _MA_TADTHEMES_BLOCK_LEFT, "rightBlock" => _MA_TADTHEMES_BLOCK_RIGHT, "centerBlock" => _MA_TADTHEMES_BLOCK_TOP_CENTER, "centerLeftBlock" => _MA_TADTHEMES_BLOCK_TOP_LEFT, "centerRightBlock" => _MA_TADTHEMES_BLOCK_TOP_RIGHT, "centerBottomBlock" => _MA_TADTHEMES_BLOCK_BOTTOM_CENTER, "centerBottomLeftBlock" => _MA_TADTHEMES_BLOCK_BOTTOM_LEFT, "centerBottomRightBlock" => _MA_TADTHEMES_BLOCK_BOTTOM_RIGHT);
+$block_position_title = ['leftBlock' => _MA_TADTHEMES_BLOCK_LEFT, 'rightBlock' => _MA_TADTHEMES_BLOCK_RIGHT, 'centerBlock' => _MA_TADTHEMES_BLOCK_TOP_CENTER, 'centerLeftBlock' => _MA_TADTHEMES_BLOCK_TOP_LEFT, 'centerRightBlock' => _MA_TADTHEMES_BLOCK_TOP_RIGHT, 'centerBottomBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_CENTER, 'centerBottomLeftBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_LEFT, 'centerBottomRightBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_RIGHT];
 
-$config2_files = array('config2_base', 'config2_bg', 'config2_slide', 'config2_logo', 'config2_block', 'config2_nav', 'config2');
+$config2_files = ['config2_base', 'config2_bg', 'config2_slide', 'config2_logo', 'config2_block', 'config2_nav', 'config2'];
 /********************* 預設函數 *********************/
 
 //取得圖片選項
-function import_img($path = '', $col_name = "logo", $col_sn = '', $desc = "", $safe_name = false)
+function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $safe_name = false)
 {
     global $xoopsDB;
-    if (strpos($path, "http") !== false) {
+    if (false !== mb_strpos($path, 'http')) {
         $path = str_replace(XOOPS_URL, XOOPS_ROOT_PATH, $path);
     }
     if (empty($path)) {
@@ -37,11 +37,11 @@ function import_img($path = '', $col_name = "logo", $col_sn = '', $desc = "", $s
         return;
     }
 
-    $db_files = array();
+    $db_files = [];
 
-    $sql = "select files_sn,file_name,original_filename from " . $xoopsDB->prefix("tad_themes_files_center") . " where col_name='{$col_name}' and col_sn='{$col_sn}'";
+    $sql = 'select files_sn,file_name,original_filename from ' . $xoopsDB->prefix('tad_themes_files_center') . " where col_name='{$col_name}' and col_sn='{$col_sn}'";
 
-    $result          = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $db_files_amount = 0;
     while (list($files_sn, $file_name, $original_filename) = $xoopsDB->fetchRow($result)) {
         $db_files[$files_sn] = $original_filename;
@@ -53,16 +53,16 @@ function import_img($path = '', $col_name = "logo", $col_sn = '', $desc = "", $s
 
     if (is_dir($path)) {
         if ($dh = opendir($path)) {
-            while (($file = readdir($dh)) !== false) {
-                if ($file == "." or $file == ".." or $file == "Thumbs.db") {
+            while (false !== ($file = readdir($dh))) {
+                if ('.' === $file or '..' === $file or 'Thumbs.db' === $file) {
                     continue;
                 }
 
-                $type = filetype($path . "/" . $file);
+                $type = filetype($path . '/' . $file);
 
-                if ($type != "dir") {
-                    if (!in_array($file, $db_files)) {
-                        import_file($path . "/" . $file, $col_name, $col_sn, null, null, $desc, $safe_name);
+                if ('dir' !== $type) {
+                    if (!in_array($file, $db_files, true)) {
+                        import_file($path . '/' . $file, $col_name, $col_sn, null, null, $desc, $safe_name);
                     }
                 }
             }
@@ -74,7 +74,7 @@ function import_img($path = '', $col_name = "logo", $col_sn = '', $desc = "", $s
 }
 
 //匯入圖檔
-function import_file($file_name = '', $col_name = "", $col_sn = "", $main_width = "", $thumb_width = "90", $desc = "", $safe_name = false)
+function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width = '', $thumb_width = '90', $desc = '', $safe_name = false)
 {
     global $xoopsDB, $xoopsUser, $xoopsModule, $xoopsConfig;
 
@@ -82,7 +82,7 @@ function import_file($file_name = '', $col_name = "", $col_sn = "", $main_width 
 
     //die("file_name={$file_name} , col_name={$col_name} , col_sn={$col_sn} , main_width={$main_width} , thumb_width={$thumb_width} , desc={$desc} , safe_name={$safe_name} ");
 
-    if ($col_name == "slide") {
+    if ('slide' === $col_name) {
         $TadUpFilesSlide = TadUpFilesSlide();
         if (is_object($TadUpFilesSlide)) {
             $TadUpFilesSlide->set_col($col_name, $col_sn);
@@ -90,7 +90,7 @@ function import_file($file_name = '', $col_name = "", $col_sn = "", $main_width 
         } else {
             die('Need TadUpFilesSlide Object!');
         }
-    } elseif ($col_name == "bg") {
+    } elseif ('bg' === $col_name) {
         $TadUpFilesBg = TadUpFilesBg();
         if (is_object($TadUpFilesBg)) {
             $TadUpFilesBg->set_col($col_name, $col_sn);
@@ -98,7 +98,7 @@ function import_file($file_name = '', $col_name = "", $col_sn = "", $main_width 
         } else {
             die('Need TadUpFilesBg Object!');
         }
-    } elseif ($col_name == "logo") {
+    } elseif ('logo' === $col_name) {
         $TadUpFilesLogo = TadUpFilesLogo();
         if (is_object($TadUpFilesLogo)) {
             $TadUpFilesLogo->set_col($col_name, $col_sn);
@@ -106,7 +106,7 @@ function import_file($file_name = '', $col_name = "", $col_sn = "", $main_width 
         } else {
             die('Need TadUpFilesLogo Object!');
         }
-    } elseif ($col_name == "navlogo") {
+    } elseif ('navlogo' === $col_name) {
         $TadUpFilesNavLogo = TadUpFilesNavLogo();
         if (is_object($TadUpFilesNavLogo)) {
             $TadUpFilesNavLogo->set_col($col_name, $col_sn);
@@ -114,7 +114,7 @@ function import_file($file_name = '', $col_name = "", $col_sn = "", $main_width 
         } else {
             die('Need TadUpFilesNavLogo Object!');
         }
-    } elseif ($col_name == "navbar_img") {
+    } elseif ('navbar_img' === $col_name) {
         $TadUpFilesNavBg = TadUpFilesNavBg();
         if (is_object($TadUpFilesNavBg)) {
             $TadUpFilesNavBg->set_col($col_name, $col_sn);
@@ -122,7 +122,7 @@ function import_file($file_name = '', $col_name = "", $col_sn = "", $main_width 
         } else {
             die('Need TadUpFilesNavBg Object!');
         }
-    } elseif (substr($col_name, 0, 5) == "bt_bg") {
+    } elseif ('bt_bg' === mb_substr($col_name, 0, 5)) {
         $TadUpFilesBt_bg = TadUpFilesBt_bg();
         if (is_object($TadUpFilesBt_bg)) {
             $TadUpFilesBt_bg->set_col($col_name, $col_sn);
@@ -139,107 +139,112 @@ function import_file($file_name = '', $col_name = "", $col_sn = "", $main_width 
             die('Need TadUpFiles_config2 Object!');
         }
     }
-
 }
 
 function TadUpFilesBt_bg()
 {
     global $xoopsConfig;
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/TadUpFiles.php";
-    $TadUpFilesBt_bg = new TadUpFiles("tad_themes", "/{$xoopsConfig['theme_set']}/bt_bg", null, "", "/thumbs");
-    $TadUpFilesBt_bg->set_thumb("100px", "60px", "#000", "center center", "no-repeat", "contain");
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+    $TadUpFilesBt_bg = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/bt_bg", null, '', '/thumbs');
+    $TadUpFilesBt_bg->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
+
     return $TadUpFilesBt_bg;
 }
 
 function TadUpFiles_config2()
 {
     global $xoopsConfig;
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/TadUpFiles.php";
-    $TadUpFiles_config2 = new TadUpFiles("tad_themes", "/{$xoopsConfig['theme_set']}/config2", null, "", "/thumbs");
-    $TadUpFiles_config2->set_thumb("100px", "60px", "#000", "center center", "no-repeat", "contain");
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+    $TadUpFiles_config2 = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/config2", null, '', '/thumbs');
+    $TadUpFiles_config2->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
+
     return $TadUpFiles_config2;
 }
 
 function TadUpFilesSlide()
 {
     global $xoopsConfig;
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/TadUpFiles.php";
-    $TadUpFilesSlide = new TadUpFiles("tad_themes", "/{$xoopsConfig['theme_set']}/slide", null, "", "/thumbs");
-    $TadUpFilesSlide->set_thumb("100px", "60px", "#000", "center center", "no-repeat", "contain");
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+    $TadUpFilesSlide = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/slide", null, '', '/thumbs');
+    $TadUpFilesSlide->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
+
     return $TadUpFilesSlide;
 }
 
 function TadUpFilesBg()
 {
     global $xoopsConfig;
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/TadUpFiles.php";
-    $TadUpFilesBg = new TadUpFiles("tad_themes", "/{$xoopsConfig['theme_set']}/bg", null, "", "/thumbs");
-    $TadUpFilesBg->set_thumb("100px", "60px", "#000", "center center", "no-repeat", "contain");
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+    $TadUpFilesBg = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/bg", null, '', '/thumbs');
+    $TadUpFilesBg->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
+
     return $TadUpFilesBg;
 }
 
 function TadUpFilesLogo()
 {
     global $xoopsConfig;
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/TadUpFiles.php";
-    $TadUpFilesLogo = new TadUpFiles("tad_themes", "/{$xoopsConfig['theme_set']}/logo", null, "", "/thumbs");
-    $TadUpFilesLogo->set_thumb("100px", "60px", "#000", "center center", "no-repeat", "contain");
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+    $TadUpFilesLogo = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/logo", null, '', '/thumbs');
+    $TadUpFilesLogo->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
+
     return $TadUpFilesLogo;
 }
 
 function TadUpFilesNavLogo()
 {
     global $xoopsConfig;
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/TadUpFiles.php";
-    $TadUpFilesNavLogo = new TadUpFiles("tad_themes", "/{$xoopsConfig['theme_set']}/navlogo", null, "", "/thumbs");
-    $TadUpFilesNavLogo->set_thumb("100px", "60px", "#000", "center center", "no-repeat", "contain");
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+    $TadUpFilesNavLogo = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/navlogo", null, '', '/thumbs');
+    $TadUpFilesNavLogo->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
+
     return $TadUpFilesNavLogo;
 }
 
 function TadUpFilesNavBg()
 {
     global $xoopsConfig;
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/TadUpFiles.php";
-    $TadUpFilesNavBg = new TadUpFiles("tad_themes", "/{$xoopsConfig['theme_set']}/nav_bg", null, "", "/thumbs");
-    $TadUpFilesNavBg->set_thumb("100px", "60px", "#000", "center center", "no-repeat", "contain");
+    include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+    $TadUpFilesNavBg = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/nav_bg", null, '', '/thumbs');
+    $TadUpFilesNavBg->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
+
     return $TadUpFilesNavBg;
 }
 
 //更新 tadtools 初始設定
-function update_tadtools_setup($theme = "", $theme_kind = "")
+function update_tadtools_setup($theme = '', $theme_kind = '')
 {
     global $xoopsDB, $xoopsConfig;
-    if ($theme_kind == "bootstrap4") {
+    if ('bootstrap4' === $theme_kind) {
         $bootstrap_color = $theme_kind;
-    } elseif ($theme_kind == "bootstrap3") {
+    } elseif ('bootstrap3' === $theme_kind) {
         $bootstrap_color = $theme_kind;
     } else {
-        $bootstrap_color = "bootstrap3";
+        $bootstrap_color = 'bootstrap3';
     }
 
-    $sql    = "select `tt_theme_kind` from `" . $xoopsDB->prefix("tadtools_setup") . "` where `tt_theme`='{$theme}'";
+    $sql = 'select `tt_theme_kind` from `' . $xoopsDB->prefix('tadtools_setup') . "` where `tt_theme`='{$theme}'";
     $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     list($old_tt_theme_kind) = $xoopsDB->fetchRow($result);
 
     if ($theme_kind !== $old_tt_theme_kind) {
-        $sql = "replace into `" . $xoopsDB->prefix("tadtools_setup") . "` (`tt_theme` , `tt_use_bootstrap`,`tt_bootstrap_color` , `tt_theme_kind`) values('{$theme}', '0', '{$bootstrap_color}', '{$theme_kind}')";
+        $sql = 'replace into `' . $xoopsDB->prefix('tadtools_setup') . "` (`tt_theme` , `tt_use_bootstrap`,`tt_bootstrap_color` , `tt_theme_kind`) values('{$theme}', '0', '{$bootstrap_color}', '{$theme_kind}')";
 
         $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     }
 }
 
 //儲存額外設定值
-function save_config2($theme_id = "", $config2_arr = array())
+function save_config2($theme_id = '', $config2_arr = [])
 {
     global $xoopsDB, $xoopsConfig;
     $TadUpFiles_config2 = TadUpFiles_config2();
-    $theme_name         = $xoopsConfig['theme_set'];
+    $theme_name = $xoopsConfig['theme_set'];
 
     //額外佈景設定
     $myts = MyTextSanitizer::getInstance();
     foreach ($config2_arr as $config2) {
-
         if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php")) {
             require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
             require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php";
@@ -250,15 +255,15 @@ function save_config2($theme_id = "", $config2_arr = array())
             $theme_config[$i]['default']="200px";
              */
             foreach ($theme_config as $k => $config) {
-                $name  = $config['name'];
+                $name = $config['name'];
                 $value = isset($_POST[$name]) ? $myts->addSlashes($_POST[$name]) : $config['default'];
 
-                $sql = "replace into " . $xoopsDB->prefix("tad_themes_config2") . " (`theme_id`, `name`, `type`, `value`) values($theme_id , '{$config['name']}' , '{$config['type']}' , '{$value}')";
+                $sql = 'replace into ' . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`) values($theme_id , '{$config['name']}' , '{$config['type']}' , '{$value}')";
                 $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
-                if ($config['type'] == "file") {
+                if ('file' === $config['type']) {
                     $TadUpFiles_config2->set_col("config2_{$config['name']}", $theme_id);
-                    $filename = $TadUpFiles_config2->upload_file("config2_{$config['name']}", null, null, null, "", true);
+                    $filename = $TadUpFiles_config2->upload_file("config2_{$config['name']}", null, null, null, '', true);
                     if ($filename) {
                         update_theme_config2($config['name'], $filename, $theme_id, $theme_name);
                     }
@@ -268,10 +273,10 @@ function save_config2($theme_id = "", $config2_arr = array())
     }
 }
 //更新佈景的某個設定值
-function update_theme_config2($col = "", $file_name = "", $theme_id = "", $theme_name = "")
+function update_theme_config2($col = '', $file_name = '', $theme_id = '', $theme_name = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsConfig;
     $file_name_url = XOOPS_URL . "/uploads/tad_themes/{$theme_name}/config2/{$file_name}";
-    $sql           = "update " . $xoopsDB->prefix("tad_themes_config2") . " set `value` = '{$file_name_url}' where theme_id='$theme_id' and `name`='{$col}'";
+    $sql = 'update ' . $xoopsDB->prefix('tad_themes_config2') . " set `value` = '{$file_name_url}' where theme_id='$theme_id' and `name`='{$col}'";
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
