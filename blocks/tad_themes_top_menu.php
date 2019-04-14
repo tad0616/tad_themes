@@ -3,7 +3,7 @@
 function tad_themes_top_menu($options)
 {
     global $xoopsDB;
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
 
     //$menu=explode(",",$options[0]);
     $sql = 'select `menuid`,`itemname`,`itemurl`,`target`,`icon` from ' . $xoopsDB->prefix('tad_themes_menu') . " where menuid in({$options[0]}) order by position";
@@ -14,7 +14,7 @@ function tad_themes_top_menu($options)
     $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
     $url = XOOPS_URL . '/uploads/tad_themes/menu_icons';
 
-    while (list($menuid, $itemname, $itemurl, $target, $icon) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($menuid, $itemname, $itemurl, $target, $icon) = $xoopsDB->fetchRow($result))) {
         $menu[$menuid]['itemname'] = $itemname;
         $menu[$menuid]['itemurl'] = $itemurl;
         $menu[$menuid]['target'] = $target;
@@ -70,7 +70,7 @@ if (!function_exists('block_menu_options')) {
         $sql = 'SELECT menuid,itemname FROM ' . $xoopsDB->prefix('tad_themes_menu') . ' WHERE of_level=0  ORDER BY position';
         $result = $xoopsDB->query($sql);
         $option = '';
-        while (list($menuid, $itemname) = $xoopsDB->fetchRow($result)) {
+        while (false !== (list($menuid, $itemname) = $xoopsDB->fetchRow($result))) {
             $js .= "if(document.getElementById('c{$menuid}').checked){
             arr[i] = document.getElementById('c{$menuid}').value;
             i++;

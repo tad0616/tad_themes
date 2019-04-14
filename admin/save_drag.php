@@ -1,6 +1,6 @@
 <?php
 /*-----------引入檔案區--------------*/
-include '../../../include/cp_header.php';
+require dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
 $of_level = (int)str_replace('node-_', '', $_POST['of_level']);
 $menuid = (int)str_replace('node-_', '', $_POST['menuid']);
@@ -23,7 +23,7 @@ function chk_cate_path($menuid, $to_menuid)
     //抓出子目錄的編號
     $sql = 'select menuid from ' . $xoopsDB->prefix('tad_themes_menu') . " where of_level='{$menuid}'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (list($sub_menuid) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($sub_menuid) = $xoopsDB->fetchRow($result))) {
         if (chk_cate_path($sub_menuid, $to_menuid)) {
             return true;
         }

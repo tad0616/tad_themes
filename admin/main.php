@@ -1,8 +1,11 @@
 <?php
+
+use XoopsModules\Tadtools\Utility;
+
 /*-----------引入檔案區-------------- */
-$xoopsOption['template_main'] = 'tad_themes_adm_main.tpl';
-include_once 'header.php';
-include_once '../auto_import_theme.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tad_themes_adm_main.tpl';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/auto_import_theme.php';
 
 /*-----------function區-------------- */
 
@@ -12,17 +15,17 @@ function tad_themes_form()
     global $xoopsDB, $xoopsUser, $xoopsConfig, $xoopsTpl, $block_position_title, $xoTheme, $TadDataCenter, $config2_files;
 
     $theme_name = $xoopsConfig['theme_set'];
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}");
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg");
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide");
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/logo");
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg/thumbs");
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide/thumbs");
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/logo/thumbs");
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg");
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg/thumbs");
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/nav_bg");
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/nav_bg/thumbs");
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}");
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg");
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide");
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/logo");
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg/thumbs");
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide/thumbs");
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/logo/thumbs");
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg");
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg/thumbs");
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/nav_bg");
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/nav_bg/thumbs");
 
     //抓取預設值
     $DBV = get_tad_themes();
@@ -58,7 +61,7 @@ function tad_themes_form()
      */
 
     if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php")) {
-        include_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
+        require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
         foreach ($config_enable as $k => $v) {
             $$k = $v['default'];
             $enable[$k] = $v['enable'];
@@ -238,7 +241,7 @@ function tad_themes_form()
     if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once TADTOOLS_PATH . '/formValidator.php';
+    require_once TADTOOLS_PATH . '/formValidator.php';
     $formValidator = new formValidator('#myForm', true);
     $formValidator_code = $formValidator->render();
 
@@ -343,7 +346,7 @@ function tad_themes_form()
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php';
     $mColorPicker = new mColorPicker('.color');
     $mColorPicker->render();
 
@@ -352,7 +355,7 @@ function tad_themes_form()
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/easy_responsive_tabs.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/easy_responsive_tabs.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/easy_responsive_tabs.php';
     $responsive_tabs = new easy_responsive_tabs('#themeTab');
     $responsive_tabs->rander('tab_identifier_parent');
 
@@ -376,8 +379,8 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
 
     if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php")) {
         $myts = MyTextSanitizer::getInstance();
-        include_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
-        include_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php";
+        require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
+        require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php";
 
         $config2_values = get_config2_values($theme_id);
         $TadUpFiles_config2 = TadUpFiles_config2();
@@ -586,21 +589,21 @@ function change_css_bootstrap($theme_width = '12', $theme_left_width = '', $them
 
         }else if(theme_type=='theme_type_5'){
             $('#left_block').css('float','left').css('margin','2px 2px 4px 4px').css('width',lb_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_LEFT . " '+ lbw +'" . _MA_TADTHEMES_COL . "</div>');
-            $('#center_block').css('float','left').css('margin','2px 0px 4px 0px').css('width',center_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_CENTER . "<br />'+center_width_org+'" . _MA_TADTHEMES_COL . "</div>');
+            $('#center_block').css('float','left').css('margin','2px 0px 4px 0px').css('width',center_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_CENTER . "<br>'+center_width_org+'" . _MA_TADTHEMES_COL . "</div>');
             $('#right_block').css('float','right').css('margin','2px 4px 4px 2px').css('width',rb_width).css('height','178px').css('clear','none').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_RIGHT . " '+rbw+'" . _MA_TADTHEMES_COL . "</div>');
             $('#cb_width').html(center_width_org+'" . _MA_TADTHEMES_COL . "');
 
 
         }else if(theme_type=='theme_type_6'){
             $('#left_block').css('float','left').css('margin','2px 0px 4px 4px').css('width',lb_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_LEFT . " '+ lbw +'" . _MA_TADTHEMES_COL . "</div>');
-            $('#center_block').css('float','right').css('margin','2px 4px 4px 0px').css('width',center_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_CENTER . "<br />'+center_width_org+'" . _MA_TADTHEMES_COL . "</div>');
+            $('#center_block').css('float','right').css('margin','2px 4px 4px 0px').css('width',center_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_CENTER . "<br>'+center_width_org+'" . _MA_TADTHEMES_COL . "</div>');
             $('#right_block').css('float','left').css('margin','2px 2px 4px 2px').css('width',rb_width).css('height','178px').css('clear','none').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_RIGHT . " '+rbw+'" . _MA_TADTHEMES_COL . "</div>');
         $('#cb_width').html(center_width_org+'" . _MA_TADTHEMES_COL . "');
 
 
         }else if(theme_type=='theme_type_7'){
             $('#left_block').css('float','right').css('margin','2px 4px 4px 0px').css('width',lb_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_LEFT . " '+ lbw +'" . _MA_TADTHEMES_COL . "</div>');
-            $('#center_block').css('float','left').css('margin','2px 0px 4px 4px').css('width',center_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_CENTER . "<br />'+center_width_org+'" . _MA_TADTHEMES_COL . "</div>');
+            $('#center_block').css('float','left').css('margin','2px 0px 4px 4px').css('width',center_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_CENTER . "<br>'+center_width_org+'" . _MA_TADTHEMES_COL . "</div>');
             $('#right_block').css('float','right').css('margin','2px 2px 4px 2px').css('width',rb_width).css('height','178px').css('clear','none').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_RIGHT . " '+rbw+'" . _MA_TADTHEMES_COL . "</div>');
         $('#cb_width').html(center_width_org+'" . _MA_TADTHEMES_COL . "');
 
@@ -755,7 +758,7 @@ function change_css($theme_width, $theme_left_width)
             center_width=Math.floor(center_width_org/4);
             center_width_org=center_width_org+14;
             $('#left_block').css('float','left').css('margin','2px 2px 4px 4px').css('width',lb_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_LEFT . " '+ lb_width_org +'px</div>');
-            $('#center_block').css('float','left').css('margin','2px 0px 4px 0px').css('width',center_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_CENTER . "<br />'+center_width_org+'px</div>');
+            $('#center_block').css('float','left').css('margin','2px 0px 4px 0px').css('width',center_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_CENTER . "<br>'+center_width_org+'px</div>');
             $('#right_block').css('float','right').css('margin','2px 4px 4px 2px').css('width',rb_width).css('height','178px').css('clear','none').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_RIGHT . " '+rb_width_org+'px</div>');
 
             $('#cb_width').html(center_width_org+'px');
@@ -764,7 +767,7 @@ function change_css($theme_width, $theme_left_width)
             center_width=Math.floor(center_width_org/4);
             center_width_org=center_width_org+14;
             $('#left_block').css('float','left').css('margin','2px 0px 4px 4px').css('width',lb_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_LEFT . " '+ lb_width_org +'px</div>');
-            $('#center_block').css('float','right').css('margin','2px 4px 4px 0px').css('width',center_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_CENTER . "<br />'+center_width_org+'px</div>');
+            $('#center_block').css('float','right').css('margin','2px 4px 4px 0px').css('width',center_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_CENTER . "<br>'+center_width_org+'px</div>');
             $('#right_block').css('float','left').css('margin','2px 2px 4px 2px').css('width',rb_width).css('height','178px').css('clear','none').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_RIGHT . " '+rb_width_org+'px</div>');
 
             $('#cb_width').html(center_width_org+'px');
@@ -773,7 +776,7 @@ function change_css($theme_width, $theme_left_width)
             center_width=Math.floor(center_width_org/4);
             center_width_org=center_width_org+14;
             $('#left_block').css('float','right').css('margin','2px 4px 4px 0px').css('width',lb_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_LEFT . " '+ lb_width_org +'px</div>');
-            $('#center_block').css('float','left').css('margin','2px 0px 4px 4px').css('width',center_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_CENTER . "<br />'+center_width_org+'px</div>');
+            $('#center_block').css('float','left').css('margin','2px 0px 4px 4px').css('width',center_width).css('height','178px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_CENTER . "<br>'+center_width_org+'px</div>');
             $('#right_block').css('float','right').css('margin','2px 2px 4px 2px').css('width',rb_width).css('height','178px').css('clear','none').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_RIGHT . " '+rb_width_org+'px</div>');
 
             $('#cb_width').html(center_width_org+'px');
@@ -1063,7 +1066,7 @@ function get_config2_values($theme_id = '')
     $sql = 'select `name`, `type`, `value` from ' . $xoopsDB->prefix('tad_themes_config2') . " where `theme_id` = '{$theme_id}'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     //`theme_id`, `name`, `type`, `value`
-    while (list($name, $type, $value) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($name, $type, $value) = $xoopsDB->fetchRow($result))) {
         $values[$name] = $value;
     }
 
@@ -1076,7 +1079,7 @@ function get_blocks_values($theme_id = '', $block_position = '')
     global $xoopsDB, $xoopsConfig, $block_position_title;
 
     $theme_name = $xoopsConfig['theme_set'];
-    include XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
+    require XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
     foreach ($config_enable as $k => $v) {
         $$k = $v['default'];
     }
@@ -1087,7 +1090,7 @@ function get_blocks_values($theme_id = '', $block_position = '')
     $sql = 'select * from ' . $xoopsDB->prefix('tad_themes_blocks') . " where `theme_id` = '{$theme_id}' {$and_block_position}";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     //`theme_id`, `block_position`, `block_config`, `bt_text`, `bt_text_padding`, `bt_text_size`, `bt_bg_color`, `bt_bg_img`, `bt_bg_repeat`, `bt_radius`
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         $block_position = $all['block_position'];
         $db[$block_position] = $all;
     }
@@ -1125,7 +1128,7 @@ function export_config($theme_id = '')
 {
     global $xoopsConfig, $xoopsDB;
     $theme_name = $xoopsConfig['theme_set'];
-    include XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
+    require XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
     // foreach ($config_enable as $k => $v) {
     //     $$k = $v['default'];
     // }
@@ -1159,7 +1162,7 @@ function export_config($theme_id = '')
     //取得區塊設定
     $sql = 'select * from ' . $xoopsDB->prefix('tad_themes_blocks') . " where `theme_id` = '{$theme_id}'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         $block_position = $all['block_position'];
         $blocks[$block_position] = $all;
     }
@@ -1440,12 +1443,12 @@ function export_config2($theme_id = '', $type = '')
 {
     global $xoopsConfig, $xoopsDB;
     $theme_name = $xoopsConfig['theme_set'];
-    include_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$type}.php";
+    require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$type}.php";
 
     $config2 = [];
     $sql = 'select * from ' . $xoopsDB->prefix('tad_themes_config2') . " where `theme_id` = '{$theme_id}'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         $col = $all['name'];
         $config2[$col] = $all;
     }
@@ -1488,7 +1491,7 @@ function export_config2($theme_id = '', $type = '')
     exit;
 }
 /*-----------執行動作判斷區---------- */
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $theme_id = system_CleanVars($_REQUEST, 'theme_id', 0, 'int');
 $type = system_CleanVars($_REQUEST, 'type', '', 'string');
@@ -1499,7 +1502,7 @@ switch ($op) {
     //新增資料
     case 'insert_tad_themes':
         $theme_id = insert_tad_themes();
-        header("location: {$_SERVER['HTTP_REFERER']}");
+        header("location: {\Xmf\Request::getString('HTTP_REFERER', '', 'SERVER')}");
         exit;
 
     //更新資料
@@ -1508,7 +1511,7 @@ switch ($op) {
         if (isset($_COOKIE['themeTab_baseURI'])) {
             header("location: {$_COOKIE['themeTab_baseURI']}");
         } else {
-            header("location: {$_SERVER['HTTP_REFERER']}");
+            header("location: {\Xmf\Request::getString('HTTP_REFERER', '', 'SERVER')}");
         }
         exit;
 
@@ -1546,4 +1549,4 @@ $xoTheme->addStylesheet('modules/tadtools/css/font-awesome/css/font-awesome.css'
 $xoTheme->addStylesheet('modules/tad_themes/class/bootstrap-select/css/bootstrap-select.min.css');
 $xoTheme->addScript('modules/tad_themes/class/bootstrap-select/js/bootstrap-select.min.js');
 $xoTheme->addScript('modules/tad_themes/class/bootstrap-select/js/i18n/defaults-zh_TW.min.js');
-include_once 'footer.php';
+require_once __DIR__ . '/footer.php';

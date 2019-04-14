@@ -1,7 +1,7 @@
 <?php
 /*-----------引入檔案區--------------*/
-include_once 'header.php';
-include_once '../function.php';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/function.php';
 $updateRecordsArray = $_POST['node-'];
 $sort = 1;
 foreach ($updateRecordsArray as $menuid) {

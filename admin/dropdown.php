@@ -1,15 +1,15 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = 'tad_themes_adm_dropdown.tpl';
-include_once 'header.php';
-include_once '../function.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tad_themes_adm_dropdown.tpl';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/function.php';
 
 /*-----------function區--------------*/
 //tad_themes_menu編輯表單
 function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
 {
     global $xoopsDB, $xoopsTpl, $xoTheme, $xoopsModule;
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     //抓取預設值
     if (!empty($menuid)) {
@@ -66,7 +66,7 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
         <div class='form-group'>
             <label class='col-xs-3 control-label' for='icon'>" . _MA_TADTHEMES_ICON . _TAD_FOR . "</label>
             <div class='col-xs-3'>
-                <input name='icon' class='selectpicker form-control' value='{$icon}' type='text' />
+                <input name='icon' class='selectpicker form-control' value='{$icon}' type='text'>
             </div>
             $get_tad_all_menu
         </div>
@@ -133,9 +133,9 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
                 <meta charset='utf-8'>
                 <title></title>
                 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-                <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/bootstrap3/css/bootstrap.css' />
+                <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/bootstrap3/css/bootstrap.css'>
 
-                <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/css/xoops_adm.css' />
+                <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/css/xoops_adm.css'>
                 <link href='" . XOOPS_URL . "/modules/tadtools/css/font-awesome/css/font-awesome.min.css' rel='stylesheet'>
 
                 <script src='" . XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.js' type='text/javascript'></script>
@@ -311,7 +311,7 @@ function list_tad_themes_menu($add_of_level = '', $menuid = '')
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php';
 
     //treetable($show_jquery=true , $sn="cat_sn" , $of_sn="of_cat_sn" , $tbl_id="#tbl" , $post_url="save_drag.php" ,$folder_class=".folder", $msg="#save_msg" ,$expanded=true,$sort_id="", $sort_url="save_sort.php", $sort_msg="#save_msg2")
     $treetable = new treetable(false, 'menuid', 'of_level', '#tbl', 'save_drag.php', '.folder', '#save_msg', true, '.sort', 'save_sort.php', '#save_msg');
@@ -322,7 +322,7 @@ function list_tad_themes_menu($add_of_level = '', $menuid = '')
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php';
     $fancybox = new fancybox('.edit_dropdown', '800', '400');
     $fancybox_code = $fancybox->render();
     $xoopsTpl->assign('fancybox_code', $fancybox_code);
@@ -351,7 +351,7 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '
     $banner_dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_banner';
     $url = XOOPS_URL . '/uploads/tad_themes/menu_icons';
     $banner_url = XOOPS_URL . '/uploads/tad_themes/menu_banner';
-    while (list($menuid, $of_level, $itemname, $position, $itemurl, $status, $mainmenu, $target, $icon, $link_cate_name, $link_cate_sn) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($menuid, $of_level, $itemname, $position, $itemurl, $status, $mainmenu, $target, $icon, $link_cate_name, $link_cate_sn) = $xoopsDB->fetchRow($result))) {
         $item = (empty($itemurl)) ? "<i class='fa {$icon}'></i> " . $itemname : "<a name='$menuid' href='{$itemurl}'><i class='fa {$icon}'></i> $itemname</a>";
 
         $add_img = ($level >= 3) ? '' : "<a href='{$_SERVER['PHP_SELF']}?op=add_tad_themes_menu&of_level={$menuid}' class='edit_dropdown' data-fancybox-type='iframe'><i class='fa fa-plus-circle fa-2x text-success' aria-hidden='true' title='" . sprintf(_MA_TADTHEMES_ADDITEM, $itemname) . "'></i></a>";
@@ -494,7 +494,7 @@ function get_tad_all_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '',
     $sql = 'select `menuid`,`of_level`,`itemname` from ' . $xoopsDB->prefix('tad_themes_menu') . " where of_level='{$of_level}'  order by position";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    while (list($menuid, $of_level, $itemname) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($menuid, $of_level, $itemname) = $xoopsDB->fetchRow($result))) {
         if ('1' == $no_self and $this_menuid == $menuid) {
             continue;
         }
@@ -533,7 +533,7 @@ function auto_import()
     $sql = 'select name,dirname from ' . $xoopsDB->prefix('modules') . " where isactive='1' and hasmain='1' order by weight";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    while (list($name, $dirname) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($name, $dirname) = $xoopsDB->fetchRow($result))) {
         $position = get_max_sort($of_level);
         $sql = 'insert into ' . $xoopsDB->prefix('tad_themes_menu') . " (`of_level`,`position`,`itemname`,`itemurl`,`membersonly`,`status`) values('{$of_level}','{$position}','{$name}','" . XOOPS_URL . "/modules/{$dirname}/','0','1')";
         $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
@@ -570,7 +570,7 @@ function del_pic($type, $menuid)
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $menuid = system_CleanVars($_REQUEST, 'menuid', 0, 'int');
 $of_level = system_CleanVars($_REQUEST, 'of_level', 0, 'int');
@@ -635,4 +635,4 @@ switch ($op) {
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('now_op', $op);
 $xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_themes/css/module.css');
-include_once 'footer.php';
+require_once __DIR__ . '/footer.php';

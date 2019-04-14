@@ -3,8 +3,8 @@
 function vertical_bootstrap_menu($options)
 {
     global $xoopsDB;
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
-    include_once XOOPS_ROOT_PATH . '/modules/tad_themes/function_block.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tad_themes/function_block.php';
     $in = empty($options[0]) ? "status='1' and of_level=0" : "menuid in({$options[0]})";
     //$menu=explode(",",$options[0]);
     $sql = 'select `menuid`,`itemname`,`itemurl`,`target`,`icon`,`position` from ' . $xoopsDB->prefix('tad_themes_menu') . " where $in order by position";
@@ -14,7 +14,7 @@ function vertical_bootstrap_menu($options)
     $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
     $url = XOOPS_URL . '/uploads/tad_themes/menu_icons';
     $i = 1;
-    while (list($menuid, $itemname, $itemurl, $target, $bootstrap_icon, $position) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($menuid, $itemname, $itemurl, $target, $bootstrap_icon, $position) = $xoopsDB->fetchRow($result))) {
         if (empty($itemname) or empty($itemurl)) {
             continue;
         }
@@ -76,7 +76,7 @@ if (!function_exists('block_menu_options')) {
         $sql = 'SELECT menuid,itemname,status FROM ' . $xoopsDB->prefix('tad_themes_menu') . ' ORDER BY position';
         $result = $xoopsDB->query($sql);
         $option = '';
-        while (list($menuid, $itemname, $status) = $xoopsDB->fetchRow($result)) {
+        while (false !== (list($menuid, $itemname, $status) = $xoopsDB->fetchRow($result))) {
             $js .= "if(document.getElementById('c{$menuid}').checked){
                 arr[i] = document.getElementById('c{$menuid}').value;
                 i++;

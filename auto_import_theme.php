@@ -1,5 +1,5 @@
 <?php
-include_once 'function.php';
+require_once __DIR__ . '/function.php';
 
 //自動存入佈景
 function auto_import_theme()

@@ -1,10 +1,10 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = 'tad_themes_adm_font2pic.tpl';
-include_once 'header.php';
-include_once '../function.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tad_themes_adm_font2pic.tpl';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/function.php';
 
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
 $TadUpFontFiles = new TadUpFiles('tad_themes', '/fonts');
 $TadUpFontFiles->set_col('logo_fonts', 0);
 /*-----------function區--------------*/
@@ -49,7 +49,7 @@ function tad_themes_logo_form()
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php';
     $mColorPicker = new mColorPicker('.color');
     $mColorPicker->render();
 
@@ -72,14 +72,14 @@ function tad_themes_logo_form()
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
     $sweet_alert = new sweet_alert();
     $sweet_alert->render('del_logo', 'font2pic.php?op=del_logo&logo=', 'logo');
 
     if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
         redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
     }
-    include_once TADTOOLS_PATH . '/formValidator.php';
+    require_once TADTOOLS_PATH . '/formValidator.php';
     $formValidator = new formValidator('#myForm', true);
     $formValidator_code = $formValidator->render();
 }
@@ -130,7 +130,7 @@ function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8
     list($border_color_r, $border_color_g, $border_color_b) = sscanf($border_color, '#%02x%02x%02x');
 
     header('Content-type: image/png');
-    $im = @imagecreatetruecolor($width, $height) or die("error: ({$title}->{$size} , {$width} x {$height})");
+    $im = @imagecreatetruecolor($width, $height) || die("error: ({$title}->{$size} , {$width} x {$height})");
     imagesavealpha($im, true);
 
     $trans_colour = imagecolorallocatealpha($im, 255, 255, 255, 127);
@@ -205,7 +205,7 @@ function delete_dirfile($dirname)
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $theme_id = system_CleanVars($_REQUEST, 'theme_id', 0, 'int');
 $files_sn = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
@@ -235,7 +235,7 @@ switch ($op) {
 
     case 'save_font':
         $TadUpFontFiles->upload_file('font', null, null, $files_sn, null, true);
-        header("location: {$_SERVER['HTTP_REFERER']}");
+        header("location: {\Xmf\Request::getString('HTTP_REFERER', '', 'SERVER')}");
         exit;
 
     case 'mkTitlePic':
@@ -256,4 +256,4 @@ switch ($op) {
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('op', $op);
 $xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_themes/css/module.css');
-include_once 'footer.php';
+require_once __DIR__ . '/footer.php';

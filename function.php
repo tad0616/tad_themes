@@ -3,9 +3,9 @@
 if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php')) {
     redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
 }
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
+require_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
 
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadDataCenter.php';
+require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadDataCenter.php';
 $TadDataCenter = new TadDataCenter('tad_themes');
 
 /********************* 自訂函數 *********************/
@@ -43,7 +43,7 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
 
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $db_files_amount = 0;
-    while (list($files_sn, $file_name, $original_filename) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($files_sn, $file_name, $original_filename) = $xoopsDB->fetchRow($result))) {
         $db_files[$files_sn] = $original_filename;
         $db_files_amount++;
     }
@@ -144,7 +144,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
 function TadUpFilesBt_bg()
 {
     global $xoopsConfig;
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
     $TadUpFilesBt_bg = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/bt_bg", null, '', '/thumbs');
     $TadUpFilesBt_bg->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
 
@@ -154,7 +154,7 @@ function TadUpFilesBt_bg()
 function TadUpFiles_config2()
 {
     global $xoopsConfig;
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
     $TadUpFiles_config2 = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/config2", null, '', '/thumbs');
     $TadUpFiles_config2->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
 
@@ -164,7 +164,7 @@ function TadUpFiles_config2()
 function TadUpFilesSlide()
 {
     global $xoopsConfig;
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
     $TadUpFilesSlide = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/slide", null, '', '/thumbs');
     $TadUpFilesSlide->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
 
@@ -174,7 +174,7 @@ function TadUpFilesSlide()
 function TadUpFilesBg()
 {
     global $xoopsConfig;
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
     $TadUpFilesBg = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/bg", null, '', '/thumbs');
     $TadUpFilesBg->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
 
@@ -184,7 +184,7 @@ function TadUpFilesBg()
 function TadUpFilesLogo()
 {
     global $xoopsConfig;
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
     $TadUpFilesLogo = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/logo", null, '', '/thumbs');
     $TadUpFilesLogo->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
 
@@ -194,7 +194,7 @@ function TadUpFilesLogo()
 function TadUpFilesNavLogo()
 {
     global $xoopsConfig;
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
     $TadUpFilesNavLogo = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/navlogo", null, '', '/thumbs');
     $TadUpFilesNavLogo->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
 
@@ -204,7 +204,7 @@ function TadUpFilesNavLogo()
 function TadUpFilesNavBg()
 {
     global $xoopsConfig;
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
     $TadUpFilesNavBg = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/nav_bg", null, '', '/thumbs');
     $TadUpFilesNavBg->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
 

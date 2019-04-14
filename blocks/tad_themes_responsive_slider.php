@@ -51,7 +51,7 @@ function tad_themes_responsive_slider($options)
     }
 
     if (file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ResponsiveSlides.php')) {
-        include_once XOOPS_ROOT_PATH . '/modules/tadtools/ResponsiveSlides.php';
+        require_once XOOPS_ROOT_PATH . '/modules/tadtools/ResponsiveSlides.php';
         $ResponsiveSlides = new slider(120, false);
 
         $sql = 'select a.*,b.slide_width,b.slide_height from ' . $xoopsDB->prefix('tad_themes_files_center') . ' as a left join ' . $xoopsDB->prefix('tad_themes') . " as b on a.col_sn=b.theme_id  where a.`col_name`='slide' and b.`theme_name`='{$xoopsConfig['theme_set']}'";
@@ -59,7 +59,7 @@ function tad_themes_responsive_slider($options)
         $result = $xoopsDB->query($sql);
 
         $slide_images = 0;
-        while ($data = $xoopsDB->fetchArray($result)) {
+        while (false !== ($data = $xoopsDB->fetchArray($result))) {
             foreach ($data as $k => $v) {
                 $$k = $v;
                 //$this->assign($k,$$k);
