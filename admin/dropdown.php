@@ -1,4 +1,7 @@
 <?php
+
+use XoopsModules\Tad_themes\Utility;
+
 /*-----------引入檔案區--------------*/
 $GLOBALS['xoopsOption']['template_main'] = 'tad_themes_adm_dropdown.tpl';
 require_once __DIR__ . '/header.php';
@@ -267,7 +270,7 @@ function insert_tad_themes_menu()
     if (!empty($_FILES['image']['name'])) {
         $file_ending = mb_substr(mb_strtolower($_FILES['image']['name']), -3); //file extension
         $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
-        mk_dir($dir);
+        Utility::mk_dir($dir);
         $filename = $_FILES['image']['tmp_name'];
         $thumb_name1 = "{$dir}/{$menuid}_64.png";
         thumbnail($filename, $thumb_name1, $type_to_mime[$file_ending], 64);
@@ -278,7 +281,7 @@ function insert_tad_themes_menu()
     if (!empty($_FILES['banner_image']['name'])) {
         $file_ending = mb_substr(mb_strtolower($_FILES['banner_image']['name']), -3); //file extension
         $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_banner';
-        mk_dir($dir);
+        Utility::mk_dir($dir);
         $filename = $_FILES['banner_image']['tmp_name'];
         $destination = "{$dir}/{$menuid}.png";
         $thumb = "{$dir}/{$menuid}_thumb.png";
@@ -447,7 +450,7 @@ function update_tad_themes_menu($menuid = '')
     if (!empty($_FILES['image']['name'])) {
         $file_ending = mb_substr(mb_strtolower($_FILES['image']['name']), -3); //file extension
         $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
-        mk_dir($dir);
+        Utility::mk_dir($dir);
         $filename = $_FILES['image']['tmp_name'];
         $thumb_name1 = "{$dir}/{$menuid}_64.png";
         thumbnail($filename, $thumb_name1, $type_to_mime[$file_ending], 64);
@@ -458,7 +461,7 @@ function update_tad_themes_menu($menuid = '')
     if (!empty($_FILES['banner_image']['name'])) {
         $file_ending = mb_substr(mb_strtolower($_FILES['banner_image']['name']), -3); //file extension
         $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_banner';
-        mk_dir($dir);
+        Utility::mk_dir($dir);
         $filename = $_FILES['banner_image']['tmp_name'];
         $destination = "{$dir}/{$menuid}.png";
         $thumb = "{$dir}/{$menuid}_thumb.png";

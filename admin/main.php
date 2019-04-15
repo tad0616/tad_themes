@@ -336,8 +336,8 @@ function tad_themes_form()
     $xoopsTpl->assign('config_enable', $config_enable);
 
     //額外佈景設定
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2");
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2/thumbs");
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2");
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2/thumbs");
 
     foreach ($config2_files as $config2_file) {
         mk_config2($theme_id, $theme_name, $config2_file);
@@ -382,6 +382,8 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
         require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
         require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php";
 
+        $config2 = [];
+
         $config2_values = get_config2_values($theme_id);
         $TadUpFiles_config2 = TadUpFiles_config2();
         foreach ($theme_config as $k => $config) {
@@ -394,8 +396,8 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
             $config2[$k]['type'] = $config['type'];
             $config2[$k]['value'] = $value;
             $config2[$k]['default'] = $config['default'];
-            $config2[$k]['options'] = $config['options'];
-            $config2[$k]['images'] = $config['images'];
+            $config2[$k]['options'] = isset($config['options']) ? $config['options'] : null;
+            $config2[$k]['images'] = isset($config['images']) ? $config['images'] : null;
 
             if ('file' === $config['type']) {
                 import_img($config['default'], "config2_{$config_name}", $theme_id, '');
@@ -956,7 +958,7 @@ function update_tad_themes($theme_id = '')
     $TadDataCenter->set_col('theme_id', $theme_id);
     $TadDataCenter->saveData();
 
-    mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$_POST['theme_name']}");
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$_POST['theme_name']}");
 
     $slide_width = ('bootstrap3' === $_POST['theme_kind'] or 'bootstrap4' === $_POST['theme_kind']) ? 1920 : $_POST['slide_width'];
 
@@ -1063,6 +1065,7 @@ function delete_tad_themes($theme_id = '')
 function get_config2_values($theme_id = '')
 {
     global $xoopsDB, $xoopsConfig;
+    $values = [];
     $sql = 'select `name`, `type`, `value` from ' . $xoopsDB->prefix('tad_themes_config2') . " where `theme_id` = '{$theme_id}'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     //`theme_id`, `name`, `type`, `value`

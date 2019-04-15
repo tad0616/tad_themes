@@ -5,6 +5,8 @@ if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php')) {
 }
 require_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
 
+xoops_loadLanguage('admin', basename(dirname(__DIR__)));
+
 require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadDataCenter.php';
 $TadDataCenter = new TadDataCenter('tad_themes');
 

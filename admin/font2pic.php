@@ -1,4 +1,7 @@
 <?php
+
+use XoopsModules\Tad_themes\Utility;
+
 /*-----------引入檔案區--------------*/
 $GLOBALS['xoopsOption']['template_main'] = 'tad_themes_adm_font2pic.tpl';
 require_once __DIR__ . '/header.php';
@@ -158,7 +161,7 @@ function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8
             $border_size // outline width
         );
     }
-    mk_dir(XOOPS_ROOT_PATH . '/uploads/tmp_logo');
+    Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tmp_logo');
     $filename = date('ymdHis');
     imagepng($im, XOOPS_ROOT_PATH . "/uploads/tmp_logo/{$filename}.png");
     imagedestroy($im);
@@ -227,7 +230,7 @@ switch ($op) {
         exit;
 
     case 'save_pic':
-        mk_dir(XOOPS_ROOT_PATH . '/uploads/logo');
+        Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/logo');
         copy(XOOPS_ROOT_PATH . "/uploads/tmp_logo/{$name}.png", XOOPS_ROOT_PATH . "/uploads/logo/{$name}.png");
         delete_dirfile(XOOPS_ROOT_PATH . '/uploads/tmp_logo');
         header("location: font2pic.php?title={$title}&size={$size}&border_size={$border_size}&color={$color}&border_color={$border_color}&font_file_sn={$font_file_sn}");
