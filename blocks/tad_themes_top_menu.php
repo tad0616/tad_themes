@@ -75,7 +75,7 @@ if (!function_exists('block_menu_options')) {
             arr[i] = document.getElementById('c{$menuid}').value;
             i++;
             }";
-            $ckecked = (in_array($menuid, $sc, true)) ? 'checked' : '';
+            $ckecked = (in_array($menuid, $sc)) ? 'checked' : '';
             $option .= "<span style='white-space:nowrap;'><input type='checkbox' id='c{$menuid}' value='{$menuid}' class='bbv' onChange=bbv() $ckecked><label for='c{$menuid}'>$itemname</label></span> ";
         }
 
