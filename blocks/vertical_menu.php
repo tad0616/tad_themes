@@ -105,7 +105,7 @@ if (!function_exists('block_menu_options')) {
          arr[i] = document.getElementById('c{$menuid}').value;
          i++;
         }";
-            $ckecked = (in_array($menuid, $sc, true)) ? 'checked' : '';
+            $ckecked = (in_array($menuid, $sc)) ? 'checked' : '';
             $color = '0' == $of_level ? 'blue' : 'black';
             $color = '1' == $status ? $color : 'gray';
             $option .= "

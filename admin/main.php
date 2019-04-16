@@ -1186,7 +1186,7 @@ function export_config($theme_id = '')
     $position_blocks = '';
     foreach ($blocks as $block_position => $b) {
         foreach ($b as $k => $v) {
-            if (in_array($k, $bs, true)) {
+            if (in_array($k, $bs)) {
                 if ($bt_default[$k] != $v) {
                     if ('bt_bg_img' === $k) {
                         if ($v and 'transparent' !== $v) {

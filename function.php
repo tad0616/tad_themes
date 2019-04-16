@@ -61,7 +61,7 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
                 $type = filetype($path . '/' . $file);
 
                 if ('dir' !== $type) {
-                    if (!in_array($file, $db_files, true)) {
+                    if (!in_array($file, $db_files)) {
                         import_file($path . '/' . $file, $col_name, $col_sn, null, null, $desc, $safe_name);
                     }
                 }
