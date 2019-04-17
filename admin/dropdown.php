@@ -56,7 +56,7 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
           <div class='col-xs-3'>
             <select name='of_level' id='of_level' class='form-control'>
             <option value=''>" . _MA_TADTHEMES_ROOT . '</option>
-            ' . get_tad_all_menu('', '', $of_level, $menuid, '1') . '
+            ' . get_tad_all_menu(0, 0, $of_level, $menuid, '1') . '
             </select>
           </div>
         ';
