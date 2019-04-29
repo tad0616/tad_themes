@@ -16,10 +16,10 @@
  * @author       Tad
  * @version      $Id $
  **/
-include '../../../include/cp_header.php';
-include '../../../class/xoopsformloader.php';
+require '../../../include/cp_header.php';
+require '../../../class/xoopsformloader.php';
 xoops_cp_header();
-include_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/admin.php';
+require_once XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/class/admin.php';
 
 $module_info = $module_handler->get($xoopsModule->getVar('mid'));
 

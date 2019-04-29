@@ -1,10 +1,11 @@
 <?php
+
+use XoopsModules\Tadtools\Utility;
 //區塊主函式 (垂直BootStrap選單)
 function vertical_bootstrap_menu($options)
 {
     global $xoopsDB;
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
-    include_once XOOPS_ROOT_PATH . '/modules/tad_themes/function_block.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tad_themes/function_block.php';
     $in = empty($options[0]) ? "status='1' and of_level=0" : "menuid in({$options[0]})";
     //$menu=explode(",",$options[0]);
     $sql = 'select `menuid`,`itemname`,`itemurl`,`target`,`icon`,`position` from ' . $xoopsDB->prefix('tad_themes_menu') . " where $in order by position";
@@ -34,7 +35,7 @@ function vertical_bootstrap_menu($options)
         $i++;
     }
     $block['menu'] = $menu;
-    $block['jquery'] = get_jquery();
+    $block['jquery'] = Utility::get_jquery();
     //die(var_dump($block));
     return $block;
 }

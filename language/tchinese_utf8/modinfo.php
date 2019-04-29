@@ -1,5 +1,5 @@
 <?php
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/language/' . $xoopsConfig['language'] . '/modinfo_common.php';
+xoops_loadLanguage('modinfo_common', 'tadtools');
 
 define('_MI_TADTHEMES_NAME', '佈景管理');
 define('_MI_TADTHEMES_DESC', '此模組用來管理佈景');

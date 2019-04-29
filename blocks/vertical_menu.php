@@ -1,12 +1,13 @@
 <?php
+
+use XoopsModules\Tadtools\Utility;
 //區塊主函式 (vertical_menu)
 function vertical_menu($options)
 {
     global $xoopsDB, $xoTheme;
     $xoTheme->addStylesheet('modules/tadtools/css/vertical_menu.css');
 
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
-    include_once XOOPS_ROOT_PATH . '/modules/tad_themes/function_block.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tad_themes/function_block.php';
     $in = empty($options[0]) ? "status='1' and of_level=0" : "menuid in({$options[0]})";
     //$menu=explode(",",$options[0]);
     $sql = 'select `menuid`,`itemname`,`itemurl`,`target`,`icon`,`position` from ' . $xoopsDB->prefix('tad_themes_menu') . " where $in order by position";
@@ -36,14 +37,14 @@ function vertical_menu($options)
         $i++;
     }
     $block['menu'] = $menu;
-    $block['jquery'] = get_jquery();
+    $block['jquery'] = Utility::get_jquery();
     $block['pin'] = $options[1];
 
     if ('1' == $options[1]) {
         if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/jquery_pin.php')) {
             redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
         }
-        include_once XOOPS_ROOT_PATH . '/modules/tadtools/jquery_pin.php';
+        require_once XOOPS_ROOT_PATH . '/modules/tadtools/jquery_pin.php';
         $jquery_pin = new jquery_pin();
         $jquery_pin_code = $jquery_pin->render('.vertical_menu');
         $block['jquery_pin_code'] = $jquery_pin_code;

@@ -1,10 +1,14 @@
 <?php
+use XoopsModules\Tadtools\FormValidator;
+use XoopsModules\Tadtools\MColorPicker;
+use XoopsModules\Tadtools\SweetAlert;
+use XoopsModules\Tadtools\TadUpFiles;
+use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_themes_adm_font2pic.tpl';
-include_once 'header.php';
-include_once '../function.php';
+require_once 'header.php';
+require_once '../function.php';
 
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
 $TadUpFontFiles = new TadUpFiles('tad_themes', '/fonts');
 $TadUpFontFiles->set_col('logo_fonts', 0);
 /*-----------function區--------------*/
@@ -46,12 +50,8 @@ function tad_themes_logo_form()
     // die(var_export($fonts));
     $xoopsTpl->assign('fonts', $fonts);
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php';
-    $mColorPicker = new mColorPicker('.color');
-    $mColorPicker->render();
+    $MColorPicker = new MColorPicker('.color');
+    $MColorPicker->render();
 
     $dir = XOOPS_ROOT_PATH . '/uploads/logo/';
     $logos = [];
@@ -69,19 +69,11 @@ function tad_themes_logo_form()
     arsort($logos);
     $xoopsTpl->assign('logos', $logos);
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
-    $sweet_alert = new sweet_alert();
-    $sweet_alert->render('del_logo', 'font2pic.php?op=del_logo&logo=', 'logo');
+    $SweetAlert = new SweetAlert();
+    $SweetAlert->render('del_logo', 'font2pic.php?op=del_logo&logo=', 'logo');
 
-    if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-    }
-    include_once TADTOOLS_PATH . '/formValidator.php';
-    $formValidator = new formValidator('#myForm', true);
-    $formValidator_code = $formValidator->render();
+    $FormValidator = new FormValidator('#myForm', true);
+    $FormValidator->render();
 }
 
 function strLength($str, $charset = 'utf-8')
@@ -90,14 +82,14 @@ function strLength($str, $charset = 'utf-8')
         $str = iconv('utf-8', 'big5', $str);
     }
 
-    $num   = strlen($str);
+    $num = strlen($str);
     $cnNum = 0;
     for ($i = 0; $i < $num; $i++) {
         if (ord(substr($str, $i, 1)) > 127) {
             $cnNum++;
         }
     }
-    $enNum  = $num - ($cnNum * 2);
+    $enNum = $num - ($cnNum * 2);
     $number = ($enNum / 2) + $cnNum;
     return ceil($number);
 }
@@ -158,7 +150,7 @@ function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8
             $border_size // outline width
         );
     }
-    mk_dir(XOOPS_ROOT_PATH . '/uploads/tmp_logo');
+    Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tmp_logo');
     $filename = date('ymdHis');
     imagepng($im, XOOPS_ROOT_PATH . "/uploads/tmp_logo/{$filename}.png");
     imagedestroy($im);
@@ -205,7 +197,7 @@ function delete_dirfile($dirname)
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $theme_id = system_CleanVars($_REQUEST, 'theme_id', 0, 'int');
 $files_sn = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
@@ -227,7 +219,7 @@ switch ($op) {
         exit;
 
     case 'save_pic':
-        mk_dir(XOOPS_ROOT_PATH . '/uploads/logo');
+        Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/logo');
         copy(XOOPS_ROOT_PATH . "/uploads/tmp_logo/{$name}.png", XOOPS_ROOT_PATH . "/uploads/logo/{$name}.png");
         delete_dirfile(XOOPS_ROOT_PATH . '/uploads/tmp_logo');
         header("location: font2pic.php?title={$title}&size={$size}&border_size={$border_size}&color={$color}&border_color={$border_color}&font_file_sn={$font_file_sn}");
@@ -256,4 +248,4 @@ switch ($op) {
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('op', $op);
 $xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_themes/css/module.css');
-include_once 'footer.php';
+require_once 'footer.php';

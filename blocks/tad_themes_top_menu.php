@@ -1,9 +1,10 @@
 <?php
+
+use XoopsModules\Tadtools\Utility;
 //區塊主函式 (上方隱藏選單)
 function tad_themes_top_menu($options)
 {
     global $xoopsDB;
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
 
     //$menu=explode(",",$options[0]);
     $sql = 'select `menuid`,`itemname`,`itemurl`,`target`,`icon` from ' . $xoopsDB->prefix('tad_themes_menu') . " where menuid in({$options[0]}) order by position";
@@ -28,7 +29,7 @@ function tad_themes_top_menu($options)
     }
     $block['menu'] = $menu;
     $block['width'] = $i * 110;
-    $block['jquery'] = get_jquery();
+    $block['jquery'] = Utility::get_jquery();
 
     return $block;
 }
