@@ -1,5 +1,6 @@
 <?php
 use XoopsModules\Tadtools\FancyBox;
+use XoopsModules\Tadtools\TreeTable;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_themes_adm_dropdown.tpl';
@@ -310,14 +311,9 @@ function list_tad_themes_menu($add_of_level = '', $menuid = '')
     $xoopsTpl->assign('option', $option);
     $xoopsTpl->assign('add_item', sprintf(_MA_TADTHEMES_ADDITEM, _MA_TADTHEMES_ROOT));
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-    }
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php';
-
     //treetable($show_jquery=true , $sn="cat_sn" , $of_sn="of_cat_sn" , $tbl_id="#tbl" , $post_url="save_drag.php" ,$folder_class=".folder", $msg="#save_msg" ,$expanded=true,$sort_id="", $sort_url="save_sort.php", $sort_msg="#save_msg2")
-    $treetable = new treetable(false, 'menuid', 'of_level', '#tbl', 'save_drag.php', '.folder', '#save_msg', true, '.sort', 'save_sort.php', '#save_msg');
-    $treetable_code = $treetable->render();
+    $TreeTable = new TreeTable(false, 'menuid', 'of_level', '#tbl', 'save_drag.php', '.folder', '#save_msg', true, '.sort', 'save_sort.php', '#save_msg');
+    $treetable_code = $TreeTable->render();
 
     $xoopsTpl->assign('treetable_code', $treetable_code);
 

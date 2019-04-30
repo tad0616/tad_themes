@@ -1,4 +1,5 @@
 <?php
+use XoopsModules\Tadtools\EasyResponsiveTabs;
 use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\MColorPicker;
 use XoopsModules\Tadtools\Utility;
@@ -343,14 +344,10 @@ function tad_themes_form()
 
     $xoTheme->addScript('modules/tadtools/jqueryCookie/jquery.cookie.js');
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/easy_responsive_tabs.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-    }
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/easy_responsive_tabs.php';
-    $responsive_tabs = new easy_responsive_tabs('#themeTab');
-    $responsive_tabs->rander('tab_identifier_parent');
+    $EasyResponsiveTabs = new EasyResponsiveTabs('#themeTab');
+    $EasyResponsiveTabs->rander('tab_identifier_parent');
 
-    $block_tabs = new easy_responsive_tabs('#bt_tabs', 'vertical');
+    $block_tabs = new EasyResponsiveTabs('#bt_tabs', 'vertical');
     $block_tabs->rander('tab_identifier_child');
 
     $TadDataCenter->set_col('theme_id', $theme_id);

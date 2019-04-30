@@ -1,6 +1,8 @@
 <?php
 
+use XoopsModules\Tadtools\JqueryPin;
 use XoopsModules\Tadtools\Utility;
+
 //區塊主函式 (vertical_menu)
 function vertical_menu($options)
 {
@@ -41,13 +43,9 @@ function vertical_menu($options)
     $block['pin'] = $options[1];
 
     if ('1' == $options[1]) {
-        if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/jquery_pin.php')) {
-            redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-        }
-        require_once XOOPS_ROOT_PATH . '/modules/tadtools/jquery_pin.php';
-        $jquery_pin = new jquery_pin();
-        $jquery_pin_code = $jquery_pin->render('.vertical_menu');
-        $block['jquery_pin_code'] = $jquery_pin_code;
+
+        $JqueryPin = new JqueryPin();
+        $JqueryPin->render('.vertical_menu');
     }
 
     return $block;
