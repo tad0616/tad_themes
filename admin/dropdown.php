@@ -43,7 +43,7 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
         $migrate = '/modules/tadtools/jquery/jquery-migrate-1.4.1.min.js';
     }
 
-    $SelectGroup_name = new XoopsFormSelectGroup('read_group', 'read_group', true, $read_group_array, 4, true);
+    $SelectGroup_name = new \XoopsFormSelectGroup('read_group', 'read_group', true, $read_group_array, 4, true);
     $SelectGroup_name->setExtra("class='form-control' id='read_group'");
     $enable_group = $SelectGroup_name->render();
 
