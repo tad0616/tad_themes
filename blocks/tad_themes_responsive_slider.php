@@ -1,5 +1,10 @@
 <?php
 use XoopsModules\Tadtools\ResponsiveSlides;
+
+if (!class_exists('XoopsModules\Tadtools\ResponsiveSlides')) {
+    require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
+}
+
 //區塊主函式
 function tad_themes_responsive_slider($options)
 {

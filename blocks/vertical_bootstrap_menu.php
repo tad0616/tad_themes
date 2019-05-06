@@ -1,6 +1,10 @@
 <?php
 
 use XoopsModules\Tadtools\Utility;
+if (!class_exists('XoopsModules\Tadtools\Utility')) {
+    require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
+}
+
 //區塊主函式 (垂直BootStrap選單)
 function vertical_bootstrap_menu($options)
 {
