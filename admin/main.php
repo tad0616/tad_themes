@@ -681,7 +681,7 @@ function change_css($theme_width, $theme_left_width)
         $('#theme_foot').css('width',theme_width+'px');
 
 
-        if(them e_type!='theme_type_8'){
+        if(theme_type!='theme_type_8'){
             if($('#lb_width').val()==theme_width_org){
                 $('#lb_width').val(lb_width_org);
             }
