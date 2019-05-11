@@ -1,9 +1,10 @@
 <?php
-
+use XoopsModules\Tadtools\FancyBox;
+use XoopsModules\Tadtools\TreeTable;
+use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tad_themes\Utility;
-
 /*-----------引入檔案區--------------*/
-$GLOBALS['xoopsOption']['template_main'] = 'tad_themes_adm_dropdown.tpl';
+$xoopsOption['template_main'] = 'tad_themes_adm_dropdown.tpl';
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
 
@@ -36,11 +37,11 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
     $read_group = (!isset($DBV['read_group'])) ? [1, 2, 3] : $DBV['read_group'];
     $read_group_array = explode(',', $read_group);
     $xoopsTpl->assign('icon', $icon);
-    $ver = (int)str_replace('.', '', mb_substr(XOOPS_VERSION, 6, 5));
+    $ver = (int) str_replace('.', '', str_replace('XOOPS ', '', XOOPS_VERSION));
     if ($ver >= 259) {
-        $migrate = '/modules/tadtools/jquery/jquery-migrate-3.0.0.min.js';
+        $xoTheme->addScript('modules/tadtools/jquery/jquery-migrate-3.0.0.min.js');
     } else {
-        $migrate = '/modules/tadtools/jquery/jquery-migrate-1.4.1.min.js';
+        $xoTheme->addScript('modules/tadtools/jquery/jquery-migrate-1.4.1.min.js');
     }
 
     $SelectGroup_name = new \XoopsFormSelectGroup('read_group', 'read_group', true, $read_group_array, 4, true);
@@ -56,7 +57,7 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
           <div class='col-xs-3'>
             <select name='of_level' id='of_level' class='form-control'>
             <option value=''>" . _MA_TADTHEMES_ROOT . '</option>
-            ' . get_tad_all_menu(0, 0, $of_level, $menuid, '1') . '
+            ' . get_tad_all_menu('', '', $of_level, $menuid, '1') . '
             </select>
           </div>
         ';
@@ -90,8 +91,8 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
             <div class='col-xs-3'>
                 <select name='target' class='form-control'>
                     <option value='_self'></option>
-                    <option value='_blank' " . chk($target, '_blank', 0, 'selected') . '>' . _MA_TADTHEMES_TARGET_BLANK . "</option>
-                    <option value='popup' " . chk($target, 'popup', 0, 'selected') . '>' . _MA_TADTHEMES_TARGET_FANCYBOX . "</option>
+                    <option value='_blank' " . Utility::chk($target, '_blank', 0, 'selected') . '>' . _MA_TADTHEMES_TARGET_BLANK . "</option>
+                    <option value='popup' " . Utility::chk($target, 'popup', 0, 'selected') . '>' . _MA_TADTHEMES_TARGET_FANCYBOX . "</option>
                 </select>
             </div>
         </div>
@@ -128,7 +129,7 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
     </form>';
 
     if ('die' === $mode) {
-        $jquery = get_jquery();
+        $jquery = Utility::get_jquery();
         $main2 = "
         <!DOCTYPE html>
         <html lang='zh-TW'>
@@ -238,7 +239,7 @@ function get_max_sort($of_level = '')
 {
     global $xoopsDB, $xoopsModule;
     $sql = 'select max(position) from ' . $xoopsDB->prefix('tad_themes_menu') . " where of_level='$of_level'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     list($sort) = $xoopsDB->fetchRow($result);
 
     return ++$sort;
@@ -248,7 +249,7 @@ function get_max_sort($of_level = '')
 function insert_tad_themes_menu()
 {
     global $xoopsDB;
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $of_level = (int) $_POST['of_level'];
     $position = (int) $_POST['position'];
     $itemname = $myts->addSlashes($_POST['itemname']);
@@ -258,7 +259,7 @@ function insert_tad_themes_menu()
     $read_group = implode(',', $_POST['read_group']);
 
     $sql = 'insert into ' . $xoopsDB->prefix('tad_themes_menu') . " (`of_level`,`position`,`itemname`,`itemurl`,`membersonly`,`status`,`mainmenu`,`target`,`icon`,`read_group`) values('{$of_level}', '{$position}', '{$itemname}', '{$itemurl}', '0', '1', '0', '{$target}', '{$icon}', '{$read_group}')";
-    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     //取得最後新增資料的流水編號
     $menuid = $xoopsDB->getInsertId();
 
@@ -304,31 +305,21 @@ function list_tad_themes_menu($add_of_level = '', $menuid = '')
 
     //$all=(empty($all))?"<tr><td colspan=2>".tad_themes_menu_form()."</td></tr>":$all;
 
-    $jquery = get_jquery(true);
+    $jquery = Utility::get_jquery(true);
 
     $xoopsTpl->assign('jquery', $jquery);
     $xoopsTpl->assign('all', $all);
     $xoopsTpl->assign('option', $option);
     $xoopsTpl->assign('add_item', sprintf(_MA_TADTHEMES_ADDITEM, _MA_TADTHEMES_ROOT));
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php')) {
-        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
-    }
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/treetable.php';
-
     //treetable($show_jquery=true , $sn="cat_sn" , $of_sn="of_cat_sn" , $tbl_id="#tbl" , $post_url="save_drag.php" ,$folder_class=".folder", $msg="#save_msg" ,$expanded=true,$sort_id="", $sort_url="save_sort.php", $sort_msg="#save_msg2")
-    $treetable = new treetable(false, 'menuid', 'of_level', '#tbl', 'save_drag.php', '.folder', '#save_msg', true, '.sort', 'save_sort.php', '#save_msg');
-    $treetable_code = $treetable->render();
+    $TreeTable = new TreeTable(false, 'menuid', 'of_level', '#tbl', 'save_drag.php', '.folder', '#save_msg', true, '.sort', 'save_sort.php', '#save_msg');
+    $treetable_code = $TreeTable->render();
 
     $xoopsTpl->assign('treetable_code', $treetable_code);
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php')) {
-        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
-    }
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/fancybox.php';
-    $fancybox = new fancybox('.edit_dropdown', '800', '400');
-    $fancybox_code = $fancybox->render();
-    $xoopsTpl->assign('fancybox_code', $fancybox_code);
+    $FancyBox = new FancyBox('.edit_dropdown', '800', '400');
+    $FancyBox->render();
 
     $xoTheme->addStylesheet('modules/tadtools/css/font-awesome/css/font-awesome.min.css');
     $xoTheme->addScript('modules/tadtools/bootstrap3/js/bootstrap.js');
@@ -347,7 +338,7 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '
 
     $option = '';
     $sql = 'select `menuid`,`of_level`,`itemname`,`position`,`itemurl`,`status`,`mainmenu`,`target`,`icon`,`link_cate_name`, `link_cate_sn` from ' . $xoopsDB->prefix('tad_themes_menu') . " where of_level='{$of_level}'  order by position";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $op = (!isset($_REQUEST['op'])) ? '' : $_REQUEST['op'];
     $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
@@ -419,7 +410,7 @@ function get_tad_themes_menu($menuid = '')
     }
 
     $sql = 'select * from ' . $xoopsDB->prefix('tad_themes_menu') . " where menuid='$menuid'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $data = $xoopsDB->fetchArray($result);
 
     return $data;
@@ -429,7 +420,7 @@ function get_tad_themes_menu($menuid = '')
 function update_tad_themes_menu($menuid = '')
 {
     global $xoopsDB;
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $of_level = (int) $_POST['of_level'];
     $position = (int) $_POST['position'];
     $status = (int) $_POST['status'];
@@ -440,7 +431,7 @@ function update_tad_themes_menu($menuid = '')
     $read_group = implode(',', $_POST['read_group']);
 
     $sql = 'update ' . $xoopsDB->prefix('tad_themes_menu') . " set  `of_level` = '{$of_level}', `position` = '{$position}', `itemname` = '{$itemname}', `itemurl` = '{$itemurl}', `membersonly` = '0', `status` = '{$status}', `target`='{$target}',`icon`='{$icon}', `read_group`='{$read_group}' where menuid='$menuid'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $type_to_mime['png'] = 'image/png';
     $type_to_mime['jpg'] = 'image/jpg';
@@ -477,7 +468,7 @@ function delete_tad_themes_menu($menuid = '')
 {
     global $xoopsDB;
     $sql = 'delete from ' . $xoopsDB->prefix('tad_themes_menu') . " where menuid='$menuid'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 
 //取得分類下拉選單
@@ -495,7 +486,7 @@ function get_tad_all_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '',
 
     $option = '';
     $sql = 'select `menuid`,`of_level`,`itemname` from ' . $xoopsDB->prefix('tad_themes_menu') . " where of_level='{$of_level}'  order by position";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (list($menuid, $of_level, $itemname) = $xoopsDB->fetchRow($result)) {
         if ('1' == $no_self and $this_menuid == $menuid) {
@@ -517,7 +508,7 @@ function save_sort()
     global $xoopsDB;
     foreach ($_POST['sort'] as $menuid => $position) {
         $sql = 'update ' . $xoopsDB->prefix('tad_themes_menu') . " set  `position` = '{$position}' where menuid='{$menuid}'";
-        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     }
 }
 
@@ -528,18 +519,18 @@ function auto_import()
 
     $position = get_max_sort(0);
     $sql = 'insert into ' . $xoopsDB->prefix('tad_themes_menu') . " (`of_level`,`position`,`itemname`,`itemurl`,`membersonly`,`status`) values(0,'{$position}','" . _MA_TADTHEMES_WEB_MENU . "','','0','1')";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     $of_level = $xoopsDB->getInsertId();
 
     $sql = 'select name,dirname from ' . $xoopsDB->prefix('modules') . " where isactive='1' and hasmain='1' order by weight";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (list($name, $dirname) = $xoopsDB->fetchRow($result)) {
         $position = get_max_sort($of_level);
         $sql = 'insert into ' . $xoopsDB->prefix('tad_themes_menu') . " (`of_level`,`position`,`itemname`,`itemurl`,`membersonly`,`status`) values('{$of_level}','{$position}','{$name}','" . XOOPS_URL . "/modules/{$dirname}/','0','1')";
-        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     }
 }
 
@@ -547,7 +538,7 @@ function tad_themes_menu_status($menuid, $status)
 {
     global $xoopsDB;
     $sql = 'update ' . $xoopsDB->prefix('tad_themes_menu') . " set  `status` = '$status' where menuid='$menuid'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 
 //刪除圖片

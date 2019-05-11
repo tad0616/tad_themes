@@ -1,3 +1,10 @@
+Tad Themes 5.4 (released from 2019-05-10)
+=================================================
+1. Remove the "Back to Home" link in the "Vertical Menu" and "Vertical BootStrap Menu" blocks.
+2. Fixed the problem that the Chinese and English mixed characters would be too large when making the logo.
+3. Support XOOPS 2.5.10
+4. No longer supports PHP 5.3
+
 Tad Themes 5.3 (released from 2019-03-21)
 ==========================================================
 1. Fix the BootStrap3 template

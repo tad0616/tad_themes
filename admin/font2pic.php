@@ -1,13 +1,15 @@
 <?php
-
+use XoopsModules\Tadtools\FormValidator;
+use XoopsModules\Tadtools\MColorPicker;
+use XoopsModules\Tadtools\SweetAlert;
+use XoopsModules\Tadtools\TadUpFiles;
+use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tad_themes\Utility;
-
 /*-----------引入檔案區--------------*/
-$GLOBALS['xoopsOption']['template_main'] = 'tad_themes_adm_font2pic.tpl';
+$xoopsOption['template_main'] = 'tad_themes_adm_font2pic.tpl';
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
 
-require_once XOOPS_ROOT_PATH . '/modules/tadtools/TadUpFiles.php';
 $TadUpFontFiles = new TadUpFiles('tad_themes', '/fonts');
 $TadUpFontFiles->set_col('logo_fonts', 0);
 /*-----------function區--------------*/
@@ -49,12 +51,8 @@ function tad_themes_logo_form()
     // die(var_export($fonts));
     $xoopsTpl->assign('fonts', $fonts);
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php')) {
-        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
-    }
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php';
-    $mColorPicker = new mColorPicker('.color');
-    $mColorPicker->render();
+    $MColorPicker = new MColorPicker('.color');
+    $MColorPicker->render();
 
     $dir = XOOPS_ROOT_PATH . '/uploads/logo/';
     $logos = [];
@@ -72,19 +70,11 @@ function tad_themes_logo_form()
     arsort($logos);
     $xoopsTpl->assign('logos', $logos);
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php')) {
-        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
-    }
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
-    $sweet_alert = new sweet_alert();
-    $sweet_alert->render('del_logo', 'font2pic.php?op=del_logo&logo=', 'logo');
+    $SweetAlert = new SweetAlert();
+    $SweetAlert->render('del_logo', 'font2pic.php?op=del_logo&logo=', 'logo');
 
-    if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
-        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
-    }
-    require_once TADTOOLS_PATH . '/formValidator.php';
-    $formValidator = new formValidator('#myForm', true);
-    $formValidator_code = $formValidator->render();
+    $FormValidator = new FormValidator('#myForm', true);
+    $FormValidator->render();
 }
 
 function strLength($str, $charset = 'utf-8')

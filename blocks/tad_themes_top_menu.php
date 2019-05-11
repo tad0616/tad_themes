@@ -1,4 +1,9 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+if (!class_exists('XoopsModules\Tadtools\Utility')) {
+    require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
+}
+
 //區塊主函式 (上方隱藏選單)
 function tad_themes_top_menu($options)
 {
@@ -28,7 +33,7 @@ function tad_themes_top_menu($options)
     }
     $block['menu'] = $menu;
     $block['width'] = $i * 110;
-    $block['jquery'] = get_jquery();
+    $block['jquery'] = Utility::get_jquery();
 
     return $block;
 }

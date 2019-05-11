@@ -1,117 +1,124 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_themes\Update;
 
-use XoopsModules\Tad_themes\Utility;
+if (!class_exists('XoopsModules\Tadtools\Utility')) {
+    require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
+}
+if (!class_exists('XoopsModules\Tad_themes\Update')) {
+    include dirname(__DIR__) . '/preloads/autoloader.php';
+}
 
 function xoops_module_update_tad_themes(&$module, $old_version)
 {
     global $xoopsDB;
 
-    if (!Utility::chk_chk1()) {
-        Utility::go_update1();
+    if (!Update::chk_chk1()) {
+        Update::go_update1();
     }
 
-    if (!Utility::chk_chk2()) {
-        Utility::go_update2();
+    if (!Update::chk_chk2()) {
+        Update::go_update2();
     }
 
-    //if(!Utility::chk_chk3()) Utility::go_update3();
-    if (!Utility::chk_chk4()) {
-        Utility::go_update4();
+    //if(!Update::chk_chk3()) Update::go_update3();
+    if (!Update::chk_chk4()) {
+        Update::go_update4();
     }
 
-    if (!Utility::chk_chk5()) {
-        Utility::go_update5();
+    if (!Update::chk_chk5()) {
+        Update::go_update5();
     }
 
-    if (!Utility::chk_chk6()) {
-        Utility::go_update6();
+    if (!Update::chk_chk6()) {
+        Update::go_update6();
     }
 
-    if (!Utility::chk_chk7()) {
-        Utility::go_update7();
+    if (!Update::chk_chk7()) {
+        Update::go_update7();
     }
 
-    if (!Utility::chk_chk8()) {
-        Utility::go_update8();
+    if (!Update::chk_chk8()) {
+        Update::go_update8();
     }
 
-    if (!Utility::chk_chk9()) {
-        Utility::go_update9();
+    if (!Update::chk_chk9()) {
+        Update::go_update9();
     }
 
-    if (!Utility::chk_chk10()) {
-        Utility::go_update10();
+    if (!Update::chk_chk10()) {
+        Update::go_update10();
     }
 
-    if (!Utility::chk_chk11()) {
-        Utility::go_update11();
+    if (!Update::chk_chk11()) {
+        Update::go_update11();
     }
 
-    if (!Utility::chk_chk12()) {
-        Utility::go_update12();
+    if (!Update::chk_chk12()) {
+        Update::go_update12();
     }
 
-    if (!Utility::chk_chk13()) {
-        Utility::go_update13();
+    if (!Update::chk_chk13()) {
+        Update::go_update13();
     }
 
-    if (!Utility::chk_chk14()) {
-        Utility::go_update14();
+    if (!Update::chk_chk14()) {
+        Update::go_update14();
     }
 
-    if (!Utility::chk_chk15()) {
-        Utility::go_update15();
+    if (!Update::chk_chk15()) {
+        Update::go_update15();
     }
 
-    if (!Utility::chk_chk16()) {
-        Utility::go_update16();
+    if (!Update::chk_chk16()) {
+        Update::go_update16();
     }
 
-    if (Utility::chk_chk17()) {
-        Utility::go_update17();
+    if (Update::chk_chk17()) {
+        Update::go_update17();
     }
 
-    if (Utility::chk_chk18()) {
-        Utility::go_update18();
+    if (Update::chk_chk18()) {
+        Update::go_update18();
     }
 
-    if (Utility::chk_chk19()) {
-        Utility::go_update19();
+    if (Update::chk_chk19()) {
+        Update::go_update19();
     }
 
-    if (Utility::chk_chk20()) {
-        Utility::go_update20();
+    if (Update::chk_chk20()) {
+        Update::go_update20();
     }
 
-    if (Utility::chk_files_center()) {
-        Utility::go_update_files_center();
+    if (Update::chk_files_center()) {
+        Update::go_update_files_center();
     }
 
-    if (!Utility::chk_chk21()) {
-        Utility::go_update21();
+    if (!Update::chk_chk21()) {
+        Update::go_update21();
     }
 
-    if (Utility::chk_chk22()) {
-        Utility::go_update22();
+    if (Update::chk_chk22()) {
+        Update::go_update22();
     }
 
     //加入id以及時間欄位
-    if (Utility::chk_data_center()) {
-        Utility::go_update_data_center();
+    if (Update::chk_data_center()) {
+        Update::go_update_data_center();
     }
 
-    if (Utility::chk_chk23()) {
-        Utility::go_update23();
+    if (Update::chk_chk23()) {
+        Update::go_update23();
     }
-    if (Utility::chk_chk24()) {
-        Utility::go_update24();
+    if (Update::chk_chk24()) {
+        Update::go_update24();
     }
 
-    Utility::chk_tad_themes_block();
+    Update::chk_tad_themes_block();
 
     //新增檔案欄位
-    if (Utility::chk_fc_tag()) {
-        Utility::go_fc_tag();
+    if (Update::chk_fc_tag()) {
+        Update::go_fc_tag();
     }
 
     Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_themes');

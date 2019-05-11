@@ -1,9 +1,10 @@
 <?php
-
+use XoopsModules\Tadtools\EasyResponsiveTabs;
+use XoopsModules\Tadtools\FormValidator;
+use XoopsModules\Tadtools\MColorPicker;
 use XoopsModules\Tadtools\Utility;
-
 /*-----------引入檔案區-------------- */
-$GLOBALS['xoopsOption']['template_main'] = 'tad_themes_adm_main.tpl';
+$xoopsOption['template_main'] = 'tad_themes_adm_main.tpl';
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/auto_import_theme.php';
 
@@ -238,16 +239,11 @@ function tad_themes_form()
 
     $theme_kind_txt_arr = ['bootstrap4' => _MA_TADTHEMES_THEME_KIND_BOOTSTRAP4, 'bootstrap3' => _MA_TADTHEMES_THEME_KIND_BOOTSTRAP3, 'html' => _MA_TADTHEMES_THEME_KIND_HTML, 'mix' => _MA_TADTHEMES_THEME_KIND_MIX];
 
-    if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
-        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
-    }
-    require_once TADTOOLS_PATH . '/formValidator.php';
-    $formValidator = new formValidator('#myForm', true);
-    $formValidator_code = $formValidator->render();
+    $FormValidator = new FormValidator('#myForm', true);
+    $FormValidator->render();
 
     $xoopsTpl->assign('theme_change', $theme_change);
     $xoopsTpl->assign('theme_name', $theme_name);
-    $xoopsTpl->assign('formValidator_code', $formValidator_code);
 
     $xoopsTpl->assign('bg_img', $bg_img);
     $xoopsTpl->assign('chang_css', $chang_css);
@@ -325,7 +321,7 @@ function tad_themes_form()
     $xoopsTpl->assign('slide_height', $slide_height);
     $xoopsTpl->assign('op', $op);
 
-    $xoopsTpl->assign('jquery', get_jquery(true));
+    $xoopsTpl->assign('jquery', Utility::get_jquery(true));
 
     //區塊設定
     $blocks_values = get_blocks_values($theme_id);
@@ -343,23 +339,15 @@ function tad_themes_form()
         mk_config2($theme_id, $theme_name, $config2_file);
     }
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php')) {
-        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
-    }
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php';
-    $mColorPicker = new mColorPicker('.color');
-    $mColorPicker->render();
+    $MColorPicker = new MColorPicker('.color');
+    $MColorPicker->render();
 
     $xoTheme->addScript('modules/tadtools/jqueryCookie/jquery.cookie.js');
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/easy_responsive_tabs.php')) {
-        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
-    }
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/easy_responsive_tabs.php';
-    $responsive_tabs = new easy_responsive_tabs('#themeTab');
-    $responsive_tabs->rander('tab_identifier_parent');
+    $EasyResponsiveTabs = new EasyResponsiveTabs('#themeTab');
+    $EasyResponsiveTabs->rander('tab_identifier_parent');
 
-    $block_tabs = new easy_responsive_tabs('#bt_tabs', 'vertical');
+    $block_tabs = new EasyResponsiveTabs('#bt_tabs', 'vertical');
     $block_tabs->rander('tab_identifier_child');
 
     $TadDataCenter->set_col('theme_id', $theme_id);
@@ -378,11 +366,9 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
     global $xoopsTpl, $xoopsConfig;
 
     if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php")) {
-        $myts = MyTextSanitizer::getInstance();
+        $myts = \MyTextSanitizer::getInstance();
         require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
         require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php";
-
-        $config2 = [];
 
         $config2_values = get_config2_values($theme_id);
         $TadUpFiles_config2 = TadUpFiles_config2();
@@ -798,7 +784,7 @@ function insert_tad_themes()
 {
     global $xoopsDB, $xoopsUser, $xoopsConfig, $TadDataCenter;
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $_POST['theme_width'] = $myts->addSlashes($_POST['theme_width']);
     $_POST['lb_width'] = $myts->addSlashes($_POST['lb_width']);
     $_POST['cb_width'] = $myts->addSlashes($_POST['cb_width']);
@@ -809,7 +795,7 @@ function insert_tad_themes()
     $_POST['slide_height'] = $myts->addSlashes($_POST['slide_height']);
 
     $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `theme_enable`='0'";
-    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $_POST['logo_top'] = (int) $_POST['logo_top'];
     $_POST['logo_right'] = (int) $_POST['logo_right'];
@@ -821,7 +807,7 @@ function insert_tad_themes()
     $sql = 'insert into ' . $xoopsDB->prefix('tad_themes') . "
     (`theme_name` , `theme_type` , `theme_width` , `lb_width`, `cb_width` , `rb_width` , `clb_width` , `crb_width`, `base_color` , `lb_color` , `cb_color` , `rb_color` , `margin_top` , `margin_bottom` , `bg_img` , `bg_color`  , `bg_repeat`  , `bg_attachment`  , `bg_position`  , `logo_img` , `logo_position` , `logo_top` , `logo_right` , `logo_bottom` , `logo_left`, `logo_center` , `theme_enable` , `slide_width` , `slide_height` , `font_size` , `font_color` , `link_color` , `hover_color` , `theme_kind`, `navbar_pos` , `navbar_bg_top` , `navbar_bg_bottom` , `navbar_hover` , `navbar_color` , `navbar_color_hover` , `navbar_icon` , `navbar_img`)
     values('{$_POST['theme_name']}', '{$_POST['theme_type']}', '{$_POST['theme_width']}', '{$_POST['lb_width']}', '{$_POST['cb_width']}', '{$_POST['rb_width']}', '{$_POST['clb_width']}', '{$_POST['crb_width']}', '{$_POST['base_color']}', '{$_POST['lb_color']}', '{$_POST['cb_color']}', '{$_POST['rb_color']}', '{$_POST['margin_top']}', '{$_POST['margin_bottom']}', '{$_POST['bg_img']}', '{$_POST['bg_color']}', '{$_POST['bg_repeat']}', '{$_POST['bg_attachment']}', '{$_POST['bg_position']}', '{$_POST['logo_img']}', '{$_POST['logo_position']}', '{$_POST['navlogo_img']}', '{$_POST['logo_top']}', '{$_POST['logo_right']}', '{$_POST['logo_bottom']}', '{$_POST['logo_left']}', '{$_POST['logo_center']}', '1', '{$_POST['slide_width']}', '{$_POST['slide_height']}', '{$_POST['font_size']}', '{$_POST['font_color']}', '{$_POST['link_color']}', '{$_POST['hover_color']}', '{$_POST['theme_kind']}','{$_POST['navbar_pos']}','{$_POST['navbar_bg_top']}','{$_POST['navbar_bg_bottom']}','{$_POST['navbar_hover']}','{$_POST['navbar_color']}','{$_POST['navbar_color_hover']}','{$_POST['navbar_icon']}','{$_POST['navbar_img']}')";
-    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     $theme_id = $xoopsDB->getInsertId();
@@ -891,7 +877,7 @@ function update_tad_themes($theme_id = '')
     }
     update_tadtools_setup($_POST['theme_name'], $_POST['theme_kind']);
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
     $_POST['theme_width'] = $myts->addSlashes($_POST['theme_width']);
     $_POST['lb_width'] = $myts->addSlashes($_POST['lb_width']);
     $_POST['cb_width'] = $myts->addSlashes($_POST['cb_width']);
@@ -953,7 +939,7 @@ function update_tad_themes($theme_id = '')
     `navbar_img` = '{$_POST['navbar_img']}'
     where theme_id='$theme_id'";
     //die($sql);
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $TadDataCenter->set_col('theme_id', $theme_id);
     $TadDataCenter->saveData();
@@ -1005,7 +991,7 @@ function update_theme($col = '', $folder = '', $file_name = '', $theme_id = '', 
     global $xoopsDB, $xoopsUser, $xoopsConfig;
     $file_name_url = XOOPS_URL . "/uploads/tad_themes/{$theme_name}/{$folder}/{$file_name}";
     $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `{$col}` = '{$file_name_url}' where theme_id='$theme_id'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 
 //以流水號取得某筆tad_themes資料
@@ -1021,7 +1007,7 @@ function get_tad_themes()
     }
 
     $sql = 'select * from ' . $xoopsDB->prefix('tad_themes') . " where theme_name = '{$xoopsConfig['theme_set']}'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $data = $xoopsDB->fetchArray($result);
 
     return $data;
@@ -1032,11 +1018,11 @@ function delete_tad_themes($theme_id = '')
 {
     global $xoopsDB, $xoopsConfig, $block_position_title;
     $sql = 'delete from ' . $xoopsDB->prefix('tad_themes') . " where theme_id='$theme_id'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $sql = 'delete from ' . $xoopsDB->prefix('tad_themes_blocks') . " where theme_id='$theme_id'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $sql = 'delete from ' . $xoopsDB->prefix('tad_themes_config2') . " where theme_id='$theme_id'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $TadUpFilesSlide = TadUpFilesSlide();
     $TadUpFilesSlide->set_col('slide', $theme_id);
@@ -1067,7 +1053,7 @@ function get_config2_values($theme_id = '')
     global $xoopsDB, $xoopsConfig;
     $values = [];
     $sql = 'select `name`, `type`, `value` from ' . $xoopsDB->prefix('tad_themes_config2') . " where `theme_id` = '{$theme_id}'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     //`theme_id`, `name`, `type`, `value`
     while (list($name, $type, $value) = $xoopsDB->fetchRow($result)) {
         $values[$name] = $value;
@@ -1091,7 +1077,7 @@ function get_blocks_values($theme_id = '', $block_position = '')
 
     $and_block_position = !empty($block_position) ? "and `block_position` = '{$block_position}'" : '';
     $sql = 'select * from ' . $xoopsDB->prefix('tad_themes_blocks') . " where `theme_id` = '{$theme_id}' {$and_block_position}";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     //`theme_id`, `block_position`, `block_config`, `bt_text`, `bt_text_padding`, `bt_text_size`, `bt_bg_color`, `bt_bg_img`, `bt_bg_repeat`, `bt_radius`
     $mydb = [];
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
@@ -1165,7 +1151,7 @@ function export_config($theme_id = '')
 
     //取得區塊設定
     $sql = 'select * from ' . $xoopsDB->prefix('tad_themes_blocks') . " where `theme_id` = '{$theme_id}'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
         $block_position = $all['block_position'];
         $blocks[$block_position] = $all;
@@ -1180,7 +1166,7 @@ function export_config($theme_id = '')
         ) tmp
         order by c desc limit 1";
 
-        $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         list($bt_default[$col]) = $xoopsDB->fetchRow($result);
         if ('bt_bg_img' === $col) {
             if ($bt_default[$col] and 'transparent' !== $bt_default[$col]) {
@@ -1451,7 +1437,7 @@ function export_config2($theme_id = '', $type = '')
 
     $config2 = [];
     $sql = 'select * from ' . $xoopsDB->prefix('tad_themes_config2') . " where `theme_id` = '{$theme_id}'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
         $col = $all['name'];
         $config2[$col] = $all;
@@ -1464,7 +1450,7 @@ function export_config2($theme_id = '', $type = '')
         $all_col[] = $col;
     }
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     // die(var_export($default_v));
     $handle = fopen(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$type}.php", 'rb');
