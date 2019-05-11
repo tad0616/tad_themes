@@ -39,7 +39,8 @@ function tad_themes_form()
     if (empty($theme_id)) {
         auto_import_theme();
         header('location: main.php');
-        exit;
+        //        exit;
+        redirect_header('index.php', 3, _MA_TAD_THEMES_NOT_TAD_THEME);
     }
 
     import_img(_THEME_BG_PATH, 'bg', $theme_id, '');
@@ -1529,7 +1530,7 @@ switch ($op) {
     default:
         tad_themes_form();
         break;
-        /*---判斷動作請貼在上方--- */
+    /*---判斷動作請貼在上方--- */
 }
 
 /*-----------秀出結果區-------------- */
