@@ -4,7 +4,6 @@ use XoopsModules\Tadtools\MColorPicker;
 use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
-use XoopsModules\Tad_themes\Utility;
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_themes_adm_font2pic.tpl';
 require_once __DIR__ . '/header.php';

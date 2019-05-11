@@ -2,7 +2,6 @@
 use XoopsModules\Tadtools\FancyBox;
 use XoopsModules\Tadtools\TreeTable;
 use XoopsModules\Tadtools\Utility;
-use XoopsModules\Tad_themes\Utility;
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_themes_adm_dropdown.tpl';
 require_once __DIR__ . '/header.php';
