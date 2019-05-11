@@ -239,7 +239,7 @@ function tad_themes_form()
     $theme_kind_txt_arr = ['bootstrap4' => _MA_TADTHEMES_THEME_KIND_BOOTSTRAP4, 'bootstrap3' => _MA_TADTHEMES_THEME_KIND_BOOTSTRAP3, 'html' => _MA_TADTHEMES_THEME_KIND_HTML, 'mix' => _MA_TADTHEMES_THEME_KIND_MIX];
 
     if (!file_exists(TADTOOLS_PATH . '/formValidator.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
     }
     require_once TADTOOLS_PATH . '/formValidator.php';
     $formValidator = new formValidator('#myForm', true);
@@ -344,7 +344,7 @@ function tad_themes_form()
     }
 
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
     }
     require_once XOOPS_ROOT_PATH . '/modules/tadtools/mColorPicker.php';
     $mColorPicker = new mColorPicker('.color');
@@ -353,7 +353,7 @@ function tad_themes_form()
     $xoTheme->addScript('modules/tadtools/jqueryCookie/jquery.cookie.js');
 
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/easy_responsive_tabs.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
     }
     require_once XOOPS_ROOT_PATH . '/modules/tadtools/easy_responsive_tabs.php';
     $responsive_tabs = new easy_responsive_tabs('#themeTab');
@@ -388,7 +388,7 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
         $TadUpFiles_config2 = TadUpFiles_config2();
         foreach ($theme_config as $k => $config) {
             $config_name = $config['name'];
-            $value = $myts->htmlSpecialChars($config2_values[$config_name]);
+            $value = isset($config2_values[$config_name]) ? $myts->htmlSpecialChars($config2_values[$config_name]): '';
 
             $config2[$k]['name'] = $config_name;
             $config2[$k]['text'] = $config['text'];
@@ -1069,7 +1069,7 @@ function get_config2_values($theme_id = '')
     $sql = 'select `name`, `type`, `value` from ' . $xoopsDB->prefix('tad_themes_config2') . " where `theme_id` = '{$theme_id}'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     //`theme_id`, `name`, `type`, `value`
-    while (false !== (list($name, $type, $value) = $xoopsDB->fetchRow($result))) {
+    while (list($name, $type, $value) = $xoopsDB->fetchRow($result)) {
         $values[$name] = $value;
     }
 
@@ -1093,27 +1093,28 @@ function get_blocks_values($theme_id = '', $block_position = '')
     $sql = 'select * from ' . $xoopsDB->prefix('tad_themes_blocks') . " where `theme_id` = '{$theme_id}' {$and_block_position}";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     //`theme_id`, `block_position`, `block_config`, `bt_text`, `bt_text_padding`, `bt_text_size`, `bt_bg_color`, `bt_bg_img`, `bt_bg_repeat`, `bt_radius`
+    $mydb = [];
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
         $block_position = $all['block_position'];
-        $db[$block_position] = $all;
+        $mydb[$block_position] = $all;
     }
 
     $i = 0;
     $values = [];
     foreach ($block_position_title as $position => $title) {
-        $values[$i]['theme_id'] = $db[$position]['theme_id'];
+        $values[$i]['theme_id'] = isset($mydb[$position]) ? $mydb[$position]['theme_id'] : '';
         $values[$i]['block_position'] = $position;
-        $values[$i]['block_config'] = !isset($db[$position]['block_config']) ? $block_config : $db[$position]['block_config'];
-        $values[$i]['bt_text'] = !isset($db[$position]['bt_text']) ? $bt_text : $db[$position]['bt_text'];
-        $values[$i]['bt_text_padding'] = !isset($db[$position]['bt_text_padding']) ? $bt_text_padding : $db[$position]['bt_text_padding'];
-        $values[$i]['bt_text_size'] = !isset($db[$position]['bt_text_size']) ? $bt_text_size : $db[$position]['bt_text_size'];
-        $values[$i]['bt_bg_color'] = !isset($db[$position]['bt_bg_color']) ? $bt_bg_color : $db[$position]['bt_bg_color'];
-        $values[$i]['bt_bg_img'] = !isset($db[$position]['bt_bg_img']) ? $bt_bg_img : $db[$position]['bt_bg_img'];
-        $values[$i]['bt_bg_repeat'] = !isset($db[$position]['bt_bg_repeat']) ? $bt_bg_repeat : $db[$position]['bt_bg_repeat'];
-        $values[$i]['bt_radius'] = !isset($db[$position]['bt_radius']) ? $bt_radius : $db[$position]['bt_radius'];
-        $values[$i]['block_style'] = !isset($db[$position]['block_style']) ? $block_style : $db[$position]['block_style'];
-        $values[$i]['block_title_style'] = !isset($db[$position]['block_title_style']) ? $block_title_style : $db[$position]['block_title_style'];
-        $values[$i]['block_content_style'] = !isset($db[$position]['block_content_style']) ? $block_content_style : $db[$position]['block_content_style'];
+        $values[$i]['block_config'] = !isset($mydb[$position]['block_config']) ? $block_config : $mydb[$position]['block_config'];
+        $values[$i]['bt_text'] = !isset($mydb[$position]['bt_text']) ? $bt_text : $mydb[$position]['bt_text'];
+        $values[$i]['bt_text_padding'] = !isset($mydb[$position]['bt_text_padding']) ? $bt_text_padding : $mydb[$position]['bt_text_padding'];
+        $values[$i]['bt_text_size'] = !isset($mydb[$position]['bt_text_size']) ? $bt_text_size : $mydb[$position]['bt_text_size'];
+        $values[$i]['bt_bg_color'] = !isset($mydb[$position]['bt_bg_color']) ? $bt_bg_color : $mydb[$position]['bt_bg_color'];
+        $values[$i]['bt_bg_img'] = !isset($mydb[$position]['bt_bg_img']) ? $bt_bg_img : $mydb[$position]['bt_bg_img'];
+        $values[$i]['bt_bg_repeat'] = !isset($mydb[$position]['bt_bg_repeat']) ? $bt_bg_repeat : $mydb[$position]['bt_bg_repeat'];
+        $values[$i]['bt_radius'] = !isset($mydb[$position]['bt_radius']) ? $bt_radius : $mydb[$position]['bt_radius'];
+        $values[$i]['block_style'] = !isset($mydb[$position]['block_style']) ? $block_style : $mydb[$position]['block_style'];
+        $values[$i]['block_title_style'] = !isset($mydb[$position]['block_title_style']) ? $block_title_style : $mydb[$position]['block_title_style'];
+        $values[$i]['block_content_style'] = !isset($mydb[$position]['block_content_style']) ? $block_content_style : $mydb[$position]['block_content_style'];
         $values[$i]['title'] = $title;
 
         $TadUpFilesBt_bg = TadUpFilesBt_bg();

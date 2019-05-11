@@ -45,7 +45,7 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
 
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $db_files_amount = 0;
-    while (false !== (list($files_sn, $file_name, $original_filename) = $xoopsDB->fetchRow($result))) {
+    while (list($files_sn, $file_name, $original_filename) = $xoopsDB->fetchRow($result)) {
         $db_files[$files_sn] = $original_filename;
         $db_files_amount++;
     }

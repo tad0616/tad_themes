@@ -16,7 +16,7 @@ function vertical_menu($options)
     $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
     $url = XOOPS_URL . '/uploads/tad_themes/menu_icons';
     $i = 1;
-    while (false !== (list($menuid, $itemname, $itemurl, $target, $bootstrap_icon, $position) = $xoopsDB->fetchRow($result))) {
+    while (list($menuid, $itemname, $itemurl, $target, $bootstrap_icon, $position) = $xoopsDB->fetchRow($result)) {
         if (empty($itemname) or empty($itemurl)) {
             continue;
         }
@@ -41,7 +41,7 @@ function vertical_menu($options)
 
     if ('1' == $options[1]) {
         if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/jquery_pin.php')) {
-            redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+            redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
         }
         require_once XOOPS_ROOT_PATH . '/modules/tadtools/jquery_pin.php';
         $jquery_pin = new jquery_pin();
@@ -100,7 +100,7 @@ if (!function_exists('block_menu_options')) {
         $sql = 'SELECT menuid,itemname,status,of_level FROM ' . $xoopsDB->prefix('tad_themes_menu') . ' ORDER BY position';
         $result = $xoopsDB->query($sql);
         $option = '';
-        while (false !== (list($menuid, $itemname, $status, $of_level) = $xoopsDB->fetchRow($result))) {
+        while (list($menuid, $itemname, $status, $of_level) = $xoopsDB->fetchRow($result)) {
             $js .= "if(document.getElementById('c{$menuid}').checked){
          arr[i] = document.getElementById('c{$menuid}').value;
          i++;

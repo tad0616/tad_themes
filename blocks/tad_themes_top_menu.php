@@ -14,7 +14,7 @@ function tad_themes_top_menu($options)
     $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
     $url = XOOPS_URL . '/uploads/tad_themes/menu_icons';
 
-    while (false !== (list($menuid, $itemname, $itemurl, $target, $icon) = $xoopsDB->fetchRow($result))) {
+    while (list($menuid, $itemname, $itemurl, $target, $icon) = $xoopsDB->fetchRow($result)) {
         $menu[$menuid]['itemname'] = $itemname;
         $menu[$menuid]['itemurl'] = $itemurl;
         $menu[$menuid]['target'] = $target;
@@ -70,7 +70,7 @@ if (!function_exists('block_menu_options')) {
         $sql = 'SELECT menuid,itemname FROM ' . $xoopsDB->prefix('tad_themes_menu') . ' WHERE of_level=0  ORDER BY position';
         $result = $xoopsDB->query($sql);
         $option = '';
-        while (false !== (list($menuid, $itemname) = $xoopsDB->fetchRow($result))) {
+        while (list($menuid, $itemname) = $xoopsDB->fetchRow($result)) {
             $js .= "if(document.getElementById('c{$menuid}').checked){
             arr[i] = document.getElementById('c{$menuid}').value;
             i++;

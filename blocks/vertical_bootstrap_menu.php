@@ -14,7 +14,7 @@ function vertical_bootstrap_menu($options)
     $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
     $url = XOOPS_URL . '/uploads/tad_themes/menu_icons';
     $i = 1;
-    while (false !== (list($menuid, $itemname, $itemurl, $target, $bootstrap_icon, $position) = $xoopsDB->fetchRow($result))) {
+    while (list($menuid, $itemname, $itemurl, $target, $bootstrap_icon, $position) = $xoopsDB->fetchRow($result)) {
         if (empty($itemname) or empty($itemurl)) {
             continue;
         }
@@ -76,7 +76,7 @@ if (!function_exists('block_menu_options')) {
         $sql = 'SELECT menuid,itemname,status FROM ' . $xoopsDB->prefix('tad_themes_menu') . ' ORDER BY position';
         $result = $xoopsDB->query($sql);
         $option = '';
-        while (false !== (list($menuid, $itemname, $status) = $xoopsDB->fetchRow($result))) {
+        while (list($menuid, $itemname, $status) = $xoopsDB->fetchRow($result)) {
             $js .= "if(document.getElementById('c{$menuid}').checked){
                 arr[i] = document.getElementById('c{$menuid}').value;
                 i++;

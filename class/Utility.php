@@ -457,7 +457,7 @@ class Utility
 
         $sql = 'select `theme_id`,`block_config`,`bt_text`, `bt_text_padding`, `bt_bg_color`, `bt_bg_img`, `bt_bg_repeat`, `bt_radius` from `' . $xoopsDB->prefix('tad_themes') . '` order by `theme_id`';
         $result = $xoopsDB->queryF($sql);
-        while (false !== (list($theme_id, $block_config, $bt_text, $bt_text_padding, $bt_bg_color, $bt_bg_img, $bt_bg_repeat, $bt_radius) = $xoopsDB->fetchRow($result))) {
+        while (list($theme_id, $block_config, $bt_text, $bt_text_padding, $bt_bg_color, $bt_bg_img, $bt_bg_repeat, $bt_radius) = $xoopsDB->fetchRow($result)) {
             foreach ($block_position as $position) {
                 $sql = 'insert into `' . $xoopsDB->prefix('tad_themes_blocks') . "` (`theme_id` , `block_position` , `block_config` , `bt_text` , `bt_text_padding`, `bt_text_size` , `bt_bg_color` , `bt_bg_img` , `bt_bg_repeat` , `bt_radius`) values('$theme_id' , '{$position}' , '$block_config' , '$bt_text' , '$bt_text_padding', '16px' , '$bt_bg_color' , '$bt_bg_img' , '$bt_bg_repeat' , '$bt_radius')";
                 $xoopsDB->queryF($sql);
@@ -470,7 +470,7 @@ class Utility
         $sql = 'select `col_name`, `col_sn`, `sort`, `kind`, `file_name`, `file_type`, `file_size`, `description`, `counter`, `original_filename`, `hash_filename`, `sub_dir` from `' . $xoopsDB->prefix('tad_themes_files_center') . "` where `col_name`='bt_bg'";
         $result = $xoopsDB->queryF($sql);
 
-        while (false !== (list($col_name, $col_sn, $sort, $kind, $file_name, $file_type, $file_size, $description, $counter, $original_filename, $hash_filename, $sub_dir) = $xoopsDB->fetchRow($result))) {
+        while (list($col_name, $col_sn, $sort, $kind, $file_name, $file_type, $file_size, $description, $counter, $original_filename, $hash_filename, $sub_dir) = $xoopsDB->fetchRow($result)) {
             foreach ($block_position as $position) {
                 $sql = 'insert into `' . $xoopsDB->prefix('tad_themes_files_center') . "` (`col_name`, `col_sn`, `sort`, `kind`, `file_name`, `file_type`, `file_size`, `description`, `counter`, `original_filename`, `hash_filename`, `sub_dir`) values('{$col_name}_{$position}' , '{$col_sn}' , '$sort' , '$kind' , '$file_name', '$file_type' , '$file_size' , '$description' , '$counter' , '$original_filename' , '$hash_filename'  , '$sub_dir' )";
                 $xoopsDB->queryF($sql);
@@ -755,7 +755,7 @@ class Utility
         $sql = 'SELECT bid,name,visible,show_func,template FROM `' . $xoopsDB->prefix('newblocks') . "`
     WHERE `dirname` = 'tad_themes' ORDER BY `func_num`";
         $result = $xoopsDB->query($sql);
-        while (false !== (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result))) {
+        while (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result)) {
             //假如現有的區塊和樣板對不上就刪掉
             if ($template != $tpl_file_arr[$show_func]) {
                 $sql = 'delete from ' . $xoopsDB->prefix('newblocks') . " where bid='{$bid}'";
