@@ -94,127 +94,127 @@ function tad_themes_form()
     $theme_change = (!isset($theme_change)) ? false : $theme_change;
 
     //設定「theme_type」欄位預設值
-    $theme_type = (!isset($DBV['theme_type']) or !$enable['theme_type']) ? $theme_type : $DBV['theme_type'];
+    $theme_type = (!isset($DBV['theme_type']) || !$enable['theme_type']) ? $theme_type : $DBV['theme_type'];
 
     //設定「theme_width」欄位預設值
-    $theme_width = (!isset($DBV['theme_width']) or !$enable['theme_width']) ? $theme_width : $DBV['theme_width'];
+    $theme_width = (!isset($DBV['theme_width']) || !$enable['theme_width']) ? $theme_width : $DBV['theme_width'];
 
     //設定「lb_width」欄位預設值
-    $lb_width = (!isset($DBV['lb_width']) or !$enable['lb_width']) ? $lb_width : $DBV['lb_width'];
+    $lb_width = (!isset($DBV['lb_width']) || !$enable['lb_width']) ? $lb_width : $DBV['lb_width'];
 
     //設定「cb_width」欄位預設值
-    $cb_width = (!isset($DBV['cb_width']) or !$enable['cb_width']) ? $cb_width : $DBV['cb_width'];
+    $cb_width = (!isset($DBV['cb_width']) || !$enable['cb_width']) ? $cb_width : $DBV['cb_width'];
 
     //設定「rb_width」欄位預設值
-    $rb_width = (!isset($DBV['rb_width']) or !$enable['rb_width']) ? $rb_width : $DBV['rb_width'];
+    $rb_width = (!isset($DBV['rb_width']) || !$enable['rb_width']) ? $rb_width : $DBV['rb_width'];
 
     //設定「clb_width」欄位預設值
-    $clb_width = (!isset($DBV['clb_width']) or !$enable['clb_width']) ? $clb_width : $DBV['clb_width'];
+    $clb_width = (!isset($DBV['clb_width']) || !$enable['clb_width']) ? $clb_width : $DBV['clb_width'];
 
     //設定「crb_width」欄位預設值
-    $crb_width = (!isset($DBV['crb_width']) or !$enable['crb_width']) ? $crb_width : $DBV['crb_width'];
+    $crb_width = (!isset($DBV['crb_width']) || !$enable['crb_width']) ? $crb_width : $DBV['crb_width'];
 
     //設定「base_color」欄位預設值
-    $base_color = (!isset($DBV['base_color']) or !$enable['base_color']) ? $base_color : $DBV['base_color'];
+    $base_color = (!isset($DBV['base_color']) || !$enable['base_color']) ? $base_color : $DBV['base_color'];
 
     //設定「lb_color」欄位預設值
-    $lb_color = (!isset($DBV['lb_color']) or !$enable['lb_color']) ? $lb_color : $DBV['lb_color'];
+    $lb_color = (!isset($DBV['lb_color']) || !$enable['lb_color']) ? $lb_color : $DBV['lb_color'];
 
     //設定「cb_color」欄位預設值
-    $cb_color = (!isset($DBV['cb_color']) or !$enable['cb_color']) ? $cb_color : $DBV['cb_color'];
+    $cb_color = (!isset($DBV['cb_color']) || !$enable['cb_color']) ? $cb_color : $DBV['cb_color'];
 
     //設定「rb_color」欄位預設值
-    $rb_color = (!isset($DBV['rb_color']) or !$enable['rb_color']) ? $rb_color : $DBV['rb_color'];
+    $rb_color = (!isset($DBV['rb_color']) || !$enable['rb_color']) ? $rb_color : $DBV['rb_color'];
 
     //設定「margin_top」欄位預設值
-    $margin_top = (!isset($DBV['margin_top']) or !$enable['margin_top']) ? $margin_top : $DBV['margin_top'];
+    $margin_top = (!isset($DBV['margin_top']) || !$enable['margin_top']) ? $margin_top : $DBV['margin_top'];
 
     //設定「margin_bottom」欄位預設值
-    $margin_bottom = (!isset($DBV['margin_bottom']) or !$enable['margin_bottom']) ? $margin_bottom : $DBV['margin_bottom'];
+    $margin_bottom = (!isset($DBV['margin_bottom']) || !$enable['margin_bottom']) ? $margin_bottom : $DBV['margin_bottom'];
 
     //設定「bg_img」欄位預設值
-    $bg_img = (!isset($DBV['bg_img']) or !$enable['bg_img']) ? $bg_img : $DBV['bg_img'];
+    $bg_img = (!isset($DBV['bg_img']) || !$enable['bg_img']) ? $bg_img : $DBV['bg_img'];
 
     //設定「bg_color」欄位預設值
-    $bg_color = (!isset($DBV['bg_color']) or !$enable['bg_color']) ? $bg_color : $DBV['bg_color'];
+    $bg_color = (!isset($DBV['bg_color']) || !$enable['bg_color']) ? $bg_color : $DBV['bg_color'];
 
     //設定「bg_repeat」欄位預設值
-    $bg_repeat = (!isset($DBV['bg_repeat']) or !$enable['bg_repeat']) ? $bg_repeat : $DBV['bg_repeat'];
+    $bg_repeat = (!isset($DBV['bg_repeat']) || !$enable['bg_repeat']) ? $bg_repeat : $DBV['bg_repeat'];
 
     //設定「bg_attachment」欄位預設值
-    $bg_attachment = (!isset($DBV['bg_attachment']) or !$enable['bg_attachment']) ? $bg_attachment : $DBV['bg_attachment'];
+    $bg_attachment = (!isset($DBV['bg_attachment']) || !$enable['bg_attachment']) ? $bg_attachment : $DBV['bg_attachment'];
 
     //設定「bg_position」欄位預設值
-    $bg_position = (!isset($DBV['bg_position']) or !$enable['bg_position']) ? $bg_position : $DBV['bg_position'];
+    $bg_position = (!isset($DBV['bg_position']) || !$enable['bg_position']) ? $bg_position : $DBV['bg_position'];
 
     //設定「logo_img」欄位預設值
-    $logo_img = (!isset($DBV['logo_img']) or !$enable['logo_img']) ? $logo_img : $DBV['logo_img'];
+    $logo_img = (!isset($DBV['logo_img']) || !$enable['logo_img']) ? $logo_img : $DBV['logo_img'];
 
     //設定「logo_position」欄位預設值
-    $logo_position = (!isset($DBV['logo_position']) or !$enable['logo_position']) ? $logo_position : $DBV['logo_position'];
+    $logo_position = (!isset($DBV['logo_position']) || !$enable['logo_position']) ? $logo_position : $DBV['logo_position'];
 
     //設定「navlogo_img」欄位預設值
-    $navlogo_img = (!isset($DBV['navlogo_img']) or !$enable['navlogo_img']) ? $navlogo_img : $DBV['navlogo_img'];
+    $navlogo_img = (!isset($DBV['navlogo_img']) || !$enable['navlogo_img']) ? $navlogo_img : $DBV['navlogo_img'];
 
     //設定「logo_top」欄位預設值
-    $logo_top = (!isset($DBV['logo_top']) or !$enable['logo_top']) ? $logo_top : $DBV['logo_top'];
+    $logo_top = (!isset($DBV['logo_top']) || !$enable['logo_top']) ? $logo_top : $DBV['logo_top'];
 
     //設定「logo_right」欄位預設值
-    $logo_right = (!isset($DBV['logo_right']) or !$enable['logo_right']) ? $logo_right : $DBV['logo_right'];
+    $logo_right = (!isset($DBV['logo_right']) || !$enable['logo_right']) ? $logo_right : $DBV['logo_right'];
 
     //設定「logo_bottom」欄位預設值
-    $logo_bottom = (!isset($DBV['logo_bottom']) or !$enable['logo_bottom']) ? $logo_bottom : $DBV['logo_bottom'];
+    $logo_bottom = (!isset($DBV['logo_bottom']) || !$enable['logo_bottom']) ? $logo_bottom : $DBV['logo_bottom'];
 
     //設定「logo_left」欄位預設值
-    $logo_left = (!isset($DBV['logo_left']) or !$enable['logo_left']) ? $logo_left : $DBV['logo_left'];
+    $logo_left = (!isset($DBV['logo_left']) || !$enable['logo_left']) ? $logo_left : $DBV['logo_left'];
 
     //設定「logo_center」欄位預設值
-    $logo_center = (!isset($DBV['logo_center']) or !$enable['logo_center']) ? $logo_center : $DBV['logo_center'];
+    $logo_center = (!isset($DBV['logo_center']) || !$enable['logo_center']) ? $logo_center : $DBV['logo_center'];
 
     //設定「theme_enable」欄位預設值
     $theme_enable = (!isset($DBV['theme_enable'])) ? '' : $DBV['theme_enable'];
 
     //設定「slide_width」欄位預設值
-    $slide_width = (!isset($DBV['slide_width']) or !$enable['slide_width']) ? $slide_width : $DBV['slide_width'];
+    $slide_width = (!isset($DBV['slide_width']) || !$enable['slide_width']) ? $slide_width : $DBV['slide_width'];
 
     //設定「slide_height」欄位預設值
-    $slide_height = (!isset($DBV['slide_height']) or !$enable['slide_height']) ? $slide_height : $DBV['slide_height'];
+    $slide_height = (!isset($DBV['slide_height']) || !$enable['slide_height']) ? $slide_height : $DBV['slide_height'];
 
     //設定「font_size」欄位預設值
-    $font_size = (!isset($DBV['font_size']) or !$enable['font_size']) ? $font_size : $DBV['font_size'];
+    $font_size = (!isset($DBV['font_size']) || !$enable['font_size']) ? $font_size : $DBV['font_size'];
 
     //設定「font_color」欄位預設值
-    $font_color = (!isset($DBV['font_color']) or !$enable['font_color']) ? $font_color : $DBV['font_color'];
+    $font_color = (!isset($DBV['font_color']) || !$enable['font_color']) ? $font_color : $DBV['font_color'];
 
     //設定「link_color」欄位預設值
-    $link_color = (!isset($DBV['link_color']) or !$enable['link_color']) ? $link_color : $DBV['link_color'];
+    $link_color = (!isset($DBV['link_color']) || !$enable['link_color']) ? $link_color : $DBV['link_color'];
 
     //設定「hover_color」欄位預設值
-    $hover_color = (!isset($DBV['hover_color']) or !$enable['hover_color']) ? $hover_color : $DBV['hover_color'];
+    $hover_color = (!isset($DBV['hover_color']) || !$enable['hover_color']) ? $hover_color : $DBV['hover_color'];
 
     //設定「theme_kind」欄位預設值
     $theme_kind = (!isset($DBV['theme_kind'])) ? $theme_kind : $DBV['theme_kind'];
 
     //新增navbar設定by hc 開始
     //設定「navbar_pos」欄位預設值
-    $navbar_pos = (!isset($DBV['navbar_pos']) or !$enable['navbar_pos']) ? $navbar_pos : $DBV['navbar_pos'];
+    $navbar_pos = (!isset($DBV['navbar_pos']) || !$enable['navbar_pos']) ? $navbar_pos : $DBV['navbar_pos'];
 
     //設定「navbar_bg_top」欄位預設值
-    $navbar_bg_top = (!isset($DBV['navbar_bg_top']) or !$enable['navbar_bg_top']) ? $navbar_bg_top : $DBV['navbar_bg_top'];
+    $navbar_bg_top = (!isset($DBV['navbar_bg_top']) || !$enable['navbar_bg_top']) ? $navbar_bg_top : $DBV['navbar_bg_top'];
 
     //設定「navbar_bg_bottom」欄位預設值
-    $navbar_bg_bottom = (!isset($DBV['navbar_bg_bottom']) or !$enable['navbar_bg_bottom']) ? $navbar_bg_bottom : $DBV['navbar_bg_bottom'];
+    $navbar_bg_bottom = (!isset($DBV['navbar_bg_bottom']) || !$enable['navbar_bg_bottom']) ? $navbar_bg_bottom : $DBV['navbar_bg_bottom'];
 
     //設定「navbar_hover」欄位預設值
-    $navbar_hover = (!isset($DBV['navbar_hover']) or !$enable['navbar_hover']) ? $navbar_hover : $DBV['navbar_hover'];
+    $navbar_hover = (!isset($DBV['navbar_hover']) || !$enable['navbar_hover']) ? $navbar_hover : $DBV['navbar_hover'];
     //設定「navbar_color」欄位預設值
-    $navbar_color = (!isset($DBV['navbar_color']) or !$enable['navbar_color']) ? $navbar_color : $DBV['navbar_color'];
+    $navbar_color = (!isset($DBV['navbar_color']) || !$enable['navbar_color']) ? $navbar_color : $DBV['navbar_color'];
     //設定「navbar_color_hover」欄位預設值
-    $navbar_color_hover = (!isset($DBV['navbar_color_hover']) or !$enable['navbar_color_hover']) ? $navbar_color_hover : $DBV['navbar_color_hover'];
+    $navbar_color_hover = (!isset($DBV['navbar_color_hover']) || !$enable['navbar_color_hover']) ? $navbar_color_hover : $DBV['navbar_color_hover'];
     //設定「navbar_icon」欄位預設值
-    $navbar_icon = (!isset($DBV['navbar_icon']) or !$enable['navbar_icon']) ? $navbar_icon : $DBV['navbar_icon'];
+    $navbar_icon = (!isset($DBV['navbar_icon']) || !$enable['navbar_icon']) ? $navbar_icon : $DBV['navbar_icon'];
     //設定「navbar_img」欄位預設值
-    $navbar_img = (!isset($DBV['navbar_img']) or !$enable['navbar_img']) ? $navbar_img : $DBV['navbar_img'];
+    $navbar_img = (!isset($DBV['navbar_img']) || !$enable['navbar_img']) ? $navbar_img : $DBV['navbar_img'];
 
     $op = (empty($theme_id)) ? 'insert_tad_themes' : 'update_tad_themes';
     //$op="replace_tad_themes";
@@ -1533,7 +1533,7 @@ switch ($op) {
 }
 
 /*-----------秀出結果區-------------- */
-$xoopsTpl->assign('themeTab_baseURI', $_COOKIE['themeTab_baseURI']);
+    $xoopsTpl->assign('themeTab_baseURI', $_COOKIE['themeTab_baseURI']);
 $xoTheme->addStylesheet('modules/tad_themes/css/module.css');
 $xoTheme->addStylesheet('modules/tadtools/css/font-awesome/css/font-awesome.css');
 $xoTheme->addStylesheet('modules/tad_themes/class/bootstrap-select/css/bootstrap-select.min.css');
