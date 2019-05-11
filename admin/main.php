@@ -1534,7 +1534,9 @@ switch ($op) {
 }
 
 /*-----------秀出結果區-------------- */
+if (isset($_COOKIE['themeTab_baseURI'])) {
     $xoopsTpl->assign('themeTab_baseURI', $_COOKIE['themeTab_baseURI']);
+}
 $xoTheme->addStylesheet('modules/tad_themes/css/module.css');
 $xoTheme->addStylesheet('modules/tadtools/css/font-awesome/css/font-awesome.css');
 $xoTheme->addStylesheet('modules/tad_themes/class/bootstrap-select/css/bootstrap-select.min.css');
