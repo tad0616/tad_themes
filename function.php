@@ -2,6 +2,7 @@
 use XoopsModules\Tadtools\TadDataCenter;
 use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
+xoops_loadLanguage('admin', basename(dirname(__DIR__)));
 
 $TadDataCenter = new TadDataCenter('tad_themes');
 

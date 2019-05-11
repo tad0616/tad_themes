@@ -9,6 +9,7 @@ if (!class_exists('XoopsModules\Tadtools\Utility')) {
 function vertical_bootstrap_menu($options)
 {
     global $xoopsDB;
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
     require_once XOOPS_ROOT_PATH . '/modules/tad_themes/function_block.php';
     $in = empty($options[0]) ? "status='1' and of_level=0" : "menuid in({$options[0]})";
     //$menu=explode(",",$options[0]);

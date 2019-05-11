@@ -4,8 +4,8 @@ use XoopsModules\Tadtools\TreeTable;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_themes_adm_dropdown.tpl';
-require_once 'header.php';
-require_once '../function.php';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/function.php';
 
 /*-----------function區--------------*/
 //tad_themes_menu編輯表單
@@ -69,7 +69,7 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
         <div class='form-group'>
             <label class='col-xs-3 control-label' for='icon'>" . _MA_TADTHEMES_ICON . _TAD_FOR . "</label>
             <div class='col-xs-3'>
-                <input name='icon' class='selectpicker form-control' value='{$icon}' type='text' />
+                <input name='icon' class='selectpicker form-control' value='{$icon}' type='text'>
             </div>
             $get_tad_all_menu
         </div>
@@ -136,9 +136,9 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
                 <meta charset='utf-8'>
                 <title></title>
                 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-                <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/bootstrap3/css/bootstrap.css' />
+                <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/bootstrap3/css/bootstrap.css'>
 
-                <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/css/xoops_adm.css' />
+                <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/css/xoops_adm.css'>
                 <link href='" . XOOPS_URL . "/modules/tadtools/css/font-awesome/css/font-awesome.min.css' rel='stylesheet'>
 
                 <script src='" . XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.js' type='text/javascript'></script>
@@ -628,4 +628,4 @@ switch ($op) {
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('now_op', $op);
 $xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_themes/css/module.css');
-require_once 'footer.php';
+require_once __DIR__ . '/footer.php';

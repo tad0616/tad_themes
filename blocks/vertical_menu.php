@@ -13,6 +13,7 @@ function vertical_menu($options)
     global $xoopsDB, $xoTheme;
     $xoTheme->addStylesheet('modules/tadtools/css/vertical_menu.css');
 
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
     require_once XOOPS_ROOT_PATH . '/modules/tad_themes/function_block.php';
     $in = empty($options[0]) ? "status='1' and of_level=0" : "menuid in({$options[0]})";
     //$menu=explode(",",$options[0]);

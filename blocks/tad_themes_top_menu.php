@@ -8,6 +8,7 @@ if (!class_exists('XoopsModules\Tadtools\Utility')) {
 function tad_themes_top_menu($options)
 {
     global $xoopsDB;
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
 
     //$menu=explode(",",$options[0]);
     $sql = 'select `menuid`,`itemname`,`itemurl`,`target`,`icon` from ' . $xoopsDB->prefix('tad_themes_menu') . " where menuid in({$options[0]}) order by position";

@@ -14,7 +14,9 @@
  * @author
  * @version      $Id $
  **/
-require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+include dirname(__DIR__) . '/preloads/autoloader.php';
+
+require  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
 xoops_loadLanguage('main', $xoopsModule->getVar('dirname'));
 
@@ -22,6 +24,8 @@ if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
     require_once XOOPS_ROOT_PATH . '/class/template.php';
     $xoopsTpl = new \XoopsTpl();
 }
+
+$adminObject = \Xmf\Module\Admin::getInstance();
 
 xoops_cp_header();
 

@@ -49,7 +49,7 @@ define('_MA_TADTHEMES_SLIDE_WIDTH', 'Slide Width');
 define('_MA_TADTHEMES_SLIDE_HEIGHT', 'Slide Height');
 define('_MA_TADTHEMES_SLIDE_DESC', "<ol><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Width =0 (hide slide)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Height = 0(auto height)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>You can input \"<b><u>[url]http://some.web.url[/url]</u></b>\" to add link for slide image. </li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'><span style='color: red;'>[url_blank]http://some.web.url[/url_blank]</span>  can open the link in a new window.</li></ol>");
 define('_MA_TAD_THEMES_FORM', 'Theme Setup');
-define('_MA_TAD_THEMES_NOT_TAD_THEME', "Defaut Theme \"%s\" can't compatible with Tad Theme.<div>\"%s\" not founded.</div>");
+define('_MA_TAD_THEMES_NOT_TAD_THEME', "Defaut Theme \"%s\" not compatible with Tad Theme.<div>\"%s\" not found.</div>");
 define('_MA_TAD_THEMES_TYPE1', '2 Columns (All Left)');
 define('_MA_TAD_THEMES_TYPE2', '2 Columns (All Right)');
 define('_MA_TAD_THEMES_TYPE3', '2 Columns (Left + Bottom)');
@@ -80,11 +80,11 @@ define('_MA_TADTHEMES_NOTICE2', "<ul style='line-height:2em;'>
   </li>
   <li>When you delete pictures, all from the background deleted, do not just delete FTP photo!</li>
   </ul>");
-define('_MA_TADTHEMES_LOGO_PLACE', 'setup logo position');
-define('_MA_TADTHEMES_FONT_SIZE', 'font size');
-define('_MA_TADTHEMES_FONT_COLOR', 'font color');
-define('_MA_TADTHEMES_LINK_COLOR', 'link color');
-define('_MA_TADTHEMES_HOVER_COLOR', 'hover color');
+define('_MA_TADTHEMES_LOGO_PLACE', 'Setup logo position');
+define('_MA_TADTHEMES_FONT_SIZE', 'Font size');
+define('_MA_TADTHEMES_FONT_COLOR', 'Font color');
+define('_MA_TADTHEMES_LINK_COLOR', 'Link color');
+define('_MA_TADTHEMES_HOVER_COLOR', 'Hover color');
 define('_MA_TADTHEMES_COL', '');
 define('_MA_TADTHEMES_ITEMNAME', 'Item Name');
 define('_MA_TADTHEMES_ITEMURL', 'Item URL');
@@ -133,7 +133,7 @@ define('_MA_TADTHEMES_BLOCK_BOTTOM_LEFT', 'Bottom center left');
 define('_MA_TADTHEMES_BLOCK_BOTTOM_RIGHT', 'Bottom center right');
 define('_MA_TADTHEMES_BLOCK_TITLE_SIZE', 'Font size');
 define('_MA_TADTHEMES_TO_DEFAULT', 'Restored to the default');
-define('_MA_TADTHEMES_DEL_CONFIRM', 'This will clear this theme settings and restore default values​​! You sure you want to perform?');
+define('_MA_TADTHEMES_DEL_CONFIRM', 'This will clear this theme settings and restore default values! You sure you want to perform?');
 define('_MA_TADTHEMES_BASE_COLOR', 'Base color');
 define('_MA_TADTHEMES_NAVBAR_IMG', 'Navbar background');
 define('_MA_TADTHEMES_BLOCK_STYLE', 'Block CSS');
@@ -169,4 +169,4 @@ define('_MA_TADTHEMES_READGROUP', 'Readable group');
 
 define('_MA_TADTHEMES_NAVBAR_FONT_SIZE', 'Option text size');
 define('_MA_TADTHEMES_NAVBAR_CHANGE', 'Gradient to');
-define('_MA_TADTHEMES_NAVBAR_HOVER_COLOR', 'Background');
+//define('_MA_TADTHEMES_NAVBAR_HOVER_COLOR', 'Background');

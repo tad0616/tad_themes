@@ -6,8 +6,8 @@ use XoopsModules\Tadtools\TadUpFiles;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_themes_adm_font2pic.tpl';
-require_once 'header.php';
-require_once '../function.php';
+require_once __DIR__ . '/header.php';
+require_once dirname(__DIR__) . '/function.php';
 
 $TadUpFontFiles = new TadUpFiles('tad_themes', '/fonts');
 $TadUpFontFiles->set_col('logo_fonts', 0);
@@ -82,14 +82,14 @@ function strLength($str, $charset = 'utf-8')
         $str = iconv('utf-8', 'big5', $str);
     }
 
-    $num = strlen($str);
+    $num   = strlen($str);
     $cnNum = 0;
     for ($i = 0; $i < $num; $i++) {
         if (ord(substr($str, $i, 1)) > 127) {
             $cnNum++;
         }
     }
-    $enNum = $num - ($cnNum * 2);
+    $enNum  = $num - ($cnNum * 2);
     $number = ($enNum / 2) + $cnNum;
     return ceil($number);
 }
@@ -122,7 +122,7 @@ function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8
     list($border_color_r, $border_color_g, $border_color_b) = sscanf($border_color, '#%02x%02x%02x');
 
     header('Content-type: image/png');
-    $im = @imagecreatetruecolor($width, $height) or die("error: ({$title}->{$size} , {$width} x {$height})");
+    $im = @imagecreatetruecolor($width, $height) || die("error: ({$title}->{$size} , {$width} x {$height})");
     imagesavealpha($im, true);
 
     $trans_colour = imagecolorallocatealpha($im, 255, 255, 255, 127);
@@ -227,7 +227,7 @@ switch ($op) {
 
     case 'save_font':
         $TadUpFontFiles->upload_file('font', null, null, $files_sn, null, true);
-        header("location: {$_SERVER['HTTP_REFERER']}");
+        header("location: {\Xmf\Request::getString('HTTP_REFERER', '', 'SERVER')}");
         exit;
 
     case 'mkTitlePic':
@@ -248,4 +248,4 @@ switch ($op) {
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('op', $op);
 $xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_themes/css/module.css');
-require_once 'footer.php';
+require_once __DIR__ . '/footer.php';
