@@ -49,7 +49,7 @@ define('_MA_TADTHEMES_SLIDE_WIDTH', 'Slide Width');
 define('_MA_TADTHEMES_SLIDE_HEIGHT', 'Slide Height');
 define('_MA_TADTHEMES_SLIDE_DESC', "<ol><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Width =0 (hide slide)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Height = 0(auto height)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>You can input \"<b><u>[url]http://some.web.url[/url]</u></b>\" to add link for slide image. </li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'><span style='color: red;'>[url_blank]http://some.web.url[/url_blank]</span>  can open the link in a new window.</li></ol>");
 define('_MA_TAD_THEMES_FORM', 'Theme Setup');
-define('_MA_TAD_THEMES_NOT_TAD_THEME', "Defaut Theme \"%s\" not compatible with Tad Theme.<div>\"%s\" not found.</div>");
+define('_MA_TAD_THEMES_NOT_TAD_THEME', 'Defaut Theme "%s" not compatible with Tad Theme.<div>"%s" not found.</div>');
 define('_MA_TAD_THEMES_TYPE1', '2 Columns (All Left)');
 define('_MA_TAD_THEMES_TYPE2', '2 Columns (All Right)');
 define('_MA_TAD_THEMES_TYPE3', '2 Columns (Left + Bottom)');
