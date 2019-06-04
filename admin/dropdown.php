@@ -123,9 +123,8 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
     </form>';
 
     if ('die' === $mode) {
-        $jquery = Utility::get_jquery();
-        $main2 = "
-        <!DOCTYPE html>
+        $migrate=Utility::add_migrate('return');
+        $main2 = "<!DOCTYPE html>
         <html lang='zh-TW'>
             <head>
                 <meta charset='utf-8'>
@@ -138,12 +137,11 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
 
                 <script src='" . XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.js' type='text/javascript'></script>
                 <script src='" . XOOPS_URL . "/modules/tadtools/bootstrap3/js/bootstrap.min.js'></script>
-                <script src='" . XOOPS_URL . $migrate . "'></script>
-                <link href='" . XOOPS_URL . "/modules/tad_themes/class/fontawesome-iconpicker/css/fontawesome-iconpicker.min.css' rel='stylesheet'>
-                <script src='" . XOOPS_URL . "/modules/tad_themes/class/fontawesome-iconpicker/js/fontawesome-iconpicker.js'></script>
+                $migrate
+                <link href='" . XOOPS_URL . "/modules/tad_themes/class/fontawesome-iconpicker/css/fontawesome-iconpicker.css' rel='stylesheet'>
+                <script src='" . XOOPS_URL . "/modules/tad_themes/class/fontawesome-iconpicker/js/fontawesome-iconpicker.min.js'></script>
             </head>
             <body>
-
                 <div class='container-fluid'>
                     <div class='row'>
                         <div class='col-xs-12'>
@@ -151,11 +149,9 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
                         </div>
                     </div>
                 </div>
-
                 <script type='text/javascript'>
                     $(document).ready(function(){
                     $('.selectpicker').iconpicker();
-
                     $('#myForm').bind('submit', function()
                         {
                         $.ajax({
@@ -166,10 +162,10 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
                             processData: false,
                             contentType: false,
                             success: function(data) {
-                            parent.$.fancybox.close();
+                                parent.$.fancybox.close();
                             }
                         });
-                        });
+                    });
                     $('#submit').click(function(e)
                     {
                         $('#myForm').trigger('submit');
