@@ -375,7 +375,7 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
         $TadUpFiles_config2 = TadUpFiles_config2();
         foreach ($theme_config as $k => $config) {
             $config_name = $config['name'];
-            $value = isset($config2_values[$config_name]) ? $myts->htmlSpecialChars($config2_values[$config_name]): '';
+            $value = isset($config2_values[$config_name]) ? $myts->htmlSpecialChars($config2_values[$config_name]) : '';
 
             $config2[$k]['name'] = $config_name;
             $config2[$k]['text'] = $config['text'];
@@ -1493,7 +1493,7 @@ switch ($op) {
     //新增資料
     case 'insert_tad_themes':
         $theme_id = insert_tad_themes();
-        header("location: {\Xmf\Request::getString('HTTP_REFERER', '', 'SERVER')}");
+        header("location: " . \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'));
         exit;
 
     //更新資料
@@ -1502,7 +1502,7 @@ switch ($op) {
         if (isset($_COOKIE['themeTab_baseURI'])) {
             header("location: {$_COOKIE['themeTab_baseURI']}");
         } else {
-            header("location: {\Xmf\Request::getString('HTTP_REFERER', '', 'SERVER')}");
+            header("location: " . \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'));
         }
         exit;
 
@@ -1530,7 +1530,7 @@ switch ($op) {
     default:
         tad_themes_form();
         break;
-    /*---判斷動作請貼在上方--- */
+        /*---判斷動作請貼在上方--- */
 }
 
 /*-----------秀出結果區-------------- */

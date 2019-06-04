@@ -36,12 +36,7 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
     $read_group = (!isset($DBV['read_group'])) ? [1, 2, 3] : $DBV['read_group'];
     $read_group_array = explode(',', $read_group);
     $xoopsTpl->assign('icon', $icon);
-    $ver = (int) str_pad(str_replace('.', '', str_replace('XOOPS ', '', XOOPS_VERSION)), 4, 0);
-    if ($ver >= 2590) {
-        $xoTheme->addScript('modules/tadtools/jquery/jquery-migrate-3.0.0.min.js');
-    } else {
-        $xoTheme->addScript('modules/tadtools/jquery/jquery-migrate-1.4.1.min.js');
-    }
+    Utility::add_migrate();
 
     $SelectGroup_name = new \XoopsFormSelectGroup('read_group', 'read_group', true, $read_group_array, 4, true);
     $SelectGroup_name->setExtra("class='form-control' id='read_group'");

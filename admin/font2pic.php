@@ -82,14 +82,14 @@ function strLength($str, $charset = 'utf-8')
         $str = iconv('utf-8', 'big5', $str);
     }
 
-    $num   = strlen($str);
+    $num = strlen($str);
     $cnNum = 0;
     for ($i = 0; $i < $num; $i++) {
         if (ord(substr($str, $i, 1)) > 127) {
             $cnNum++;
         }
     }
-    $enNum  = $num - ($cnNum * 2);
+    $enNum = $num - ($cnNum * 2);
     $number = ($enNum / 2) + $cnNum;
     return ceil($number);
 }
@@ -227,7 +227,7 @@ switch ($op) {
 
     case 'save_font':
         $TadUpFontFiles->upload_file('font', null, null, $files_sn, null, true);
-        header("location: {\Xmf\Request::getString('HTTP_REFERER', '', 'SERVER')}");
+        header("location: " . \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'));
         exit;
 
     case 'mkTitlePic':
