@@ -170,3 +170,6 @@ define('_MA_TADTHEMES_READGROUP', 'Readable group');
 define('_MA_TADTHEMES_NAVBAR_FONT_SIZE', 'Option text size');
 define('_MA_TADTHEMES_NAVBAR_CHANGE', 'Gradient to');
 //define('_MA_TADTHEMES_NAVBAR_HOVER_COLOR', 'Background');
+
+define('_MA_TADTHEMES_EXPAND_ALL', 'Expand all');
+define('_MA_TADTHEMES_COLLAPSE_ALL', 'Collapse all');

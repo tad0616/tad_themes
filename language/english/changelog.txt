@@ -1,3 +1,10 @@
+Tad Themes 5.5 (released from 2019-06-17)
+==========================================================
+1. Modify the problem that the icon cannot be selected.
+2. Modify the migration introduction method
+3. Optimize the menu setting interface
+
+
 Tad Themes 5.4 (released from 2019-05-10)
 =================================================
 1. Remove the "Back to Home" link in the "Vertical Menu" and "Vertical BootStrap Menu" blocks.

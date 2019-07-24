@@ -150,13 +150,13 @@
 
 
 <{if $config2_logo}>
-    <hr>
-    <h4>
-        <{$smarty.const._MA_TADTHEMES_LOGO_IMG}><{$smarty.const._MA_TADTHEMES_CONFIG2}>
-        <a href="main.php?op=export_config2&theme_id=<{$theme_id}>&type=config2_logo" class="btn btn-info pull-right"><{$smarty.const._MA_TADTHEMES_EXPORT2|sprintf:'config2_logo'}></a>
-    </h4>
-    <input type="hidden" name="config2[]" value="config2_logo">
-    <hr>
+    <div class="alert alert-warning">
+        <h4>
+            <a href="main.php?op=export_config2&theme_id=<{$theme_id}>&type=config2_logo" class="btn btn-info btn-sm pull-right"><{$smarty.const._MA_TADTHEMES_EXPORT2|sprintf:'config2_logo'}></a>
+            <{$smarty.const._MA_TADTHEMES_LOGO_IMG}><{$smarty.const._MA_TADTHEMES_CONFIG2}>
+        </h4>
+        <input type="hidden" name="config2[]" value="config2_logo">
+    </div>
     <{foreach from=$config2_logo item=config}>
         <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
     <{/foreach}>

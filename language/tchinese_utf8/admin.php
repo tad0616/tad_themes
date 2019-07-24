@@ -172,3 +172,6 @@ define('_MA_TADTHEMES_READGROUP', '可讀群組');
 define('_MA_TADTHEMES_NAVBAR_FONT_SIZE', '選項文字大小');
 define('_MA_TADTHEMES_NAVBAR_CHANGE', '漸層至');
 define('_MA_TADTHEMES_NAVBAR_HOVER_COLOR', '底色為');
+
+define('_MA_TADTHEMES_EXPAND_ALL', '全部展開');
+define('_MA_TADTHEMES_COLLAPSE_ALL', '全部闔起');

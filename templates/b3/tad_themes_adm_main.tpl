@@ -67,8 +67,10 @@
 
                     <input type="hidden" name="old_theme_kind" value="<{$theme_kind}>">
                 <{else}>
-                    <{$theme_kind}><{$theme_kind_txt}>
-                    <input type="hidden" name="theme_kind" value="<{$theme_kind}>">
+                    <p style="margin: 20px 0px;">
+                        <{$theme_kind}><{$theme_kind_txt}>
+                        <input type="hidden" name="theme_kind" value="<{$theme_kind}>">
+                    </p>
                 <{/if}>
 
                 <div id="themeTab">

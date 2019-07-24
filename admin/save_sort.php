@@ -8,6 +8,7 @@ foreach ($updateRecordsArray as $menuid) {
     $sql = 'update ' . $xoopsDB->prefix('tad_themes_menu') . " set `position`='{$sort}' where `menuid`='{$menuid}'";
     $xoopsDB->queryF($sql) or die('Save Sort Fail! (' . date('Y-m-d H:i:s') . ')');
     $sort++;
+    echo "$sql<br>";
 }
 
 echo 'Save Sort OK! (' . date('Y-m-d H:i:s') . ')';

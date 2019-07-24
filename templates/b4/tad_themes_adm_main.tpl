@@ -55,6 +55,7 @@
                 <div class="alert alert-info">
                     <{$smarty.const._MA_TADTHEMES_CHANGE_KIND_DESC}>
                 </div>
+
                 <{if $theme_change}>
                     <{foreach from=$theme_kind_arr item=kind}>
                         <div class="form-check">
@@ -68,8 +69,10 @@
 
                     <input type="hidden" name="old_theme_kind" value="<{$theme_kind}>">
                 <{else}>
-                    <{$theme_kind}><{$theme_kind_txt}>
-                    <input type="hidden" name="theme_kind" value="<{$theme_kind}>">
+                    <p style="margin: 20px 0px;">
+                        <{$theme_kind}><{$theme_kind_txt}>
+                        <input type="hidden" name="theme_kind" value="<{$theme_kind}>">
+                    </p>
                 <{/if}>
 
                 <div id="themeTab">

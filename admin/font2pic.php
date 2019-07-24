@@ -99,15 +99,14 @@ function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8
 {
     global $TadUpFontFiles;
     $font = $TadUpFontFiles->get_file($font_file_sn);
-    // die("{$font_file_sn}-physical_file_path=" . $font[$font_file_sn]['physical_file_path']);
-    // die(var_export($font));
+
     //找字數
     if (function_exists('mb_strlen')) {
-        $n = strLength($title);
+        $n = mb_strlen($title);
     } else {
-        $n = mb_strlen($title) / 3;
+        $n = strlen($title) / 3;
     }
-
+    
     if (empty($size)) {
         return;
     }
@@ -117,12 +116,11 @@ function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8
 
     $x = 2;
     $y = $size * 1.5;
-
     list($color_r, $color_g, $color_b) = sscanf($color, '#%02x%02x%02x');
     list($border_color_r, $border_color_g, $border_color_b) = sscanf($border_color, '#%02x%02x%02x');
 
     header('Content-type: image/png');
-    $im = @imagecreatetruecolor($width, $height) || die("error: ({$title}->{$size} , {$width} x {$height})");
+    $im = imagecreatetruecolor($width, $height);
     imagesavealpha($im, true);
 
     $trans_colour = imagecolorallocatealpha($im, 255, 255, 255, 127);

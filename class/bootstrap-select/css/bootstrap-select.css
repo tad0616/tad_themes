@@ -187,6 +187,7 @@ select.selectpicker {
 }
 .bootstrap-select .dropdown-toggle .filter-option-inner-inner {
   overflow: hidden;
+  color: black;
 }
 .bootstrap-select .dropdown-toggle .caret {
   position: absolute;
