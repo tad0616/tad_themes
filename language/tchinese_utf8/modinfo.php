@@ -18,3 +18,13 @@ define('_MI_TADTHEMES_BNAME3', '垂直BootStrap選單');
 define('_MI_TADTHEMES_BDESC3', '垂直BootStrap選單');
 define('_MI_TADTHEMES_BNAME4', '垂直選單');
 define('_MI_TADTHEMES_BDESC4', '垂直選單');
+
+define('_MI_TADTHEMES_TITLE2', '導覽列的登入選項');
+define('_MI_TADTHEMES_DESC2', '請選擇預設導覽列中登入選項的呈現方式');
+define('_MI_TADTHEMES_TITLE2_OPT0', '僅顯示XOOPS的登入界面');
+define('_MI_TADTHEMES_TITLE2_OPT1', '同時顯示XOOPS的登入界面和OpenID的按鈕');
+define('_MI_TADTHEMES_TITLE2_OPT2', '僅顯示OpenID的按鈕');
+define('_MI_TADTHEMES_TITLE2_OPT3', '不顯示登入選項');
+
+define('_MI_TADTHEMES_TITLE3', '登入選單中的快速登入圖示一排幾個');
+define('_MI_TADTHEMES_DESC3', '若「是否崁入快速登入到登入選單中」為「是」時，選一個會出現圖示及文字，選兩個以上就只剩圖示。');

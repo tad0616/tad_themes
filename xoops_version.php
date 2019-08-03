@@ -74,19 +74,39 @@ $modversion['templates'][$i]['description'] = 'tad_themes_adm_font2pic.tpl';
 
 //---偏好設定---//
 $modversion['config'] = [];
-$modversion['config'][0]['name'] = 'auto_mainmenu';
-$modversion['config'][0]['title'] = '_MI_TADTHEMES_AUTO_MENU';
-$modversion['config'][0]['description'] = '_MI_TADTHEMES_AUTO_MENU_DESC';
-$modversion['config'][0]['formtype'] = 'yesno';
-$modversion['config'][0]['valuetype'] = 'int';
-$modversion['config'][0]['default'] = 1;
+$i++;
+$modversion['config'][$i]['name'] = 'auto_mainmenu';
+$modversion['config'][$i]['title'] = '_MI_TADTHEMES_AUTO_MENU';
+$modversion['config'][$i]['description'] = '_MI_TADTHEMES_AUTO_MENU_DESC';
+$modversion['config'][$i]['formtype'] = 'yesno';
+$modversion['config'][$i]['valuetype'] = 'int';
+$modversion['config'][$i]['default'] = 1;
 
-$modversion['config'][1]['name'] = 'show_sitename';
-$modversion['config'][1]['title'] = '_MI_TADTHEMES_SHOW_SITENAME';
-$modversion['config'][1]['description'] = '_MI_TADTHEMES_SHOW_SITENAME_DESC';
-$modversion['config'][1]['formtype'] = 'yesno';
-$modversion['config'][1]['valuetype'] = 'int';
-$modversion['config'][1]['default'] = '1';
+$i++;
+$modversion['config'][$i]['name'] = 'show_sitename';
+$modversion['config'][$i]['title'] = '_MI_TADTHEMES_SHOW_SITENAME';
+$modversion['config'][$i]['description'] = '_MI_TADTHEMES_SHOW_SITENAME_DESC';
+$modversion['config'][$i]['formtype'] = 'yesno';
+$modversion['config'][$i]['valuetype'] = 'int';
+$modversion['config'][$i]['default'] = '1';
+
+$i++;
+$modversion['config'][$i]['name'] = 'openid_login';
+$modversion['config'][$i]['title'] = '_MI_TADTHEMES_TITLE2';
+$modversion['config'][$i]['description'] = '_MI_TADTHEMES_DESC2';
+$modversion['config'][$i]['formtype'] = 'select';
+$modversion['config'][$i]['valuetype'] = 'int';
+$modversion['config'][$i]['default'] = '1';
+$modversion['config'][$i]['options'] = [_MI_TADTHEMES_TITLE2_OPT0 => '0', _MI_TADTHEMES_TITLE2_OPT1 => '1', _MI_TADTHEMES_TITLE2_OPT2 => '2', _MI_TADTHEMES_TITLE2_OPT3 => '3'];
+
+$i++;
+$modversion['config'][$i]['name'] = 'openid_logo';
+$modversion['config'][$i]['title'] = '_MI_TADTHEMES_TITLE3';
+$modversion['config'][$i]['description'] = '_MI_TADTHEMES_DESC3';
+$modversion['config'][$i]['formtype'] = 'select';
+$modversion['config'][$i]['valuetype'] = 'int';
+$modversion['config'][$i]['default'] = '4';
+$modversion['config'][$i]['options'] = [1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6'];
 
 //---搜尋---//
 //$modversion['hasSearch'] = 1;
