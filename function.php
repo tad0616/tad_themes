@@ -45,7 +45,7 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
 
     $sql = 'select files_sn,file_name,original_filename from ' . $xoopsDB->prefix('tad_themes_files_center') . " where col_name='{$col_name}' and col_sn='{$col_sn}'";
 
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $result          = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $db_files_amount = 0;
     while (list($files_sn, $file_name, $original_filename) = $xoopsDB->fetchRow($result)) {
         $db_files[$files_sn] = $original_filename;
@@ -208,6 +208,14 @@ function TadUpFilesNavBg()
     return $TadUpFilesNavBg;
 }
 
+function TadUpFilesConfig()
+{
+    global $xoopsConfig;
+    $TadUpFilesConfig = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}", null);
+
+    return $TadUpFilesConfig;
+}
+
 //更新 tadtools 初始設定
 function update_tadtools_setup($theme = '', $theme_kind = '')
 {
@@ -220,7 +228,7 @@ function update_tadtools_setup($theme = '', $theme_kind = '')
         $bootstrap_color = 'bootstrap3';
     }
 
-    $sql = 'select `tt_theme_kind` from `' . $xoopsDB->prefix('tadtools_setup') . "` where `tt_theme`='{$theme}'";
+    $sql    = 'select `tt_theme_kind` from `' . $xoopsDB->prefix('tadtools_setup') . "` where `tt_theme`='{$theme}'";
     $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     list($old_tt_theme_kind) = $xoopsDB->fetchRow($result);
@@ -237,33 +245,38 @@ function save_config2($theme_id = '', $config2_arr = [])
 {
     global $xoopsDB, $xoopsConfig;
     $TadUpFiles_config2 = TadUpFiles_config2();
-    $theme_name = $xoopsConfig['theme_set'];
+    $theme_name         = $xoopsConfig['theme_set'];
 
     //額外佈景設定
     $myts = \MyTextSanitizer::getInstance();
     foreach ($config2_arr as $config2) {
-        if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php")) {
+        if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2}.php")) {
+            require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
+            require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2}.php";
+        }elseif (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php")) {
             require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
             require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php";
-            /*
-            $theme_config[$i]['name']="footer_height";
-            $theme_config[$i]['text']=TF_FOOTER_HEIGHT;
-            $theme_config[$i]['type']="text";
-            $theme_config[$i]['default']="200px";
-             */
-            foreach ($theme_config as $k => $config) {
-                $name = $config['name'];
-                $value = isset($_POST[$name]) ? $myts->addSlashes($_POST[$name]) : $config['default'];
+        }else{
+            continue;
+        }
+        /*
+        $theme_config[$i]['name']="footer_height";
+        $theme_config[$i]['text']=TF_FOOTER_HEIGHT;
+        $theme_config[$i]['type']="text";
+        $theme_config[$i]['default']="200px";
+            */
+        foreach ($theme_config as $k => $config) {
+            $name  = $config['name'];
+            $value = isset($_POST[$name]) ? $myts->addSlashes($_POST[$name]) : $config['default'];
 
-                $sql = 'replace into ' . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`) values($theme_id , '{$config['name']}' , '{$config['type']}' , '{$value}')";
-                $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            $sql = 'replace into ' . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`) values($theme_id , '{$config['name']}' , '{$config['type']}' , '{$value}')";
+            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
-                if ('file' === $config['type']) {
-                    $TadUpFiles_config2->set_col("config2_{$config['name']}", $theme_id);
-                    $filename = $TadUpFiles_config2->upload_file("config2_{$config['name']}", null, null, null, '', true);
-                    if ($filename) {
-                        update_theme_config2($config['name'], $filename, $theme_id, $theme_name);
-                    }
+            if ('file' === $config['type']) {
+                $TadUpFiles_config2->set_col("config2_{$config['name']}", $theme_id);
+                $filename = $TadUpFiles_config2->upload_file("config2_{$config['name']}", null, null, null, '', true);
+                if ($filename) {
+                    update_theme_config2($config['name'], $filename, $theme_id, $theme_name);
                 }
             }
         }
@@ -274,6 +287,6 @@ function update_theme_config2($col = '', $file_name = '', $theme_id = '', $theme
 {
     global $xoopsDB, $xoopsUser, $xoopsConfig;
     $file_name_url = XOOPS_URL . "/uploads/tad_themes/{$theme_name}/config2/{$file_name}";
-    $sql = 'update ' . $xoopsDB->prefix('tad_themes_config2') . " set `value` = '{$file_name_url}' where theme_id='$theme_id' and `name`='{$col}'";
+    $sql           = 'update ' . $xoopsDB->prefix('tad_themes_config2') . " set `value` = '{$file_name_url}' where theme_id='$theme_id' and `name`='{$col}'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }

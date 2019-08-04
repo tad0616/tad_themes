@@ -49,7 +49,7 @@
                             <div class="col-sm-6">
                                 <div class="input-group">
                                     <input type="text" name="logo_top" class="form-control <{$validate.logo_top}> " value="<{$logo_top}>" id="logo_top" onChange="if(this.value > 0){$('#logo_bottom').val(0);}">
-                                    <span class="input-group-addon">px</span>
+                                    <span class="input-group-addon">%</span>
                                 </div>
                             </div>
                             <div class="col-sm-3"></div>
@@ -64,7 +64,7 @@
                             <div class="col-sm-5">
                                 <div class="input-group">
                                     <input type="text" name="logo_left" class="form-control <{$validate.logo_left}>" value="<{$logo_left}>" id="logo_left" onChange="if(this.value > 0){$('#logo_right').val(0);$('#logo_center').attr('checked',false);}">
-                                    <span class="input-group-addon">px</span>
+                                    <span class="input-group-addon">%</span>
                                 </div>
                             </div>
                         <{else}>
@@ -85,7 +85,7 @@
                             <div class="col-sm-5">
                                 <div class="input-group">
                                     <input type="text" name="logo_right" class="form-control <{$validate.logo_right}>" value="<{$logo_right}>" id="logo_right" onChange="if(this.value > 0){$('#logo_left').val(0);$('#logo_center').attr('checked',false);}">
-                                    <span class="input-group-addon">px</span>
+                                    <span class="input-group-addon">%</span>
                                 </div>
                             </div>
                         <{else}>
@@ -99,7 +99,7 @@
                             <div class="col-sm-6">
                                 <div class="input-group">
                                     <input type="text" name="logo_bottom" class="form-control <{$validate.logo_bottom}>" value="<{$logo_bottom}>" id="logo_bottom" onChange="if(this.value > 0){$('#logo_top').val(0);}">
-                                    <span class="input-group-addon">px</span>
+                                    <span class="input-group-addon">%</span>
                                 </div>
                             </div>
                             <div class="col-sm-3"></div>

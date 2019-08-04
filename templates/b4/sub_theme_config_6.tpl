@@ -12,7 +12,7 @@
                             <{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_1}></option>
                             <option value="fixed-bottom" <{if $navbar_pos=="fixed-bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_2}></option>
                             <option value="sticky-top" <{if $navbar_pos=="sticky-top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_3}></option>
-                            <option value="default" <{if $navbar_pos=="default"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_4}></option>
+                            <option value="default" <{if $navbar_pos=="default"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_6}></option>
                             <option value="not-use" <{if $navbar_pos=="not-use"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_5}></option>
                         </select>
                     </div>

@@ -13,11 +13,15 @@ function auto_import_theme()
 
     $theme_name = $xoopsConfig['theme_set'];
 
-    if (!file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php")) {
+
+    if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php")) {
+        require_once XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php";
+    }elseif (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php")) {
+        require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
+    }else{
         return;
     }
 
-    require XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
     foreach ($config_enable as $k => $v) {
         $$k = $v['default'];
     }
@@ -126,8 +130,14 @@ function save_blocks($theme_id = '', $import = false)
     global $xoopsDB, $block_position_title, $xoopsConfig;
 
     $theme_name = $xoopsConfig['theme_set'];
-    if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php")) {
-        require XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
+
+
+    if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php")) {
+        require_once XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php";
+    }elseif (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php")) {
+        require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
+    }else{
+        return;
     }
 
     $bt_bg_img = !empty($bt_bg_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/bt_bg/{$bt_bg_img}" : '';
@@ -141,6 +151,11 @@ function save_blocks($theme_id = '', $import = false)
             }
 
             $block_config_arr[$position] = isset($config_enable['block_config'][$position]) ? $config_enable['block_config'][$position]['default'] : $config_enable['block_config']['default'];
+            if(empty($block_config_arr[$position])){
+                $block_config_arr[$position]='right';
+            }
+
+
             $bt_text_arr[$position] = isset($config_enable['bt_text'][$position]) ? $config_enable['bt_text'][$position]['default'] : $config_enable['bt_text']['default'];
             $bt_text_padding_arr[$position] = isset($config_enable['bt_text_padding'][$position]) ? $config_enable['bt_text_padding'][$position]['default'] : $config_enable['bt_text_padding']['default'];
             $bt_text_size_arr[$position] = isset($config_enable['bt_text_size'][$position]) ? $config_enable['bt_text_size'][$position]['default'] : $config_enable['bt_text_size']['default'];

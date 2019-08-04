@@ -51,63 +51,63 @@ function tad_themes_responsive_slider($options)
                 }
             }
 
-            $block = "<a href='" . XOOPS_URL . "' alt='{$xoopsConfig['sitename']}' title='{$xoopsConfig['sitename']}'><img src='{$logo_img}' style='position:absolute;z-index:500;{$logo_place}'></a>";
+            $block = "<a href='" . XOOPS_URL . "' alt='{$xoopsConfig['sitename']}' title='{$xoopsConfig['sitename']}'><img src='{$logo_img}' style='position:absolute;z-index:100;{$logo_place}'></a>";
         }
     }
 
     $ResponsiveSlides = new ResponsiveSlides(120, false);
 
-        $sql = 'select a.*,b.slide_width,b.slide_height from ' . $xoopsDB->prefix('tad_themes_files_center') . ' as a left join ' . $xoopsDB->prefix('tad_themes') . " as b on a.col_sn=b.theme_id  where a.`col_name`='slide' and b.`theme_name`='{$xoopsConfig['theme_set']}'";
+    $sql = 'select a.*,b.slide_width,b.slide_height from ' . $xoopsDB->prefix('tad_themes_files_center') . ' as a left join ' . $xoopsDB->prefix('tad_themes') . " as b on a.col_sn=b.theme_id  where a.`col_name`='slide' and b.`theme_name`='{$xoopsConfig['theme_set']}'";
 
-        $result = $xoopsDB->query($sql);
+    $result = $xoopsDB->query($sql);
 
-        $slide_images = 0;
-        while (false !== ($data = $xoopsDB->fetchArray($result))) {
-            foreach ($data as $k => $v) {
-                $$k = $v;
-                //$this->assign($k,$$k);
-            }
-            $slide_images++;
+    $slide_images = 0;
+    while (false !== ($data = $xoopsDB->fetchArray($result))) {
+        foreach ($data as $k => $v) {
+            $$k = $v;
+            //$this->assign($k,$$k);
+        }
+        $slide_images++;
 
-            if ($description) {
-                // preg_match_all("/\](.*)\[/", $description, $matches);
-                // $url         = isset($matches[1][0]) ? $matches[1][0] : XOOPS_URL;
-                // $description = str_replace("[url]{$url}[/url]", "", $description);
+        if ($description) {
+            // preg_match_all("/\](.*)\[/", $description, $matches);
+            // $url         = isset($matches[1][0]) ? $matches[1][0] : XOOPS_URL;
+            // $description = str_replace("[url]{$url}[/url]", "", $description);
 
-                preg_match_all("/\](.*)\[/", $description, $matches);
-                $url = $matches[1][0];
-                if (empty($url)) {
-                    $url = XOOPS_URL;
-                }
-
-                if (false !== mb_strpos($description, 'url_blank')) {
-                    $description = str_replace("[url_blank]{$url}[/url_blank]", '', $description);
-                    $slide_target = "target='_blank'";
-                } else {
-                    $description = str_replace("[url]{$url}[/url]", '', $description);
-                    $slide_target = '';
-                }
+            preg_match_all("/\](.*)\[/", $description, $matches);
+            $url = $matches[1][0];
+            if (empty($url)) {
+                $url = XOOPS_URL;
             }
 
-            if ('swf' === mb_strtolower(mb_substr($file_name, -3)) and $slide_width <= 12) {
-                $slide_width = round((100 / 12) * 12, 0) . '%';
-                if (0 == $slide_height) {
-                    $slide_height = 250;
-                }
+            if (false !== mb_strpos($description, 'url_blank')) {
+                $description = str_replace("[url_blank]{$url}[/url_blank]", '', $description);
+                $slide_target = "target='_blank'";
+            } else {
+                $description = str_replace("[url]{$url}[/url]", '', $description);
+                $slide_target = '';
             }
-            $ResponsiveSlides->add_content($files_sn, $title, $description, XOOPS_URL . "/uploads/tad_themes/{$xoopsConfig['theme_set']}/slide/{$file_name}", $date, $url, $slide_width, $slide_height, $slide_target);
         }
 
-        if (empty($slide_images)) {
-            $title = $xoopsConfig['sitename'];
-            $content = isset($xoopsConfig['meta_description']) ? $xoopsConfig['meta_description'] : '';
-
-            $ResponsiveSlides->add_content(1, $title, $content, XOOPS_URL . "/themes/{$xoopsConfig['theme_set']}/images/slide/default.png", '', XOOPS_URL);
-            $ResponsiveSlides->add_content(2, $title, $content, XOOPS_URL . "/themes/{$xoopsConfig['theme_set']}/images/slide/default2.png", '', XOOPS_URL);
-            $ResponsiveSlides->add_content(3, $title, $content, XOOPS_URL . "/themes/{$xoopsConfig['theme_set']}/images/slide/default3.png", '', XOOPS_URL);
+        if ('swf' === mb_strtolower(mb_substr($file_name, -3)) and $slide_width <= 12) {
+            $slide_width = round((100 / 12) * 12, 0) . '%';
+            if (0 == $slide_height) {
+                $slide_height = 250;
+            }
         }
+        $ResponsiveSlides->add_content($files_sn, $title, $description, XOOPS_URL . "/uploads/tad_themes/{$xoopsConfig['theme_set']}/slide/{$file_name}", $date, $url, $slide_width, $slide_height, $slide_target);
+    }
 
-        $block .= $ResponsiveSlides->render('tad_themes_ResponsiveSlides');
+    if (empty($slide_images)) {
+        $title = $xoopsConfig['sitename'];
+        $content = isset($xoopsConfig['meta_description']) ? $xoopsConfig['meta_description'] : '';
+
+        $ResponsiveSlides->add_content(1, $title, $content, XOOPS_URL . "/themes/{$xoopsConfig['theme_set']}/images/slide/default.png", '', XOOPS_URL);
+        $ResponsiveSlides->add_content(2, $title, $content, XOOPS_URL . "/themes/{$xoopsConfig['theme_set']}/images/slide/default2.png", '', XOOPS_URL);
+        $ResponsiveSlides->add_content(3, $title, $content, XOOPS_URL . "/themes/{$xoopsConfig['theme_set']}/images/slide/default3.png", '', XOOPS_URL);
+    }
+
+    $block .= $ResponsiveSlides->render('tad_themes_ResponsiveSlides');
 
     return $block;
 }
