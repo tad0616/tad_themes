@@ -1,3 +1,11 @@
+Tad Themes 5.8 (2019-08-07 released)
+==========================================================
+1. Remove the useless fields such as membersonly, mainmenu, etc.
+2. When the menu is deleted, it will be deleted along with the bottom option to avoid residual useless links.
+3. When importing the menu, it will automatically detect whether it has been imported, avoiding duplication.
+4. Add import editing menu function
+5. Add menu permission to copy down function
+
 Tad Themes 5.7 (2019-08-04 released)
 ==========================================================
 1. Move the navigation log login settings of tad_login to this module.

@@ -250,11 +250,10 @@ function save_config2($theme_id = '', $config2_arr = [])
     //額外佈景設定
     $myts = \MyTextSanitizer::getInstance();
     foreach ($config2_arr as $config2) {
+        require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
         if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2}.php")) {
-            require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
             require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2}.php";
         }elseif (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php")) {
-            require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
             require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php";
         }else{
             continue;

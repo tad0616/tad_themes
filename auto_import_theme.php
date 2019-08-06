@@ -15,9 +15,9 @@ function auto_import_theme()
 
 
     if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php")) {
-        require_once XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php";
+        require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php";
     }elseif (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php")) {
-        require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
+        require XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
     }else{
         return;
     }
@@ -133,9 +133,9 @@ function save_blocks($theme_id = '', $import = false)
 
 
     if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php")) {
-        require_once XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php";
+        require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php";
     }elseif (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php")) {
-        require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
+        require XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
     }else{
         return;
     }

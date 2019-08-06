@@ -36,6 +36,7 @@ function tad_themes_form()
 
     //設定「theme_id」欄位預設值
     $theme_id = (!isset($DBV['theme_id'])) ? 0 : $DBV['theme_id'];
+
     if (empty($theme_id)) {
         auto_import_theme();
         header('location: main.php');

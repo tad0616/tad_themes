@@ -6,7 +6,7 @@ if (!class_exists('XoopsModules\Tadtools\Utility')) {
     require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
 }
 if (!class_exists('XoopsModules\Tad_themes\Update')) {
-    include dirname(__DIR__) . '/preloads/autoloader.php';
+    require dirname(__DIR__) . '/preloads/autoloader.php';
 }
 
 function xoops_module_update_tad_themes(&$module, $old_version)
@@ -112,6 +112,9 @@ function xoops_module_update_tad_themes(&$module, $old_version)
     }
     if (Update::chk_chk24()) {
         Update::go_update24();
+    }
+    if (Update::chk_chk25()) {
+        Update::go_update25();
     }
 
     Update::chk_tad_themes_block();
