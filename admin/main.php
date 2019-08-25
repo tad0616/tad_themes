@@ -1443,6 +1443,12 @@ tabs-6 導覽工具列
 //導覽工具列 圖示顏色[navbar.tpl]，值： icon-white （白色圖案）, '' （黑色圖案）
 \$config_enable['navbar_icon'] = array('enable' => '{$config_enable['navbar_icon']['enable']}', 'min' => '{$config_enable['navbar_icon']['min']}', 'max' => '{$config_enable['navbar_icon']['max']}', 'require' => '{$config_enable['navbar_icon']['require']}', 'default' => '{$config_enable['navbar_icon']['default']}');
 
+//導覽工具列 導覽選項上下距離[theme_css_navbar.tpl]
+\$config_enable['navbar_py'] = array('enable' => '{$config_enable['navbar_py']['enable']}', 'min' => '{$config_enable['navbar_py']['enable']}', 'max' => '{$config_enable['navbar_py']['enable']}', 'require' => '{$config_enable['navbar_py']['enable']}', 'default' => '{$config_enable['navbar_py']['enable']}');
+
+//導覽工具列 導覽選項左右距離[theme_css_navbar.tpl]
+\$config_enable['navbar_px'] = array('enable' => '{$config_enable['navbar_px']['enable']}', 'min' => '{$config_enable['navbar_px']['enable']}', 'max' => '{$config_enable['navbar_px']['enable']}', 'require' => '{$config_enable['navbar_px']['enable']}', 'default' => '{$config_enable['navbar_px']['enable']}');
+
 // 上傳導覽列logo圖[navbar.tpl]，值：可指定置於「themes/佈景/images/navlogo/」下的某一檔案名稱
 \$config_enable['navlogo_img'] = array('enable' => '{$config_enable['navlogo_img']['enable']}', 'min' => '{$config_enable['navlogo_img']['min']}', 'max' => '{$config_enable['navlogo_img']['max']}', 'require' => '{$config_enable['navlogo_img']['require']}', 'default' => '{$navlogo_img_default}');
   ";
