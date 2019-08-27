@@ -50,6 +50,19 @@ function tad_themes_logo_form()
     $bg_color = !empty($fc['bg_color']) ? $fc['bg_color'] : '#3c3c3c';
     $xoopsTpl->assign('bg_color', $bg_color);
 
+    $shadow_color = !empty($fc['shadow_color']) ? $fc['shadow_color'] : '#000000';
+    $shadow_color = str_replace('#', '', $shadow_color);
+    $xoopsTpl->assign('shadow_color', $shadow_color);
+
+    $shadow_x = isset($fc['shadow_x']) ? $fc['shadow_x'] : '1';
+    $xoopsTpl->assign('shadow_x', $shadow_x);
+
+    $shadow_y = isset($fc['shadow_y']) ? $fc['shadow_y'] : '1';
+    $xoopsTpl->assign('shadow_y', $shadow_y);
+
+    $shadow_size = isset($fc['shadow_size']) ? $fc['shadow_size'] : '3';
+    $xoopsTpl->assign('shadow_size', $shadow_size);
+
     $fontUpForm = $TadUpFontFiles->upform(true, 'font');
     $xoopsTpl->assign('fontUpForm', $fontUpForm);
 
@@ -102,7 +115,7 @@ function strLength($str, $charset = 'utf-8')
 }
 
 //製作logo圖
-function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8', $border_color = '#FFFFFF', $font_file_sn = 0)
+function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8', $border_color = '#FFFFFF', $font_file_sn = 0, $shadow_color = '#000000', $shadow_x = 1, $shadow_y = 1, $shadow_size = 3)
 {
     global $TadUpFontFiles;
     $font = $TadUpFontFiles->get_file($font_file_sn);
@@ -125,6 +138,7 @@ function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8
     $y                                                      = $size * 1.5;
     list($color_r, $color_g, $color_b)                      = sscanf($color, '#%02x%02x%02x');
     list($border_color_r, $border_color_g, $border_color_b) = sscanf($border_color, '#%02x%02x%02x');
+    list($shadow_color_r, $shadow_color_g, $shadow_color_b) = sscanf($shadow_color, '#%02x%02x%02x');
 
     header('Content-type: image/png');
     $im = imagecreatetruecolor($width, $height);
@@ -135,26 +149,26 @@ function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8
 
     $text_color        = imagecolorallocate($im, $color_r, $color_g, $color_b);
     $text_border_color = imagecolorallocatealpha($im, $border_color_r, $border_color_g, $border_color_b, 50);
+    $text_shadow_color = imagecolorallocatealpha($im, $shadow_color_r, $shadow_color_g, $shadow_color_b, 50);
 
     $gd = gd_info();
     if ($gd['JIS-mapped Japanese Font Support']) {
         $title = iconv('UTF-8', 'shift_jis', $title);
     }
+    // die('shadow_size='.$shadow_size);
+    // if ($shadow_size > 0) {
+        $sx = $shadow_x > 0 ? $shadow_x + $border_size : $shadow_x - $border_size;
+        $sy = $shadow_y > 0 ? $shadow_y + $border_size : $shadow_y - $border_size;
+
+        imagettftextblur($im, $size, 0, $x + $sx, $y + $sy, $text_shadow_color, $font[$font_file_sn]['physical_file_path'], $title, $shadow_size);
+    // }
+
     imagettftext($im, $size, 0, $x, $y, $text_color, $font[$font_file_sn]['physical_file_path'], $title);
+
     if ('transparent' !== $border_color) {
-        imagettftextoutline(
-            $im, // image location ( you should use a variable )
-            $size, // font size
-            0, // angle in °
-            $x, // x
-            $y, // y
-            $text_color,
-            $text_border_color,
-            $font[$font_file_sn]['physical_file_path'],
-            $title, // pattern
-            $border_size // outline width
-        );
+        imagettftextoutline($im, $size, 0, $x, $y, $text_color, $text_border_color, $font[$font_file_sn]['physical_file_path'], $title, $border_size);
     }
+
     Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tmp_logo');
     $filename = date('ymdHis');
     imagepng($im, XOOPS_ROOT_PATH . "/uploads/tmp_logo/{$filename}.png");
@@ -175,6 +189,111 @@ function imagettftextoutline(&$im, $size, $angle, $x, $y, &$col, &$outlinecol, $
     }
     // Draw the main text
     $text2 = imagettftext($im, $size, $angle, $x, $y, $col, $fontfile, $text);
+}
+
+function imagettftextblur(&$im, $size, $angle, $x, $y, $color, $fontfile, $text, $blur_intensity = 0, $blur_filter = IMG_FILTER_GAUSSIAN_BLUR)
+{
+    $blur_intensity=(int)$blur_intensity;
+    // $blur_intensity needs to be an integer greater than zero; if it is not we
+    // treat this function call identically to imagettftext
+    if (is_int($blur_intensity) && $blur_intensity > 0) {
+        // $return_array will be returned once all calculations are complete
+        $return_array = [
+            imagesx($im), // lower left, x coordinate
+            -1, // lower left, y coordinate
+            -1, // lower right, x coordinate
+            -1, // lower right, y coordinate
+            -1, // upper right, x coordinate
+            imagesy($im), // upper right, y coordinate
+            imagesx($im), // upper left, x coordinate
+            imagesy($im), // upper left, y coordinate
+        ];
+        // $temporary_image is a GD image that is the same size as our
+        // original GD image
+        $temporary_image = imagecreatetruecolor(
+            imagesx($im),
+            imagesy($im)
+        );
+        // fill $temporary_image with a black background
+        imagefill(
+            $temporary_image,
+            0,
+            0,
+            imagecolorallocate($temporary_image, 0x00, 0x00, 0x00)
+        );
+        // add white text to $temporary_image with the function call's
+        // parameters
+        imagettftext(
+            $temporary_image,
+            $size,
+            $angle,
+            $x,
+            $y,
+            imagecolorallocate($temporary_image, 0xFF, 0xFF, 0xFF),
+            $fontfile,
+            $text
+        );
+        // execute the blur filters
+        for ($blur = 1; $blur <= $blur_intensity; $blur++) {
+            imagefilter($temporary_image, $blur_filter);
+        }
+        // set $color_opacity based on $color's transparency
+        $color_opacity = imagecolorsforindex($im, $color)['alpha'];
+        $color_opacity = (127 - $color_opacity) / 127;
+        // loop through each pixel in $temporary_image
+        for ($_x = 0; $_x < imagesx($temporary_image); $_x++) {
+            for ($_y = 0; $_y < imagesy($temporary_image); $_y++) {
+                // $visibility is the grayscale of the current pixel multiplied
+                // by $color_opacity
+                $visibility = (imagecolorat(
+                    $temporary_image,
+                    $_x,
+                    $_y
+                ) & 0xFF) / 255 * $color_opacity;
+                // if the current pixel would not be invisible then add it to
+                // $im
+                if ($visibility > 0) {
+                    // we know we are on an affected pixel so ensure
+                    // $return_array is updated accordingly
+                    $return_array[0] = min($return_array[0], $_x);
+                    $return_array[1] = max($return_array[1], $_y);
+                    $return_array[2] = max($return_array[2], $_x);
+                    $return_array[3] = max($return_array[3], $_y);
+                    $return_array[4] = max($return_array[4], $_x);
+                    $return_array[5] = min($return_array[5], $_y);
+                    $return_array[6] = min($return_array[6], $_x);
+                    $return_array[7] = min($return_array[7], $_y);
+                    // set the current pixel in $im
+                    imagesetpixel(
+                        $im,
+                        $_x,
+                        $_y,
+                        imagecolorallocatealpha(
+                            $im,
+                            ($color >> 16) & 0xFF,
+                            ($color >> 8) & 0xFF,
+                            $color & 0xFF,
+                            (1 - $visibility) * 127
+                        )
+                    );
+                }
+            }
+        }
+        // destroy our $temporary_image
+        imagedestroy($temporary_image);
+        return $return_array;
+    } else {
+        return imagettftext(
+            $im,
+            $size,
+            $angle,
+            $x,
+            $y,
+            $color,
+            $fontfile,
+            $text
+        );
+    }
 }
 
 function delete_dirfile($dirname)
@@ -201,11 +320,12 @@ function delete_dirfile($dirname)
     return true;
 }
 
-function save_to_logo($name=''){
-    global $xoopsConfig,$xoopsDB;
+function save_to_logo($name = '')
+{
+    global $xoopsConfig, $xoopsDB;
     $theme_id = get_theme_id($xoopsConfig['theme_set']);
     import_file(XOOPS_ROOT_PATH . "/uploads/tmp_logo/{$name}.png", 'logo', $theme_id);
-    $sql='update ' . $xoopsDB->prefix('tad_themes') . " set logo_img='".XOOPS_URL."/uploads/tad_themes/{$xoopsConfig['theme_set']}/logo/{$name}.png' where theme_id='{$theme_id}'";
+    $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set logo_img='" . XOOPS_URL . "/uploads/tad_themes/{$xoopsConfig['theme_set']}/logo/{$name}.png' where theme_id='{$theme_id}'";
     $xoopsDB->queryF($sql);
     delete_dirfile(XOOPS_ROOT_PATH . '/uploads/tmp_logo');
 }
@@ -225,6 +345,10 @@ $name         = system_CleanVars($_REQUEST, 'name', '', 'string');
 $bg_color     = system_CleanVars($_REQUEST, 'bg_color', '', 'string');
 $logo         = system_CleanVars($_REQUEST, 'logo', '', 'string');
 $sav_to_logo  = system_CleanVars($_REQUEST, 'sav_to_logo', 0, 'int');
+$shadow_color = system_CleanVars($_REQUEST, 'shadow_color', '#000000', 'string');
+$shadow_x     = system_CleanVars($_REQUEST, 'shadow_x', 1, 'int');
+$shadow_y     = system_CleanVars($_REQUEST, 'shadow_y', 1, 'int');
+$shadow_size  = system_CleanVars($_REQUEST, 'shadow_size', 3, 'int');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -252,11 +376,11 @@ switch ($op) {
         exit;
 
     case 'mkTitlePic':
-        $filename     = mkTitlePic($title, $size, $border_size, $color, $border_color, $font_file_sn);
+        $filename     = mkTitlePic($title, $size, $border_size, $color, $border_color, $font_file_sn, $shadow_color, $shadow_x, $shadow_y, $shadow_size);
         $color        = str_replace('#', '', $color);
         $border_color = str_replace('#', '', $border_color);
 
-        $_SESSION['font_config'] = json_encode(['title' => $title, 'size' => $size, 'border_size' => $border_size, 'color' => $color, 'border_color' => $border_color, 'font_file_sn' => $font_file_sn, 'bg_color' => $bg_color]);
+        $_SESSION['font_config'] = json_encode(['title' => $title, 'size' => $size, 'border_size' => $border_size, 'color' => $color, 'border_color' => $border_color, 'font_file_sn' => $font_file_sn, 'bg_color' => $bg_color, 'shadow_color' => $shadow_color, 'shadow_x' => $shadow_x, 'shadow_y' => $shadow_y, 'shadow_size' => $shadow_size]);
 
         header("location: font2pic.php?name=$filename");
         exit;
