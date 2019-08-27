@@ -201,6 +201,15 @@ function delete_dirfile($dirname)
     return true;
 }
 
+function save_to_logo($name=''){
+    global $xoopsConfig,$xoopsDB;
+    $theme_id = get_theme_id($xoopsConfig['theme_set']);
+    import_file(XOOPS_ROOT_PATH . "/uploads/tmp_logo/{$name}.png", 'logo', $theme_id);
+    $sql='update ' . $xoopsDB->prefix('tad_themes') . " set logo_img='".XOOPS_URL."/uploads/tad_themes/{$xoopsConfig['theme_set']}/logo/{$name}.png' where theme_id='{$theme_id}'";
+    $xoopsDB->queryF($sql);
+    delete_dirfile(XOOPS_ROOT_PATH . '/uploads/tmp_logo');
+}
+
 /*-----------執行動作判斷區----------*/
 require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op           = system_CleanVars($_REQUEST, 'op', '', 'string');
@@ -228,9 +237,7 @@ switch ($op) {
     case 'save_pic':
         Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/logo');
         if ($sav_to_logo == 1) {
-            $theme_id = get_theme_id($xoopsConfig['theme_set']);
-            import_file(XOOPS_ROOT_PATH . "/uploads/tmp_logo/{$name}.png", 'logo', $theme_id);
-            delete_dirfile(XOOPS_ROOT_PATH . '/uploads/tmp_logo');
+            save_to_logo($name);
             header("location: main.php#themeTab4");
         } else {
             copy(XOOPS_ROOT_PATH . "/uploads/tmp_logo/{$name}.png", XOOPS_ROOT_PATH . "/uploads/logo/{$name}.png");

@@ -143,10 +143,10 @@ class Update
     {
         global $xoopsDB;
         $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes') . "
-  ADD `navbar_pos` enum('navbar-fixed-top','navbar-fixed-bottom','navbar-static-top','not-use') NOT NULL ,
-  ADD `navbar_bg_top` varchar(255) NOT NULL DEFAULT '#54b4eb',
-  ADD `navbar_bg_bottom` varchar(255) NOT NULL DEFAULT '#2fa4e7',
-  ADD `navbar_hover` varchar(255) NOT NULL DEFAULT '#1684c2'";
+        ADD `navbar_pos` varchar(255) NOT NULL DEFAULT 'default',
+        ADD `navbar_bg_top` varchar(255) NOT NULL DEFAULT '#54b4eb',
+        ADD `navbar_bg_bottom` varchar(255) NOT NULL DEFAULT '#2fa4e7',
+        ADD `navbar_hover` varchar(255) NOT NULL DEFAULT '#1684c2'";
         $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/system/admin.php?fct=modulesadmin', 30, $xoopsDB->error());
     }
 

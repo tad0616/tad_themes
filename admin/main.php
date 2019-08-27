@@ -569,15 +569,17 @@ function change_css_bootstrap($theme_width = '12', $theme_left_width = '', $them
         //右區塊模擬寬
         var rb_width=Math.round(rb_width_org * 80 /4)-3;
 
-        if(theme_type=='theme_type_5' || theme_type=='theme_type_6' || theme_type=='theme_type_7'){
-            lb_width=lb_width/2;
-            rb_width=rb_width/2;
-        }
-
+        
         //中間區塊原始寬
         if(lbw == 'auto' || lbw == '' || rbw == 'auto' || rbw == ''){
             var center_width_org = cbw;
-            console.log('auto:'+center_width_org);
+            //左區塊模擬寬
+            var lb_width = Math.round((12-center_width_org)/2 * 80/4)-3;
+            //右區塊模擬寬
+            var rb_width=Math.round((12-center_width_org)/2 * 80/4)-3;
+        }else if(theme_type=='theme_type_5' || theme_type=='theme_type_6' || theme_type=='theme_type_7'){
+            var center_width_org = {$theme_width} - $('#lb_width').val()*1 - $('#rb_width').val()*1;
+            console.log(center_width_org);
         }else{
             var center_width_org = {$theme_width} - $('#lb_width').val()*1;
             console.log(center_width_org);
@@ -1507,7 +1509,7 @@ tabs-6 導覽工具列
 
 \$config_tabs[6] = {$config_tabs[6]};
 
-//導覽工具列位置[navbar.tpl]，值： navbar-fixed-top （固定上方）, navbar-fixed-bottom （固定下方）, navbar-static-top （滑動圖片上方）, navbar-static-bottom （滑動圖片下方）, default （佈景預設值）, not-use （不使用）
+//導覽工具列位置[navbar.tpl]，值： fixed-top （固定上方）, fixed-bottom （固定下方）, sticky-top（滑動圖片上方）, default （滑動圖片下方）, not-use （不使用）
 \$config_enable['navbar_pos'] = array('enable' => '{$config_enable['navbar_pos']['enable']}', 'min' => '{$config_enable['navbar_pos']['min']}', 'max' => '{$config_enable['navbar_pos']['max']}', 'require' => '{$config_enable['navbar_pos']['require']}', 'default' => '{$config_enable['navbar_pos']['default']}');
 
 //導覽工具列 漸層顏色(top)[theme_css_navbar.tpl]
