@@ -73,12 +73,12 @@ define('_MA_TADTHEMES_NOTICE', "<ul style='line-height:2em;'>
 define('_MA_TADTHEMES_NOTICE2', "<ul style='line-height:2em;'>
   <li style='line-height:180%;list-style-position:outside;'>所有圖片亦可直接FTP上傳，系統會自動將之加入資料庫，並產生縮圖。
     <ul style='list-style-type:circle;margin-left:20px;'>
-      <li style='line-height:180%;list-style-position:outside;'>頁面背景傳至「/themes/佈景名稱/images/bg」下</li>
-      <li style='line-height:180%;list-style-position:outside;'>滑動圖片傳至「/themes/佈景名稱/images/slide」下</li>
-      <li style='line-height:180%;list-style-position:outside;'>logo圖傳至「/themes/佈景名稱/images/logo」下</li>
-      <li style='line-height:180%;list-style-position:outside;'>區塊背景傳至「/themes/佈景名稱/images/bt_bg」下</li>
-      <li style='line-height:180%;list-style-position:outside;'>導覽列背景傳至「/themes/佈景名稱/images/nav_bg」下</li>
-      <li style='line-height:180%;list-style-position:outside;'>導覽列logo圖傳至「/themes/佈景名稱/images/navlogo」下</li>
+      <li style='line-height:180%;list-style-position:outside;'>頁面背景傳至：/themes/{$xoopsConfig['theme_set']}/images/bg</li>
+      <li style='line-height:180%;list-style-position:outside;'>滑動圖片傳至：/themes/{$xoopsConfig['theme_set']}/images/slide</li>
+      <li style='line-height:180%;list-style-position:outside;'>logo圖傳至：/themes/{$xoopsConfig['theme_set']}/images/logo</li>
+      <li style='line-height:180%;list-style-position:outside;'>區塊背景傳至：/themes/{$xoopsConfig['theme_set']}/images/bt_bg</li>
+      <li style='line-height:180%;list-style-position:outside;'>導覽列背景傳至：/themes/{$xoopsConfig['theme_set']}/images/nav_bg</li>
+      <li style='line-height:180%;list-style-position:outside;'>導覽列logo圖傳至：/themes/{$xoopsConfig['theme_set']}/images/navlogo</li>
     </ul>
   </li>
   <li style='line-height:180%;list-style-position:outside;'>刪除圖片時，一律從後台刪除，勿直接刪除FTP圖片！</li>
@@ -124,7 +124,7 @@ define('_MA_TADTHEMES_NAVBAR_POSITION_3', '滑動圖文上方');
 define('_MA_TADTHEMES_NAVBAR_POSITION_6', '滑動圖文下方');
 define('_MA_TADTHEMES_NAVBAR_POSITION_4', '佈景預設呈現方式');
 define('_MA_TADTHEMES_NAVBAR_POSITION_5', '不使用導覽列');
-define('_MA_TADTHEMES_NAVBAR_BG_COLOR', '選項底色（可漸層）');
+define('_MA_TADTHEMES_NAVBAR_BG_COLOR', '選項底色上方色');
 define('_MA_TADTHEMES_TARGET_BLANK', '新視窗');
 define('_MA_TADTHEMES_NAVBAR_COLOR', '選項文字顏色');
 define('_MA_TADTHEMES_NAVBAR_COLOR_HOVER', '滑鼠移過時文字顏色');
@@ -164,8 +164,8 @@ define('_MA_TADTHEMES_EXPORT', '匯出 config.php 設定檔');
 define('_MA_TADTHEMES_EXPORT2', '匯出 %s.php 設定檔');
 define('_MA_TADTHEMES_IMPORT', '匯入設定檔');
 
-define('_MA_TADTHEMES_NAVBAR_PY', '導覽選項上下距離');
-define('_MA_TADTHEMES_NAVBAR_PX', '左右距離');
+define('_MA_TADTHEMES_NAVBAR_PY', '選項上下間距');
+define('_MA_TADTHEMES_NAVBAR_PX', '選項左右間距');
 
 define('_MA_TADTHEMES_LOGO_DESIGN', '簡易Logo設計');
 define('_MA_TADTHEMES_LOGO_INPUT_TEXT', '輸入文字');
@@ -177,17 +177,18 @@ define('_MA_TADTHEMES_LOGO_SELECT_FONT', '選擇字型');
 define('_MA_TADTHEMES_LOGO_MAKE_PNG', '產生圖片');
 define('_MA_TADTHEMES_LOGO_NEED_FONT', '請至少先上傳一個字型');
 define('_MA_TADTHEMES_LOGO_SAVE_PIC', '儲存圖片');
+define('_MA_TADTHEMES_LOGO_SAVE_AS_LOGO', '存為logo');
 define('_MA_TADTHEMES_LOGO_DEMO_BGCOLOR', '範例背景色：');
 define('_MA_TADTHEMES_FONT_TOOL', '字型檔管理');
 define('_MA_TADTHEMES_FONT_UPLOAD', '上傳字型檔');
-define('_MA_TADTHEMES_FONT_NOTE', '僅支援 ttf、otf、ttc 字型檔，若無字型，可參考<a href="https://mrmad.com.tw/free-chinese-font" target="_blank">免費中文字體總整理，可用於商業使用</a>或<a href="http://www.fonts.net.cn/" target="_blank">這裡</a>');
+define('_MA_TADTHEMES_FONT_NOTE', '僅支援 ttf、otf、ttc 字型檔，若無字型，可參考<a href="https://mrmad.com.tw/free-chinese-font" target="_blank">免費中文字體總整理，可用於商業使用</a>或<a href="http://www.fonts.net.cn/commercial-free-32767/fonts-zh-1.html" target="_blank">這裡</a>');
 define('_MA_TADTHEMES_FONT_SAVE', '儲存字型檔');
 define('_MA_TADTHEMES_READGROUP', '可讀群組');
 define('_MA_TADTHEMES_APPLY_READGROUP', '下層選項套用相同權限');
 
 define('_MA_TADTHEMES_NAVBAR_FONT_SIZE', '選項文字大小');
-define('_MA_TADTHEMES_NAVBAR_CHANGE', '漸層至');
-define('_MA_TADTHEMES_NAVBAR_HOVER_COLOR', '底色為');
+define('_MA_TADTHEMES_NAVBAR_CHANGE', '選項底色下方色');
+define('_MA_TADTHEMES_NAVBAR_HOVER_COLOR', '滑鼠移過時底色');
 
 define('_MA_TADTHEMES_EXPAND_ALL', '全部展開');
 define('_MA_TADTHEMES_COLLAPSE_ALL', '全部闔起');

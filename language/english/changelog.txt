@@ -1,3 +1,9 @@
+Tad Themes 5.9 (released from 2019-08-26)
+==========================================================
+1. Fixed a missing field when importing profiles
+2. Optimized setting interface
+
+
 Tad Themes 5.8 (2019-08-07 released)
 ==========================================================
 1. Remove the useless fields such as membersonly, mainmenu, etc.

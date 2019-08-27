@@ -53,15 +53,16 @@
                     </label>
                 </div>
 
-                <div style="width:60px; height:86px; display:inline-block; margin:4px;">
-                    <label for="<{$config.name}>" style="width:60px; height:60px; background:#000000 url(<{$config.default}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;background-size: cover;" >
-                    <input type="radio" name="<{$config.name}>" id="<{$config.name}><{$file.files_sn}>" value="<{$config.default}>"  <{if $config.value==$config.default}>checked<{/if}>>
-                    </label>
-                    <label style="font-size:11px;">
-                        <{$smarty.const._MA_TADTHEMES_DEFAULT}>
-                    </label>
-
-                </div>
+                <{if $config.default}>
+                    <div style="width:60px; height:86px; display:inline-block; margin:4px;">
+                        <label for="<{$config.name}>" style="width:60px; height:60px; background:#000000 url(<{$config.default}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;background-size: cover;" >
+                        <input type="radio" name="<{$config.name}>" id="<{$config.name}><{$file.files_sn}>" value="<{$config.default}>"  <{if $config.value==$config.default}>checked<{/if}>>
+                        </label>
+                        <label style="font-size:11px;">
+                            <{$smarty.const._MA_TADTHEMES_DEFAULT}>
+                        </label>
+                    </div>
+                <{/if}>
 
                 <{foreach from=$config.list item=file}>
                     <div style="width:60px; height:86px; display:inline-block; margin:4px;">

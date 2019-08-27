@@ -1,176 +1,183 @@
-<!--navbar-->
-<div class="row">
-    <{if $enable.navbar_pos=="1" or $enable.navbar_bg_top=="1" or  $enable.navbar_bg_bottom=="1" or $enable.navbar_hover=="1"}>
-        <div class="col-sm-6">
-            <!--導覽工具列位置-->
-            <{if $enable.navbar_pos=="1"}>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label"><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION}></label>
-                    <div class="col-sm-8">
-                        <select name="navbar_pos" id="navbar_pos" class="form-control <{$validate.navbar_pos}>">
-                            <option value="navbar-fixed-top" <{if $navbar_pos=="navbar-fixed-top"}>selected<{/if}>>
-                            <{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_1}></option>
-                            <option value="navbar-fixed-bottom" <{if $navbar_pos=="navbar-fixed-bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_2}></option>
-                            <option value="navbar-static-top" <{if $navbar_pos=="navbar-static-top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_3}></option>
-                            <option value="navbar-static-bottom" <{if $navbar_pos=="navbar-static-bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_6}></option>
-                            <option value="default" <{if $navbar_pos=="default"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_4}></option>
-                            <option value="not-use" <{if $navbar_pos=="not-use"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_5}></option>
-                        </select>
-                    </div>
-                </div>
-            <{else}>
-                <input type="hidden" name="navbar_pos" id="navbar_pos" value="<{$navbar_pos}>">
-            <{/if}>
-
-            <!--導覽工具列 漸層顏色(top) -->
-            <{if $enable.navbar_bg_top=="1"}>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">
-                        <{$smarty.const._MA_TADTHEMES_NAVBAR_BG_COLOR}>
-                    </label>
-                    <div class="col-sm-8">
-                        <div class="input-group">
-                            <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>" class="form-control form-control color-picker <{$validate.navbar_bg_top}>" data-text="hidden" data-hex="true" style="height: 42px;">
-                            <{if $enable.navbar_bg_bottom=="1"}>
-                                <span class="input-group-addon"><{$smarty.const._MA_TADTHEMES_NAVBAR_CHANGE}></span>
-                                <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>" class="form-control form-control color-picker <{$validate.navbar_bg_bottom}>" data-text="hidden" data-hex="true" style="height: 42px;">
-                            <{else}>
-                                <input type="hidden" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>">
-                            <{/if}>
-                        </div>
-                    </div>
-                </div>
-            <{else}>
-                <input type="hidden" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>">
-            <{/if}>
-
-            <!--導覽工具列 滑鼠移過顏色-->
-            <{if $enable.navbar_color_hover=="1"}>
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">
-                        <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR_HOVER}>
-                    </label>
-                    <div class="col-sm-8">
-                        <div class="input-group">
-                            <input type="text" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>" class=" form-control color-picker <{$validate.navbar_color_hover}>" data-text="hidden" data-hex="true" style="height: 42px;">
-
-                            <{if $enable.navbar_hover=="1"}>
-                                <span class="input-group-addon"><{$smarty.const._MA_TADTHEMES_NAVBAR_HOVER_COLOR}></span>
-                                <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>" class=" form-control color-picker <{$validate.navbar_hover}>" data-text="hidden" data-hex="true" style="height: 42px;">
-                            <{else}>
-                                <input type="hidden" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>">
-                            <{/if}>
-                        </div>
-                    </div>
-                </div>
-            <{else}>
-                <input type="hidden" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>">
-            <{/if}>
-        </div>
-    <{else}>
-        <input type="hidden" id="navbar_pos" name="navbar_pos" value="<{$navbar_pos}>">
-        <input type="hidden" id="navbar_bg_top" name="navbar_bg_top" value="<{$navbar_bg_top}>">
-        <input type="hidden" id="navbar_bg_bottom" name="navbar_bg_bottom" value="<{$navbar_bg_bottom}>">
-        <input type="hidden" id="navbar_hover" name="navbar_hover" value="<{$navbar_hover}>">
-    <{/if}>
-
-    <div class="col-sm-6">
-        <!--導覽工具列 文字顏色-->
-        <{if $enable.navbar_color=="1"}>
-            <div class="form-group">
-                <label class="col-sm-4 control-label">
-
-                    <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR}>
-                </label>
-                <div class="col-sm-8">
-                    <input type="text" name="navbar_color" id="navbar_color" value="<{$navbar_color}>" class=" form-control color-picker <{$validate.navbar_color}>" data-text="hidden" data-hex="true" style="height: 42px;">
-                </div>
+<!--導覽工具列位置-->
+<{if $enable.navbar_pos=="1" or $enable.navbar_font_size!="0"}>
+    <div class="form-group">
+        <{if $enable.navbar_pos=="1"}>
+            <label class="col-sm-2 control-label"><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION}></label>
+            <div class="col-sm-4">
+                <select name="navbar_pos" id="navbar_pos" class="form-control <{$validate.navbar_pos}>">
+                    <option value="fixed-top" <{if $navbar_pos=="fixed-top"}>selected<{/if}>>
+                    <{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_1}></option>
+                    <option value="fixed-bottom" <{if $navbar_pos=="fixed-bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_2}></option>
+                    <option value="sticky-top" <{if $navbar_pos=="sticky-top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_3}></option>
+                    <option value="default" <{if $navbar_pos=="default"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_6}></option>
+                    <option value="not-use" <{if $navbar_pos=="not-use"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_5}></option>
+                </select>
             </div>
         <{else}>
-            <input type="hidden" name="navbar_color" id="navbar_color" value="<{$navbar_color}>">
+            <{$navbar_font_size_hidden}>
         <{/if}>
-
-
+        
+        
         <!--導覽工具列 文字大小-->
         <{if $enable.navbar_font_size!="0"}>
-            <div class="form-group">
-                <label class="col-sm-4 control-label">
-                    <{$smarty.const._MA_TADTHEMES_NAVBAR_FONT_SIZE}>
-                </label>
-                <div class="col-sm-8">
-                    <div class="input-group">
-                        <{$navbar_font_size_input}>
-                        <span class="input-group-addon">%</span>
-                    </div>
+            <label class="col-sm-2 control-label">
+                <{$smarty.const._MA_TADTHEMES_NAVBAR_FONT_SIZE}>
+            </label>
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <{$navbar_font_size_input}>
+                    <span class="input-group-addon">%</span>
                 </div>
             </div>
         <{else}>
             <{$navbar_font_size_hidden}>
         <{/if}>
+    </div>
+<{else}>
+    <input type="hidden" name="navbar_pos" id="navbar_pos" value="<{$navbar_pos}>">
+    <{$navbar_font_size_hidden}>
+<{/if}>
 
 
 
+<{if $enable.navbar_color=="1" or $enable.navbar_icon=="1"}>
+    <div class="form-group">
+        <!--導覽工具列 文字顏色-->
+        <{if $enable.navbar_color=="1"}>
+            <label class="col-sm-2 control-label">
+                <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR}>
+            </label>
+            <div class="col-sm-4">
+                <input type="text" name="navbar_color" id="navbar_color" value="<{$navbar_color}>" class="form-control color-picker <{$validate.navbar_color}>" data-hex="true">
+            </div>
+        <{else}>
+            <input type="hidden" name="navbar_color" id="navbar_color" value="<{$navbar_color}>">
+        <{/if}>
+        
         <!--導覽工具列 圖示顏色-->
         <{if $enable.navbar_icon=="1"}>
-            <div class="form-group">
-                <label class="col-sm-4 control-label">
-
-                    <{$smarty.const._MA_TADTHEMES_NAVBAR_ICON_COLOR}>
+            <label class="col-sm-2 control-label">
+                <{$smarty.const._MA_TADTHEMES_NAVBAR_ICON_COLOR}>
+            </label>
+            <div class="col-sm-4">
+                <label for="navbar_icon_white">
+                    <input type="radio" name="navbar_icon" id="navbar_icon_white" value="icon-white" <{if $navbar_icon=="icon-white"}>checked<{/if}>>
+                    <{$smarty.const._MA_TADTHEMES_NAVBAR_ICON_WHITE}>
                 </label>
-                <div class="col-sm-8">
-                    <label for="navbar_icon_white">
-                        <input type="radio" name="navbar_icon" id="navbar_icon_white" value="icon-white" <{if $navbar_icon=="icon-white"}>checked<{/if}>>
-                        <{$smarty.const._MA_TADTHEMES_NAVBAR_ICON_WHITE}>
-                    </label>
-                    <label for="navbar_icon_black">
-                        <input type="radio" name="navbar_icon" id="navbar_icon_black" value="" <{if $navbar_icon==""}>checked<{/if}>>
-                        <{$smarty.const._MA_TADTHEMES_NAVBAR_ICON_BLACK}>
-                    </label>
-                </div>
+                <label for="navbar_icon_black">
+                    <input type="radio" name="navbar_icon" id="navbar_icon_black" value="" <{if $navbar_icon==""}>checked<{/if}>>
+                    <{$smarty.const._MA_TADTHEMES_NAVBAR_ICON_BLACK}>
+                </label>
             </div>
         <{else}>
             <input type="hidden" name="navbar_icon" id="navbar_icon" value="<{$navbar_icon}>">
         <{/if}>
+    </div>
+<{else}> 
+    <input type="hidden" name="navbar_color" id="navbar_color" value="<{$navbar_color}>">
+    <input type="hidden" name="navbar_icon" id="navbar_icon" value="<{$navbar_icon}>">
+<{/if}>
+
+<{if $enable.navbar_bg_top=="1" or $enable.navbar_bg_bottom=="1"}>
+    <div class="form-group">
+        <!--導覽工具列 漸層顏色(top) -->
+        <{if $enable.navbar_bg_top=="1"}>
+            <label class="col-sm-2 control-label">
+                <{$smarty.const._MA_TADTHEMES_NAVBAR_BG_COLOR}>
+            </label>
+            <div class="col-sm-4">
+                <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>" class="form-control color-picker <{$validate.navbar_bg_top}>" data-hex="true">
+            </div>
+        <{else}>
+            <input type="hidden" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>">
+        <{/if}>         
+        <!--導覽工具列 漸層顏色(bottom) -->
+        <{if $enable.navbar_bg_bottom=="1"}>
+            <label class="col-sm-2 control-label">
+                <{$smarty.const._MA_TADTHEMES_NAVBAR_CHANGE}>
+            </label>
+            <div class="col-sm-4">
+                <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>" class="form-control color-picker <{$validate.navbar_bg_bottom}>" data-hex="true">
+            </div>
+        <{else}>
+            <input type="hidden" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>">
+        <{/if}>
+    </div>
+<{else}> 
+    <input type="hidden" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>">   
+    <input type="hidden" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>">
+<{/if}>
+
+
+<{if $enable.navbar_color_hover=="1" or $enable.navbar_hover=="1"}>
+    <div class="form-group">
+        <!--導覽工具列 滑鼠移過顏色-->
+        <{if $enable.navbar_color_hover=="1"}>
+            <label class="col-sm-2 control-label">
+                <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR_HOVER}>
+            </label>
+            <div class="col-sm-4">
+                <input type="text" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>" class="form-control color-picker <{$validate.navbar_color_hover}>" data-hex="true">
+            </div>
+        <{else}>
+            <input type="hidden" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>">
+        <{/if}>
+        <{if $enable.navbar_hover=="1"}>
+            <label class="col-sm-2 control-label">
+                <{$smarty.const._MA_TADTHEMES_NAVBAR_HOVER_COLOR}>
+            </label>
+            <div class="col-sm-4">
+                <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>" class="form-control color-picker <{$validate.navbar_hover}>" data-hex="true">
+            </div>
+        <{else}>
+            <input type="hidden" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>">
+        <{/if}>
+    </div>
+<{else}> 
+    <input type="hidden" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>">
+    <input type="hidden" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>">
+<{/if}>
 
 
 
+
+
+<{if $enable.navbar_py=="1" or $enable.navbar_px=="1"}>
+    <div class="form-group">
         <!--導覽工具列 導覽選項上下距離-->
         <{if $enable.navbar_py=="1"}>
-            <div class="form-group">
-                <label class="col-sm-4 control-label">
-
-                    <{$smarty.const._MA_TADTHEMES_NAVBAR_PY}>
-                </label>
-                <div class="col-sm-3">
-                    <div class="input-group">
-                        <{$navbar_py_input}>
-                        <span class="input-group-addon">px</span>
-                    </div>
+            <label class="col-sm-2 control-label">
+                <{$smarty.const._MA_TADTHEMES_NAVBAR_PY}>
+            </label>
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <{$navbar_py_input}>
+                    <span class="input-group-addon">px</span>
                 </div>
-                <{if $enable.navbar_px=="1"}>
-
-                <label class="col-sm-2 control-label">
-                    <{$smarty.const._MA_TADTHEMES_NAVBAR_PX}>
-                </label>
-                <div class="col-sm-3">
-                    <div class="input-group">
-                        <{$navbar_px_input}>
-                        <span class="input-group-addon">px</span>
-                    </div>
-                </div>
-                <{else}>
-                    <{$navbar_px_hidden}>
-                <{/if}>
             </div>
         <{else}>
             <{$navbar_py_hidden}>
         <{/if}>
 
-
-
+        <!--導覽工具列 導覽選項左右距離-->
+        <{if $enable.navbar_px=="1"}>
+            <label class="col-sm-2 control-label">
+                <{$smarty.const._MA_TADTHEMES_NAVBAR_PX}>
+            </label>
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <{$navbar_px_input}>
+                    <span class="input-group-addon">px</span>
+                </div>
+            </div>
+        <{else}>
+            <{$navbar_px_hidden}>
+        <{/if}>
     </div>
-</div>
-
+<{else}> 
+    <{$navbar_py_hidden}>
+    <{$navbar_px_hidden}>
+<{/if}>
 
 <div class="row">
     <div class="col-sm-5">
@@ -265,8 +272,13 @@
 </div>
 
 <{if $config2_nav}>
-    <input type="hidden" name="config2[]" value="config2_nav">
-    <hr>
+    <div class="alert alert-warning">
+        <h4>
+            <a href="main.php?op=export_config2&theme_id=<{$theme_id}>&type=config2_nav" class="btn btn-info btn-sm pull-right"><{$smarty.const._MA_TADTHEMES_EXPORT2|sprintf:'config2_nav'}></a>
+            <{$smarty.const._MA_TADTHEMES_NAVBAR}><{$smarty.const._MA_TADTHEMES_CONFIG2}>
+        </h4>
+        <input type="hidden" name="config2[]" value="config2_nav">
+    </div>
     <{foreach from=$config2_nav item=config}>
         <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
     <{/foreach}>

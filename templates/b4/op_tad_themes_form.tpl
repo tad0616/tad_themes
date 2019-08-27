@@ -194,7 +194,7 @@
 
                 <!--佈景圖片寬度-->
                 <input type="hidden" name="op" value="<{$op}>">
-                <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
+                <button type="submit" class="btn btn-primary btn-lg btn-block"><{$smarty.const._TAD_SAVE}></button>
             </div>
 
             <div class="alert alert-info">

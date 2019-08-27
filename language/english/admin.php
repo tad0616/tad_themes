@@ -70,12 +70,12 @@ define('_MA_TADTHEMES_NOTICE', "<ul style='line-height:2em;'>
 define('_MA_TADTHEMES_NOTICE2', "<ul style='line-height:2em;'>
   <li style='line-height:180%;list-style-position:outside;'>All pictures can be uploaded directly to FTP, the system will automatically be added to the database, and generate thumbnails.
     <ul style='list-style-type:circle;margin-left:20px;'>
-      <li style='line-height:180%;list-style-position:outside;'>Background images : /themes/YourTheme/images/bg</li>
-      <li style='line-height:180%;list-style-position:outside;'>Slide images: /themes/YourTheme/images/slide</li>
-      <li style='line-height:180%;list-style-position:outside;'>Logo images: /themes/YourTheme/images/logo</li>
-      <li style='line-height:180%;list-style-position:outside;'>Blocks background images: /themes/YourTheme/images/bt_bg</li>
-      <li style='line-height:180%;list-style-position:outside;'>Navbar background images: /themes/YourTheme/images/nav_bg</li>
-      <li style='line-height:180%;list-style-position:outside;'>Navbar logo images: /themes/YourTheme/images/navlogo</li>
+      <li style='line-height:180%;list-style-position:outside;'>Background images : /themes/{$xoopsConfig['theme_set']}/images/bg</li>
+      <li style='line-height:180%;list-style-position:outside;'>Slide images: /themes/{$xoopsConfig['theme_set']}/images/slide</li>
+      <li style='line-height:180%;list-style-position:outside;'>Logo images: /themes/{$xoopsConfig['theme_set']}/images/logo</li>
+      <li style='line-height:180%;list-style-position:outside;'>Blocks background images: /themes/{$xoopsConfig['theme_set']}/images/bt_bg</li>
+      <li style='line-height:180%;list-style-position:outside;'>Navbar background images: /themes/{$xoopsConfig['theme_set']}/images/nav_bg</li>
+      <li style='line-height:180%;list-style-position:outside;'>Navbar logo images: /themes/{$xoopsConfig['theme_set']}/images/navlogo</li>
     </ul>
   </li>
   <li>When you delete pictures, all from the background deleted, do not just delete FTP photo!</li>
@@ -174,11 +174,12 @@ define('_MA_TADTHEMES_LOGO_BORDER_SIZE', 'outline size');
 define('_MA_TADTHEMES_LOGO_SELECT_FONT', 'Select font');
 define('_MA_TADTHEMES_LOGO_MAKE_PNG', 'Generate image');
 define('_MA_TADTHEMES_LOGO_NEED_FONT', 'Please upload at least one font');
-define('_MA_TADTHEMES_LOGO_SAVE_PIC', 'Save Picture');
+define('_MA_TADTHEMES_LOGO_SAVE_PIC', 'Save as Logo');
+define('_MA_TADTHEMES_LOGO_SAVE_AS_LOGO', 'Save Picture');
 define('_MA_TADTHEMES_LOGO_DEMO_BGCOLOR', 'Example Background Color:');
 define('_MA_TADTHEMES_FONT_TOOL', 'Font File Management');
 define('_MA_TADTHEMES_FONT_UPLOAD', 'Upload font file');
-define('_MA_TADTHEMES_FONT_NOTE', 'Only supports ttf, otf, ttc font files. If there is no font, it can be from <a href="https://forum.gamer.com.tw/C.php?bsn=60076&snA= 3906436" target="_blank">Download here</a> or <a href="http://www.fonts.net.cn/" target="_blank">Download here</a>');
+define('_MA_TADTHEMES_FONT_NOTE', 'Only supports ttf, otf, ttc font files. If there is no font, it can be from <a href="https://forum.gamer.com.tw/C.php?bsn=60076&snA= 3906436" target="_blank">Download here</a> or <a href="http://www.fonts.net.cn/commercial-free-32767/fonts-zh-1.html" target="_blank">Download here</a>');
 define('_MA_TADTHEMES_FONT_SAVE', 'Save font files');
 define('_MA_TADTHEMES_READGROUP', 'Readable group');
 define('_MA_TADTHEMES_APPLY_READGROUP', 'The lower level option applies the same permission');

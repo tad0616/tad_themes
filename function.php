@@ -78,7 +78,7 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
 }
 
 //匯入圖檔
-function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width = '', $thumb_width = '90', $desc = '', $safe_name = false)
+function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width = '', $thumb_width = '240', $desc = '', $safe_name = false)
 {
     global $xoopsDB, $xoopsUser, $xoopsModule, $xoopsConfig;
 
@@ -241,7 +241,7 @@ function update_tadtools_setup($theme = '', $theme_kind = '')
 }
 
 //儲存額外設定值
-function save_config2($theme_id = '', $config2_arr = [])
+function save_config2($theme_id = '', $config2_arr = [], $import = false)
 {
     global $xoopsDB, $xoopsConfig;
     $TadUpFiles_config2 = TadUpFiles_config2();
@@ -253,9 +253,9 @@ function save_config2($theme_id = '', $config2_arr = [])
         require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
         if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2}.php")) {
             require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2}.php";
-        }elseif (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php")) {
+        } elseif (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php")) {
             require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php";
-        }else{
+        } else {
             continue;
         }
         /*
@@ -263,7 +263,7 @@ function save_config2($theme_id = '', $config2_arr = [])
         $theme_config[$i]['text']=TF_FOOTER_HEIGHT;
         $theme_config[$i]['type']="text";
         $theme_config[$i]['default']="200px";
-            */
+         */
         foreach ($theme_config as $k => $config) {
             $name  = $config['name'];
             $value = isset($_POST[$name]) ? $myts->addSlashes($_POST[$name]) : $config['default'];
@@ -272,15 +272,38 @@ function save_config2($theme_id = '', $config2_arr = [])
             $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
             if ('file' === $config['type']) {
-                $TadUpFiles_config2->set_col("config2_{$config['name']}", $theme_id);
-                $filename = $TadUpFiles_config2->upload_file("config2_{$config['name']}", null, null, null, '', true);
-                if ($filename) {
-                    update_theme_config2($config['name'], $filename, $theme_id, $theme_name);
+
+                if ($import) {
+                    $path = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/config2";
+                    if (is_dir($path)) {
+                        if ($dh = opendir($path)) {
+                            while (false !== ($file = readdir($dh))) {
+                                if ('.' === $file or '..' === $file or 'Thumbs.db' === $file) {
+                                    continue;
+                                }
+                                $type = filetype($path . '/' . $file);
+                                if ('dir' !== $type) {
+                                    if (strpos($file, $config['name'])!==false) {
+                                        import_file($path . '/' . $file, "config2_{$config['name']}", $theme_id, null, null, $desc, true);
+                                    }
+                                }
+                            }
+                            closedir($dh);
+                        }
+                    }
+                } else {
+
+                    $TadUpFiles_config2->set_col("config2_{$config['name']}", $theme_id);
+                    $filename = $TadUpFiles_config2->upload_file("config2_{$config['name']}", null, null, null, '', true);
+                    if ($filename) {
+                        update_theme_config2($config['name'], $filename, $theme_id, $theme_name);
+                    }
                 }
             }
         }
     }
 }
+
 //更新佈景的某個設定值
 function update_theme_config2($col = '', $file_name = '', $theme_id = '', $theme_name = '')
 {
@@ -288,4 +311,16 @@ function update_theme_config2($col = '', $file_name = '', $theme_id = '', $theme
     $file_name_url = XOOPS_URL . "/uploads/tad_themes/{$theme_name}/config2/{$file_name}";
     $sql           = 'update ' . $xoopsDB->prefix('tad_themes_config2') . " set `value` = '{$file_name_url}' where theme_id='$theme_id' and `name`='{$col}'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+}
+
+//取得佈景編號
+function get_theme_id($theme_name = '')
+{
+    global $xoopsDB;
+
+    $sql            = 'select theme_id from ' . $xoopsDB->prefix('tad_themes') . " where `theme_name` = '{$theme_name}'";
+    $result         = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    list($theme_id) = $xoopsDB->fetchRow($result);
+
+    return $theme_id;
 }

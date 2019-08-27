@@ -31,9 +31,9 @@
         <div class="form-group">
             <label class="col-sm-2 control-label"><{$smarty.const._MA_TADTHEMES_LOGO_SELECT_FONT}></label>
             <div class="col-sm-10">
-                <{foreach from=$fonts key=file_sn item=font}>
+                <{foreach from=$fonts key=file_sn item=font name=f}>
                     <label class="radio-inline">
-                        <input class="validate[required]" type="radio" name="font_file_sn" value="<{$file_sn}>" <{if $font_file_sn==$file_sn}>checked<{/if}>>
+                        <input class="validate[required]" type="radio" name="font_file_sn" value="<{$file_sn}>" <{if $font_file_sn==$file_sn or ($font_file_sn == 0 and $smarty.foreach.f.index == 0) }>checked<{/if}>>
                         <{$font.description}>
                     </label>
                 <{/foreach}>
@@ -48,42 +48,51 @@
     <div class="alert alert-danger"><{$smarty.const._MA_TADTHEMES_LOGO_NEED_FONT}></div>
 <{/if}>
 
-<{if $pic}>
-    <form action="font2pic.php" method="post" role="form" class="form-horizontal">
+<form action="font2pic.php" method="post" style="text-align:center;">
+    <{if $pic}>
         <div class="text-center" style="margin: 30px auto;">
             <span style="background: url('../images/t.gif'); display: inline-block;">
                 <img src="<{$pic}>" alt="logo">
             </span>
-            <input type="hidden" name="op" value="save_pic">
-            <input type="hidden" name="title" value="<{$title}>">
-            <input type="hidden" name="size" value="<{$size}>">
-            <input type="hidden" name="border_size" value="<{$border_size}>">
-            <input type="hidden" name="color" value="<{$color}>">
-            <input type="hidden" name="border_color" value="<{$border_color}>">
-            <input type="hidden" name="font_file_sn" value="<{$font_file_sn}>">
-            <input type="hidden" name="name" value="<{$name}>">
-            <button type="submit" class="btn btn-success"><{$smarty.const._MA_TADTHEMES_LOGO_SAVE_PIC}></button>
         </div>
-    </form>
-<{/if}>
+        <input type="hidden" name="op" value="save_pic">
+        <input type="hidden" name="title" value="<{$title}>">
+        <input type="hidden" name="size" value="<{$size}>">
+        <input type="hidden" name="border_size" value="<{$border_size}>">
+        <input type="hidden" name="color" value="<{$color}>">
+        <input type="hidden" name="border_color" value="<{$border_color}>">
+        <input type="hidden" name="font_file_sn" value="<{$font_file_sn}>">
+        <input type="hidden" name="name" value="<{$name}>">
 
-<{if $logos}>
-    <script>
-        function change_css(){
-            $('#demo').css('background-color',$('#bg_color').val());
-        }
-    </script>
+        <div class="checkbox-inline">
+            <label>
+                    <input type="checkbox" name="sav_to_logo" value="1">
+                <{$smarty.const._MA_TADTHEMES_LOGO_SAVE_AS_LOGO}>
+            </label>
+        </div>
+        
+        <button type="submit" class="btn btn-success"><{$smarty.const._MA_TADTHEMES_LOGO_SAVE_PIC}></button>
+    <{/if}>
 
-    <div class="text-right">
-            <{$smarty.const._MA_TADTHEMES_LOGO_DEMO_BGCOLOR}><input type="text" id="bg_color" value="#3c3c3c" class="col-sm-10 form-control color-picker" data-hex="true" onChange="change_css();">
-    </div>
+    <{if $logos}>
+        <script>
+            function change_css(){
+                $('#demo').css('background-color',$('#bg_color').val());
+            }
+        </script>
 
-    <div id="demo" style="background-color: #3c3c3c;padding:10px; ">
-        <{foreach from=$logos item=logo}>
-            <span style="display: inline-block;">
-                <a href="javascript:del_logo('<{$logo}>')"><img src="../images/delete.png" alt="del"></a>
-                <img src="<{$xoops_url}>/uploads/logo/<{$logo}>" alt="<{$xoops_url}>/uploads/logo/<{$logo}>" title="<{$xoops_url}>/uploads/logo/<{$logo}>">
-            </span>
-        <{/foreach}>
-    </div>
-<{/if}>
+        <div class="text-right">
+            <{$smarty.const._MA_TADTHEMES_LOGO_DEMO_BGCOLOR}>
+            <input type="hidden" id="bg_color" value="<{$bg_color}>" style="width:100px;"  data-hex="true" onChange="change_css();">
+        </div>
+
+        <div id="demo" style="background-color: <{$bg_color}>;padding:10px; ">
+            <{foreach from=$logos item=logo}>
+                <span style="display: inline-block;">
+                    <a href="javascript:del_logo('<{$logo}>')"><img src="../images/delete.png" alt="del"></a>
+                    <img src="<{$xoops_url}>/uploads/logo/<{$logo}>" alt="<{$xoops_url}>/uploads/logo/<{$logo}>" title="<{$xoops_url}>/uploads/logo/<{$logo}>">
+                </span>
+            <{/foreach}>
+        </div>
+    <{/if}>
+</form>
