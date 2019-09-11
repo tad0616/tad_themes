@@ -49,36 +49,36 @@ function tad_themes_form()
     // if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg")) {
     //     import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg", 'bg', $theme_id, '');
     // }
-    import_img(_THEME_BG_PATH, 'bg', $theme_id, '');
+    // import_img(_THEME_BG_PATH, 'bg', $theme_id, '');
 
     // if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/logo")) {
     //     import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/logo", 'logo', $theme_id, '');
     // }
-    import_img(_THEME_LOGO_PATH, 'logo', $theme_id);
+    // import_img(_THEME_LOGO_PATH, 'logo', $theme_id);
 
     // if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide")) {
     //     import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide", 'slide', $theme_id, '');
     // }
-    import_img(_THEME_SLIDE_PATH, 'slide', $theme_id, _TAD_SLIDE_DEFAULT_DESCRIPT, true);
+    // import_img(_THEME_SLIDE_PATH, 'slide', $theme_id, _TAD_SLIDE_DEFAULT_DESCRIPT, true);
 
     // if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navbar_img")) {
     //     import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navbar_img", 'navbar_img', $theme_id, '');
     // }
-    import_img(_THEME_NAV_BG_PATH, 'navbar_img', $theme_id);
+    // import_img(_THEME_NAV_BG_PATH, 'navbar_img', $theme_id);
 
     // if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navlogo")) {
     //     import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navlogo", 'navlogo', $theme_id, '');
     // }
-    import_img(_THEME_NAVLOGO_PATH, 'navlogo', $theme_id);
+    // import_img(_THEME_NAVLOGO_PATH, 'navlogo', $theme_id);
 
     
-    foreach ($block_position_title as $position => $ttt) {
-        import_img(_THEME_BT_BG_PATH, "bt_bg_{$position}", $theme_id);
-    }
+    // foreach ($block_position_title as $position => $ttt) {
+    //     import_img(_THEME_BT_BG_PATH, "bt_bg_{$position}", $theme_id);
+    // }
 
-    if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2")) {
-        import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2", 'config2', $theme_id, '');
-    }
+    // if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2")) {
+    //     import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2", 'config2', $theme_id, '');
+    // }
 
 
     //設定「theme_name」欄位預設值

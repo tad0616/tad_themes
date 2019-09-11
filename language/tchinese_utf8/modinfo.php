@@ -28,3 +28,7 @@ define('_MI_TADTHEMES_TITLE2_OPT3', '不顯示登入選項');
 
 define('_MI_TADTHEMES_TITLE3', '登入選單中的快速登入圖示一排幾個');
 define('_MI_TADTHEMES_DESC3', '若「是否崁入快速登入到登入選單中」為「是」時，選一個會出現圖示及文字，選兩個以上就只剩圖示。');
+
+define('_MI_TADTHEMES_HOME', '顯示回首頁');
+define('_MI_TADTHEMES_SITENAME', '顯示網站名稱');
+define('_MI_TADTHEMES_HIDE', '不顯示');

@@ -28,3 +28,7 @@ define('_MI_TADTHEMES_TITLE2_OPT3', 'Does not show login option');
 
 define('_MI_TADTHEMES_TITLE3', 'Quick Login menu icons in a row');
 define('_MI_TADTHEMES_DESC3', 'Select how many Quick Login menu icons should we visible in one row, choose two or more.');
+
+define('_MI_TADTHEMES_HOME', 'Show back to home page');
+define('_MI_TADTHEMES_SITENAME', 'Show site name');
+define('_MI_TADTHEMES_HIDE', 'Do not show');
