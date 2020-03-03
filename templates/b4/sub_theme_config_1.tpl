@@ -226,7 +226,6 @@
 <{if $config2_base}>
     <div class="alert alert-warning">
         <h4>
-            <a href="main.php?op=export_config2&theme_id=<{$theme_id}>&type=config2_base" class="btn btn-info btn-sm pull-right"><{$smarty.const._MA_TADTHEMES_EXPORT2|sprintf:'config2_base'}></a>
             <{$smarty.const._MA_TADTHEMES_THEME_BASE}><{$smarty.const._MA_TADTHEMES_CONFIG2}>
         </h4>
         <input type="hidden" name="config2[]" value="config2_base">

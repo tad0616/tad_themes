@@ -160,9 +160,15 @@ define('_MA_TADTHEMES_TARGET_FANCYBOX', '燈箱效果');
 define('_MA_TADTHEMES_OF_LEVEL', '父分類');
 define('_MA_TADTHEMES_ICON', '選擇圖示');
 define('_MA_TADTHEMES_LOGO_CENTER', '置中');
-define('_MA_TADTHEMES_EXPORT', '匯出 config.php 設定檔');
-define('_MA_TADTHEMES_EXPORT2', '匯出 %s.php 設定檔');
-define('_MA_TADTHEMES_IMPORT', '匯入設定檔');
+define('_MA_TADTHEMES_SAVE', '儲存當前佈景設定');
+define('_MA_TADTHEMES_CONFIG_NAME', '請自訂佈景設定名稱');
+define('_MA_TADTHEMES_CONFIG_PATH', '已成功存至 %s');
+define('_MA_TADTHEMES_APPLY_OK', '已成功套用 %s');
+define('_MA_TADTHEMES_DEL_OK', '已成功刪除 %s');
+define('_MA_TADTHEMES_EXPORT', '匯出佈景設定檔');
+define('_MA_TADTHEMES_IMPORT', '匯入佈景設定檔');
+define('_MA_TADTHEMES_APPLY', '套用佈景設定檔');
+define('_MA_TADTHEMES_MANAGER', '管理佈景設定檔');
 
 define('_MA_TADTHEMES_NAVBAR_PY', '選項上下間距');
 define('_MA_TADTHEMES_NAVBAR_PX', '選項左右間距');
@@ -196,3 +202,9 @@ define('_MA_TADTHEMES_NAVBAR_HOVER_COLOR', '滑鼠移過時底色');
 
 define('_MA_TADTHEMES_EXPAND_ALL', '全部展開');
 define('_MA_TADTHEMES_COLLAPSE_ALL', '全部闔起');
+
+define('_MA_TADTHEMES_EDIT_MENU_TAD_BLOCKS', '新增自訂區塊');
+define('_MA_TADTHEMES_EDIT_MENU_TAD_GPHOTOS', '加入Google相簿');
+define('_MA_TADTHEMES_EDIT_MENU_TAD_FORM', '新增萬用表單');
+define('_MA_TADTHEMES_EDIT_MENU_JILL_NOTICE', '新增臨時公告');
+define('_MA_TADTHEMES_EDIT_MENU_JILL_BOOKING', '預約場地');

@@ -158,9 +158,15 @@ define('_MA_TADTHEMES_TARGET_FANCYBOX', 'ColorBox');
 define('_MA_TADTHEMES_OF_LEVEL', 'Parent');
 define('_MA_TADTHEMES_ICON', 'icon');
 define('_MA_TADTHEMES_LOGO_CENTER', 'center');
-define('_MA_TADTHEMES_EXPORT', 'Export config.php');
-define('_MA_TADTHEMES_EXPORT2', 'Export %s.php');
-define('_MA_TADTHEMES_IMPORT', 'Import');
+define('_MA_TADTHEMES_SAVE', 'Save theme setup');
+define('_MA_TADTHEMES_CONFIG_NAME', 'Customize the theme Profile name');
+define('_MA_TADTHEMES_CONFIG_PATH', 'Successfully saved to %s');
+define('_MA_TADTHEMES_APPLY_OK', 'Successfully applied %s');
+define('_MA_TADTHEMES_DEL_OK', 'Successfully deleted %s');
+define('_MA_TADTHEMES_EXPORT', 'Export theme Profile');
+define('_MA_TADTHEMES_IMPORT', 'Import theme Profile');
+define('_MA_TADTHEMES_APPLY', 'Apply theme Profile');
+define('_MA_TADTHEMES_MANAGER', 'Manage theme Profile');
 
 define('_MA_TADTHEMES_NAVBAR_PY', 'Navigation options padding top and bottom');
 define('_MA_TADTHEMES_NAVBAR_PX', 'Navigation options padding left and right');
@@ -194,3 +200,9 @@ define('_MA_TADTHEMES_NAVBAR_CHANGE', 'Gradient to');
 
 define('_MA_TADTHEMES_EXPAND_ALL', 'Expand all');
 define('_MA_TADTHEMES_COLLAPSE_ALL', 'Collapse all');
+
+define('_MA_TADTHEMES_EDIT_MENU_TAD_BLOCKS', 'Add custom block');
+define('_MA_TADTHEMES_EDIT_MENU_TAD_GPHOTOS', 'Add Google Photos');
+define('_MA_TADTHEMES_EDIT_MENU_TAD_FORM', 'Add Form');
+define('_MA_TADTHEMES_EDIT_MENU_JILL_NOTICE', 'Add Notice');
+define('_MA_TADTHEMES_EDIT_MENU_JILL_BOOKING', 'Booking Place');

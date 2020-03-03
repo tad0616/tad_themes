@@ -170,7 +170,7 @@
                             <div class="col-sm-12">
                                 <{$smarty.const._MA_TADTHEMES_BLOCK_STYLE}>
                                 <span style="font-size:12px;color:#0000DC;white-space:nowrap; ">.<{$block.block_position}> {<span style="color:#DE1212;"><{$smarty.const._MA_TADTHEMES_YOUR_STYLE}></span>}</span>
-                                <textarea name="block_style[<{$block.block_position}>]" id="block_style_<{$block.block_position}>" class="form-control <{$validate.block_style}>" style="font-size:11px;height:50px;"><{$block.block_style}></textarea>
+                                <textarea name="block_style[<{$block.block_position}>]" id="block_style_<{$block.block_position}>" class="form-control <{$validate.block_style}>" style="font-size:11px;height:100px;"><{$block.block_style}></textarea>
                             </div>
                         <{else}>
                             <input type="hidden" name="block_style" id="block_style" value="<{$block_style}>">
@@ -183,7 +183,7 @@
                             <div class="col-sm-12">
                                 <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_STYLE}>
                                 <span style="font-size:12px;color:#0000DC;white-space:nowrap; ">.<{$block.block_position}> .blockTitle {<span style="color:#DE1212;"><{$smarty.const._MA_TADTHEMES_YOUR_STYLE}></span>}</span>
-                                <textarea name="block_title_style[<{$block.block_position}>]" id="block_title_style_<{$block.block_position}>" class="form-control <{$validate.block_title_style}>" style="font-size:11px;height:50px;"><{$block.block_title_style}></textarea>
+                                <textarea name="block_title_style[<{$block.block_position}>]" id="block_title_style_<{$block.block_position}>" class="form-control <{$validate.block_title_style}>" style="font-size:11px;height:100px;"><{$block.block_title_style}></textarea>
                             </div>
                         <{else}>
                             <input type="hidden" name="block_title_style" id="block_title_style" value="<{$block_title_style}>">
@@ -196,7 +196,7 @@
                             <div class="col-sm-12">
                                 <{$smarty.const._MA_TADTHEMES_BLOCK_CONTENT_STYLE}>
                                 <span style="font-size:12px;color:#0000DC;white-space:nowrap; ">.<{$block.block_position}> .blockContent {<span style="color:#DE1212;"><{$smarty.const._MA_TADTHEMES_YOUR_STYLE}></span>}</span>
-                                <textarea name="block_content_style[<{$block.block_position}>]" id="block_content_style_<{$block.block_position}>" class="form-control <{$validate.block_content_style}>" style="font-size:11px;height:50px;"><{$block.block_content_style}></textarea>
+                                <textarea name="block_content_style[<{$block.block_position}>]" id="block_content_style_<{$block.block_position}>" class="form-control <{$validate.block_content_style}>" style="font-size:11px;height:100px;"><{$block.block_content_style}></textarea>
                             </div>
                         <{else}>
                             <input type="hidden" name="block_content_style" id="block_content_style" value="<{$block_content_style}>">
@@ -214,7 +214,6 @@
 <{if $config2_block}>
     <div class="alert alert-warning">
         <h4>
-            <a href="main.php?op=export_config2&theme_id=<{$theme_id}>&type=config2_block" class="btn btn-info  btn-smpull-right"><{$smarty.const._MA_TADTHEMES_EXPORT2|sprintf:'config2_block'}></a>
             <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE}><{$smarty.const._MA_TADTHEMES_CONFIG2}>
         </h4>
         <input type="hidden" name="config2[]" value="config2_block">

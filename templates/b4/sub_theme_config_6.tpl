@@ -16,8 +16,8 @@
         <{else}>
             <{$navbar_font_size_hidden}>
         <{/if}>
-        
-        
+
+
         <!--導覽工具列 文字大小-->
         <{if $enable.navbar_font_size!="0"}>
             <label class="col-sm-2 col-form-label text-sm-right">
@@ -55,7 +55,7 @@
         <{else}>
             <input type="hidden" name="navbar_color" id="navbar_color" value="<{$navbar_color}>">
         <{/if}>
-        
+
         <!--導覽工具列 圖示顏色-->
         <{if $enable.navbar_icon=="1"}>
             <label class="col-sm-2 col-form-label text-sm-right">
@@ -75,7 +75,7 @@
             <input type="hidden" name="navbar_icon" id="navbar_icon" value="<{$navbar_icon}>">
         <{/if}>
     </div>
-<{else}> 
+<{else}>
     <input type="hidden" name="navbar_color" id="navbar_color" value="<{$navbar_color}>">
     <input type="hidden" name="navbar_icon" id="navbar_icon" value="<{$navbar_icon}>">
 <{/if}>
@@ -92,7 +92,7 @@
             </div>
         <{else}>
             <input type="hidden" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>">
-        <{/if}>         
+        <{/if}>
         <!--導覽工具列 漸層顏色(bottom) -->
         <{if $enable.navbar_bg_bottom=="1"}>
             <label class="col-sm-2 col-form-label text-sm-right">
@@ -105,8 +105,8 @@
             <input type="hidden" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>">
         <{/if}>
     </div>
-<{else}> 
-    <input type="hidden" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>">   
+<{else}>
+    <input type="hidden" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>">
     <input type="hidden" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>">
 <{/if}>
 
@@ -135,7 +135,7 @@
             <input type="hidden" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>">
         <{/if}>
     </div>
-<{else}> 
+<{else}>
     <input type="hidden" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>">
     <input type="hidden" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>">
 <{/if}>
@@ -180,7 +180,7 @@
             <{$navbar_px_hidden}>
         <{/if}>
     </div>
-<{else}> 
+<{else}>
     <{$navbar_py_hidden}>
     <{$navbar_px_hidden}>
 <{/if}>
@@ -280,7 +280,6 @@
 <{if $config2_nav}>
     <div class="alert alert-warning">
         <h4>
-            <a href="main.php?op=export_config2&theme_id=<{$theme_id}>&type=config2_nav" class="btn btn-info btn-sm pull-right"><{$smarty.const._MA_TADTHEMES_EXPORT2|sprintf:'config2_nav'}></a>
             <{$smarty.const._MA_TADTHEMES_NAVBAR}><{$smarty.const._MA_TADTHEMES_CONFIG2}>
         </h4>
         <input type="hidden" name="config2[]" value="config2_nav">

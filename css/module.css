@@ -2,3 +2,25 @@
 	width: 80%;
 	display: inline-block;
 }
+
+.tooltip-inner {
+    font-size: 11pt;
+    background-color: #830d48;
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+}
+
+.tooltip.bs-tooltip-right .arrow:before {
+    border-right-color: #830d48 !important;
+}
+
+.tooltip.bs-tooltip-left .arrow:before {
+    border-left-color: #830d48 !important;
+}
+
+.tooltip.bs-tooltip-bottom .arrow:before {
+    border-bottom-color: #830d48 !important;
+}
+
+.tooltip.bs-tooltip-top .arrow:before {
+    border-top-color: #830d48 !important;
+}

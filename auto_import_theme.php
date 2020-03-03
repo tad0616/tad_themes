@@ -39,16 +39,16 @@ function auto_import_theme()
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2");
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2/thumbs");
 
-    $bg_img      = !empty($bg_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/bg/{$bg_img}" : '';
-    $logo_img    = !empty($logo_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/logo/{$logo_img}" : '';
+    $bg_img = !empty($bg_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/bg/{$bg_img}" : '';
+    $logo_img = !empty($logo_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/logo/{$logo_img}" : '';
     $navlogo_img = !empty($navlogo_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/navlogo/{$navlogo_img}" : '';
-    $navbar_img  = !empty($navbar_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/nav_bg/{$navbar_img}" : '';
-    $theme_type  = empty($theme_type) ? 'theme_type_2' : $theme_type;
+    $navbar_img = !empty($navbar_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/nav_bg/{$navbar_img}" : '';
+    $theme_type = empty($theme_type) ? 'theme_type_2' : $theme_type;
 
-    $logo_top    = (int) $logo_top;
-    $logo_right  = (int) $logo_right;
+    $logo_top = (int) $logo_top;
+    $logo_right = (int) $logo_right;
     $logo_bottom = (int) $logo_bottom;
-    $logo_left   = (int) $logo_left;
+    $logo_left = (int) $logo_left;
     $logo_center = (int) $logo_center;
 
     $theme_id = get_theme_id($theme_name);
@@ -197,63 +197,63 @@ function save_blocks($theme_id = '', $import = false)
                 $block_config_arr[$position] = 'right';
             }
 
-            $bt_text_arr[$position]             = isset($config_enable['bt_text'][$position]) ? $config_enable['bt_text'][$position]['default'] : $config_enable['bt_text']['default'];
-            $bt_text_padding_arr[$position]     = isset($config_enable['bt_text_padding'][$position]) ? $config_enable['bt_text_padding'][$position]['default'] : $config_enable['bt_text_padding']['default'];
-            $bt_text_size_arr[$position]        = isset($config_enable['bt_text_size'][$position]) ? $config_enable['bt_text_size'][$position]['default'] : $config_enable['bt_text_size']['default'];
-            $bt_bg_color_arr[$position]         = isset($config_enable['bt_bg_color'][$position]) ? $config_enable['bt_bg_color'][$position]['default'] : $config_enable['bt_bg_color']['default'];
-            $bt_bg_repeat_arr[$position]        = isset($config_enable['bt_bg_repeat'][$position]) ? $config_enable['bt_bg_repeat'][$position]['default'] : $config_enable['bt_bg_repeat']['default'];
-            $bt_radius_arr[$position]           = isset($config_enable['bt_radius'][$position]) ? $config_enable['bt_radius'][$position]['default'] : $config_enable['bt_radius']['default'];
-            $block_style_arr[$position]         = isset($config_enable['block_style'][$position]) ? $config_enable['block_style'][$position]['default'] : $config_enable['block_style']['default'];
-            $block_title_style_arr[$position]   = isset($config_enable['block_title_style'][$position]) ? $config_enable['block_title_style'][$position]['default'] : $config_enable['block_title_style']['default'];
+            $bt_text_arr[$position] = isset($config_enable['bt_text'][$position]) ? $config_enable['bt_text'][$position]['default'] : $config_enable['bt_text']['default'];
+            $bt_text_padding_arr[$position] = isset($config_enable['bt_text_padding'][$position]) ? $config_enable['bt_text_padding'][$position]['default'] : $config_enable['bt_text_padding']['default'];
+            $bt_text_size_arr[$position] = isset($config_enable['bt_text_size'][$position]) ? $config_enable['bt_text_size'][$position]['default'] : $config_enable['bt_text_size']['default'];
+            $bt_bg_color_arr[$position] = isset($config_enable['bt_bg_color'][$position]) ? $config_enable['bt_bg_color'][$position]['default'] : $config_enable['bt_bg_color']['default'];
+            $bt_bg_repeat_arr[$position] = isset($config_enable['bt_bg_repeat'][$position]) ? $config_enable['bt_bg_repeat'][$position]['default'] : $config_enable['bt_bg_repeat']['default'];
+            $bt_radius_arr[$position] = isset($config_enable['bt_radius'][$position]) ? $config_enable['bt_radius'][$position]['default'] : $config_enable['bt_radius']['default'];
+            $block_style_arr[$position] = isset($config_enable['block_style'][$position]) ? $config_enable['block_style'][$position]['default'] : $config_enable['block_style']['default'];
+            $block_title_style_arr[$position] = isset($config_enable['block_title_style'][$position]) ? $config_enable['block_title_style'][$position]['default'] : $config_enable['block_title_style']['default'];
             $block_content_style_arr[$position] = isset($config_enable['block_content_style'][$position]) ? $config_enable['block_content_style'][$position]['default'] : $config_enable['block_content_style']['default'];
         }
     } elseif (!empty($_POST['apply_to_all'])) {
         $apply_to_all_position = $_POST['apply_to_all'];
         foreach ($block_position_title as $position => $title) {
-            $block_config_arr[$position]        = $_POST['block_config'][$apply_to_all_position];
-            $bt_text_arr[$position]             = $_POST['bt_text'][$apply_to_all_position];
-            $bt_text_padding_arr[$position]     = $_POST['bt_text_padding'][$apply_to_all_position];
-            $bt_text_size_arr[$position]        = $_POST['bt_text_size'][$apply_to_all_position];
-            $bt_bg_color_arr[$position]         = $_POST['bt_bg_color'][$apply_to_all_position];
-            $bt_bg_img_arr[$position]           = $_POST['bt_bg_img'][$apply_to_all_position];
-            $bt_bg_repeat_arr[$position]        = $_POST['bt_bg_repeat'][$apply_to_all_position];
-            $bt_radius_arr[$position]           = $_POST['bt_radius'][$apply_to_all_position];
-            $block_style_arr[$position]         = $_POST['block_style'][$apply_to_all_position];
-            $block_title_style_arr[$position]   = $_POST['block_title_style'][$apply_to_all_position];
+            $block_config_arr[$position] = $_POST['block_config'][$apply_to_all_position];
+            $bt_text_arr[$position] = $_POST['bt_text'][$apply_to_all_position];
+            $bt_text_padding_arr[$position] = $_POST['bt_text_padding'][$apply_to_all_position];
+            $bt_text_size_arr[$position] = $_POST['bt_text_size'][$apply_to_all_position];
+            $bt_bg_color_arr[$position] = $_POST['bt_bg_color'][$apply_to_all_position];
+            $bt_bg_img_arr[$position] = $_POST['bt_bg_img'][$apply_to_all_position];
+            $bt_bg_repeat_arr[$position] = $_POST['bt_bg_repeat'][$apply_to_all_position];
+            $bt_radius_arr[$position] = $_POST['bt_radius'][$apply_to_all_position];
+            $block_style_arr[$position] = $_POST['block_style'][$apply_to_all_position];
+            $block_title_style_arr[$position] = $_POST['block_title_style'][$apply_to_all_position];
             $block_content_style_arr[$position] = $_POST['block_content_style'][$apply_to_all_position];
         }
     } else {
         foreach ($block_position_title as $position => $title) {
-            $block_config_arr[$position]        = $_POST['block_config'][$position];
-            $bt_text_arr[$position]             = $_POST['bt_text'][$position];
-            $bt_text_padding_arr[$position]     = $_POST['bt_text_padding'][$position];
-            $bt_text_size_arr[$position]        = $_POST['bt_text_size'][$position];
-            $bt_bg_color_arr[$position]         = $_POST['bt_bg_color'][$position];
-            $bt_bg_img_arr[$position]           = $_POST['bt_bg_img'][$position];
-            $bt_bg_repeat_arr[$position]        = $_POST['bt_bg_repeat'][$position];
-            $bt_radius_arr[$position]           = $_POST['bt_radius'][$position];
-            $block_style_arr[$position]         = $_POST['block_style'][$position];
-            $block_title_style_arr[$position]   = $_POST['block_title_style'][$position];
+            $block_config_arr[$position] = $_POST['block_config'][$position];
+            $bt_text_arr[$position] = $_POST['bt_text'][$position];
+            $bt_text_padding_arr[$position] = $_POST['bt_text_padding'][$position];
+            $bt_text_size_arr[$position] = $_POST['bt_text_size'][$position];
+            $bt_bg_color_arr[$position] = $_POST['bt_bg_color'][$position];
+            $bt_bg_img_arr[$position] = $_POST['bt_bg_img'][$position];
+            $bt_bg_repeat_arr[$position] = $_POST['bt_bg_repeat'][$position];
+            $bt_radius_arr[$position] = $_POST['bt_radius'][$position];
+            $block_style_arr[$position] = $_POST['block_style'][$position];
+            $block_title_style_arr[$position] = $_POST['block_title_style'][$position];
             $block_content_style_arr[$position] = $_POST['block_content_style'][$position];
         }
     }
 
     foreach ($block_position_title as $position => $title) {
-        $block_config        = $block_config_arr[$position];
-        $bt_text             = $bt_text_arr[$position];
-        $bt_text_padding     = $bt_text_padding_arr[$position];
-        $bt_text_size        = $bt_text_size_arr[$position];
-        $bt_bg_color         = $bt_bg_color_arr[$position];
-        $bt_bg_img           = $bt_bg_img_arr[$position];
-        $bt_bg_repeat        = $bt_bg_repeat_arr[$position];
-        $bt_radius           = $bt_radius_arr[$position];
-        $block_style         = $block_style_arr[$position];
-        $block_title_style   = $block_title_style_arr[$position];
+        $block_config = $block_config_arr[$position];
+        $bt_text = $bt_text_arr[$position];
+        $bt_text_padding = $bt_text_padding_arr[$position];
+        $bt_text_size = $bt_text_size_arr[$position];
+        $bt_bg_color = $bt_bg_color_arr[$position];
+        $bt_bg_img = $bt_bg_img_arr[$position];
+        $bt_bg_repeat = $bt_bg_repeat_arr[$position];
+        $bt_radius = $bt_radius_arr[$position];
+        $block_style = $block_style_arr[$position];
+        $block_title_style = $block_title_style_arr[$position];
         $block_content_style = $block_content_style_arr[$position];
 
         $bt_text_padding = (int) $bt_text_padding;
-        $bt_bg_repeat    = (int) $bt_bg_repeat;
-        $bt_radius       = (int) $bt_radius;
+        $bt_bg_repeat = (int) $bt_bg_repeat;
+        $bt_radius = (int) $bt_radius;
 
         $sql = 'replace into ' . $xoopsDB->prefix('tad_themes_blocks') . "  (`theme_id` , `block_position` , `block_config` , `bt_text` , `bt_text_padding` , `bt_text_size` , `bt_bg_color` , `bt_bg_img` , `bt_bg_repeat` , `bt_radius`, `block_style`, `block_title_style`, `block_content_style`) values('{$theme_id}' , '{$position}' , '{$block_config}' , '{$bt_text}' , '{$bt_text_padding}' , '{$bt_text_size}' , '{$bt_bg_color}' , '{$bt_bg_img}' , '{$bt_bg_repeat}' , '{$bt_radius}' , '{$block_style}' , '{$block_title_style}' , '{$block_content_style}')";
 
@@ -275,6 +275,6 @@ function import_config2($theme_id = '', $theme_name = '')
 {
     global $config2_files;
     save_config2($theme_id, $config2_files, true);
-    
+
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/config2");
 }

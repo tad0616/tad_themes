@@ -2,20 +2,6 @@
     li{list-style:none;}
 </style>
 
-<script type="text/javascript">
-    function delete_tad_themes_menu_func(menuid){
-        var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
-        if (!sure)  return;
-        location.href="dropdown.php?op=delete_tad_themes_menu&menuid=" + menuid;
-    }
-
-    function delete_tad_themes_pic(del_type , menuid){
-        var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
-        if (!sure)  return;
-        location.href="dropdown.php?op=del_pic&type=" + del_type + "&menuid=" + menuid;
-    }
-</script>
-
 <p>
     <a href="dropdown.php?op=import" class="btn btn-info"><{$smarty.const._MA_TADTHEMES_IMPORT_MENU}></a>
     <a href="dropdown.php?op=import_edit" class="btn btn-primary"><{$smarty.const._MA_TADTHEMES_IMPORT_EDIT_MENU}></a>
@@ -41,3 +27,9 @@
     <{/if}>
 </table>
 <p id="save_msg"></p>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>

@@ -67,7 +67,6 @@ function tad_themes_logo_form()
     $xoopsTpl->assign('fontUpForm', $fontUpForm);
 
     $fonts = $TadUpFontFiles->get_file();
-    // die(var_export($fonts));
     $xoopsTpl->assign('fonts', $fonts);
 
     $MColorPicker = new MColorPicker('.color');
