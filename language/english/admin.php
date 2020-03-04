@@ -145,6 +145,9 @@ define('_MA_TADTHEMES_BLOCK_TOP_RIGHT', 'Top center right');
 define('_MA_TADTHEMES_BLOCK_BOTTOM_CENTER', 'Bottom center');
 define('_MA_TADTHEMES_BLOCK_BOTTOM_LEFT', 'Bottom center left');
 define('_MA_TADTHEMES_BLOCK_BOTTOM_RIGHT', 'Bottom center right');
+define('_MA_TADTHEMES_BLOCK_FOOTER_CENTER', 'Footer center');
+define('_MA_TADTHEMES_BLOCK_FOOTER_LEFT', 'Footer left');
+define('_MA_TADTHEMES_BLOCK_FOOTER_RIGHT', 'Footer right');
 define('_MA_TADTHEMES_BLOCK_TITLE_SIZE', 'Font size');
 define('_MA_TADTHEMES_TO_DEFAULT', 'Restored to the default');
 define('_MA_TADTHEMES_DEL_CONFIRM', 'This will clear this theme settings and restore default values! You sure you want to perform?');
@@ -167,6 +170,7 @@ define('_MA_TADTHEMES_EXPORT', 'Export theme Profile');
 define('_MA_TADTHEMES_IMPORT', 'Import theme Profile');
 define('_MA_TADTHEMES_APPLY', 'Apply theme Profile');
 define('_MA_TADTHEMES_MANAGER', 'Manage theme Profile');
+define('_MA_TADTHEMES_IMPORT_OK', '% s has been successfully imported, and you can try to apply it');
 
 define('_MA_TADTHEMES_NAVBAR_PY', 'Navigation options padding top and bottom');
 define('_MA_TADTHEMES_NAVBAR_PX', 'Navigation options padding left and right');
@@ -196,7 +200,7 @@ define('_MA_TADTHEMES_APPLY_READGROUP', 'The lower level option applies the same
 
 define('_MA_TADTHEMES_NAVBAR_FONT_SIZE', 'Option text size');
 define('_MA_TADTHEMES_NAVBAR_CHANGE', 'Gradient to');
-//define('_MA_TADTHEMES_NAVBAR_HOVER_COLOR', 'Background');
+define('_MA_TADTHEMES_NAVBAR_HOVER_COLOR', 'Mouse over background color');
 
 define('_MA_TADTHEMES_EXPAND_ALL', 'Expand all');
 define('_MA_TADTHEMES_COLLAPSE_ALL', 'Collapse all');

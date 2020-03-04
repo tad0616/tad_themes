@@ -26,6 +26,39 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 class Update
 {
+
+    //修正上傳檔案的路徑，從絕對路徑改為相對路徑
+    public static function fix_config2_file_url()
+    {
+        global $xoopsDB;
+        $sql = 'SELECT `theme_id`, `bg_img`, `logo_img`, `navlogo_img`, `navbar_img` FROM ' . $xoopsDB->prefix('tad_themes') . " where left(`bg_img`, 4)='http' or left(`logo_img`, 4)='http' or left(`navlogo_img`, 4)='http' or left(`navbar_img`, 4)='http'";
+        $result = $xoopsDB->query($sql);
+        while (list($theme_id, $bg_img, $logo_img, $navlogo_img, $navbar_img) = $xoopsDB->fetchRow($result)) {
+            $bg_img = basename($bg_img);
+            $logo_img = basename($logo_img);
+            $navlogo_img = basename($navlogo_img);
+            $navbar_img = basename($navbar_img);
+            $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `bg_img`='{$bg_img}',`logo_img`='{$logo_img}',`navlogo_img`='{$navlogo_img}',`navbar_img`='{$navbar_img}' where `theme_id`='$theme_id'";
+            $xoopsDB->queryF($sql);
+        }
+
+        $sql = 'SELECT `theme_id`, `bt_bg_img`, `block_position` FROM ' . $xoopsDB->prefix('tad_themes_blocks') . " where left(`bt_bg_img`, 4)='http'";
+        $result = $xoopsDB->query($sql);
+        while (list($theme_id, $bt_bg_img, $block_position) = $xoopsDB->fetchRow($result)) {
+            $bt_bg_img = basename($bt_bg_img);
+            $sql = 'update ' . $xoopsDB->prefix('tad_themes_blocks') . " set `bt_bg_img`='{$bt_bg_img}' where `theme_id`='$theme_id' and `block_position`='$block_position'";
+            $xoopsDB->queryF($sql);
+        }
+
+        $sql = 'SELECT `theme_id`,`name`,`value` FROM ' . $xoopsDB->prefix('tad_themes_config2') . " where `type`='file' and left(`value`, 4)='http'";
+        $result = $xoopsDB->query($sql);
+        while (list($theme_id, $name, $value) = $xoopsDB->fetchRow($result)) {
+            $filename = basename($value);
+            $sql = 'update ' . $xoopsDB->prefix('tad_themes_config2') . " set `value`='$filename' where `type`='file' and `theme_id`='$theme_id' and `name`='$name'";
+            $xoopsDB->queryF($sql);
+        }
+    }
+
     //新增檔案欄位
     public static function chk_fc_tag()
     {

@@ -124,6 +124,9 @@ function xoops_module_update_tad_themes(&$module, $old_version)
         Update::go_fc_tag();
     }
 
+    //修正上傳檔案的路徑
+    Update::fix_config2_file_url();
+
     Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_themes');
 
     return true;

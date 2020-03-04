@@ -147,6 +147,9 @@ define('_MA_TADTHEMES_BLOCK_TOP_RIGHT', '上中右區域');
 define('_MA_TADTHEMES_BLOCK_BOTTOM_CENTER', '下中區域');
 define('_MA_TADTHEMES_BLOCK_BOTTOM_LEFT', '下中左區域');
 define('_MA_TADTHEMES_BLOCK_BOTTOM_RIGHT', '下中右區域');
+define('_MA_TADTHEMES_BLOCK_FOOTER_CENTER', '頁尾中區域');
+define('_MA_TADTHEMES_BLOCK_FOOTER_LEFT', '頁尾左區域');
+define('_MA_TADTHEMES_BLOCK_FOOTER_RIGHT', '頁尾右區域');
 define('_MA_TADTHEMES_BLOCK_TITLE_SIZE', '文字大小');
 define('_MA_TADTHEMES_TO_DEFAULT', '恢復成預設值');
 define('_MA_TADTHEMES_DEL_CONFIRM', '這會清除此佈景所有設定，並恢復成預設值！確定要執行？');
@@ -169,6 +172,7 @@ define('_MA_TADTHEMES_EXPORT', '匯出佈景設定檔');
 define('_MA_TADTHEMES_IMPORT', '匯入佈景設定檔');
 define('_MA_TADTHEMES_APPLY', '套用佈景設定檔');
 define('_MA_TADTHEMES_MANAGER', '管理佈景設定檔');
+define('_MA_TADTHEMES_IMPORT_OK', '已成功匯入 %s，接著可套用之試試');
 
 define('_MA_TADTHEMES_NAVBAR_PY', '選項上下間距');
 define('_MA_TADTHEMES_NAVBAR_PX', '選項左右間距');
