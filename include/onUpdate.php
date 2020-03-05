@@ -127,6 +127,10 @@ function xoops_module_update_tad_themes(&$module, $old_version)
     //修正上傳檔案的路徑
     Update::fix_config2_file_url();
 
+    if (Update::chk_chk26()) {
+        Update::go_update26();
+    }
+
     Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_themes');
 
     return true;

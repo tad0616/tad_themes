@@ -384,7 +384,7 @@ class Update
     {
         global $xoopsDB;
 
-        $block_position = ['leftBlock', 'rightBlock', 'centerBlock', 'centerLeftBlock', 'centerRightBlock', 'centerBottomBlock', 'centerBottomLeftBlock', 'centerBottomRightBlock'];
+        $block_position = ['leftBlock', 'rightBlock', 'centerBlock', 'centerLeftBlock', 'centerRightBlock', 'centerBottomBlock', 'centerBottomLeftBlock', 'centerBottomRightBlock', 'footerLeftBlock', 'footerCenterBlock', 'footerRightBlock'];
 
         $sql = 'CREATE TABLE `' . $xoopsDB->prefix('tad_themes_blocks') . "` (
             `theme_id` smallint(6) unsigned NOT NULL AUTO_INCREMENT COMMENT '佈景編號',
@@ -793,4 +793,28 @@ class Update
         return true;
     }
 
+    //移除區塊的流水號
+    public static function chk_chk26()
+    {
+        global $xoopsDB;
+
+        $sql = "SELECT EXTRA FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name = '" . $xoopsDB->prefix('tad_themes_blocks') . "' AND COLUMN_NAME = 'theme_id'";
+
+        $result = $xoopsDB->query($sql);
+        list($EXTRA) = $xoopsDB->fetchRow($result);
+        if ('auto_increment' === $EXTRA) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function go_update26()
+    {
+        global $xoopsDB;
+
+        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes_blocks') . " CHANGE  `theme_id` `theme_id` smallint(6) unsigned NOT NULL COMMENT '佈景編號' FIRST;
+        ";
+        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
+    }
 }

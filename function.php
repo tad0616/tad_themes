@@ -15,7 +15,7 @@ define('_THEME_BT_BG_PATH', XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set'
 define('_THEME_NAVLOGO_PATH', XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/navlogo");
 define('_THEME_NAV_BG_PATH', XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/nav_bg");
 
-$block_position_title = ['leftBlock' => _MA_TADTHEMES_BLOCK_LEFT, 'rightBlock' => _MA_TADTHEMES_BLOCK_RIGHT, 'centerBlock' => _MA_TADTHEMES_BLOCK_TOP_CENTER, 'centerLeftBlock' => _MA_TADTHEMES_BLOCK_TOP_LEFT, 'centerRightBlock' => _MA_TADTHEMES_BLOCK_TOP_RIGHT, 'centerBottomBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_CENTER, 'centerBottomLeftBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_LEFT, 'centerBottomRightBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_RIGHT, 'footerBlock' => _MA_TADTHEMES_BLOCK_FOOTER_CENTER, 'footerLeftBlock' => _MA_TADTHEMES_BLOCK_FOOTER_LEFT, 'footerRightBlock' => _MA_TADTHEMES_BLOCK_FOOTER_RIGHT];
+$block_position_title = ['leftBlock' => _MA_TADTHEMES_BLOCK_LEFT, 'rightBlock' => _MA_TADTHEMES_BLOCK_RIGHT, 'centerBlock' => _MA_TADTHEMES_BLOCK_TOP_CENTER, 'centerLeftBlock' => _MA_TADTHEMES_BLOCK_TOP_LEFT, 'centerRightBlock' => _MA_TADTHEMES_BLOCK_TOP_RIGHT, 'centerBottomBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_CENTER, 'centerBottomLeftBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_LEFT, 'centerBottomRightBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_RIGHT, 'footerCenterBlock' => _MA_TADTHEMES_BLOCK_FOOTER_CENTER, 'footerLeftBlock' => _MA_TADTHEMES_BLOCK_FOOTER_LEFT, 'footerRightBlock' => _MA_TADTHEMES_BLOCK_FOOTER_RIGHT];
 
 $config2_files = ['config2_base', 'config2_bg', 'config2_slide', 'config2_logo', 'config2_block', 'config2_nav', 'config2'];
 
@@ -99,7 +99,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesSlide = TadUpFilesSlide();
         if (is_object($TadUpFilesSlide)) {
             $TadUpFilesSlide->set_col($col_name, $col_sn);
-            $TadUpFilesSlide->import_one_file($file_name, null, $main_width, $thumb_width);
+            $TadUpFilesSlide->import_one_file($file_name, null, $main_width, $thumb_width, '', false);
         } else {
             die('Need TadUpFilesSlide Object!');
         }
@@ -107,7 +107,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesBg = TadUpFilesBg();
         if (is_object($TadUpFilesBg)) {
             $TadUpFilesBg->set_col($col_name, $col_sn);
-            $TadUpFilesBg->import_one_file($file_name, null, $main_width, $thumb_width);
+            $TadUpFilesBg->import_one_file($file_name, null, $main_width, $thumb_width, '', false);
         } else {
             die('Need TadUpFilesBg Object!');
         }
@@ -115,7 +115,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesLogo = TadUpFilesLogo();
         if (is_object($TadUpFilesLogo)) {
             $TadUpFilesLogo->set_col($col_name, $col_sn);
-            $TadUpFilesLogo->import_one_file($file_name, null, $main_width, $thumb_width);
+            $TadUpFilesLogo->import_one_file($file_name, null, $main_width, $thumb_width, '', false);
         } else {
             die('Need TadUpFilesLogo Object!');
         }
@@ -123,7 +123,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesNavLogo = TadUpFilesNavLogo();
         if (is_object($TadUpFilesNavLogo)) {
             $TadUpFilesNavLogo->set_col($col_name, $col_sn);
-            $TadUpFilesNavLogo->import_one_file($file_name, null, $main_width, $thumb_width);
+            $TadUpFilesNavLogo->import_one_file($file_name, null, $main_width, $thumb_width, '', false);
         } else {
             die('Need TadUpFilesNavLogo Object!');
         }
@@ -131,7 +131,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesNavBg = TadUpFilesNavBg();
         if (is_object($TadUpFilesNavBg)) {
             $TadUpFilesNavBg->set_col($col_name, $col_sn);
-            $TadUpFilesNavBg->import_one_file($file_name, null, $main_width, $thumb_width);
+            $TadUpFilesNavBg->import_one_file($file_name, null, $main_width, $thumb_width, '', false);
         } else {
             die('Need TadUpFilesNavBg Object!');
         }
@@ -139,7 +139,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesBt_bg = TadUpFilesBt_bg();
         if (is_object($TadUpFilesBt_bg)) {
             $TadUpFilesBt_bg->set_col($col_name, $col_sn);
-            $TadUpFilesBt_bg->import_one_file($file_name, null, $main_width, $thumb_width);
+            $TadUpFilesBt_bg->import_one_file($file_name, null, $main_width, $thumb_width, '', false);
         } else {
             die('Need TadUpFilesBt_bg Object!');
         }
@@ -147,7 +147,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFiles_config2 = TadUpFiles_config2();
         if (is_object($TadUpFiles_config2)) {
             $TadUpFiles_config2->set_col($col_name, $col_sn);
-            $TadUpFiles_config2->import_one_file($file_name, null, $main_width, $thumb_width);
+            $TadUpFiles_config2->import_one_file($file_name, null, $main_width, $thumb_width, '', false);
         } else {
             die('Need TadUpFiles_config2 Object!');
         }

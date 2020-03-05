@@ -48,7 +48,7 @@ CREATE TABLE `tad_themes` (
 ) ENGINE=MyISAM ;
 
 CREATE TABLE `tad_themes_blocks` (
-  `theme_id` smallint(6) unsigned NOT NULL AUTO_INCREMENT COMMENT '佈景編號',
+  `theme_id` smallint(6) unsigned NOT NULL COMMENT '佈景編號',
   `block_position` varchar(30) NOT NULL default '' COMMENT '區塊位置',
   `block_config` enum('right','left') NOT NULL DEFAULT 'right' COMMENT '工具按鈕靠左/右',
   `bt_text` varchar(16) NOT NULL COMMENT '區塊標題字體顏色',

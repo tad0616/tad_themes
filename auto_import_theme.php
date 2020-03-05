@@ -42,10 +42,10 @@ function auto_import_theme()
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2");
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2/thumbs");
 
-    $bg_img = !empty($bg_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/bg/{$bg_img}" : '';
-    $logo_img = !empty($logo_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/logo/{$logo_img}" : '';
-    $navlogo_img = !empty($navlogo_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/navlogo/{$navlogo_img}" : '';
-    $navbar_img = !empty($navbar_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/nav_bg/{$navbar_img}" : '';
+    // $bg_img = !empty($bg_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/bg/{$bg_img}" : '';
+    // $logo_img = !empty($logo_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/logo/{$logo_img}" : '';
+    // $navlogo_img = !empty($navlogo_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/navlogo/{$navlogo_img}" : '';
+    // $navbar_img = !empty($navbar_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/nav_bg/{$navbar_img}" : '';
     $theme_type = empty($theme_type) ? 'theme_type_2' : $theme_type;
 
     $logo_top = (int) $logo_top;
@@ -162,9 +162,9 @@ function auto_import_theme()
     }
     import_img(_THEME_BT_BG_PATH, 'bt_bg', $theme_id);
 
-    if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/config2")) {
-        import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/config2", 'config2', $theme_id, '');
-    }
+    // if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/config2")) {
+    //     import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/config2", 'config2', $theme_id, '');
+    // }
     if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2")) {
         import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2", 'config2', $theme_id, '');
     }

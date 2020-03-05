@@ -217,7 +217,7 @@
                 <{foreach from=$all_navbar_img item=navbarbg}>
                     <div style="width:60px; height:86px; display:inline-block; margin:4px;">
                         <label for="navbar_img<{$navbarbg.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$navbarbg.tb_path}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;" >
-                            <input type="radio" name="navbar_img" id="navbar_img<{$navbarbg.files_sn}>" onChange="$('.del_img_box').show(); $('#del_img<{$navbarbg.files_sn}>').hide();" value="<{$navbarbg.path}>" <{if $navbar_img==$navbarbg.path}>checked<{/if}>>
+                            <input type="radio" name="navbar_img" id="navbar_img<{$navbarbg.files_sn}>" onChange="$('.del_img_box').show(); $('#del_img<{$navbarbg.files_sn}>').hide();" value="<{$navbarbg.file_name}>" <{if $navbar_img==$navbarbg.file_name}>checked<{/if}>>
                         </label>
                         <label class="del_img_box" style="font-size:11px;"  id="del_img<{$navbarbg.files_sn}>">
                             <input type="checkbox" value="<{$navbarbg.files_sn}>" name="del_file[<{$navbarbg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
@@ -264,7 +264,7 @@
                 <{foreach from=$all_navlogo item=navlogo}>
                     <div style="width:60px; height:86px; display:inline-block; margin:4px;">
                         <label for="logo_img<{$navlogo.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$navlogo.tb_path}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;" >
-                        <input type="radio" name="navlogo_img" id="navlogo_img<{$navlogo.files_sn}>" value="<{$navlogo.path}>" <{if $navlogo_img==$navlogo.path}>checked<{/if}>>
+                        <input type="radio" name="navlogo_img" id="navlogo_img<{$navlogo.files_sn}>" value="<{$navlogo.file_name}>" <{if $navlogo_img==$navlogo.file_name}>checked<{/if}>>
                         </label>
                         <label class="del_navimg_box" style="font-size:11px;"  id="del_navimg<{$navlogo.files_sn}>">
                         <input type="checkbox" value="<{$navlogo.files_sn}>" name="del_file[<{$navlogo.files_sn}>]"> <{$smarty.const._TAD_DEL}>

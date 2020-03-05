@@ -13,25 +13,22 @@
             </datalist>
         </td>
         <td>
-            <button type="submit" name="op" value="save_config" class="btn btn-primary"><{$smarty.const._MA_TADTHEMES_SAVE}></button>
+            <button type="submit" name="op" value="save_config" class="btn btn-info"><{$smarty.const._MA_TADTHEMES_SAVE}></button>
         </td>
     </tr>
     <{foreach from=$theme_config_list key=date item=title}>
         <tr>
             <td><{$title}></td>
-            <td><{$date}></td>
+            <td style="font-size:11px;"><{$date}></td>
             <td>
-                <a href="javascript:delete_theme_config('<{$title}>')" class="btn btn-sm btn-xs btn-danger">刪除</a>
-                <a href="main.php?op=download_zip&theme_config_name=<{$title}>&theme_id=<{$theme_id}>&theme_name=<{$theme_name}>" class="btn btn-sm btn-xs btn-success">下載</a>
-                <a href="main.php?op=apply_config&theme_config_name=<{$title}>&theme_id=<{$theme_id}>&theme_name=<{$theme_name}>" class="btn btn-sm btn-xs btn-primary">套用</a>
+                <a href="javascript:delete_theme_config('<{$title}>')" class="btn btn-sm btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
+                <a href="main.php?op=download_zip&theme_config_name=<{$title}>&theme_id=<{$theme_id}>&theme_name=<{$theme_name}>" class="btn btn-sm btn-xs btn-success"><{$smarty.const._MA_TADTHEMES_DOWNLOAD}></a>
+                <a href="main.php?op=apply_config&theme_config_name=<{$title}>&theme_id=<{$theme_id}>&theme_name=<{$theme_name}>" class="btn btn-sm btn-xs btn-info"><{$smarty.const._MA_TADTHEMES_APPLY}></a>
             </td>
         </tr>
     <{/foreach}>
     <tr>
-        <td>
-            <{$smarty.const._MA_TADTHEMES_IMPORT}>
-        </td>
-        <td>
+        <td colspan=2>
             <input type="file" class="form-control" name="config_zip">
         </td>
         <td>

@@ -137,7 +137,7 @@
                 <{foreach from=$all_logo item=logo}>
                 <div style="width:60px; height:86px; display:inline-block; margin:4px;">
                     <label for="logo_img<{$logo.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$logo.tb_path}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;" >
-                        <input type="radio" name="logo_img" id="logo_img<{$logo.files_sn}>" value="<{$logo.path}>" <{if $logo_img==$logo.path}>checked<{/if}>>
+                        <input type="radio" name="logo_img" id="logo_img<{$logo.files_sn}>" value="<{$logo.file_name}>" <{if $logo_img==$logo.file_name}>checked<{/if}>>
                     </label>
 
                     <label class="del_img_box" style="font-size:11px;"  id="del_img<{$logo.files_sn}>">

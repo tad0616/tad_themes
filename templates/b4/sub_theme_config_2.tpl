@@ -105,7 +105,7 @@
         <{foreach from=$all_bg item=bg}>
             <div style="width:60px; height:86px; display:inline-block; margin:4px;">
             <label for="bg_img<{$bg.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$bg.tb_path}>);background-position:center center;border:1px solid gray;" >
-                <input type="radio" name="bg_img" id="bg_img<{$bg.files_sn}>" onChange="$('.del_img_box').show(); $('#del_img<{$bg.files_sn}>').hide(); preview_img('bg',$(this).val());" value="<{$bg.path}>" <{if $bg_img==$bg.path}>checked<{/if}>>
+                <input type="radio" name="bg_img" id="bg_img<{$bg.files_sn}>" onChange="$('.del_img_box').show(); $('#del_img<{$bg.files_sn}>').hide(); preview_img('bg',$(this).val());" value="<{$bg.file_name}>" <{if $bg_img==$bg.file_name}>checked<{/if}>>
             </label>
 
             <label class="del_img_box" style="font-size:12px;" id="del_img<{$bg.files_sn}>">

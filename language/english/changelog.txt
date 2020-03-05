@@ -1,3 +1,11 @@
+Tad Themes 6.0 (released on 2020-03-05)
+=====================================================
+1. Added the function of "do not show the option to return to the homepage" in the navigation bar
+2. "Import Edit Menu" adds modules such as custom blocks, Google Photos detection, universal forms, temporary announcements, venue reservations, etc.
+3. Add save scene setting function
+4. Delete and use SweetAlert instead
+
+
 Tad Themes 5.9 (released from 2019-08-28)
 ==========================================================
 1. Fixed a missing field when importing profiles
