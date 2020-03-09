@@ -168,6 +168,7 @@ function auto_import_theme()
     if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2")) {
         import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2", 'config2', $theme_id, '');
     }
+    import_img(_THEME_CONFIG2_PATH, 'config2', $theme_id);
 
     foreach ($block_position_title as $position => $ttt) {
         if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/bt_bg_{$position}")) {

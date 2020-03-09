@@ -18,7 +18,7 @@ function tad_themes_form()
     global $xoopsDB, $xoopsUser, $xoopsConfig, $xoopsTpl, $block_position_title, $xoTheme, $TadDataCenter, $config2_files;
 
     $SweetAlert = new SweetAlert();
-    $SweetAlert->render("delete_tad_themes_config", "main.php?op=delete_tad_themes=", 'theme_id');
+    $SweetAlert->render("delete_tad_themes_config", "main.php?op=delete_tad_themes&theme_id=", 'theme_id');
 
     $theme_name = $xoopsConfig['theme_set'];
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}");
@@ -1739,6 +1739,7 @@ function import_config($theme_id = '', $theme_name = '')
         redirect_header($_SERVER['PHP_SELF'] . "?theme_name={$theme_name}&theme_id={$theme_id}", 3, sprintf(_MA_TADTHEMES_IMPORT_FAIL, $for_theme_name));
     }
     $target = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/$theme_config_name/";
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/");
     Utility::mk_dir($target);
 
     require_once '../class/dunzip2/dUnzip2.inc.php';
