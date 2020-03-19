@@ -61,6 +61,18 @@
             </div>
         </div>
 
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label text-sm-right"><{$smarty.const._MA_TADTHEMES_LOGO_MT}></label>
+            <div class="col-sm-4">
+                <input type="number" name="margin_top" class="col-sm-10 form-control" value="<{$margin_top}>" id="margin_top">
+            </div>
+            <label class="col-sm-2 col-form-label text-sm-right"><{$smarty.const._MA_TADTHEMES_LOGO_MB}></label>
+            <div class="col-sm-4">
+                <input type="number" name="margin_bottom" class="col-sm-10 form-control" value="<{$margin_bottom}>" id="margin_bottom">
+            </div>
+        </div>
+
         <div class="text-center" style="margin: 30px auto;">
             <input type="hidden" name="op" value="mkTitlePic">
             <button type="submit" class="btn btn-primary"><{$smarty.const._MA_TADTHEMES_LOGO_MAKE_PNG}></button>
@@ -90,7 +102,7 @@
             <input type="checkbox" name="sav_to_logo" value="1">
             <{$smarty.const._MA_TADTHEMES_LOGO_SAVE_AS_LOGO}>
         </label>
-        
+
         <button type="submit" class="btn btn-success"><{$smarty.const._MA_TADTHEMES_LOGO_SAVE_PIC}></button>
     <{/if}>
 

@@ -69,10 +69,16 @@ function tad_themes_logo_form()
     $fonts = $TadUpFontFiles->get_file();
     $xoopsTpl->assign('fonts', $fonts);
 
+    $margin_top = isset($fc['margin_top']) ? $fc['margin_top'] : '0';
+    $xoopsTpl->assign('margin_top', $margin_top);
+
+    $margin_bottom = isset($fc['margin_bottom']) ? $fc['margin_bottom'] : '0';
+    $xoopsTpl->assign('margin_bottom', $margin_bottom);
+
     $MColorPicker = new MColorPicker('.color');
     $MColorPicker->render();
 
-    $dir   = XOOPS_ROOT_PATH . '/uploads/logo/';
+    $dir = XOOPS_ROOT_PATH . '/uploads/logo/';
     $logos = [];
     // Open a known directory, and proceed to read its contents
     if (is_dir($dir)) {
@@ -101,20 +107,20 @@ function strLength($str, $charset = 'utf-8')
         $str = iconv('utf-8', 'big5', $str);
     }
 
-    $num   = strlen($str);
+    $num = strlen($str);
     $cnNum = 0;
     for ($i = 0; $i < $num; $i++) {
         if (ord(substr($str, $i, 1)) > 127) {
             $cnNum++;
         }
     }
-    $enNum  = $num - ($cnNum * 2);
+    $enNum = $num - ($cnNum * 2);
     $number = ($enNum / 2) + $cnNum;
     return ceil($number);
 }
 
 //製作logo圖
-function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8', $border_color = '#FFFFFF', $font_file_sn = 0, $shadow_color = '#000000', $shadow_x = 1, $shadow_y = 1, $shadow_size = 3)
+function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8', $border_color = '#FFFFFF', $font_file_sn = 0, $shadow_color = '#000000', $shadow_x = 1, $shadow_y = 1, $shadow_size = 3, $margin_top = 0, $margin_bottom = 0)
 {
     global $TadUpFontFiles;
     $font = $TadUpFontFiles->get_file($font_file_sn);
@@ -130,12 +136,12 @@ function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8
         return;
     }
 
-    $width  = $size * 1.4 * $n;
-    $height = $size * 2;
+    $width = $size * 1.4 * $n;
+    $height = $size * 2 + $margin_top + $margin_bottom;
 
-    $x                                                      = 2;
-    $y                                                      = $size * 1.5;
-    list($color_r, $color_g, $color_b)                      = sscanf($color, '#%02x%02x%02x');
+    $x = 2;
+    $y = $size * 1.5;
+    list($color_r, $color_g, $color_b) = sscanf($color, '#%02x%02x%02x');
     list($border_color_r, $border_color_g, $border_color_b) = sscanf($border_color, '#%02x%02x%02x');
     list($shadow_color_r, $shadow_color_g, $shadow_color_b) = sscanf($shadow_color, '#%02x%02x%02x');
 
@@ -146,7 +152,7 @@ function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8
     $trans_colour = imagecolorallocatealpha($im, 255, 255, 255, 127);
     imagefill($im, 0, 0, $trans_colour);
 
-    $text_color        = imagecolorallocate($im, $color_r, $color_g, $color_b);
+    $text_color = imagecolorallocate($im, $color_r, $color_g, $color_b);
     $text_border_color = imagecolorallocatealpha($im, $border_color_r, $border_color_g, $border_color_b, 50);
     $text_shadow_color = imagecolorallocatealpha($im, $shadow_color_r, $shadow_color_g, $shadow_color_b, 50);
 
@@ -156,16 +162,16 @@ function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8
     }
     // die('shadow_size='.$shadow_size);
     // if ($shadow_size > 0) {
-        $sx = $shadow_x > 0 ? $shadow_x + $border_size : $shadow_x - $border_size;
-        $sy = $shadow_y > 0 ? $shadow_y + $border_size : $shadow_y - $border_size;
+    $sx = $shadow_x > 0 ? $shadow_x + $border_size : $shadow_x - $border_size;
+    $sy = $shadow_y > 0 ? $shadow_y + $border_size : $shadow_y - $border_size;
 
-        imagettftextblur($im, $size, 0, $x + $sx, $y + $sy, $text_shadow_color, $font[$font_file_sn]['physical_file_path'], $title, $shadow_size);
+    imagettftextblur($im, $size, 0, $x + $sx, $y + $sy + $margin_top, $text_shadow_color, $font[$font_file_sn]['physical_file_path'], $title, $shadow_size);
     // }
 
-    imagettftext($im, $size, 0, $x, $y, $text_color, $font[$font_file_sn]['physical_file_path'], $title);
+    imagettftext($im, $size, 0, $x, $y + $margin_top, $text_color, $font[$font_file_sn]['physical_file_path'], $title);
 
     if ('transparent' !== $border_color) {
-        imagettftextoutline($im, $size, 0, $x, $y, $text_color, $text_border_color, $font[$font_file_sn]['physical_file_path'], $title, $border_size);
+        imagettftextoutline($im, $size, 0, $x, $y + $margin_top, $text_color, $text_border_color, $font[$font_file_sn]['physical_file_path'], $title, $border_size);
     }
 
     Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tmp_logo');
@@ -192,7 +198,7 @@ function imagettftextoutline(&$im, $size, $angle, $x, $y, &$col, &$outlinecol, $
 
 function imagettftextblur(&$im, $size, $angle, $x, $y, $color, $fontfile, $text, $blur_intensity = 0, $blur_filter = IMG_FILTER_GAUSSIAN_BLUR)
 {
-    $blur_intensity=(int)$blur_intensity;
+    $blur_intensity = (int) $blur_intensity;
     // $blur_intensity needs to be an integer greater than zero; if it is not we
     // treat this function call identically to imagettftext
     if (is_int($blur_intensity) && $blur_intensity > 0) {
@@ -331,23 +337,25 @@ function save_to_logo($name = '')
 
 /*-----------執行動作判斷區----------*/
 require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op           = system_CleanVars($_REQUEST, 'op', '', 'string');
-$theme_id     = system_CleanVars($_REQUEST, 'theme_id', 0, 'int');
-$files_sn     = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
-$title        = system_CleanVars($_REQUEST, 'title', '', 'string');
-$size         = system_CleanVars($_REQUEST, 'size', 24, 'int');
-$color        = system_CleanVars($_REQUEST, 'color', '#00a3a8', 'string');
+$op = system_CleanVars($_REQUEST, 'op', '', 'string');
+$theme_id = system_CleanVars($_REQUEST, 'theme_id', 0, 'int');
+$files_sn = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
+$title = system_CleanVars($_REQUEST, 'title', '', 'string');
+$size = system_CleanVars($_REQUEST, 'size', 24, 'int');
+$color = system_CleanVars($_REQUEST, 'color', '#00a3a8', 'string');
 $border_color = system_CleanVars($_REQUEST, 'border_color', '#ffffff', 'string');
 $font_file_sn = system_CleanVars($_REQUEST, 'font_file_sn', 0, 'int');
-$border_size  = system_CleanVars($_REQUEST, 'border_size', 2, 'int');
-$name         = system_CleanVars($_REQUEST, 'name', '', 'string');
-$bg_color     = system_CleanVars($_REQUEST, 'bg_color', '', 'string');
-$logo         = system_CleanVars($_REQUEST, 'logo', '', 'string');
-$sav_to_logo  = system_CleanVars($_REQUEST, 'sav_to_logo', 0, 'int');
+$border_size = system_CleanVars($_REQUEST, 'border_size', 2, 'int');
+$name = system_CleanVars($_REQUEST, 'name', '', 'string');
+$bg_color = system_CleanVars($_REQUEST, 'bg_color', '', 'string');
+$logo = system_CleanVars($_REQUEST, 'logo', '', 'string');
+$sav_to_logo = system_CleanVars($_REQUEST, 'sav_to_logo', 0, 'int');
 $shadow_color = system_CleanVars($_REQUEST, 'shadow_color', '#000000', 'string');
-$shadow_x     = system_CleanVars($_REQUEST, 'shadow_x', 1, 'int');
-$shadow_y     = system_CleanVars($_REQUEST, 'shadow_y', 1, 'int');
-$shadow_size  = system_CleanVars($_REQUEST, 'shadow_size', 3, 'int');
+$shadow_x = system_CleanVars($_REQUEST, 'shadow_x', 1, 'int');
+$shadow_y = system_CleanVars($_REQUEST, 'shadow_y', 1, 'int');
+$shadow_size = system_CleanVars($_REQUEST, 'shadow_size', 3, 'int');
+$margin_top = system_CleanVars($_REQUEST, 'margin_top', 0, 'int');
+$margin_bottom = system_CleanVars($_REQUEST, 'margin_bottom', 0, 'int');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -375,11 +383,11 @@ switch ($op) {
         exit;
 
     case 'mkTitlePic':
-        $filename     = mkTitlePic($title, $size, $border_size, $color, $border_color, $font_file_sn, $shadow_color, $shadow_x, $shadow_y, $shadow_size);
-        $color        = str_replace('#', '', $color);
+        $filename = mkTitlePic($title, $size, $border_size, $color, $border_color, $font_file_sn, $shadow_color, $shadow_x, $shadow_y, $shadow_size, $margin_top, $margin_bottom);
+        $color = str_replace('#', '', $color);
         $border_color = str_replace('#', '', $border_color);
 
-        $_SESSION['font_config'] = json_encode(['title' => $title, 'size' => $size, 'border_size' => $border_size, 'color' => $color, 'border_color' => $border_color, 'font_file_sn' => $font_file_sn, 'bg_color' => $bg_color, 'shadow_color' => $shadow_color, 'shadow_x' => $shadow_x, 'shadow_y' => $shadow_y, 'shadow_size' => $shadow_size]);
+        $_SESSION['font_config'] = json_encode(['title' => $title, 'size' => $size, 'border_size' => $border_size, 'color' => $color, 'border_color' => $border_color, 'font_file_sn' => $font_file_sn, 'bg_color' => $bg_color, 'shadow_color' => $shadow_color, 'shadow_x' => $shadow_x, 'shadow_y' => $shadow_y, 'shadow_size' => $shadow_size, 'margin_top' => $margin_top, 'margin_bottom' => $margin_bottom]);
 
         header("location: font2pic.php?name=$filename");
         exit;

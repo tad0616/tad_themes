@@ -176,6 +176,8 @@ define('_MA_TADTHEMES_IMPORT_FAIL', 'Import failed, this profile only supports %
 define('_MA_TADTHEMES_NAVBAR_PY', 'Navigation options padding top and bottom');
 define('_MA_TADTHEMES_NAVBAR_PX', 'Navigation options padding left and right');
 
+define('_MA_TADTHEMES_LOGO_MT', 'Logo margin top');
+define('_MA_TADTHEMES_LOGO_MB', 'Logo margin bottom');
 define('_MA_TADTHEMES_LOGO_DESIGN', 'Simple Logo Design');
 define('_MA_TADTHEMES_LOGO_INPUT_TEXT', 'Enter text');
 define('_MA_TADTHEMES_LOGO_TEXT_COLOR', 'Text Color');

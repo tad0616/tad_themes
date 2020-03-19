@@ -178,6 +178,8 @@ define('_MA_TADTHEMES_IMPORT_FAIL', '匯入失敗，該設定檔僅支援 %s 佈
 define('_MA_TADTHEMES_NAVBAR_PY', '選項上下間距');
 define('_MA_TADTHEMES_NAVBAR_PX', '選項左右間距');
 
+define('_MA_TADTHEMES_LOGO_MT', 'Logo 上方間距');
+define('_MA_TADTHEMES_LOGO_MB', 'Logo 下方間距');
 define('_MA_TADTHEMES_LOGO_DESIGN', '簡易Logo設計');
 define('_MA_TADTHEMES_LOGO_INPUT_TEXT', '輸入文字');
 define('_MA_TADTHEMES_LOGO_TEXT_COLOR', '文字顏色');
