@@ -4,7 +4,7 @@ use XoopsModules\Tadtools\Utility;
 require_once __DIR__ . '/function.php';
 
 //自動存入佈景
-function auto_import_theme()
+function auto_import_theme($mode = '')
 {
     global $xoopsDB, $xoopsConfig, $config2_files;
     if (empty($xoopsConfig['theme_set'])) {
@@ -13,11 +13,14 @@ function auto_import_theme()
 
     $theme_name = $xoopsConfig['theme_set'];
 
-    if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php")) {
-        require XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
-    }
-    if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php")) {
-        require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php";
+    if ($mode == 'default') {
+        if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php")) {
+            require XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
+        }
+    } else {
+        if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php")) {
+            require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php";
+        }
     }
 
     if (empty($config_enable)) {
@@ -114,94 +117,55 @@ function auto_import_theme()
 
     update_tadtools_setup($theme_name, $theme_kind);
 
-    if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/bg")) {
-        import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/bg", 'bg', $theme_id, '');
+    if ($mode == 'default') {
+        copy_default_file();
     }
-    if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg")) {
-        import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg", 'bg', $theme_id, '');
-    }
-    import_img(_THEME_BG_PATH, 'bg', $theme_id, '');
-
-    if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/logo")) {
-        import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/logo", 'logo', $theme_id, '');
-    }
-    if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/logo")) {
-        import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/logo", 'logo', $theme_id, '');
-    }
-    import_img(_THEME_LOGO_PATH, 'logo', $theme_id);
-
-    if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/slide")) {
-        import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/slide", 'slide', $theme_id, '');
-    }
-    if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide")) {
-        import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide", 'slide', $theme_id, '');
-    }
-    import_img(_THEME_SLIDE_PATH, 'slide', $theme_id, _TAD_SLIDE_DEFAULT_DESCRIPT, true);
-
-    if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/navbar_img")) {
-        import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/navbar_img", 'navbar_img', $theme_id, '');
-    }
-    if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navbar_img")) {
-        import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navbar_img", 'navbar_img', $theme_id, '');
-    }
-    import_img(_THEME_NAV_BG_PATH, 'navbar_img', $theme_id);
-
-    if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/navlogo")) {
-        import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/navlogo", 'navlogo', $theme_id, '');
-    }
-    if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navlogo")) {
-        import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navlogo", 'navlogo', $theme_id, '');
-    }
-    import_img(_THEME_NAVLOGO_PATH, 'navlogo', $theme_id);
-
-    if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/bt_bg")) {
-        import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/bt_bg", 'bt_bg', $theme_id, '');
-    }
-    if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg")) {
-        import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg", 'bt_bg', $theme_id, '');
-    }
-    import_img(_THEME_BT_BG_PATH, 'bt_bg', $theme_id);
-
-    // if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/config2")) {
-    //     import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/config2", 'config2', $theme_id, '');
-    // }
-    if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2")) {
-        import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2", 'config2', $theme_id, '');
-    }
-    import_img(_THEME_CONFIG2_PATH, 'config2', $theme_id);
-
+    import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg", 'bg', $theme_id, '');
+    import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/logo", 'logo', $theme_id, '');
+    import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide", 'slide', $theme_id, '');
+    import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navbar_img", 'navbar_img', $theme_id, '');
+    import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navlogo", 'navlogo', $theme_id, '');
+    import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg", 'bt_bg', $theme_id, '');
+    import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2", 'config2', $theme_id, '');
     foreach ($block_position_title as $position => $ttt) {
-        if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/bt_bg_{$position}")) {
-            import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/bt_bg_{$position}", 'bt_bg_{$position}', $theme_id, '');
-        }
-        if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg_{$position}")) {
-            import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg_{$position}", 'bt_bg_{$position}', $theme_id, '');
-        }
-        import_img(XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_set']}/images/bt_bg_{$position}", "bt_bg_{$position}", $theme_id);
+        import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg_{$position}", 'bt_bg_{$position}', $theme_id, '');
 
     }
 
     //儲存區塊設定
-    save_blocks($theme_id, true);
+    save_blocks($theme_id, true, $mode);
 
     //匯入額外設定值
-    save_config2($theme_id, $config2_files, true);
+    save_config2($theme_id, $config2_files, $mode);
 
-    Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak");
+}
+
+// 匯入或套用設定檔
+function copy_default_file()
+{
+    global $xoopsConfig;
+    $theme_name = $xoopsConfig['theme_set'];
+    $source = XOOPS_ROOT_PATH . "/themes/{$theme_name}/images";
+    $target = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}";
+    Utility::mk_dir($target);
+    Utility::full_copy($source, $target);
 }
 
 //儲存區塊設定
-function save_blocks($theme_id = '', $import = false)
+function save_blocks($theme_id = '', $import = false, $mode = '')
 {
     global $xoopsDB, $block_position_title, $xoopsConfig;
 
     $theme_name = $xoopsConfig['theme_set'];
 
-    if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php")) {
-        require XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
-    }
-    if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php")) {
-        require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php";
+    if ($mode == 'default') {
+        if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php")) {
+            require XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
+        }
+    } else {
+        if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php")) {
+            require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config.php";
+        }
     }
 
     if (empty($block_position_title)) {
@@ -264,18 +228,19 @@ function save_blocks($theme_id = '', $import = false)
         }
     }
 
+    $myts = \MyTextSanitizer::getInstance();
     foreach ($block_position_title as $position => $title) {
-        $block_config = $block_config_arr[$position];
-        $bt_text = $bt_text_arr[$position];
-        $bt_text_padding = $bt_text_padding_arr[$position];
-        $bt_text_size = $bt_text_size_arr[$position];
-        $bt_bg_color = $bt_bg_color_arr[$position];
-        $bt_bg_img = $bt_bg_img_arr[$position];
-        $bt_bg_repeat = $bt_bg_repeat_arr[$position];
-        $bt_radius = $bt_radius_arr[$position];
-        $block_style = $block_style_arr[$position];
-        $block_title_style = $block_title_style_arr[$position];
-        $block_content_style = $block_content_style_arr[$position];
+        $block_config = $myts->addSlashes($block_config_arr[$position]);
+        $bt_text = $myts->addSlashes($bt_text_arr[$position]);
+        $bt_text_padding = $myts->addSlashes($bt_text_padding_arr[$position]);
+        $bt_text_size = $myts->addSlashes($bt_text_size_arr[$position]);
+        $bt_bg_color = $myts->addSlashes($bt_bg_color_arr[$position]);
+        $bt_bg_img = $myts->addSlashes($bt_bg_img_arr[$position]);
+        $bt_bg_repeat = $myts->addSlashes($bt_bg_repeat_arr[$position]);
+        $bt_radius = $myts->addSlashes($bt_radius_arr[$position]);
+        $block_style = $myts->addSlashes($block_style_arr[$position]);
+        $block_title_style = $myts->addSlashes($block_title_style_arr[$position]);
+        $block_content_style = $myts->addSlashes($block_content_style_arr[$position]);
 
         $bt_text_padding = (int) $bt_text_padding;
         $bt_bg_repeat = (int) $bt_bg_repeat;

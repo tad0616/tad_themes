@@ -50,7 +50,7 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
 
     $db_files = [];
 
-    // 撈出資料庫中該佈景的指定類型圖片
+    // 撈出資料庫中該佈景的指定類型圖片（若是套用或恢復佈景，此時這裡應該都是空值）
     $sql = 'select files_sn,file_name,original_filename from ' . $xoopsDB->prefix('tad_themes_files_center') . " where col_name='{$col_name}' and col_sn='{$col_sn}'";
 
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
@@ -71,7 +71,7 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
                 $type = filetype($path . '/' . $file);
 
                 if ('dir' !== $type) {
-                    if (!in_array($file, $db_files)) {
+                    if (empty($db_files) or !in_array($file, $db_files)) {
                         import_file($path . '/' . $file, $col_name, $col_sn, null, null, $desc, $safe_name);
                     }
                 }
@@ -95,7 +95,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesSlide = TadUpFilesSlide();
         if (is_object($TadUpFilesSlide)) {
             $TadUpFilesSlide->set_col($col_name, $col_sn);
-            $TadUpFilesSlide->import_one_file($file_name, null, $main_width, $thumb_width, '', false);
+            $TadUpFilesSlide->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, true);
         } else {
             die('Need TadUpFilesSlide Object!');
         }
@@ -103,7 +103,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesBg = TadUpFilesBg();
         if (is_object($TadUpFilesBg)) {
             $TadUpFilesBg->set_col($col_name, $col_sn);
-            $TadUpFilesBg->import_one_file($file_name, null, $main_width, $thumb_width, '', false);
+            $TadUpFilesBg->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, true);
         } else {
             die('Need TadUpFilesBg Object!');
         }
@@ -111,7 +111,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesLogo = TadUpFilesLogo();
         if (is_object($TadUpFilesLogo)) {
             $TadUpFilesLogo->set_col($col_name, $col_sn);
-            $TadUpFilesLogo->import_one_file($file_name, null, $main_width, $thumb_width, '', false);
+            $TadUpFilesLogo->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, true);
         } else {
             die('Need TadUpFilesLogo Object!');
         }
@@ -119,7 +119,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesNavLogo = TadUpFilesNavLogo();
         if (is_object($TadUpFilesNavLogo)) {
             $TadUpFilesNavLogo->set_col($col_name, $col_sn);
-            $TadUpFilesNavLogo->import_one_file($file_name, null, $main_width, $thumb_width, '', false);
+            $TadUpFilesNavLogo->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, true);
         } else {
             die('Need TadUpFilesNavLogo Object!');
         }
@@ -127,7 +127,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesNavBg = TadUpFilesNavBg();
         if (is_object($TadUpFilesNavBg)) {
             $TadUpFilesNavBg->set_col($col_name, $col_sn);
-            $TadUpFilesNavBg->import_one_file($file_name, null, $main_width, $thumb_width, '', false);
+            $TadUpFilesNavBg->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, true);
         } else {
             die('Need TadUpFilesNavBg Object!');
         }
@@ -135,7 +135,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesBt_bg = TadUpFilesBt_bg();
         if (is_object($TadUpFilesBt_bg)) {
             $TadUpFilesBt_bg->set_col($col_name, $col_sn);
-            $TadUpFilesBt_bg->import_one_file($file_name, null, $main_width, $thumb_width, '', false);
+            $TadUpFilesBt_bg->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, true);
         } else {
             die('Need TadUpFilesBt_bg Object!');
         }
@@ -143,7 +143,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFiles_config2 = TadUpFiles_config2();
         if (is_object($TadUpFiles_config2)) {
             $TadUpFiles_config2->set_col($col_name, $col_sn);
-            $TadUpFiles_config2->import_one_file($file_name, null, $main_width, $thumb_width, '', false);
+            $TadUpFiles_config2->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, true);
         } else {
             die('Need TadUpFiles_config2 Object!');
         }
@@ -238,10 +238,12 @@ function update_tadtools_setup($theme = '', $theme_kind = '')
 }
 
 //儲存額外設定值
-function save_config2($theme_id = '', $config2_arr = [], $import = false)
+function save_config2($theme_id = '', $config2_arr = [], $mode = '')
 {
-    global $xoopsDB, $xoopsConfig, $config2_files;
+    global $xoopsDB, $xoopsConfig;
+
     $theme_name = $xoopsConfig['theme_set'];
+
     require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
     $TadUpFiles_config2 = TadUpFiles_config2();
 
@@ -254,9 +256,10 @@ function save_config2($theme_id = '', $config2_arr = [], $import = false)
         if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php")) {
             require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php";
         }
-
-        if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2}.php")) {
-            require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2}.php";
+        if ($mode != 'default') {
+            if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2}.php")) {
+                require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2}.php";
+            }
         }
 
         if (empty($theme_config)) {
@@ -283,34 +286,13 @@ function save_config2($theme_id = '', $config2_arr = [], $import = false)
 
             // 若是上傳的欄位，需將圖片也上傳或匯入
             if ('file' === $config['type']) {
-                // 匯入
-                if ($import) {
-                    $path = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/config2";
-                    if (is_dir($path)) {
-                        if ($dh = opendir($path)) {
-                            while (false !== ($file = readdir($dh))) {
-                                if ('.' === $file or '..' === $file or 'Thumbs.db' === $file) {
-                                    continue;
-                                }
-                                $type = filetype($path . '/' . $file);
-                                if ('dir' !== $type) {
-                                    // 若在備份目錄中有該欄位的檔案，則匯入之
-                                    if (strpos($file, $config['name']) !== false) {
-                                        import_file($path . '/' . $file, "config2_{$config['name']}", $theme_id, null, null, $desc, true);
-                                    }
-                                }
-                            }
-                            closedir($dh);
-                        }
-                    }
-                } else {
-                    // 上傳
-                    $TadUpFiles_config2->set_col("config2_{$config['name']}", $theme_id);
-                    $filename = $TadUpFiles_config2->upload_file("config2_{$config['name']}", null, null, null, '', true, false, 'file_name', 'png;jpg;gif');
-                    if ($filename) {
-                        update_theme_config2($config['name'], $filename, $theme_id, $theme_name);
-                    }
+                // 上傳
+                $TadUpFiles_config2->set_col("config2_{$config['name']}", $theme_id);
+                $filename = $TadUpFiles_config2->upload_file("config2_{$config['name']}", null, null, null, '', true, false, 'file_name', 'png;jpg;gif');
+                if ($filename) {
+                    update_theme_config2($config['name'], $filename, $theme_id, $theme_name);
                 }
+
             }
         }
     }

@@ -1,4 +1,11 @@
-Tad Themes 6.0 (released on 2020-03-05)
+Tad Themes 6.1 (2020-03-20 released)
+=====================================================
+1.Logo design adds setting items for upper and lower spacing
+2. Make scene settings export and import more complete
+3. Fixed the problem that the exported configuration file will not be used when there are single quotes in the settings
+
+
+Tad Themes 6.0 (2020-03-05 released)
 =====================================================
 1. Added the function of "do not show the option to return to the homepage" in the navigation bar
 2. "Import Edit Menu" adds modules such as custom blocks, Google Photos detection, universal forms, temporary announcements, venue reservations, etc.
@@ -6,7 +13,7 @@ Tad Themes 6.0 (released on 2020-03-05)
 4. Delete and use SweetAlert instead
 
 
-Tad Themes 5.9 (released from 2019-08-28)
+Tad Themes 5.9 (2019-08-28 released)
 ==========================================================
 1. Fixed a missing field when importing profiles
 2. Optimized setting interface

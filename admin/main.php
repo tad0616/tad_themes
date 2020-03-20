@@ -13,12 +13,28 @@ require_once dirname(__DIR__) . '/auto_import_theme.php';
 /*-----------function區-------------- */
 
 //tad_themes編輯表單
-function tad_themes_form()
+function tad_themes_form($mode = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsConfig, $xoopsTpl, $block_position_title, $xoTheme, $TadDataCenter, $config2_files;
 
+    //抓取預設值
+    $DBV = get_tad_themes();
+    if (empty($DBV)) {
+        $DBV = [];
+    }
+
+    //設定「theme_id」欄位預設值
+    $theme_id = empty($DBV['theme_id']) ? 0 : $DBV['theme_id'];
+
+    if (empty($theme_id)) {
+        auto_import_theme($mode);
+        header('location: main.php');
+        exit;
+        // redirect_header('index.php', 3, _MA_TAD_THEMES_NOT_TAD_THEME);
+    }
+
     $SweetAlert = new SweetAlert();
-    $SweetAlert->render("delete_tad_themes_config", "main.php?op=delete_tad_themes&theme_id=", 'theme_id');
+    $SweetAlert->render("delete_tad_themes_config", "main.php?op=delete_tad_themes&mode=default&theme_id=", 'theme_id');
 
     $theme_name = $xoopsConfig['theme_set'];
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}");
@@ -34,22 +50,6 @@ function tad_themes_form()
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/nav_bg/thumbs");
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2");
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2/thumbs");
-
-    //抓取預設值
-    $DBV = get_tad_themes();
-    if (empty($DBV)) {
-        $DBV = [];
-    }
-
-    //設定「theme_id」欄位預設值
-    $theme_id = (!isset($DBV['theme_id'])) ? 0 : $DBV['theme_id'];
-
-    if (empty($theme_id)) {
-        auto_import_theme();
-        header('location: main.php');
-        exit;
-        // redirect_header('index.php', 3, _MA_TAD_THEMES_NOT_TAD_THEME);
-    }
 
     //設定「theme_name」欄位預設值
     $theme_name = (!isset($DBV['theme_name'])) ? $xoopsConfig['theme_set'] : $DBV['theme_name'];
@@ -1061,60 +1061,51 @@ function delete_tad_themes($theme_id = '')
     $theme_name = $xoopsConfig['theme_set'];
 
     // 建立備份資料（以免使用者自己上傳的圖檔被刪掉）
-    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak");
+    // Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak");
 
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide/thumbs");
-    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/slide");
-    Utility::full_copy(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide", XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/slide");
     $TadUpFilesSlide = TadUpFilesSlide();
     $TadUpFilesSlide->set_col('slide', $theme_id);
     $TadUpFilesSlide->del_files();
+    Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide");
 
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg/thumbs");
-    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/bg");
-    Utility::full_copy(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg", XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/bg");
     $TadUpFilesBg = TadUpFilesBg();
     $TadUpFilesBg->set_col('bg', $theme_id);
     $TadUpFilesBg->del_files();
+    Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg");
 
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/logo/thumbs");
-    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/logo");
-    Utility::full_copy(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/logo", XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/logo");
     $TadUpFilesLogo = TadUpFilesLogo();
     $TadUpFilesLogo->set_col('logo', $theme_id);
     $TadUpFilesLogo->del_files();
+    Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/logo");
 
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navlogo/thumbs");
-    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/navlogo");
-    Utility::full_copy(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navlogo", XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/navlogo");
     $TadUpFilesNavLogo = TadUpFilesNavLogo();
     $TadUpFilesNavLogo->set_col('navlogo', $theme_id);
     $TadUpFilesNavLogo->del_files();
+    Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navlogo");
 
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navbar_img/thumbs");
-    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/navbar_img");
-    Utility::full_copy(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navbar_img", XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/navbar_img");
     $TadUpFilesNavBg = TadUpFilesNavBg();
     $TadUpFilesNavBg->set_col('navbar_img', $theme_id);
     $TadUpFilesNavBg->del_files();
+    Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navbar_img");
 
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg/thumbs");
-    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/bt_bg");
-    Utility::full_copy(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg", XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/bt_bg");
+    Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg");
 
     $TadUpFilesBt_bg = TadUpFilesBt_bg();
     foreach ($block_position_title as $position => $title) {
         Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg_{$position}/thumbs");
-        Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/bt_bg_{$position}");
-        Utility::full_copy(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg_{$position}", XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/bt_bg_{$position}");
         $TadUpFilesBt_bg->set_col("bt_bg_{$position}", $theme_id);
         $TadUpFilesBt_bg->del_files();
+        Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg_{$position}");
     }
 
     //額外佈景設定
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2/thumbs");
-    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/config2");
-    Utility::full_copy(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2", XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak/config2");
     $TadUpFiles_config2 = TadUpFiles_config2();
 
     $myts = \MyTextSanitizer::getInstance();
@@ -1137,6 +1128,7 @@ function delete_tad_themes($theme_id = '')
             }
         }
     }
+    Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2");
 }
 
 //取得額外設定的儲存值
@@ -1254,10 +1246,12 @@ function export_config($theme_id = '', $theme_config_name = '')
         Utility::mk_dir($theme_config_image_path);
     }
 
+    $myts = \MyTextSanitizer::getInstance();
     //抓取預設值
     $DBV = get_tad_themes();
     // die(var_export($DBV));
     foreach ($DBV as $k => $v) {
+        $v = $myts->addSlashes($v);
         $$k = $v;
         $config_enable[$k]['default'] = $v;
     }
@@ -1320,7 +1314,8 @@ function export_config($theme_id = '', $theme_config_name = '')
         order by c desc limit 1";
 
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-        list($bt_default[$col]) = $xoopsDB->fetchRow($result);
+        list($v) = $xoopsDB->fetchRow($result);
+        $bt_default[$col] = $myts->addSlashes($v);
         if ('bt_bg_img' === $col) {
             if ($bt_default[$col] and 'transparent' !== $bt_default[$col]) {
                 $bt_bg_img_default = basename($bt_default[$col]);
@@ -1344,6 +1339,8 @@ function export_config($theme_id = '', $theme_config_name = '')
                             }
                         }
                     }
+
+                    $v = $myts->addSlashes($v);
                     $position_blocks .= "\$config_enable['{$k}']['{$block_position}'] = array('enable'=>1, 'min' => '', 'max' => '', 'require'=>0 , 'default' => '{$v}');\n";
                 }
             }
@@ -1725,8 +1722,9 @@ function apply_config($theme_id, $theme_name, $theme_config_name)
     delete_tad_themes($theme_id);
     $source = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/{$theme_config_name}";
     $target = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}";
+    Utility::mk_dir($target);
     Utility::full_copy($source, $target);
-    redirect_header($_SERVER['PHP_SELF'], 3, sprintf(_MA_TADTHEMES_APPLY_OK, $theme_config_name));
+    redirect_header($_SERVER['PHP_SELF'] . '?mode=apply', 3, sprintf(_MA_TADTHEMES_APPLY_OK, $theme_config_name));
 }
 
 // 匯入設定檔
@@ -1795,6 +1793,7 @@ $theme_id = system_CleanVars($_REQUEST, 'theme_id', 0, 'int');
 $type = system_CleanVars($_REQUEST, 'type', 'config2', 'string');
 $theme_name = system_CleanVars($_REQUEST, 'theme_name', '', 'string');
 $theme_config_name = system_CleanVars($_REQUEST, 'theme_config_name', '', 'string');
+$mode = system_CleanVars($_REQUEST, 'mode', '', 'string');
 
 switch ($op) {
     /*---判斷動作請貼在下方--- */
@@ -1823,7 +1822,7 @@ switch ($op) {
     //刪除資料
     case 'delete_tad_themes':
         delete_tad_themes($theme_id);
-        header("location: {$_SERVER['PHP_SELF']}");
+        header("location: {$_SERVER['PHP_SELF']}?mode=$mode");
         exit;
 
     //儲存資料
@@ -1855,7 +1854,7 @@ switch ($op) {
 
     //預設動作
     default:
-        tad_themes_form();
+        tad_themes_form($mode);
         $op = 'tad_themes_form';
         break;
         /*---判斷動作請貼在上方--- */

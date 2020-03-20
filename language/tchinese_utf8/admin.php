@@ -163,7 +163,7 @@ define('_MA_TADTHEMES_TARGET_FANCYBOX', '燈箱效果');
 define('_MA_TADTHEMES_OF_LEVEL', '父分類');
 define('_MA_TADTHEMES_ICON', '選擇圖示');
 define('_MA_TADTHEMES_LOGO_CENTER', '置中');
-define('_MA_TADTHEMES_SAVE', '匯出當前佈景設定');
+define('_MA_TADTHEMES_SAVE', '暫存當前佈景設定');
 define('_MA_TADTHEMES_CONFIG_NAME', '請自訂佈景設定名稱');
 define('_MA_TADTHEMES_CONFIG_PATH', '已成功存至 %s');
 define('_MA_TADTHEMES_APPLY_OK', '已成功套用 %s');
