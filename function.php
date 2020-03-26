@@ -87,7 +87,7 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
 }
 
 //匯入圖檔
-function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width = '', $thumb_width = '240', $desc = '', $safe_name = false)
+function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width = '', $thumb_width = '240', $desc = '', $safe_name = false, $only_import2db = true)
 {
     global $xoopsDB, $xoopsUser, $xoopsModule, $xoopsConfig;
 
@@ -95,7 +95,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesSlide = TadUpFilesSlide();
         if (is_object($TadUpFilesSlide)) {
             $TadUpFilesSlide->set_col($col_name, $col_sn);
-            $TadUpFilesSlide->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, true);
+            $TadUpFilesSlide->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, $only_import2db);
         } else {
             die('Need TadUpFilesSlide Object!');
         }
@@ -103,7 +103,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesBg = TadUpFilesBg();
         if (is_object($TadUpFilesBg)) {
             $TadUpFilesBg->set_col($col_name, $col_sn);
-            $TadUpFilesBg->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, true);
+            $TadUpFilesBg->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, $only_import2db);
         } else {
             die('Need TadUpFilesBg Object!');
         }
@@ -111,7 +111,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesLogo = TadUpFilesLogo();
         if (is_object($TadUpFilesLogo)) {
             $TadUpFilesLogo->set_col($col_name, $col_sn);
-            $TadUpFilesLogo->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, true);
+            $TadUpFilesLogo->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, $only_import2db);
         } else {
             die('Need TadUpFilesLogo Object!');
         }
@@ -119,7 +119,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesNavLogo = TadUpFilesNavLogo();
         if (is_object($TadUpFilesNavLogo)) {
             $TadUpFilesNavLogo->set_col($col_name, $col_sn);
-            $TadUpFilesNavLogo->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, true);
+            $TadUpFilesNavLogo->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, $only_import2db);
         } else {
             die('Need TadUpFilesNavLogo Object!');
         }
@@ -127,7 +127,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesNavBg = TadUpFilesNavBg();
         if (is_object($TadUpFilesNavBg)) {
             $TadUpFilesNavBg->set_col($col_name, $col_sn);
-            $TadUpFilesNavBg->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, true);
+            $TadUpFilesNavBg->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, $only_import2db);
         } else {
             die('Need TadUpFilesNavBg Object!');
         }
@@ -135,7 +135,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFilesBt_bg = TadUpFilesBt_bg();
         if (is_object($TadUpFilesBt_bg)) {
             $TadUpFilesBt_bg->set_col($col_name, $col_sn);
-            $TadUpFilesBt_bg->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, true);
+            $TadUpFilesBt_bg->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, $only_import2db);
         } else {
             die('Need TadUpFilesBt_bg Object!');
         }
@@ -143,7 +143,7 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
         $TadUpFiles_config2 = TadUpFiles_config2();
         if (is_object($TadUpFiles_config2)) {
             $TadUpFiles_config2->set_col($col_name, $col_sn);
-            $TadUpFiles_config2->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, true);
+            $TadUpFiles_config2->import_one_file($file_name, null, $main_width, $thumb_width, '', false, false, false, false, $only_import2db);
         } else {
             die('Need TadUpFiles_config2 Object!');
         }
@@ -302,8 +302,7 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
 function update_theme_config2($col = '', $file_name = '', $theme_id = '', $theme_name = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsConfig;
-    $file_name_url = XOOPS_URL . "/uploads/tad_themes/{$theme_name}/config2/{$file_name}";
-    $sql = 'update ' . $xoopsDB->prefix('tad_themes_config2') . " set `value` = '{$file_name_url}' where theme_id='$theme_id' and `name`='{$col}'";
+    $sql = 'update ' . $xoopsDB->prefix('tad_themes_config2') . " set `value` = '{$file_name}' where theme_id='$theme_id' and `name`='{$col}'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 

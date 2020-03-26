@@ -142,15 +142,15 @@
                     <{if $block.all_bt_bg and $enable.bt_bg_img=='1'}>
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <div style="width:60px; height:86px; display:inline-block; margin:4px;">
-                                    <label for="bt_bg_img0_<{$block.block_position}>" style="width:60px; height:60px;border:1px dotted gray;" >
+                                <div class="thumb_div">
+                                    <label for="bt_bg_img0_<{$block.block_position}>" class="thumb_none" >
                                     <input type="radio" name="bt_bg_img[<{$block.block_position}>]" id="bt_bg_img0_<{$block.block_position}>" onChange="$('.del_img_box_<{$block.block_position}>').show();" value="" <{if $block.bt_bg_img==""}>checked<{/if}>>
                                     <{$smarty.const._MA_TADTHEMES_NONE}>
                                     </label>
                                 </div>
                                 <{foreach from=$block.all_bt_bg item=bt_bg}>
-                                    <div style="width:60px; height:86px; display:inline-block; margin:4px;">
-                                    <label for="bt_bg_img<{$bt_bg.files_sn}>_<{$block.block_position}>" style="width:60px; height:60px; background:#000000 url(<{$bt_bg.tb_path}>);background-position:left center;border:1px solid gray;" >
+                                    <div class="thumb_div">
+                                    <label for="bt_bg_img<{$bt_bg.files_sn}>_<{$block.block_position}>" class="thumb_label" style="background-image: url('<{$bt_bg.tb_path}>'), url('../images/t.gif');" >
                                         <input type="radio" name="bt_bg_img[<{$block.block_position}>]" id="bt_bg_img<{$bt_bg.files_sn}>_<{$block.block_position}>" onChange="$('.del_img_box_<{$block.block_position}>').show(); $('#del_img<{$bt_bg.files_sn}>_<{$block.block_position}>').hide(); " value="<{$bt_bg.file_name}>" <{if $block.bt_bg_img==$bt_bg.file_name}>checked<{/if}>>
                                     </label>
                                     <label class="del_img_box" style="font-size:11px;"  id="del_img<{$bt_bg.files_sn}>_<{$block.block_position}>">

@@ -1,3 +1,9 @@
+Tad Themes 6.2 (2020-03-26 released)
+=====================================================
+1. Background thumbnails are displayed in full
+2. Fix the problem that you can't directly apply the logo image when you generate it.
+
+
 Tad Themes 6.1 (2020-03-20 released)
 =====================================================
 1.Logo design adds setting items for upper and lower spacing

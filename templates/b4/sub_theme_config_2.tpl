@@ -96,15 +96,15 @@
     <!--選擇預設 背景圖-->
     <div class="col-sm-7">
         <{if $all_bg and $enable.bg_img=="1"}>
-        <div style="width:60px; height:86px; display:inline-block; margin:4px;">
-            <label for="bg_img0" style="width:60px; height:60px;border:1px dotted gray;" >
+        <div class="thumb_div">
+            <label for="bg_img0" class="thumb_none" >
                 <input type="radio" name="bg_img" id="bg_img0" onChange="$('.del_img_box').show(); preview_img('bg',$(this).val());" value="" <{if $bg_img==""}>checked<{/if}>>
                 <{$smarty.const._MA_TADTHEMES_NONE}><{$smarty.const._MA_TADTHEMES_BG_IMG}>
             </label>
         </div>
         <{foreach from=$all_bg item=bg}>
-            <div style="width:60px; height:86px; display:inline-block; margin:4px;">
-            <label for="bg_img<{$bg.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$bg.tb_path}>);background-position:center center;border:1px solid gray;" >
+            <div class="thumb_div">
+            <label for="bg_img<{$bg.files_sn}>" class="thumb_label" style="background-image: url('<{$bg.tb_path}>'), url('../images/t.gif');" >
                 <input type="radio" name="bg_img" id="bg_img<{$bg.files_sn}>" onChange="$('.del_img_box').show(); $('#del_img<{$bg.files_sn}>').hide(); preview_img('bg',$(this).val());" value="<{$bg.file_name}>" <{if $bg_img==$bg.file_name}>checked<{/if}>>
             </label>
 

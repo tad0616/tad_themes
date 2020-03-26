@@ -126,8 +126,8 @@
     <{if $enable.logo_img=="1"}>
         <div class="col-sm-6">
             <!-- 選擇預設logo圖-->
-            <div style="width:60px; height:86px; display:inline-block; margin:4px;">
-                <label for="logo_img0" style="width:60px; height:60px;border:1px dotted gray;" >
+            <div class="thumb_div">
+                <label for="logo_img0" class="thumb_none" >
                     <input type="radio" name="logo_img" id="logo_img0" value="" <{if $logo_img==""}>checked<{/if}>>
                     <{$smarty.const._MA_TADTHEMES_NONE}><{$smarty.const._MA_TADTHEMES_LOGO_IMG}>
                 </label>
@@ -135,8 +135,8 @@
 
             <{if $all_logo}>
                 <{foreach from=$all_logo item=logo}>
-                <div style="width:60px; height:86px; display:inline-block; margin:4px;">
-                    <label for="logo_img<{$logo.files_sn}>" style="width:60px; height:60px; background:#000000 url(<{$logo.tb_path}>);background-repeat:no-repeat;background-position:left center;border:1px solid gray;" >
+                <div class="thumb_div">
+                    <label for="logo_img<{$logo.files_sn}>" class="thumb_label" style="background-image: url('<{$logo.tb_path}>'), url('../images/t.gif');" >
                         <input type="radio" name="logo_img" id="logo_img<{$logo.files_sn}>" value="<{$logo.file_name}>" <{if $logo_img==$logo.file_name}>checked<{/if}>>
                     </label>
 

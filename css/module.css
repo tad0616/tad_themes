@@ -1,12 +1,12 @@
 .color-picker {
-	width: 80%;
-	display: inline-block;
+    width: 80%;
+    display: inline-block;
 }
 
 .tooltip-inner {
     font-size: 11pt;
     background-color: #830d48;
-    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.5);
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.5);
 }
 
 .tooltip.bs-tooltip-right .arrow:before {
@@ -23,4 +23,28 @@
 
 .tooltip.bs-tooltip-top .arrow:before {
     border-top-color: #830d48 !important;
+}
+
+.thumb_div {
+    width: 60px;
+    height: 86px;
+    display: inline-block;
+    margin: 4px;
+}
+
+.thumb_label {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    background-color: #000000;
+    background-repeat: no-repeat;
+    background-position: left center;
+    border: 1px solid gray;
+    background-size: cover;
+}
+
+.thumb_none {
+    width: 60px;
+    height: 60px;
+    border: 1px dotted gray;
 }
