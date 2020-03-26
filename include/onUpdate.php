@@ -116,6 +116,9 @@ function xoops_module_update_tad_themes(&$module, $old_version)
     if (Update::chk_chk25()) {
         Update::go_update25();
     }
+    if (Update::chk_chk27()) {
+        Update::go_update27();
+    }
 
     Update::chk_tad_themes_block();
 

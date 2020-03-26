@@ -42,8 +42,6 @@
                 <option value="repeat-x" <{if $bg_repeat=="repeat-x"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_REPEAT_X}></option>
                 <option value="repeat-y" <{if $bg_repeat=="repeat-y"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_REPEAT_Y}></option>
                 <option value="no-repeat" <{if $bg_repeat=="no-repeat"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_NO_REPEAT}></option>
-                <option value="no-repeat; background-size: cover" <{if $bg_repeat=="no-repeat; background-size: cover"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_NO_REPEAT_COVER}></option>
-                <option value="no-repeat; background-size: contain" <{if $bg_repeat=="no-repeat; background-size: contain"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_NO_REPEAT_CONTAIN}></option>
             </select>
             </div>
         </div>
@@ -51,6 +49,24 @@
         <input type="hidden" name="bg_repeat" id="bg_repeat" value="<{$bg_repeat}>">
         <{/if}>
 
+
+        <{if $enable.bg_size}>
+        <div class="form-group row">
+            <!-- 背景縮放-->
+            <label class="col-sm-4 col-form-label text-sm-right">
+                <{$smarty.const._MA_TADTHEMES_BG_SIZE}>
+            </label>
+            <div class="col-sm-8">
+            <select name="bg_size" id="bg_size" class="form-control <{$validate.bg_size}>" onChange="change_css();">
+                <option value="" <{if $bg_size==""}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_SIZE_NONE}></option>
+                <option value="cover" <{if $bg_size=="cover"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_SIZE_COVER}></option>
+                <option value="contain" <{if $bg_size=="contain"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_SZIE_CONTAIN}></option>
+            </select>
+            </div>
+        </div>
+        <{else}>
+        <input type="hidden" name="bg_size" id="bg_size" value="<{$bg_size}>">
+        <{/if}>
 
         <{if $enable.bg_attachment}>
         <div class="form-group">
@@ -78,7 +94,7 @@
             </label>
             <div class="col-sm-8">
                 <select name="bg_position" id="bg_position" class="form-control <{$validate.bg_position}>" onChange="change_css();">
-                    <option value="" <{if $bg_position=="left top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_LT}></option>
+                    <option value="left top" <{if $bg_position=="left top" or $bg_position==""}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_LT}></option>
                     <option value="right top" <{if $bg_position=="right top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_RT}></option>
                     <option value="left bottom" <{if $bg_position=="left bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_LB}></option>
                     <option value="right bottom" <{if $bg_position=="right bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_RB}></option>
@@ -118,7 +134,12 @@
 </div>
 
 <{if $config2_bg}>
-    <input type="hidden" name="config2[]" value="config2_bg">
+    <div class="alert alert-warning">
+        <h4>
+            <{$smarty.const._MA_TADTHEMES_BG_IMG}><{$smarty.const._MA_TADTHEMES_CONFIG2}>
+        </h4>
+        <input type="hidden" name="config2[]" value="config2_bg">
+    </div>
     <hr>
     <{foreach from=$config2_bg item=config}>
         <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>

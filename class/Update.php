@@ -817,4 +817,39 @@ class Update
         ";
         $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
     }
+
+    //加入id以及時間欄位
+    public static function chk_chk27()
+    {
+        global $xoopsDB;
+        $sql = 'select count(`bg_size`) from ' . $xoopsDB->prefix('tad_themes');
+        $result = $xoopsDB->query($sql);
+        if (empty($result)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    //執行更新
+    public static function go_update27()
+    {
+        global $xoopsDB;
+        $sql = "ALTER TABLE " . $xoopsDB->prefix('tad_themes') . " ADD `bg_size` varchar(255) DEFAULT '' COMMENT '背景縮放'";
+        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 3, $xoopsDB->error() . ':' . __FILE__ . ':' . __LINE__);
+
+        $sql = "select theme_id,bg_repeat from " . $xoopsDB->prefix('tad_themes') . " ";
+        $result = $xoopsDB->queryF($sql);
+        while (list($theme_id, $bg_repeat) = $xoopsDB->fetchRow($result)) {
+            if (strpos($bg_repeat, 'cover') !== false) {
+                $sql = "update " . $xoopsDB->prefix('tad_themes') . " set bg_repeat='no-repeat', bg_size='cover' where theme_id='$theme_id'";
+                $xoopsDB->queryF($sql);
+            } elseif (strpos($bg_repeat, 'contain') !== false) {
+                $sql = "update " . $xoopsDB->prefix('tad_themes') . " set bg_repeat='no-repeat', bg_size='contain' where theme_id='$theme_id'";
+                $xoopsDB->queryF($sql);
+            }
+        }
+        return true;
+    }
+
 }

@@ -147,6 +147,9 @@ function tad_themes_form($mode = '')
     //設定「bg_repeat」欄位預設值
     $bg_repeat = (!isset($DBV['bg_repeat']) || !$enable['bg_repeat']) ? $bg_repeat : $DBV['bg_repeat'];
 
+    //設定「bg_size」欄位預設值
+    $bg_size = (!isset($DBV['bg_size']) || !$enable['bg_size']) ? $bg_size : $DBV['bg_size'];
+
     //設定「bg_attachment」欄位預設值
     $bg_attachment = (!isset($DBV['bg_attachment']) || !$enable['bg_attachment']) ? $bg_attachment : $DBV['bg_attachment'];
 
@@ -281,6 +284,7 @@ function tad_themes_form($mode = '')
     $xoopsTpl->assign('upform_bg', $TadUpFilesBg->upform(false, 'bg', null, false));
     $xoopsTpl->assign('bg_color', $bg_color);
     $xoopsTpl->assign('bg_repeat', $bg_repeat);
+    $xoopsTpl->assign('bg_size', $bg_size);
     $xoopsTpl->assign('bg_attachment', $bg_attachment);
     $xoopsTpl->assign('bg_position', $bg_position);
 
@@ -472,6 +476,7 @@ function change_css_bootstrap($theme_width = '12', $theme_left_width = '', $them
         //$('#preview_zone').css('width',preview_width+'px');
         $('#preview_zone').css('background-color',$('#bg_color').val());
         $('#preview_zone').css('background-repeat',$('#bg_repeat').val());
+        $('#preview_zone').css('background-size',$('#size').val());
         $('#preview_zone').css('background-attachment',$('#bg_attachment').val());
         $('#preview_zone').css('background-position',$('#bg_position').val());
 
@@ -682,6 +687,7 @@ function change_css($theme_width, $theme_left_width)
         $('#preview_zone').css('width',preview_width+'px');
         $('#preview_zone').css('background-color',$('#bg_color').val());
         $('#preview_zone').css('background-repeat',$('#bg_repeat').val());
+        $('#preview_zone').css('background-size',$('#bg_size').val());
         $('#preview_zone').css('background-attachment',$('#bg_attachment').val());
         $('#preview_zone').css('background-position',$('#bg_position').val());
 
@@ -839,8 +845,8 @@ function insert_tad_themes()
 
     //此處增加7+4項by hc
     $sql = 'insert into ' . $xoopsDB->prefix('tad_themes') . "
-    (`theme_name` , `theme_type` , `theme_width` , `lb_width`, `cb_width` , `rb_width` , `clb_width` , `crb_width`, `base_color` , `lb_color` , `cb_color` , `rb_color` , `margin_top` , `margin_bottom` , `bg_img` , `bg_color`  , `bg_repeat`  , `bg_attachment`  , `bg_position`  , `logo_img` , `logo_position` , `logo_top` , `logo_right` , `logo_bottom` , `logo_left`, `logo_center` , `theme_enable` , `slide_width` , `slide_height` , `font_size` , `font_color` , `link_color` , `hover_color` , `theme_kind`, `navbar_pos` , `navbar_bg_top` , `navbar_bg_bottom` , `navbar_hover` , `navbar_color` , `navbar_color_hover` , `navbar_icon` , `navbar_img`)
-    values('{$_POST['theme_name']}', '{$_POST['theme_type']}', '{$_POST['theme_width']}', '{$_POST['lb_width']}', '{$_POST['cb_width']}', '{$_POST['rb_width']}', '{$_POST['clb_width']}', '{$_POST['crb_width']}', '{$_POST['base_color']}', '{$_POST['lb_color']}', '{$_POST['cb_color']}', '{$_POST['rb_color']}', '{$_POST['margin_top']}', '{$_POST['margin_bottom']}', '{$_POST['bg_img']}', '{$_POST['bg_color']}', '{$_POST['bg_repeat']}', '{$_POST['bg_attachment']}', '{$_POST['bg_position']}', '{$_POST['logo_img']}', '{$_POST['logo_position']}', '{$_POST['navlogo_img']}', '{$_POST['logo_top']}', '{$_POST['logo_right']}', '{$_POST['logo_bottom']}', '{$_POST['logo_left']}', '{$_POST['logo_center']}', '1', '{$_POST['slide_width']}', '{$_POST['slide_height']}', '{$_POST['font_size']}', '{$_POST['font_color']}', '{$_POST['link_color']}', '{$_POST['hover_color']}', '{$_POST['theme_kind']}','{$_POST['navbar_pos']}','{$_POST['navbar_bg_top']}','{$_POST['navbar_bg_bottom']}','{$_POST['navbar_hover']}','{$_POST['navbar_color']}','{$_POST['navbar_color_hover']}','{$_POST['navbar_icon']}','{$_POST['navbar_img']}')";
+    (`theme_name` , `theme_type` , `theme_width` , `lb_width`, `cb_width` , `rb_width` , `clb_width` , `crb_width`, `base_color` , `lb_color` , `cb_color` , `rb_color` , `margin_top` , `margin_bottom` , `bg_img` , `bg_color`  , `bg_repeat`  , `bg_size`  ,`bg_attachment`  , `bg_position`  , `logo_img` , `logo_position` , `logo_top` , `logo_right` , `logo_bottom` , `logo_left`, `logo_center` , `theme_enable` , `slide_width` , `slide_height` , `font_size` , `font_color` , `link_color` , `hover_color` , `theme_kind`, `navbar_pos` , `navbar_bg_top` , `navbar_bg_bottom` , `navbar_hover` , `navbar_color` , `navbar_color_hover` , `navbar_icon` , `navbar_img`)
+    values('{$_POST['theme_name']}', '{$_POST['theme_type']}', '{$_POST['theme_width']}', '{$_POST['lb_width']}', '{$_POST['cb_width']}', '{$_POST['rb_width']}', '{$_POST['clb_width']}', '{$_POST['crb_width']}', '{$_POST['base_color']}', '{$_POST['lb_color']}', '{$_POST['cb_color']}', '{$_POST['rb_color']}', '{$_POST['margin_top']}', '{$_POST['margin_bottom']}', '{$_POST['bg_img']}', '{$_POST['bg_color']}', '{$_POST['bg_repeat']}', '{$_POST['bg_size']}', '{$_POST['bg_attachment']}', '{$_POST['bg_position']}', '{$_POST['logo_img']}', '{$_POST['logo_position']}', '{$_POST['navlogo_img']}', '{$_POST['logo_top']}', '{$_POST['logo_right']}', '{$_POST['logo_bottom']}', '{$_POST['logo_left']}', '{$_POST['logo_center']}', '1', '{$_POST['slide_width']}', '{$_POST['slide_height']}', '{$_POST['font_size']}', '{$_POST['font_color']}', '{$_POST['link_color']}', '{$_POST['hover_color']}', '{$_POST['theme_kind']}','{$_POST['navbar_pos']}','{$_POST['navbar_bg_top']}','{$_POST['navbar_bg_bottom']}','{$_POST['navbar_hover']}','{$_POST['navbar_color']}','{$_POST['navbar_color_hover']}','{$_POST['navbar_icon']}','{$_POST['navbar_img']}')";
     $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
@@ -945,6 +951,7 @@ function update_tad_themes($theme_id = '')
     `bg_img` = '{$_POST['bg_img']}' ,
     `bg_color` = '{$_POST['bg_color']}' ,
     `bg_repeat` = '{$_POST['bg_repeat']}' ,
+    `bg_size` = '{$_POST['bg_size']}' ,
     `bg_attachment` = '{$_POST['bg_attachment']}' ,
     `bg_position` = '{$_POST['bg_position']}' ,
     `logo_img` = '{$_POST['logo_img']}' ,
@@ -1438,6 +1445,10 @@ tabs-2 背景圖
 
 //背景重複[theme_css.tpl]，值： repeat （重複）, repeat-x （水平重複）, repeat-y （垂直重複）, no-repeat （不重複）
 \$config_enable['bg_repeat'] = array('enable' => '{$config_enable['bg_repeat']['enable']}', 'min' => '{$config_enable['bg_repeat']['min']}', 'max' => '{$config_enable['bg_repeat']['max']}', 'require' => '{$config_enable['bg_repeat']['require']}', 'default' => '{$config_enable['bg_repeat']['default']}');
+
+//背景縮放[theme_css.tpl]，值： cover （放大圖片填滿畫面）, contain （縮放以呈現完整圖片）
+\$config_enable['bg_size] = array('enable' => '{$config_enable['bg_size']['enable']}', 'min' => '{$config_enable['bg_size']['min']}', 'max' => '{$config_enable['bg_size']['max']}', 'require' => '{$config_enable['bg_size']['require']}', 'default' => '{$config_enable['bg_size']['default']}');
+
 
 //背景模式[theme_css.tpl]，值： scroll （捲動）,fixed （固定）
 \$config_enable['bg_attachment'] = array('enable' => '{$config_enable['bg_attachment']['enable']}', 'min' => '{$config_enable['bg_attachment']['min']}', 'max' => '{$config_enable['bg_attachment']['max']}', 'require' => '{$config_enable['bg_attachment']['require']}', 'default' => '{$config_enable['bg_attachment']['default']}');
