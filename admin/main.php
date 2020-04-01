@@ -375,7 +375,7 @@ function tad_themes_form($mode = '')
     $xoopsTpl->assign('navbar_font_size_input', $TadDataCenter->getForm('return', 'input', 'navbar_font_size', 'text', 100, null, ['class' => 'form-control']));
     $xoopsTpl->assign('navbar_font_size_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_font_size', 'hidden', 100, null, ['class' => 'form-control']));
 
-// 儲存設定表單
+    // 儲存設定表單
     $dir = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/";
 
     $theme_config_list = [];
@@ -407,6 +407,7 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
         require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
         require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php";
 
+        // 取得該佈景所有額外設定值
         $config2_values = get_config2_values($theme_id);
         foreach ($theme_config as $k => $config) {
             $TadUpFiles_config2 = TadUpFiles_config2();
@@ -422,13 +423,25 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
             $config2[$k]['options'] = isset($config['options']) ? $config['options'] : null;
             $config2[$k]['images'] = isset($config['images']) ? $config['images'] : null;
 
-            if ('file' === $config['type']) {
+            if ('file' === $config['type'] or 'bg_file' === $config['type']) {
                 import_img($config['default'], "config2_{$config_name}", $theme_id, '');
                 $TadUpFiles_config2->set_col("config2_{$config_name}", $theme_id);
                 $config2[$k]['form'] = $TadUpFiles_config2->upform(false, "config2_{$config_name}", null, false);
                 $config2[$k]['list'] = $TadUpFiles_config2->get_file_for_smarty();
             }
+
+            if ('bg_file' === $config['type']) {
+                // Utility::dd($config);
+                $config2[$k]['repeat'] = isset($config2_values[$config_name . '_repeat']) ? $myts->htmlSpecialChars($config2_values[$config_name . '_repeat']) : '';
+                $config2[$k]['position'] = isset($config2_values[$config_name . '_position']) ? $myts->htmlSpecialChars($config2_values[$config_name . '_position']) : '';
+                $config2[$k]['size'] = isset($config2_values[$config_name . '_size']) ? $myts->htmlSpecialChars($config2_values[$config_name . '_size']) : '';
+            }
         }
+
+        // if ($config2_file == 'config2_bg') {
+        //     Utility::dd($config2);
+        // }
+
         $xoopsTpl->assign($config2_file, $config2);
         return $config2;
     } else {
@@ -1030,8 +1043,8 @@ function update_tad_themes($theme_id = '')
 function update_theme($col = '', $folder = '', $file_name = '', $theme_id = '', $theme_name = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsConfig;
-    $file_name_url = XOOPS_URL . "/uploads/tad_themes/{$theme_name}/{$folder}/{$file_name}";
-    $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `{$col}` = '{$file_name_url}' where theme_id='$theme_id'";
+    // $file_name_url = XOOPS_URL . "/uploads/tad_themes/{$theme_name}/{$folder}/{$file_name}";
+    $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `{$col}` = '{$file_name}' where theme_id='$theme_id'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 
@@ -1447,7 +1460,7 @@ tabs-2 背景圖
 \$config_enable['bg_repeat'] = array('enable' => '{$config_enable['bg_repeat']['enable']}', 'min' => '{$config_enable['bg_repeat']['min']}', 'max' => '{$config_enable['bg_repeat']['max']}', 'require' => '{$config_enable['bg_repeat']['require']}', 'default' => '{$config_enable['bg_repeat']['default']}');
 
 //背景縮放[theme_css.tpl]，值： cover （放大圖片填滿畫面）, contain （縮放以呈現完整圖片）
-\$config_enable['bg_size] = array('enable' => '{$config_enable['bg_size']['enable']}', 'min' => '{$config_enable['bg_size']['min']}', 'max' => '{$config_enable['bg_size']['max']}', 'require' => '{$config_enable['bg_size']['require']}', 'default' => '{$config_enable['bg_size']['default']}');
+\$config_enable['bg_size'] = array('enable' => '{$config_enable['bg_size']['enable']}', 'min' => '{$config_enable['bg_size']['min']}', 'max' => '{$config_enable['bg_size']['max']}', 'require' => '{$config_enable['bg_size']['require']}', 'default' => '{$config_enable['bg_size']['default']}');
 
 
 //背景模式[theme_css.tpl]，值： scroll （捲動）,fixed （固定）
@@ -1645,10 +1658,15 @@ function export_config2($theme_id = '', $type = 'config2', $theme_config_name = 
         $default_v[$col] = $config2[$col]['value'];
         $all_col[] = $col;
         if ($theme_config_name) {
-            if ($item['type'] == 'file') {
+            if ($item['type'] == 'file' or $item['type'] == 'bg_file') {
                 $config2_img = basename($config2[$col]['value']);
                 copy_image($theme_config_name, "config2", $config2_img);
                 $default_v[$col] = $config2_img;
+            }
+            if ($item['type'] == 'bg_file') {
+                $default_v[$col . '_repeat'] = $config2[$col . '_repeat']['value'];
+                $default_v[$col . '_position'] = $config2[$col . '_position']['value'];
+                $default_v[$col . '_size'] = $config2[$col . '_size']['value'];
             }
         }
     }
@@ -1671,11 +1689,29 @@ function export_config2($theme_id = '', $type = 'config2', $theme_config_name = 
                 $val = str_replace('"', '', $val);
                 $val = str_replace(' ', '', $val);
                 $new_default = $myts->addSlashes($default_v[$val]);
+                $new_repeat = $myts->addSlashes($default_v[$val . '_repeat']);
+                $new_position = $myts->addSlashes($default_v[$val . '_position']);
+                $new_size = $myts->addSlashes($default_v[$val . '_size']);
             } elseif (false !== mb_strpos($buffer, "'default'")) {
                 list($opt, $val) = explode('=', $buffer);
                 $val = trim($val);
                 $val = str_replace('"', '', $val);
                 $buffer = "\$theme_config[\$i]['default'] = \"$new_default\";\n";
+            } elseif (false !== mb_strpos($buffer, "'repeat'")) {
+                list($opt, $val) = explode('=', $buffer);
+                $val = trim($val);
+                $val = str_replace('"', '', $val);
+                $buffer = "\$theme_config[\$i]['repeat'] = \"$new_repeat\";\n";
+            } elseif (false !== mb_strpos($buffer, "'position'")) {
+                list($opt, $val) = explode('=', $buffer);
+                $val = trim($val);
+                $val = str_replace('"', '', $val);
+                $buffer = "\$theme_config[\$i]['position'] = \"$new_position\";\n";
+            } elseif (false !== mb_strpos($buffer, "'size'")) {
+                list($opt, $val) = explode('=', $buffer);
+                $val = trim($val);
+                $val = str_replace('"', '', $val);
+                $buffer = "\$theme_config[\$i]['size'] = \"$new_size\";\n";
             } elseif (false !== mb_strpos($buffer, "//")) {
                 $buffer = "\n" . $buffer;
             } elseif (false === mb_strpos($buffer, "\$i") and false === mb_strpos($buffer, "<?php") and false === mb_strpos($buffer, "//")) {

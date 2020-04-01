@@ -84,6 +84,7 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
             import_file($path, $col_name, $col_sn, null, null, $desc, $safe_name);
         }
     }
+
 }
 
 //匯入圖檔
@@ -285,7 +286,7 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
             $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
             // 若是上傳的欄位，需將圖片也上傳或匯入
-            if ('file' === $config['type']) {
+            if ('file' === $config['type'] or 'bg_file' === $config['type']) {
                 // 上傳
                 $TadUpFiles_config2->set_col("config2_{$config['name']}", $theme_id);
                 $filename = $TadUpFiles_config2->upload_file("config2_{$config['name']}", null, null, null, '', true, false, 'file_name', 'png;jpg;gif');
@@ -293,6 +294,20 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
                     update_theme_config2($config['name'], $filename, $theme_id, $theme_name);
                 }
 
+            }
+
+            if ('bg_file' === $config['type']) {
+
+                $value_repeat = isset($_POST[$name . '_repeat']) ? $myts->addSlashes($_POST[$name . '_repeat']) : $config['repeat'];
+                $value_position = isset($_POST[$name . '_position']) ? $myts->addSlashes($_POST[$name . '_position']) : $config['position'];
+                $value_size = isset($_POST[$name . '_size']) ? $myts->addSlashes($_POST[$name . '_size']) : $config['size'];
+
+                $sql = 'replace into ' . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`)
+                values($theme_id , '{$config['name']}_repeat' , 'select' , '{$value_repeat}'),
+                ($theme_id , '{$config['name']}_position' , 'select' , '{$value_position}'),
+                ($theme_id , '{$config['name']}_size' , 'select' , '{$value_size}')";
+                // die($sql);
+                $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
             }
         }
     }

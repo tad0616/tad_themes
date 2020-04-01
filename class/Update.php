@@ -847,9 +847,61 @@ class Update
             } elseif (strpos($bg_repeat, 'contain') !== false) {
                 $sql = "update " . $xoopsDB->prefix('tad_themes') . " set bg_repeat='no-repeat', bg_size='contain' where theme_id='$theme_id'";
                 $xoopsDB->queryF($sql);
+            } else {
+                $sql = "update " . $xoopsDB->prefix('tad_themes') . " set bg_size='auto' where theme_id='$theme_id'";
+                $xoopsDB->queryF($sql);
             }
+
         }
+
+        $sql = "select `theme_id`, `name`, `value` from " . $xoopsDB->prefix('tad_themes_config2') . " where `name`='logo_bg_repeat' or `name`='logo_bg2_repeat'";
+        $result = $xoopsDB->queryF($sql);
+        while (list($theme_id, $name, $value) = $xoopsDB->fetchRow($result)) {
+            $size_name = str_replace('repeat', 'size', $name);
+            if (strpos($value, 'cover') !== false) {
+                $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `value`='no-repeat' where theme_id='$theme_id' and `name`='{$name}'";
+                $xoopsDB->queryF($sql);
+                $sql = "replace into " . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`) values('$theme_id', '{$size_name}', 'text', 'cover')";
+                $xoopsDB->queryF($sql);
+            } elseif (strpos($value, 'contain') !== false) {
+                $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `value`='no-repeat' where theme_id='$theme_id' and `name`='{$name}'";
+                $xoopsDB->queryF($sql);
+                $sql = "replace into " . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`) values('$theme_id', '{$size_name}', 'text', 'contain')";
+                $xoopsDB->queryF($sql);
+            } else {
+                $sql = "replace into " . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`) values('$theme_id', '{$size_name}', 'text', 'auto')";
+                $xoopsDB->queryF($sql);
+            }
+
+        }
+
         return true;
     }
 
+    //加入id以及時間欄位
+    public static function chk_chk28()
+    {
+        global $xoopsDB;
+        $sql = 'select count(*) from ' . $xoopsDB->prefix('tad_themes_config2') . " where `name` LIKE '%logo_bg%' AND `type` = 'file'";
+        $result = $xoopsDB->query($sql);
+        list($count) = $xoopsDB->fetchRow($result);
+        if (!empty($count)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    //執行更新
+    public static function go_update28()
+    {
+        global $xoopsDB;
+
+        $sql = "select theme_id from " . $xoopsDB->prefix('tad_themes') . " where theme_name='school2019'";
+        $result = $xoopsDB->queryF($sql);
+        list($theme_id) = $xoopsDB->fetchRow($result);
+
+        $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `type`='bg_file' where (`name`='logo_bg' or `name`='logo_bg2' or `name`='footer_img') and `type` = 'file' and `theme_id`='{$theme_id}'";
+        $xoopsDB->queryF($sql);
+    }
 }

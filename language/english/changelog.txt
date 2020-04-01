@@ -1,3 +1,9 @@
+Tad Themes 6.3 (released 2020-03-28)
+===========================================================================================================================================
+1. Add background size setting
+2. Simplify the background setting interface
+
+
 Tad Themes 6.2 (2020-03-26 released)
 =====================================================
 1. Background thumbnails are displayed in full

@@ -139,6 +139,15 @@ function auto_import_theme($mode = '')
     //匯入額外設定值
     save_config2($theme_id, $config2_files, $mode);
 
+    $sql = 'select `name`, `value` from ' . $xoopsDB->prefix('tad_themes_config2') . " where `theme_id`='{$theme_id}' and (`type`='bg_file' or `type`='file')";
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    while (list($name, $value) = $xoopsDB->fetchRow($result)) {
+        if ($value) {
+            $sql = 'update ' . $xoopsDB->prefix('tad_themes_files_center') . " set col_name='config2_{$name}', `sort`=1 where `col_sn`='{$theme_id}' and col_name='config2' and file_name='$value'";
+            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        }
+    }
+
 }
 
 // 匯入或套用設定檔

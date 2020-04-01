@@ -57,9 +57,10 @@
             </label>
             <div class="col-sm-8">
             <select name="bg_size" id="bg_size" class="form-control <{$validate.bg_size}>" onChange="change_css();">
-                <option value="" <{if $bg_size==""}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_SIZE_NONE}></option>
+                <option value="auto" <{if $bg_size=="auto" or $bg_size==""}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_SIZE_NONE}></option>
                 <option value="cover" <{if $bg_size=="cover"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_SIZE_COVER}></option>
-                <option value="contain" <{if $bg_size=="contain"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_SZIE_CONTAIN}></option>
+                <option value="contain" <{if $bg_size=="contain"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_SIZE_CONTAIN}></option>
+                <option value="100%" <{if $bg_size=="100%"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_SIZE_FULL}></option>
             </select>
             </div>
         </div>
@@ -140,7 +141,6 @@
         </h4>
         <input type="hidden" name="config2[]" value="config2_bg">
     </div>
-    <hr>
     <{foreach from=$config2_bg item=config}>
         <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
     <{/foreach}>

@@ -116,10 +116,6 @@ function xoops_module_update_tad_themes(&$module, $old_version)
     if (Update::chk_chk25()) {
         Update::go_update25();
     }
-    if (Update::chk_chk27()) {
-        Update::go_update27();
-    }
-
     Update::chk_tad_themes_block();
 
     //新增檔案欄位
@@ -132,6 +128,13 @@ function xoops_module_update_tad_themes(&$module, $old_version)
 
     if (Update::chk_chk26()) {
         Update::go_update26();
+    }
+    if (Update::chk_chk27()) {
+        Update::go_update27();
+    }
+
+    if (Update::chk_chk28()) {
+        Update::go_update28();
     }
 
     Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_themes');
