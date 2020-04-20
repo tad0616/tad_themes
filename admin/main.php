@@ -27,6 +27,7 @@ function tad_themes_form($mode = '')
     $theme_id = empty($DBV['theme_id']) ? 0 : $DBV['theme_id'];
 
     if (empty($theme_id)) {
+        $mode = $mode == '' ? 'default' : $mode;
         auto_import_theme($mode);
         header('location: main.php');
         exit;
