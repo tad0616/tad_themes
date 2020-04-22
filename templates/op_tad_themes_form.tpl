@@ -36,7 +36,7 @@
 </script>
 
 <div class="container-fluid">
-    <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" role="form">
+    <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" role="form" class="form-horizontal">
         <div class="row">
             <div class="col-sm-8">
                 <h1>
@@ -50,9 +50,9 @@
 
                 <{if $theme_change}>
                     <{foreach from=$theme_kind_arr item=kind}>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="theme_kind" id="theme_kind" value="<{$kind}>" <{if $theme_kind==$kind}>checked<{/if}>>
+                        <div class="form-check radio">
                             <label class="form-check-label" for="theme_kind">
+                                <input class="form-check-input" type="radio" name="theme_kind" id="theme_kind" value="<{$kind}>" <{if $theme_kind==$kind}>checked<{/if}>>
                                 <{$kind}>
                                 <{$theme_kind_txt_arr.$kind}>
                             </label>

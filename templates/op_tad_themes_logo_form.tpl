@@ -1,2 +1,8 @@
-<{assign var=this_file value=$smarty.template|basename|replace:'db:':''}>
-<{includeq file="$xoops_rootpath/modules/$xoops_dirname/templates/b4.tpl"}>
+<div class="row">
+    <div class="col-sm-5">
+        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_font_form.tpl"}>
+    </div>
+    <div class="col-sm-7">
+        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_logo_form.tpl"}>
+    </div>
+</div>

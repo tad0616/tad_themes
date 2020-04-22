@@ -1,2 +1,14 @@
-<{assign var=this_file value=vertical_menu}>
-<{includeq file="$xoops_rootpath/modules/tad_themes/templates/blocks/b4.tpl"}>
+<{if $block.menu}>
+    <ul class="vertical_menu">
+        <{foreach from=$block.menu item=menu key=i}>
+            <{if $menu.itemname!=""}>
+                <li>
+                    <a href="<{$menu.itemurl}>" target="<{$menu.target}>">
+                        <i class="fa <{$menu.bootstrap_icon}>"></i>
+                        <{$menu.itemname}>
+                    </a>
+                </li>
+            <{/if}>
+        <{/foreach}>
+    </ul>
+<{/if}>

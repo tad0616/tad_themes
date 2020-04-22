@@ -1,2 +1,7 @@
-<{assign var=this_file value=$smarty.template|basename|replace:'db:':''}>
-<{includeq file="$xoops_rootpath/modules/$xoops_dirname/templates/b4.tpl"}>
+<{includeq file="$xoops_rootpath/modules/tad_themes/templates/op_`$now_op`.tpl"}>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
