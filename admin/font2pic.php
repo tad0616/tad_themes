@@ -147,14 +147,15 @@ function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8
 
     header('Content-type: image/png');
     $im = imagecreatetruecolor($width, $height);
-    imagealphablending($im, false);
+    // 開了外框會模糊掉
+    // imagealphablending($im, false);
     imagesavealpha($im, true);
 
     $trans_colour = imagecolorallocatealpha($im, 255, 255, 255, 127);
     imagefill($im, 0, 0, $trans_colour);
 
     $text_color = imagecolorallocate($im, $color_r, $color_g, $color_b);
-    $text_border_color = imagecolorallocatealpha($im, $border_color_r, $border_color_g, $border_color_b, 50);
+    $text_border_color = imagecolorallocate($im, $border_color_r, $border_color_g, $border_color_b);
     $text_shadow_color = imagecolorallocatealpha($im, $shadow_color_r, $shadow_color_g, $shadow_color_b, 50);
 
     $gd = gd_info();
@@ -162,12 +163,12 @@ function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8
         $title = iconv('UTF-8', 'shift_jis', $title);
     }
     // die('shadow_size='.$shadow_size);
-    // if ($shadow_size > 0) {
-    $sx = $shadow_x > 0 ? $shadow_x + $border_size : $shadow_x - $border_size;
-    $sy = $shadow_y > 0 ? $shadow_y + $border_size : $shadow_y - $border_size;
+    if ($shadow_size > 0) {
+        $sx = $shadow_x > 0 ? $shadow_x + $border_size : $shadow_x - $border_size;
+        $sy = $shadow_y > 0 ? $shadow_y + $border_size : $shadow_y - $border_size;
 
-    imagettftextblur($im, $size, 0, $x + $sx, $y + $sy + $margin_top, $text_shadow_color, $font[$font_file_sn]['physical_file_path'], $title, $shadow_size);
-    // }
+        imagettftextblur($im, $size, 0, $x + $sx, $y + $sy + $margin_top, $text_shadow_color, $font[$font_file_sn]['physical_file_path'], $title, $shadow_size);
+    }
 
     imagettftext($im, $size, 0, $x, $y + $margin_top, $text_color, $font[$font_file_sn]['physical_file_path'], $title);
 
