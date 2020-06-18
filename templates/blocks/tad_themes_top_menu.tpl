@@ -40,7 +40,7 @@ ul#tad_themes_top_navigation li a:hover{
 }
 ul#tad_themes_top_navigation li a span{
   letter-spacing:2px;
-  font-size:11px;
+  font-size: 0.68em;
   color:#60ACD8;
   text-shadow: 0 -1px 1px #fff;
 }

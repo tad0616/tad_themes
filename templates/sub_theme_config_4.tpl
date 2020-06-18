@@ -140,7 +140,7 @@
                         <input type="radio" name="logo_img" id="logo_img<{$logo.files_sn}>" value="<{$logo.file_name}>" <{if $logo_img==$logo.file_name}>checked<{/if}>>
                     </label>
 
-                    <label class="del_img_box" style="font-size:11px;"  id="del_img<{$logo.files_sn}>">
+                    <label class="del_img_box" style="font-size:0.678em;"  id="del_img<{$logo.files_sn}>">
                         <input type="checkbox" value="<{$logo.files_sn}>" name="del_file[<{$logo.files_sn}>]"> <{$smarty.const._TAD_DEL}>
                     </label>
                 </div>

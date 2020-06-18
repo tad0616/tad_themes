@@ -178,6 +178,7 @@ define('_MA_TADTHEMES_APPLY', '套用');
 define('_MA_TADTHEMES_MANAGER', '管理佈景設定檔');
 define('_MA_TADTHEMES_IMPORT_OK', '已成功匯入 %s，接著可套用之試試');
 define('_MA_TADTHEMES_IMPORT_FAIL', '匯入失敗，該設定檔僅支援 %s 佈景');
+define('_MA_TADTHEMES_IMPORT_STYLE', '遠端匯入佈景設定檔');
 
 define('_MA_TADTHEMES_NAVBAR_PY', '選項上下間距');
 define('_MA_TADTHEMES_NAVBAR_PX', '選項左右間距');

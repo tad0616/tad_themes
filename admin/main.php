@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\DataList;
 use XoopsModules\Tadtools\EasyResponsiveTabs;
 use XoopsModules\Tadtools\FormValidator;
@@ -396,6 +397,35 @@ function tad_themes_form($mode = '')
     $xoopsTpl->assign('theme_config_list', $theme_config_list);
 
     $SweetAlert->render("delete_theme_config", "main.php?op=delete_theme_config&theme_name=$theme_name&theme_id=$theme_id&theme_config_name=", 'theme_config_name');
+
+    $url = "https://campus-xoops.tn.edu.tw/modules/tad_modules/style.php?theme=$theme_name";
+
+    if (function_exists('curl_init')) {
+        $ch = curl_init();
+        $timeout = 5;
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+    } elseif (function_exists('file_get_contents')) {
+        $data = file_get_contents($url);
+    } else {
+        $handle = fopen($url, "rb");
+        $data = stream_get_contents($handle);
+        fclose($handle);
+    }
+
+    $style_arr = [];
+    if (!empty($data)) {
+        $style_arr = json_decode($data, true);
+    }
+    $xoopsTpl->assign('style_arr', $style_arr);
+
 }
 
 // 讀入額外設定並產生變數
@@ -1797,6 +1827,28 @@ function import_config($theme_id = '', $theme_name = '')
     redirect_header($_SERVER['PHP_SELF'] . "?theme_name={$theme_name}&theme_id={$theme_id}", 3, sprintf(_MA_TADTHEMES_IMPORT_OK, $theme_config_name));
 }
 
+// 匯入遠端設定檔
+function import_style($theme_id = '', $theme_name = '', $module_sn = '')
+{
+    global $xoopsConfig;
+    $zip_name = filter_var(substr($_FILES['config_zip']['name'], 0, -4), FILTER_SANITIZE_SPECIAL_CHARS);
+    list($for_theme_name, $theme_config_name) = explode('-', $zip_name);
+    if ($for_theme_name != $theme_name) {
+        redirect_header($_SERVER['PHP_SELF'] . "?theme_name={$theme_name}&theme_id={$theme_id}", 3, sprintf(_MA_TADTHEMES_IMPORT_FAIL, $for_theme_name));
+    }
+    $target = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/$theme_config_name/";
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/");
+    Utility::mk_dir($target);
+
+    require_once '../class/dunzip2/dUnzip2.inc.php';
+    require_once '../class/dunzip2/dZip.inc.php';
+    $zip = new dUnzip2($_FILES['config_zip']['tmp_name']);
+    $zip->getList();
+    $zip->unzipAll($target);
+
+    redirect_header($_SERVER['PHP_SELF'] . "?theme_name={$theme_name}&theme_id={$theme_id}", 3, sprintf(_MA_TADTHEMES_IMPORT_OK, $theme_config_name));
+}
+
 // 刪除指定設定檔
 function delete_theme_config($theme_name, $theme_config_name, $theme_id)
 {
@@ -1835,13 +1887,13 @@ function download_zip($theme_name, $theme_config_name, $theme_id)
     }
 }
 /*-----------執行動作判斷區---------- */
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$theme_id = system_CleanVars($_REQUEST, 'theme_id', 0, 'int');
-$type = system_CleanVars($_REQUEST, 'type', 'config2', 'string');
-$theme_name = system_CleanVars($_REQUEST, 'theme_name', '', 'string');
-$theme_config_name = system_CleanVars($_REQUEST, 'theme_config_name', '', 'string');
-$mode = system_CleanVars($_REQUEST, 'mode', '', 'string');
+$op = Request::getString('op');
+$theme_id = Request::getInt('theme_id');
+$type = Request::getString('type', 'config2');
+$theme_name = Request::getString('theme_name');
+$theme_config_name = Request::getString('theme_config_name');
+$mode = Request::getString('mode');
+$module_sn = Request::getInt('module_sn');
 
 switch ($op) {
     /*---判斷動作請貼在下方--- */
@@ -1889,7 +1941,13 @@ switch ($op) {
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
-    //匯入資料
+    //匯入遠端資料
+    case 'import_style':
+        import_style($theme_id, $theme_name, $module_sn);
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    //套用資料
     case 'apply_config':
         apply_config($theme_id, $theme_name, $theme_config_name);
         break;

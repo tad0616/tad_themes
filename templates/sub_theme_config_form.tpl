@@ -4,6 +4,26 @@
 <table class="table" style="width: auto;">
     <tr>
         <td colspan=2>
+            <input type="file" class="form-control" name="config_zip">
+        </td>
+        <td>
+            <button type="submit" name="op" value="import_config" class="btn btn-success"><{$smarty.const._MA_TADTHEMES_IMPORT}></button>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2>
+            <select name="module_sn" class="form-control">
+                <{foreach from=$style_arr key=module_sn item=style_title}>
+                    <option value="<{$module_sn}>"><{$style_title}></option>
+                <{/foreach}>
+            </select>
+        </td>
+        <td>
+            <button type="submit" name="op" value="import_style" class="btn btn-primary"><{$smarty.const._MA_TADTHEMES_IMPORT_STYLE}></button>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2>
             <input name="theme_config_name" class="form-control" placeholder="<{$smarty.const._MA_TADTHEMES_CONFIG_NAME}>" list="theme_config_list">
 
             <datalist id="theme_config_list">
@@ -19,7 +39,7 @@
     <{foreach from=$theme_config_list key=date item=title}>
         <tr>
             <td><{$title}></td>
-            <td style="font-size:11px;"><{$date}></td>
+            <td style="font-size: 0.678em;"><{$date}></td>
             <td>
                 <a href="javascript:delete_theme_config('<{$title}>')" class="btn btn-sm btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
                 <a href="main.php?op=download_zip&theme_config_name=<{$title}>&theme_id=<{$theme_id}>&theme_name=<{$theme_name}>" class="btn btn-sm btn-xs btn-success"><{$smarty.const._MA_TADTHEMES_DOWNLOAD}></a>
@@ -27,12 +47,4 @@
             </td>
         </tr>
     <{/foreach}>
-    <tr>
-        <td colspan=2>
-            <input type="file" class="form-control" name="config_zip">
-        </td>
-        <td>
-            <button type="submit" name="op" value="import_config" class="btn btn-success"><{$smarty.const._MA_TADTHEMES_IMPORT}></button>
-        </td>
-    </tr>
 </table>

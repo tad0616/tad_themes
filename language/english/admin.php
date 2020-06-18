@@ -176,6 +176,7 @@ define('_MA_TADTHEMES_APPLY', 'Apply');
 define('_MA_TADTHEMES_MANAGER', 'Manage theme Profile');
 define('_MA_TADTHEMES_IMPORT_OK', '% s has been successfully imported, and you can try to apply it');
 define('_MA_TADTHEMES_IMPORT_FAIL', 'Import failed, this profile only supports %s theme');
+define('_MA_TADTHEMES_IMPORT_STYLE', 'Remote Import Style File');
 
 define('_MA_TADTHEMES_NAVBAR_PY', 'Navigation options padding top and bottom');
 define('_MA_TADTHEMES_NAVBAR_PX', 'Navigation options padding left and right');

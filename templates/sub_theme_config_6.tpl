@@ -219,7 +219,7 @@
                         <label for="navbar_img<{$navbarbg.files_sn}>" class="thumb_label" style="background-image: url('<{$navbarbg.tb_path}>'), url('../images/t.gif');" >
                             <input type="radio" name="navbar_img" id="navbar_img<{$navbarbg.files_sn}>" onChange="$('.del_img_box').show(); $('#del_img<{$navbarbg.files_sn}>').hide();" value="<{$navbarbg.file_name}>" <{if $navbar_img==$navbarbg.file_name}>checked<{/if}>>
                         </label>
-                        <label class="del_img_box" style="font-size:11px;"  id="del_img<{$navbarbg.files_sn}>">
+                        <label class="del_img_box" style="font-size: 0.678em;"  id="del_img<{$navbarbg.files_sn}>">
                             <input type="checkbox" value="<{$navbarbg.files_sn}>" name="del_file[<{$navbarbg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
                         </label>
                     </div>
@@ -266,7 +266,7 @@
                         <label for="logo_img<{$navlogo.files_sn}>" class="thumb_label" style="background-image: url('<{$navlogo.tb_path}>'), url('../images/t.gif');" >
                         <input type="radio" name="navlogo_img" id="navlogo_img<{$navlogo.files_sn}>" value="<{$navlogo.file_name}>" <{if $navlogo_img==$navlogo.file_name}>checked<{/if}>>
                         </label>
-                        <label class="del_navimg_box" style="font-size:11px;"  id="del_navimg<{$navlogo.files_sn}>">
+                        <label class="del_navimg_box" style="font-size: 0.678em;"  id="del_navimg<{$navlogo.files_sn}>">
                         <input type="checkbox" value="<{$navlogo.files_sn}>" name="del_file[<{$navlogo.files_sn}>]"> <{$smarty.const._TAD_DEL}>
                         </label>
                     </div>

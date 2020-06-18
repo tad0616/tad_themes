@@ -67,7 +67,7 @@
     }
 
     .vertical_bootstrap_menu em {
-        font-size: 10px;
+        font-size: 0.625em;
         background: #ea4f35;
         padding: 3px 5px;
         -webkit-border-radius: 10px;

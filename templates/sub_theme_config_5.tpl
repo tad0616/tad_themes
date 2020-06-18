@@ -155,7 +155,7 @@
                                     <label for="bt_bg_img<{$bt_bg.files_sn}>_<{$block.block_position}>" class="thumb_label" style="background-image: url('<{$bt_bg.tb_path}>'), url('../images/t.gif');" >
                                         <input type="radio" name="bt_bg_img[<{$block.block_position}>]" id="bt_bg_img<{$bt_bg.files_sn}>_<{$block.block_position}>" onChange="$('.del_img_box_<{$block.block_position}>').show(); $('#del_img<{$bt_bg.files_sn}>_<{$block.block_position}>').hide(); " value="<{$bt_bg.file_name}>" <{if $block.bt_bg_img==$bt_bg.file_name}>checked<{/if}>>
                                     </label>
-                                    <label class="del_img_box" style="font-size:11px;"  id="del_img<{$bt_bg.files_sn}>_<{$block.block_position}>">
+                                    <label class="del_img_box" style="font-size: 0.678em;"  id="del_img<{$bt_bg.files_sn}>_<{$block.block_position}>">
                                         <input type="checkbox" value="<{$bt_bg.files_sn}>" name="del_file[<{$bt_bg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
                                     </label>
                                     </div>
@@ -169,8 +169,8 @@
                         <{if $enable.block_style=="1"}>
                             <div class="col-sm-12">
                                 <{$smarty.const._MA_TADTHEMES_BLOCK_STYLE}>
-                                <span style="font-size:12px;color:#0000DC;white-space:nowrap; ">.<{$block.block_position}> {<span style="color:#DE1212;"><{$smarty.const._MA_TADTHEMES_YOUR_STYLE}></span>}</span>
-                                <textarea name="block_style[<{$block.block_position}>]" id="block_style_<{$block.block_position}>" class="form-control <{$validate.block_style}>" style="font-size:11px;height:100px;"><{$block.block_style}></textarea>
+                                <span style="font-size: 0.75em;color:#0000DC;white-space:nowrap; ">.<{$block.block_position}> {<span style="color:#DE1212;"><{$smarty.const._MA_TADTHEMES_YOUR_STYLE}></span>}</span>
+                                <textarea name="block_style[<{$block.block_position}>]" id="block_style_<{$block.block_position}>" class="form-control <{$validate.block_style}>" style="font-size: 0.678em;height:100px;"><{$block.block_style}></textarea>
                             </div>
                         <{else}>
                             <input type="hidden" name="block_style" id="block_style" value="<{$block_style}>">
@@ -182,8 +182,8 @@
                         <{if $enable.block_title_style=="1"}>
                             <div class="col-sm-12">
                                 <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_STYLE}>
-                                <span style="font-size:12px;color:#0000DC;white-space:nowrap; ">.<{$block.block_position}> .blockTitle {<span style="color:#DE1212;"><{$smarty.const._MA_TADTHEMES_YOUR_STYLE}></span>}</span>
-                                <textarea name="block_title_style[<{$block.block_position}>]" id="block_title_style_<{$block.block_position}>" class="form-control <{$validate.block_title_style}>" style="font-size:11px;height:100px;"><{$block.block_title_style}></textarea>
+                                <span style="font-size: 0.75em;color:#0000DC;white-space:nowrap; ">.<{$block.block_position}> .blockTitle {<span style="color:#DE1212;"><{$smarty.const._MA_TADTHEMES_YOUR_STYLE}></span>}</span>
+                                <textarea name="block_title_style[<{$block.block_position}>]" id="block_title_style_<{$block.block_position}>" class="form-control <{$validate.block_title_style}>" style="font-size: 0.678em;height:100px;"><{$block.block_title_style}></textarea>
                             </div>
                         <{else}>
                             <input type="hidden" name="block_title_style" id="block_title_style" value="<{$block_title_style}>">
@@ -195,8 +195,8 @@
                         <{if $enable.block_content_style=="1"}>
                             <div class="col-sm-12">
                                 <{$smarty.const._MA_TADTHEMES_BLOCK_CONTENT_STYLE}>
-                                <span style="font-size:12px;color:#0000DC;white-space:nowrap; ">.<{$block.block_position}> .blockContent {<span style="color:#DE1212;"><{$smarty.const._MA_TADTHEMES_YOUR_STYLE}></span>}</span>
-                                <textarea name="block_content_style[<{$block.block_position}>]" id="block_content_style_<{$block.block_position}>" class="form-control <{$validate.block_content_style}>" style="font-size:11px;height:100px;"><{$block.block_content_style}></textarea>
+                                <span style="font-size: 0.75em;color:#0000DC;white-space:nowrap; ">.<{$block.block_position}> .blockContent {<span style="color:#DE1212;"><{$smarty.const._MA_TADTHEMES_YOUR_STYLE}></span>}</span>
+                                <textarea name="block_content_style[<{$block.block_position}>]" id="block_content_style_<{$block.block_position}>" class="form-control <{$validate.block_content_style}>" style="font-size: 0.678em;height:100px;"><{$block.block_content_style}></textarea>
                             </div>
                         <{else}>
                             <input type="hidden" name="block_content_style" id="block_content_style" value="<{$block_content_style}>">

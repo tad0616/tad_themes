@@ -166,11 +166,11 @@
                 <!--預覽-->
                 <div id='preview_zone'>
                     <div id='theme_demo' style='border:1px solid gray;background-color:white;margin:0px auto;'>
-                        <div id='theme_head' style='border:1px solid #E0E0E0;background-color:#F0F0F0;margin:4px auto 2px auto;font-size:11px;text-align:center;'><{$smarty.const._MA_TAD_THEMES_HEAD}></div>
-                        <div id='left_block' style='border:1px solid #E0E0E0;background-color:#99CCFF;font-size:11px;text-align:center;'></div>
-                        <div id='center_block' style='border:1px solid #E0E0E0;background-color:#CCFF66;font-size:11px;text-align:center;'></div>
-                        <div id='right_block' style='border:1px solid #E0E0E0;background-color:#FFCC66;font-size:11px;text-align:center;'></div>
-                        <div id='theme_foot' style='clear:both;border:1px solid #E0E0E0;height:30px;line-height:30px;background-color:#F0F0F0;margin:4px auto;font-size:11px;text-align:center;'><{$smarty.const._MA_TAD_THEMES_FOOT}></div>
+                        <div id='theme_head' style='border:1px solid #E0E0E0;background-color:#F0F0F0;margin:4px auto 2px auto;font-size: 0.678em;text-align:center;'><{$smarty.const._MA_TAD_THEMES_HEAD}></div>
+                        <div id='left_block' style='border:1px solid #E0E0E0;background-color:#99CCFF;font-size: 0.678em;text-align:center;'></div>
+                        <div id='center_block' style='border:1px solid #E0E0E0;background-color:#CCFF66;font-size: 0.678em;text-align:center;'></div>
+                        <div id='right_block' style='border:1px solid #E0E0E0;background-color:#FFCC66;font-size: 0.678em;text-align:center;'></div>
+                        <div id='theme_foot' style='clear:both;border:1px solid #E0E0E0;height:30px;line-height:30px;background-color:#F0F0F0;margin:4px auto;font-size: 0.678em;text-align:center;'><{$smarty.const._MA_TAD_THEMES_FOOT}></div>
                     </div>
                 </div>
 

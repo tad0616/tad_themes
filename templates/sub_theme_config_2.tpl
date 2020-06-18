@@ -125,7 +125,7 @@
                 <input type="radio" name="bg_img" id="bg_img<{$bg.files_sn}>" onChange="$('.del_img_box').show(); $('#del_img<{$bg.files_sn}>').hide(); preview_img('bg',$(this).val());" value="<{$bg.file_name}>" <{if $bg_img==$bg.file_name}>checked<{/if}>>
             </label>
 
-            <label class="del_img_box" style="font-size:12px;" id="del_img<{$bg.files_sn}>">
+            <label class="del_img_box" style="font-size:0.75em;" id="del_img<{$bg.files_sn}>">
                 <input type="checkbox" value="<{$bg.files_sn}>" name="del_file[<{$bg.files_sn}>]"> <{$smarty.const._TAD_DEL}>
             </label>
             </div>
