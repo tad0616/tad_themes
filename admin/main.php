@@ -6,6 +6,7 @@ use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\MColorPicker;
 use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_adm\DunZip2;
 /*-----------引入檔案區-------------- */
 $xoopsOption['template_main'] = 'tad_themes_adm_main.tpl';
 require_once __DIR__ . '/header.php';
@@ -1828,25 +1829,103 @@ function import_config($theme_id = '', $theme_name = '')
 }
 
 // 匯入遠端設定檔
-function import_style($theme_id = '', $theme_name = '', $module_sn = '')
+function import_style($theme_id = '', $theme_name = '', $style_param = '')
 {
     global $xoopsConfig;
-    $zip_name = filter_var(substr($_FILES['config_zip']['name'], 0, -4), FILTER_SANITIZE_SPECIAL_CHARS);
-    list($for_theme_name, $theme_config_name) = explode('-', $zip_name);
-    if ($for_theme_name != $theme_name) {
-        redirect_header($_SERVER['PHP_SELF'] . "?theme_name={$theme_name}&theme_id={$theme_id}", 3, sprintf(_MA_TADTHEMES_IMPORT_FAIL, $for_theme_name));
-    }
-    $target = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/$theme_config_name/";
-    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/");
-    Utility::mk_dir($target);
 
-    require_once '../class/dunzip2/dUnzip2.inc.php';
-    require_once '../class/dunzip2/dZip.inc.php';
-    $zip = new dUnzip2($_FILES['config_zip']['tmp_name']);
-    $zip->getList();
-    $zip->unzipAll($target);
+    list($module_name, $file_link, $update_sn, $module_sn) = explode(';', $style_param);
+    // die("$module_name, $file_link, $update_sn, $module_sn");
+    get_remote_file($theme_name, $module_name, $file_link, $update_sn, $module_sn);
 
     redirect_header($_SERVER['PHP_SELF'] . "?theme_name={$theme_name}&theme_id={$theme_id}", 3, sprintf(_MA_TADTHEMES_IMPORT_OK, $theme_config_name));
+}
+
+//下載檔案
+function get_remote_file($theme_name, $module_name, $file_link, $update_sn, $module_sn)
+{
+    global $xoopsConfig, $xoopsDB, $inSchoolWeb;
+
+    $moduleHandler = xoops_getHandler('module');
+    $xModule = $moduleHandler->getByDirname('tad_adm');
+    $configHandler = xoops_getHandler('config');
+    $TadAmModuleConfig = $configHandler->getConfigsByCat(0, $xModule->mid());
+
+    $file_link = str_replace('[source]', $TadAmModuleConfig['source'], $file_link);
+    $new_file = str_replace($TadAmModuleConfig['source'] . "/uploads/tad_modules/file/", XOOPS_ROOT_PATH . "/uploads/tad_themes/$theme_name/setup/", $file_link);
+
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/$theme_name/setup/");
+    Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/$theme_name/setup/{$module_name}/");
+    copyemz($file_link, $new_file, $update_sn);
+
+    if (!is_file($new_file)) {
+        redirect_header($_SERVER['PHP_SELF'] . '?tad_adm_tpl=clean', 3, sprintf(_MA_TADTHEMES_DL_FAIL, $file_link));
+    }
+
+    $zip = new DunZip2($new_file);
+    $zip->getList();
+    $zip->unzipAll(XOOPS_ROOT_PATH . "/uploads/tad_themes/$theme_name/setup/{$module_name}/");
+    $zip->close($new_file);
+}
+
+function copyemz($file1, $file2, $update_sn = '')
+{
+    global $xoopsConfig;
+
+    $moduleHandler = xoops_getHandler('module');
+    $xModule = $moduleHandler->getByDirname('tad_adm');
+    $configHandler = xoops_getHandler('config');
+    $TadAmModuleConfig = $configHandler->getConfigsByCat(0, $xModule->mid());
+
+    $ver = (int) str_replace('.', '', substr(XOOPS_VERSION, 6, 5));
+    $add_count_url = $TadAmModuleConfig['source'] . "/modules/tad_modules/api.php?update_sn={$update_sn}&from=" . XOOPS_URL . "&sitename={$xoopsConfig['sitename']}&theme={$xoopsConfig['theme_set']}&version=$ver&language={$xoopsConfig['language']}";
+
+    $url = $file1;
+    if (function_exists('curl_init')) {
+        $ch = curl_init();
+        $timeout = 5;
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $contentx = curl_exec($ch);
+        curl_close($ch);
+
+        $ch = curl_init();
+        $timeout = 5;
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_URL, $add_count_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $count = curl_exec($ch);
+        curl_close($ch);
+        // die('curl');
+    } elseif (function_exists('file_get_contents')) {
+        $contentx = file_get_contents($url);
+        $count = file_get_contents($add_count_url);
+        // die('file_get_contents');
+    } else {
+        $handle = fopen($url, 'rb');
+        $contentx = stream_get_contents($handle);
+        fclose($handle);
+
+        $handle = fopen($add_count_url, 'rb');
+        $count = stream_get_contents($handle);
+        fclose($handle);
+    }
+
+    $openedfile = fopen($file2, 'wb');
+    fwrite($openedfile, $contentx);
+    fclose($openedfile);
+    if (false === $contentx) {
+        $status = false;
+    } else {
+        $status = true;
+    }
+    return $status;
 }
 
 // 刪除指定設定檔
@@ -1894,6 +1973,7 @@ $theme_name = Request::getString('theme_name');
 $theme_config_name = Request::getString('theme_config_name');
 $mode = Request::getString('mode');
 $module_sn = Request::getInt('module_sn');
+$style_param = Request::getString('style_param');
 
 switch ($op) {
     /*---判斷動作請貼在下方--- */
@@ -1943,7 +2023,7 @@ switch ($op) {
 
     //匯入遠端資料
     case 'import_style':
-        import_style($theme_id, $theme_name, $module_sn);
+        import_style($theme_id, $theme_name, $style_param);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 

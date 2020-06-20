@@ -12,9 +12,9 @@
     </tr>
     <tr>
         <td colspan=2>
-            <select name="module_sn" class="form-control">
-                <{foreach from=$style_arr key=module_sn item=style_title}>
-                    <option value="<{$module_sn}>"><{$style_title}></option>
+            <select name="style_param" class="form-control">
+                <{foreach from=$style_arr key=module_name item=style}>
+                    <option value="<{$module_name}>;<{$style.file_link}>;<{$style.update_sn}>;<{$style.module_sn}>"><{$module_name}> <{$style.new_last_update|date_format:"%Y-%m-%d"}></option>
                 <{/foreach}>
             </select>
         </td>

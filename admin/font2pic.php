@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\MColorPicker;
 use XoopsModules\Tadtools\SweetAlert;
@@ -340,26 +341,26 @@ function save_to_logo($name = '', $theme_id = '')
 }
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$theme_id = system_CleanVars($_REQUEST, 'theme_id', 0, 'int');
-$files_sn = system_CleanVars($_REQUEST, 'files_sn', 0, 'int');
-$title = system_CleanVars($_REQUEST, 'title', '', 'string');
-$size = system_CleanVars($_REQUEST, 'size', 24, 'int');
-$color = system_CleanVars($_REQUEST, 'color', '#00a3a8', 'string');
-$border_color = system_CleanVars($_REQUEST, 'border_color', '#ffffff', 'string');
-$font_file_sn = system_CleanVars($_REQUEST, 'font_file_sn', 0, 'int');
-$border_size = system_CleanVars($_REQUEST, 'border_size', 2, 'int');
-$name = system_CleanVars($_REQUEST, 'name', '', 'string');
-$bg_color = system_CleanVars($_REQUEST, 'bg_color', '', 'string');
-$logo = system_CleanVars($_REQUEST, 'logo', '', 'string');
-$sav_to_logo = system_CleanVars($_REQUEST, 'sav_to_logo', 0, 'int');
-$shadow_color = system_CleanVars($_REQUEST, 'shadow_color', '#000000', 'string');
-$shadow_x = system_CleanVars($_REQUEST, 'shadow_x', 1, 'int');
-$shadow_y = system_CleanVars($_REQUEST, 'shadow_y', 1, 'int');
-$shadow_size = system_CleanVars($_REQUEST, 'shadow_size', 3, 'int');
-$margin_top = system_CleanVars($_REQUEST, 'margin_top', 0, 'int');
-$margin_bottom = system_CleanVars($_REQUEST, 'margin_bottom', 0, 'int');
+$op = Request::getString('op');
+$title = Request::getString('title');
+$color = Request::getString('color', '#00a3a8');
+$border_color = Request::getString('border_color', '#ffffff');
+$name = Request::getString('name');
+$bg_color = Request::getString('bg_color');
+$logo = Request::getString('logo');
+$shadow_color = Request::getString('shadow_color', '#000000');
+$theme_id = Request::getInt('theme_id');
+$files_sn = Request::getInt('files_sn');
+$status = Request::getInt('status', 1);
+$size = Request::getInt('size', 24);
+$font_file_sn = Request::getInt('font_file_sn');
+$border_size = Request::getInt('border_size', 2);
+$sav_to_logo = Request::getInt('sav_to_logo');
+$shadow_x = Request::getInt('shadow_x', 1);
+$shadow_y = Request::getInt('shadow_y', 1);
+$shadow_size = Request::getInt('shadow_size', 3);
+$margin_top = Request::getInt('margin_top');
+$margin_bottom = Request::getInt('margin_bottom');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/

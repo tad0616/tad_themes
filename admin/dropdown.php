@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\FancyBox;
 use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\TreeTable;
@@ -303,7 +304,6 @@ function list_tad_themes_menu($add_of_level = '', $menuid = '')
 
     $all = get_tad_level_menu(0, 0, $menuid, '', $add_of_level);
 
-    $op = (!isset($_REQUEST['op'])) ? '' : $_REQUEST['op'];
     $option = '';
 
     //$all=(empty($all))?"<tr><td colspan=2>".tad_themes_menu_form()."</td></tr>":$all;
@@ -344,7 +344,6 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '
     $sql = 'select `menuid`,`of_level`,`itemname`,`position`,`itemurl`,`status`,`target`,`icon`,`link_cate_name`, `link_cate_sn` from ' . $xoopsDB->prefix('tad_themes_menu') . " where of_level='{$of_level}'  order by position";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    $op = (!isset($_REQUEST['op'])) ? '' : $_REQUEST['op'];
     $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
     $banner_dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_banner';
     $url = XOOPS_URL . '/uploads/tad_themes/menu_icons';
@@ -669,12 +668,11 @@ function del_pic($type, $menuid)
 }
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$menuid = system_CleanVars($_REQUEST, 'menuid', 0, 'int');
-$of_level = system_CleanVars($_REQUEST, 'of_level', 0, 'int');
-$status = system_CleanVars($_REQUEST, 'status', 1, 'int');
-$type = system_CleanVars($_REQUEST, 'type', '', 'string');
+$op = Request::getString('op');
+$type = Request::getString('type');
+$menuid = Request::getInt('menuid');
+$of_level = Request::getInt('of_level');
+$status = Request::getInt('status', 1);
 
 switch ($op) {
     //更新資料

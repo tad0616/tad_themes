@@ -220,3 +220,4 @@ define('_MA_TADTHEMES_EDIT_MENU_JILL_NOTICE', 'Add Notice');
 define('_MA_TADTHEMES_EDIT_MENU_JILL_BOOKING', 'Booking Place');
 
 define('_MA_TADTHEMES_DOWNLOAD', 'Download');
+define('_MA_TADTHEMES_DL_FAIL', '"%s" failed to download!');
