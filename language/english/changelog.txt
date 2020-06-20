@@ -1,3 +1,9 @@
+Tad Themes 6.6 (Released 2020-06-20)
+============================================================= ========
+1.Fix the problem that the outer frame will be blurred when generating the logo.
+2. New online installation style function.
+3. Support for XOOPS 2.5.11.
+
 Tad Themes 6.5 (2020-04-24 released)
 =====================================================
 1. Fix the problem that the picture list will not appear when no image is uploaded.
