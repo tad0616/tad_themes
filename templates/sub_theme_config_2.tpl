@@ -96,11 +96,13 @@
             <div class="col-sm-8">
                 <select name="bg_position" id="bg_position" class="form-control <{$validate.bg_position}>" onChange="change_css();">
                     <option value="left top" <{if $bg_position=="left top" or $bg_position==""}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_LT}></option>
-                    <option value="right top" <{if $bg_position=="right top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_RT}></option>
+                    <option value="left center" <{if $bg_position=="left center"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_LC}></option>
                     <option value="left bottom" <{if $bg_position=="left bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_LB}></option>
+                    <option value="right top" <{if $bg_position=="right top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_RT}></option>
+                    <option value="right center" <{if $bg_position=="right center"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_RC}></option>
                     <option value="right bottom" <{if $bg_position=="right bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_RB}></option>
-                    <option value="center center" <{if $bg_position=="center center"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_CC}></option>
                     <option value="center top" <{if $bg_position=="center top"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_CT}></option>
+                    <option value="center center" <{if $bg_position=="center center"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_CC}></option>
                     <option value="center bottom" <{if $bg_position=="center bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_CB}></option>
                 </select>
             </div>

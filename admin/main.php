@@ -615,22 +615,22 @@ function change_css_bootstrap($theme_width = '12', $theme_left_width = '', $them
 
 
         //中間區塊原始寬
-        if(lbw == 'auto' || lbw == '' || rbw == 'auto' || rbw == ''){
+        if(theme_type=='theme_type_5' || theme_type=='theme_type_6' || theme_type=='theme_type_7'){
             var center_width_org = cbw;
             //左區塊模擬寬
             var lb_width = Math.round((12-center_width_org)/2 * 80/4)-3;
             //右區塊模擬寬
             var rb_width=Math.round((12-center_width_org)/2 * 80/4)-3;
-        }else if(theme_type=='theme_type_5' || theme_type=='theme_type_6' || theme_type=='theme_type_7'){
-            var center_width_org = {$theme_width} - $('#lb_width').val()*1 - $('#rb_width').val()*1;
-            console.log(center_width_org);
         }else{
-            var center_width_org = {$theme_width} - $('#lb_width').val()*1;
-            console.log(center_width_org);
+            var center_width_org = {$theme_width} - lb_width_org;
         }
         //中間區塊模擬寬
         var center_width=Math.round(center_width_org * 80 /4)-3;
 
+        console.log('lbw='+lbw);
+        console.log('center_width_org='+center_width_org);
+        console.log('lb_width_org='+lb_width_org);
+        console.log('lb_width='+lb_width);
 
         if(theme_type=='theme_type_1'){
             $('#left_block').css('float','left').css('margin','2px 2px 2px 4px').css('width',lb_width).css('height','86px').html('<div style=\'line-height:12px;margin-top:30px;\'>" . _MA_TAD_THEMES_LEFT . " '+ lbw +'" . _MA_TADTHEMES_COL . "</div>');

@@ -245,7 +245,9 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
 
     $theme_name = $xoopsConfig['theme_set'];
 
-    require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
+    if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php")) {
+        require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
+    }
     $TadUpFiles_config2 = TadUpFiles_config2();
 
     // Utility::dd($config2_arr);
