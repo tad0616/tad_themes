@@ -223,3 +223,5 @@ define('_MA_TADTHEMES_EDIT_MENU_JILL_BOOKING', 'Booking Place');
 
 define('_MA_TADTHEMES_DOWNLOAD', 'Download');
 define('_MA_TADTHEMES_DL_FAIL', '"%s" failed to download!');
+define('_MA_TADTHEMES_EXPAND_ALL', 'Expand All');
+define('_MA_TADTHEMES_COLLAPSE_ALL', 'Collapse All');

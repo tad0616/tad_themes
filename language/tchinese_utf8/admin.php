@@ -225,3 +225,5 @@ define('_MA_TADTHEMES_EDIT_MENU_JILL_BOOKING', '預約場地');
 
 define('_MA_TADTHEMES_DOWNLOAD', '下載');
 define('_MA_TADTHEMES_DL_FAIL', '「%s」下載失敗！');
+define('_MA_TADTHEMES_EXPAND_ALL', '全部展開');
+define('_MA_TADTHEMES_COLLAPSE_ALL', '全部闔起');

@@ -436,7 +436,9 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
 
     if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php")) {
         $myts = \MyTextSanitizer::getInstance();
-        require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
+        if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php")) {
+            require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
+        }
         require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php";
 
         // 取得該佈景所有額外設定值
@@ -1161,7 +1163,9 @@ function delete_tad_themes($theme_id = '')
     $TadUpFiles_config2 = TadUpFiles_config2();
 
     $myts = \MyTextSanitizer::getInstance();
-    require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
+    if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php")) {
+        require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
+    }
     foreach ($config2_files as $config2) {
         if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php")) {
             require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php";

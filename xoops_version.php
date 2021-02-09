@@ -74,7 +74,7 @@ $modversion['templates'][$i]['description'] = 'tad_themes_adm_font2pic.tpl';
 
 //---偏好設定---//
 $modversion['config'] = [];
-$i++;
+$i = 1;
 $modversion['config'][$i]['name'] = 'auto_mainmenu';
 $modversion['config'][$i]['title'] = '_MI_TADTHEMES_AUTO_MENU';
 $modversion['config'][$i]['description'] = '_MI_TADTHEMES_AUTO_MENU_DESC';
@@ -108,6 +108,14 @@ $modversion['config'][$i]['formtype'] = 'select';
 $modversion['config'][$i]['valuetype'] = 'int';
 $modversion['config'][$i]['default'] = '4';
 $modversion['config'][$i]['options'] = [1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6'];
+
+$i++;
+$modversion['config'][$i]['name'] = 'use_pin';
+$modversion['config'][$i]['title'] = '_MI_TADTHEMES_USE_PIN';
+$modversion['config'][$i]['description'] = '_MI_TADTHEMES_USE_PIN_DESC';
+$modversion['config'][$i]['formtype'] = 'yesno';
+$modversion['config'][$i]['valuetype'] = 'int';
+$modversion['config'][$i]['default'] = '1';
 
 //---搜尋---//
 //$modversion['hasSearch'] = 1;

@@ -32,3 +32,6 @@ define('_MI_TADTHEMES_DESC3', 'Select how many Quick Login menu icons should we 
 define('_MI_TADTHEMES_HOME', 'Show back to home page');
 define('_MI_TADTHEMES_SITENAME', 'Show site name');
 define('_MI_TADTHEMES_HIDE', 'Do not show');
+
+define('_MI_TADTHEMES_USE_PIN', 'Whether to use the navigation bar sticky function');
+define('_MI_TADTHEMES_USE_PIN_DESC', 'When "Yes" is selected, the navigation bar will automatically be fixed at the top of the screen as you scroll down the screen.');
