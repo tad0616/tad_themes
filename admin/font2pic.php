@@ -383,7 +383,7 @@ switch ($op) {
         exit;
 
     case 'save_font':
-        $TadUpFontFiles->upload_file('font', null, null, $files_sn, null, true);
+        $TadUpFontFiles->upload_file('font', null, null, $files_sn, null, true, false, 'file_name', 'ttf;otf;ttc');
         header("location: " . \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'));
         exit;
 

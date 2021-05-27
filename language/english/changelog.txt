@@ -1,3 +1,10 @@
+Tad Themes 6.7 (released 2021-05-27)
+=================================================
+1. Error occurs when modifying no language
+2. Added "Pinned navigation bar" setting to preferences
+3. Add extra settings of callback function
+4. Fix the problem of font not uploading
+
 Tad Themes 6.6 (Released 2020-06-20)
 ============================================================= ========
 1.Fix the problem that the outer frame will be blurred when generating the logo.
