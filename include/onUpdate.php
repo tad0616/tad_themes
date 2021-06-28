@@ -137,6 +137,11 @@ function xoops_module_update_tad_themes(&$module, $old_version)
         Update::go_update28();
     }
 
+    // data_center 加入 sort
+    if (Update::chk_dc_sort()) {
+        Update::go_dc_sort();
+    }
+
     Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_themes');
 
     return true;

@@ -27,6 +27,26 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 class Update
 {
 
+    //data_center 加入 sort
+    public static function chk_dc_sort()
+    {
+        global $xoopsDB;
+        $sql = 'select count(`sort`) from ' . $xoopsDB->prefix('tad_themes_data_center');
+        $result = $xoopsDB->query($sql);
+        if (empty($result)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function go_dc_sort()
+    {
+        global $xoopsDB;
+        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes_data_center') . " ADD `sort` mediumint(9) unsigned COMMENT '顯示順序' after `col_id`";
+        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
+    }
+
     //修正上傳檔案的路徑，從絕對路徑改為相對路徑
     public static function fix_config2_file_url()
     {

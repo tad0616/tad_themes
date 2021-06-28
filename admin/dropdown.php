@@ -678,18 +678,21 @@ switch ($op) {
     //更新資料
     case 'update_tad_themes_menu':
         update_tad_themes_menu($menuid);
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
         exit;
 
     //新增資料
     case 'insert_tad_themes_menu':
         insert_tad_themes_menu();
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
         exit;
 
     //刪除資料
     case 'delete_tad_themes_menu':
         delete_tad_themes_menu($menuid);
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
@@ -700,6 +703,7 @@ switch ($op) {
     //儲存排序
     case 'save_sort':
         save_sort();
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
@@ -711,22 +715,26 @@ switch ($op) {
     //會入主選單
     case 'import':
         auto_import();
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
     //匯入編輯功能選項
     case 'import_edit':
         import_edit();
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
     case 'tad_themes_menu_status':
         tad_themes_menu_status($menuid, $status);
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
         exit;
 
     case 'del_pic':
         del_pic($type, $menuid);
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
         exit;
 

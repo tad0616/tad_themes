@@ -1985,12 +1985,14 @@ switch ($op) {
     //新增資料
     case 'insert_tad_themes':
         $theme_id = insert_tad_themes();
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: " . \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'));
         exit;
 
     //更新資料
     case 'update_tad_themes':
         update_tad_themes($theme_id);
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         if (isset($_COOKIE['themeTab_baseURI'])) {
             header("location: {$_COOKIE['themeTab_baseURI']}");
         } else {
@@ -2006,6 +2008,7 @@ switch ($op) {
     //刪除資料
     case 'delete_tad_themes':
         delete_tad_themes($theme_id);
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}?mode=$mode");
         exit;
 
@@ -2022,12 +2025,14 @@ switch ($op) {
     //匯入資料
     case 'import_config':
         import_config($theme_id, $theme_name);
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
     //匯入遠端資料
     case 'import_style':
         import_style($theme_id, $theme_name, $style_param);
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
