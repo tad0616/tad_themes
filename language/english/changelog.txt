@@ -1,3 +1,9 @@
+Tad Themes 6.8 (released on 2021-07-14)
+=================================================
+1.Adjust tad_themes_data_center field
+2.Add layout json caching support
+
+
 Tad Themes 6.7 (released 2021-05-27)
 =================================================
 1. Error occurs when modifying no language
