@@ -317,9 +317,7 @@ function list_tad_themes_menu($add_of_level = '', $menuid = '')
 
     //treetable($show_jquery=true , $sn="cat_sn" , $of_sn="of_cat_sn" , $tbl_id="#tbl" , $post_url="save_drag.php" ,$folder_class=".folder", $msg="#save_msg" ,$expanded=true,$sort_id="", $sort_url="save_sort.php", $sort_msg="#save_msg2")
     $TreeTable = new TreeTable(false, 'menuid', 'of_level', '#tbl', 'save_drag.php', '.folder', '#save_msg', true, '.sort', 'save_sort.php', '#save_msg');
-    $treetable_code = $TreeTable->render();
-
-    $xoopsTpl->assign('treetable_code', $treetable_code);
+    $TreeTable->render();
 
     $FancyBox = new FancyBox('.edit_dropdown', '800', '400');
     $FancyBox->render();

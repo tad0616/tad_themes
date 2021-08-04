@@ -112,7 +112,7 @@ function tad_themes_form($mode = '')
     $lb_width = (!isset($DBV['lb_width']) || !$enable['lb_width']) ? $lb_width : $DBV['lb_width'];
 
     //設定「cb_width」欄位預設值
-    $cb_width = (!isset($DBV['cb_width']) || !$enable['cb_width']) ? $cb_width : $DBV['cb_width'];
+    $cb_width = (!isset($DBV['cb_width']) || !$enable['cb_width']) ? 9 : $DBV['cb_width'];
 
     //設定「rb_width」欄位預設值
     $rb_width = (!isset($DBV['rb_width']) || !$enable['rb_width']) ? $rb_width : $DBV['rb_width'];
@@ -293,7 +293,6 @@ function tad_themes_form($mode = '')
 
     $TadUpFilesBg->set_col('bg', $theme_id);
     $xoopsTpl->assign('all_bg', $TadUpFilesBg->get_file_for_smarty());
-    //$xoopsTpl->assign('list_del_file_bg',$TadUpFilesBg->list_del_file());
 
     $xoopsTpl->assign('use_slide', $use_slide);
     $TadUpFilesSlide = TadUpFilesSlide();
