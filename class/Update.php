@@ -924,4 +924,18 @@ class Update
         $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `type`='bg_file' where (`name`='logo_bg' or `name`='logo_bg2' or `name`='footer_img') and `type` = 'file' and `theme_id`='{$theme_id}'";
         $xoopsDB->queryF($sql);
     }
+
+    //修正 logo 允許負值
+    public static function go_update_logo()
+    {
+        global $xoopsDB;
+
+        $sql = "ALTER TABLE " . $xoopsDB->prefix('tad_themes') . "
+            CHANGE `logo_top` `logo_top` smallint(5) NOT NULL DEFAULT '0' COMMENT 'Logo離上方距離' AFTER `bg_repeat`,
+            CHANGE `logo_right` `logo_right` smallint(5) NOT NULL DEFAULT '0' COMMENT 'Logo離右邊距離' AFTER `logo_top`,
+            CHANGE `logo_bottom` `logo_bottom` smallint(5) NOT NULL DEFAULT '0' COMMENT 'Logo離下方距離' AFTER `logo_right`,
+            CHANGE `logo_left` `logo_left` smallint(5) NOT NULL DEFAULT '0' COMMENT 'Logo離左邊距離' AFTER `logo_bottom`";
+        $xoopsDB->queryF($sql);
+    }
+
 }

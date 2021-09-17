@@ -227,3 +227,6 @@ define('_MA_TADTHEMES_DOWNLOAD', '下載');
 define('_MA_TADTHEMES_DL_FAIL', '「%s」下載失敗！');
 define('_MA_TADTHEMES_EXPAND_ALL', '全部展開');
 define('_MA_TADTHEMES_COLLAPSE_ALL', '全部闔起');
+
+define('_MA_TADTHEMES_COPY_THEME', '複製佈景設定至此');
+define('_MA_TADTHEMES_COPY', '複製');

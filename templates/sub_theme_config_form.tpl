@@ -4,10 +4,16 @@
 <table class="table" style="width: auto;">
     <tr>
         <td colspan=2>
-            <input type="file" class="form-control" name="config_zip">
+            <input name="theme_config_name" class="form-control" placeholder="<{$smarty.const._MA_TADTHEMES_CONFIG_NAME}>" list="theme_config_list">
+
+            <datalist id="theme_config_list">
+                <{foreach from=$theme_config_list item=title}>
+                    <option value="<{$title}>">
+                <{/foreach}>
+            </datalist>
         </td>
         <td>
-            <button type="submit" name="op" value="import_config" class="btn btn-success"><{$smarty.const._MA_TADTHEMES_IMPORT}></button>
+            <button type="submit" name="op" value="save_config" class="btn btn-primary"><{$smarty.const._MA_TADTHEMES_SAVE}></button>
         </td>
     </tr>
     <tr>
@@ -19,21 +25,27 @@
             </select>
         </td>
         <td>
-            <button type="submit" name="op" value="import_style" class="btn btn-primary"><{$smarty.const._MA_TADTHEMES_IMPORT_STYLE}></button>
+            <button type="submit" name="op" value="import_style" class="btn btn-info"><{$smarty.const._MA_TADTHEMES_IMPORT_STYLE}></button>
         </td>
     </tr>
     <tr>
         <td colspan=2>
-            <input name="theme_config_name" class="form-control" placeholder="<{$smarty.const._MA_TADTHEMES_CONFIG_NAME}>" list="theme_config_list">
-
-            <datalist id="theme_config_list">
-                <{foreach from=$theme_config_list item=title}>
-                    <option value="<{$title}>">
+            <select name="from_theme_id" class="form-control">
+                <{foreach from=$themes key=from_theme_id item=from_theme_name}>
+                    <option value="<{$from_theme_id}>"><{$from_theme_name}></option>
                 <{/foreach}>
-            </datalist>
+            </select>
         </td>
         <td>
-            <button type="submit" name="op" value="save_config" class="btn btn-info"><{$smarty.const._MA_TADTHEMES_SAVE}></button>
+            <button type="submit" name="op" value="copy_theme" class="btn btn-warning"><{$smarty.const._MA_TADTHEMES_COPY_THEME}></button>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2>
+            <input type="file" class="form-control" name="config_zip">
+        </td>
+        <td>
+            <button type="submit" name="op" value="import_config" class="btn btn-success"><{$smarty.const._MA_TADTHEMES_IMPORT}></button>
         </td>
     </tr>
     <{foreach from=$theme_config_list key=date item=title}>

@@ -191,8 +191,8 @@
                         <{$smarty.const._MA_TADTHEMES_NOTICE}>
                     <{/if}>
                     <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_form.tpl"}>
+                    <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_copy_theme_config.tpl"}>
                 </div>
-
             </div>
         </div>
     </form>
