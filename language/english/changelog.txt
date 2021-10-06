@@ -1,3 +1,12 @@
+Tad Themes 7.0 (released 2021-10-06)
+====================================
+1. Add the function of converting old scenery
+2. Fix the sliding image block
+3.Logo image position can be used with negative value
+4. Add BootStrap5 support
+5. Fix the problem that non-Tad Themes compatible layout will lead to a blank backend.
+
+
 Tad Themes 6.9 (released 2021-08-22)
 ====================================
 1.Revised for the new version of AA Accessibility Standard 2021/07

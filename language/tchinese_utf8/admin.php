@@ -2,11 +2,11 @@
 xoops_loadLanguage('admin_common', 'tadtools');
 
 //需加入模組語系
-define('_TAD_NEED_TADTOOLS', '需要 tadtools 模組，可至<a href="http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1" target="_blank">XOOPS輕鬆架</a>下載。');
 define('_MA_TADTHEMES_THEME_BASE', '基本版面');
 define('_MA_TADTHEMES_THEME_KIND', '佈景類型');
 define('_MA_TADTHEMES_THEME_KIND_BOOTSTRAP4', '（bootstrap 4 響應式佈景，適用在網站及行動裝置上並自動調整版面，全版按比例分為12欄。）');
 define('_MA_TADTHEMES_THEME_KIND_BOOTSTRAP3', '（bootstrap 3 響應式佈景，適用在網站及行動裝置上並自動調整版面，全版按比例分為12欄。）');
+define('_MA_TADTHEMES_THEME_KIND_BOOTSTRAP5', '（bootstrap 5 響應式佈景，適用在網站及行動裝置上並自動調整版面，全版按比例分為12欄。）');
 define('_MA_TADTHEMES_THEME_KIND_HTML', '（一般的XOOPS網頁佈景）');
 define('_MA_TADTHEMES_THEME_KIND_MIX', '（版面寬度採用固定式，但版面欄位採 bootstrap 的12欄位式）');
 define('_MA_TADTHEMES_THEME_TYPE', '版面類型');
@@ -56,7 +56,8 @@ define('_MA_TADTHEMES_SLIDE_HEIGHT', '滑動區域高度');
 define('_MA_TADTHEMES_SLIDE_DESC', "<ol><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>寬度為 0 時表示不顯示滑動區域</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>高度為 0 時表示自動判斷高度。</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>圖片說明框中可輸入說明，在說明框中輸入 <span style='color:blue;'>[url]http://網址[/url]</span> 可替圖片加上連結。</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>用<span style='color: red;'>[url_blank]http://網址[/url_blank]</span> 則可將連結開在新視窗。</li></ol>");
 define('_MA_TAD_THEMES_FORM', '佈景設定');
 
-define('_MA_TAD_THEMES_NOT_TAD_THEME', '目前使用之佈景「%s」非 Tad Theme 相容佈景，無法使用此工具。<div>該佈景找不到「%s」檔案。</div>');
+define('_MA_TAD_THEMES_NOT_TAD_THEME', '目前使用之佈景「%s」非 Tad Themes 相容佈景，無法使用此工具。<div>該佈景找不到「%s」檔案。</div>');
+define('_MA_NOT_TAD_THEME', '該佈景非 Tad Themes 相容佈景');
 define('_MA_TAD_THEMES_TYPE1', '二欄式（左右區域皆在左邊）');
 define('_MA_TAD_THEMES_TYPE2', '二欄式（左右區域皆在右邊）');
 define('_MA_TAD_THEMES_TYPE3', '二欄式（左區域在左邊，右區域在下方）');

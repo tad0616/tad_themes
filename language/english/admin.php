@@ -2,11 +2,11 @@
 xoops_loadLanguage('admin_common', 'tadtools');
 
 //需加入模組語系
-define('_TAD_NEED_TADTOOLS', 'This module need tadtools module. You can download tadtools from <a href="http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1" target="_blank">XOOPS EasyGO</a>.');
 define('_MA_TADTHEMES_THEME_BASE', 'Theme Setup');
 define('_MA_TADTHEMES_THEME_KIND', 'Theme Kind');
 define('_MA_TADTHEMES_THEME_KIND_BOOTSTRAP3', '（XOOPS bootstrap3 themes)');
 define('_MA_TADTHEMES_THEME_KIND_BOOTSTRAP4', '（XOOPS bootstrap4 themes)');
+define('_MA_TADTHEMES_THEME_KIND_BOOTSTRAP5', '（XOOPS bootstrap5 themes)');
 define('_MA_TADTHEMES_THEME_KIND_HTML', '(XOOPS themes)');
 define('_MA_TADTHEMES_THEME_KIND_MIX', '(bootstrap only for blocks)');
 define('_MA_TADTHEMES_THEME_TYPE', 'Theme Type');
@@ -56,6 +56,7 @@ define('_MA_TADTHEMES_SLIDE_HEIGHT', 'Slide Height');
 define('_MA_TADTHEMES_SLIDE_DESC', "<ol><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Width =0 (hide slide)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>Slide Height = 0(auto height)</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>You can input \"<b><u>[url]http://some.web.url[/url]</u></b>\" to add link for slide image. </li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'><span style='color: red;'>[url_blank]http://some.web.url[/url_blank]</span>  can open the link in a new window.</li></ol>");
 define('_MA_TAD_THEMES_FORM', 'Theme Setup');
 define('_MA_TAD_THEMES_NOT_TAD_THEME', 'Defaut Theme "%s" not compatible with Tad Theme.<div>"%s" not found.</div>');
+define('_MA_NOT_TAD_THEME', 'The set is not a Tad Themes compatible set');
 define('_MA_TAD_THEMES_TYPE1', '2 Columns (All Left)');
 define('_MA_TAD_THEMES_TYPE2', '2 Columns (All Right)');
 define('_MA_TAD_THEMES_TYPE3', '2 Columns (Left + Bottom)');
