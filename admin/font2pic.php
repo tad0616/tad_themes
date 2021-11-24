@@ -76,8 +76,8 @@ function tad_themes_logo_form()
     $margin_bottom = isset($fc['margin_bottom']) ? $fc['margin_bottom'] : '0';
     $xoopsTpl->assign('margin_bottom', $margin_bottom);
 
-    $MColorPicker = new MColorPicker('.color');
-    $MColorPicker->render();
+    $MColorPicker = new MColorPicker('.color-picker');
+    $MColorPicker->render('bootstrap');
 
     $dir = XOOPS_ROOT_PATH . '/uploads/logo/';
     $logos = [];

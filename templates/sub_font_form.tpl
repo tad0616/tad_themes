@@ -1,6 +1,6 @@
 <h2><{$smarty.const._MA_TADTHEMES_FONT_TOOL}></h2>
 <form action="font2pic.php" method="post" role="form" enctype="multipart/form-data" class="form-horizontal">
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <label for="title" class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_FONT_UPLOAD}></label>
         <div class="col-sm-10">
             <{$fontUpForm}>

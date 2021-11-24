@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-sm-5">
         <{if $enable.bg_img}>
-            <div class="form-group row">
+            <div class="form-group row mb-3">
                 <!-- 上傳 背景圖-->
                 <label class="col-sm-4 col-form-label text-sm-right control-label">
                     <{$smarty.const._MA_TAD_THEMES_UPLOAD}>
@@ -17,13 +17,16 @@
 
 
         <{if $enable.bg_color}>
-            <div class="form-group row">
+            <div class="form-group row mb-3">
                 <!-- 背景顏色-->
                 <label class="col-sm-4 col-form-label text-sm-right control-label">
                     <{$smarty.const._MA_TADTHEMES_BG_COLOR}>
                 </label>
                 <div class="col-sm-8">
-                    <input type="text" name="bg_color" id="bg_color" value="<{$bg_color}>" class="form-control color-picker <{$validate.bg_color}>" data-hex="true"  onChange="change_css();">
+                    <{* <input type="text" name="bg_color" id="bg_color" value="<{$bg_color}>" class="form-control color-picker <{$validate.bg_color}>" data-hex="true"  onChange="change_css();"> *}>
+                    <div class="input-group">
+                        <input type="text" name="bg_color" id="bg_color" value="<{$bg_color}>" class="form-control color-picker <{$validate.bg_color}>"  onChange="change_css();" data-hex="true">
+                    </div>
                 </div>
             </div>
         <{else}>
@@ -31,7 +34,7 @@
         <{/if}>
 
         <{if $enable.bg_repeat}>
-        <div class="form-group row">
+        <div class="form-group row mb-3">
             <!-- 背景重複-->
             <label class="col-sm-4 col-form-label text-sm-right control-label">
                 <{$smarty.const._MA_TADTHEMES_BG_REPEAT}>
@@ -50,7 +53,7 @@
         <{/if}>
 
         <{if $enable.bg_size}>
-        <div class="form-group row">
+        <div class="form-group row mb-3">
             <!-- 背景縮放-->
             <label class="col-sm-4 col-form-label text-sm-right control-label">
                 <{$smarty.const._MA_TADTHEMES_BG_SIZE}>
@@ -70,7 +73,7 @@
 
 
         <{if $enable.bg_attachment}>
-        <div class="form-group row">
+        <div class="form-group row mb-3">
             <!-- 背景模式-->
             <label class="col-sm-4 col-form-label text-sm-right control-label">
                 <{$smarty.const._MA_TADTHEMES_BG_ATTACHMENT}>
@@ -88,7 +91,7 @@
 
 
         <{if $enable.bg_position}>
-        <div class="form-group row">
+        <div class="form-group row mb-3">
             <!-- 背景位置-->
             <label class="col-sm-4 col-form-label text-sm-right control-label">
                 <{$smarty.const._MA_TADTHEMES_BG_POSITION}>

@@ -238,7 +238,7 @@ function tad_themes_form($mode = '')
         $theme_unit = _MA_TADTHEMES_COL;
         $_SESSION['bootstrap'] = '5';
     } elseif ('bootstrap4' === $theme_kind) {
-        $theme_kind_txt = _MA_TADTHEMES_THEME_KIND_BOOTSTRAP4;
+        $theme_kind_txt = _MA_TADTHEMES_THEME_KIND_BOOTSTRAP5;
         $chang_css = change_css_bootstrap($theme_width, $lb_width, $cb_width);
         $theme_unit = _MA_TADTHEMES_COL;
         $_SESSION['bootstrap'] = '4';
@@ -362,8 +362,8 @@ function tad_themes_form($mode = '')
         mk_config2($theme_id, $theme_name, $config2_file);
     }
 
-    $MColorPicker = new MColorPicker('.color');
-    $MColorPicker->render();
+    $MColorPicker = new MColorPicker('.color-picker');
+    $MColorPicker->render('bootstrap');
 
     $xoTheme->addScript('modules/tadtools/jqueryCookie/jquery.cookie.js');
 
@@ -964,18 +964,24 @@ function update_tad_themes($theme_id = '')
             $_POST['cb_width'] = 500;
             $_POST['rb_width'] = 240;
             $_POST['slide_width'] = 980;
-        } elseif ('bootstrap4' === $_POST['theme_kind']) {
+        } elseif ('bootstrap5' === $_POST['theme_kind']) {
             $_POST['theme_width'] = 12;
             $_POST['lb_width'] = 'auto';
             $_POST['cb_width'] = 9;
             $_POST['rb_width'] = 'auto';
             $_POST['slide_width'] = 12;
-        } else {
-            $_POST['theme_kind'] = 'bootstrap3';
+        } elseif ('bootstrap3' === $_POST['theme_kind']) {
             $_POST['theme_width'] = 12;
             $_POST['lb_width'] = 3;
             $_POST['cb_width'] = 6;
             $_POST['rb_width'] = 3;
+            $_POST['slide_width'] = 12;
+        } else {
+            $_POST['theme_kind'] = 'bootstrap4';
+            $_POST['theme_width'] = 12;
+            $_POST['lb_width'] = 'auto';
+            $_POST['cb_width'] = 9;
+            $_POST['rb_width'] = 'auto';
             $_POST['slide_width'] = 12;
         }
     }
@@ -1310,11 +1316,29 @@ function export_config($theme_id = '', $theme_config_name = '', $from_theme_name
     $to_theme_name = $to_theme_name ? $to_theme_name : $xoopsConfig['theme_set'];
 
     if (file_exists(XOOPS_ROOT_PATH . "/themes/{$to_theme_name}/config.php")) {
-        require_once XOOPS_ROOT_PATH . "/themes/{$to_theme_name}/config.php";
+        require XOOPS_ROOT_PATH . "/themes/{$to_theme_name}/config.php";
+        $org_config_tabs = $config_tabs;
+        $org_config_enable = $config_enable;
     }
 
     if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$to_theme_name}/config.php")) {
-        require_once XOOPS_ROOT_PATH . "/uploads/tad_themes/{$to_theme_name}/config.php";
+        require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$to_theme_name}/config.php";
+        $setup_config_tabs = $config_tabs;
+        $setup_config_enable = $config_enable;
+    }
+
+    if ($force) {
+        $force_config_tabs = $force['config_tabs'];
+        $force_config_enable = $force['config_enable'];
+    }
+
+    // 頁籤以原始的佈景為主
+    $config_tabs = $org_config_tabs;
+    foreach ($org_config_enable as $type => $item) {
+        $config_enable[$type]['enable'] = $item['enable'];
+        $config_enable[$type]['min'] = $item['min'];
+        $config_enable[$type]['max'] = $item['max'];
+        $config_enable[$type]['require'] = $item['require'];
     }
 
     if (!empty($theme_config_name)) {
@@ -1328,15 +1352,17 @@ function export_config($theme_id = '', $theme_config_name = '', $from_theme_name
     $DBV = get_tad_themes($theme_id);
     $from_theme_name = $from_theme_name ? $from_theme_name : $DBV['theme_name'];
 
+    foreach ($force as $k => $v) {
+        if (!is_array($v)) {
+            $v = $myts->addSlashes($v);
+        }
+        $$k = $v;
+    }
+
     foreach ($DBV as $k => $v) {
         $v = $myts->addSlashes($v);
         $$k = $v;
-        $config_enable[$k]['default'] = $v;
-    }
-
-    foreach ($force as $k => $v) {
-        $v = $myts->addSlashes($v);
-        $$k = $v;
+        $config_enable[$k]['default'] = isset($force_config_enable[$k]['default']) ? $force_config_enable[$k]['default'] : $v;
     }
 
     $bg_img_default = $logo_img_default = $bt_bg_img_default = $navbar_img_default = $navlogo_img_default = '';
@@ -1435,10 +1461,10 @@ function export_config($theme_id = '', $theme_config_name = '', $from_theme_name
 //佈景種類是否可自訂
 \$theme_change = {$theme_change};
 
-//預設佈景種類 bootstrap4 , bootstrap3 , html , mix
+//預設佈景種類 bootstrap5 , bootstrap4 , bootstrap3 , html , mix
 \$theme_kind = '{$theme_kind}';
 
-//可選用佈景種類 bootstrap4 , bootstrap3 , html , mix （\$theme_change=1 時才有用）
+//可選用佈景種類 bootstrap5 , bootstrap4 , bootstrap3 , html , mix （\$theme_change=1 時才有用）
 \$theme_kind_arr = '{$theme_kind_arr}';
 
 //引入哪些選單？ all(含 my_menu,admin,user),my_menu,admin,user
@@ -1669,6 +1695,9 @@ tabs-6 導覽工具列
 
 //導覽工具列 導覽選項左右距離[theme_css_navbar.tpl]
 \$config_enable['navbar_px'] = array('enable' => '{$config_enable['navbar_px']['enable']}', 'min' => '{$config_enable['navbar_px']['min']}', 'max' => '{$config_enable['navbar_px']['max']}', 'require' => '{$config_enable['navbar_px']['require']}', 'default' => '{$config_enable['navbar_px']['default']}');
+
+//導覽工具列 導覽選項文字大小[theme_css_navbar.tpl]
+\$config_enable['navbar_font_size'] = array('enable' => '{$config_enable['navbar_font_size']['enable']}', 'min' => '{$config_enable['navbar_font_size']['min']}', 'max' => '{$config_enable['navbar_font_size']['max']}', 'require' => '{$config_enable['navbar_font_size']['require']}', 'default' => '{$config_enable['navbar_font_size']['default']}');
 
 // 上傳導覽列logo圖[navbar.tpl]，值：可指定置於「themes/佈景/images/navlogo/」下的某一檔案名稱
 \$config_enable['navlogo_img'] = array('enable' => '{$config_enable['navlogo_img']['enable']}', 'min' => '{$config_enable['navlogo_img']['min']}', 'max' => '{$config_enable['navlogo_img']['max']}', 'require' => '{$config_enable['navlogo_img']['require']}', 'default' => '{$navlogo_img_default}');
@@ -2009,7 +2038,6 @@ function copy_theme($from_theme_id)
     }
 
     $theme_name = $xoopsConfig['theme_set'];
-    $now_theme = get_tad_themes();
     $from_theme = get_tad_themes($from_theme_id);
     $from_theme_name = $from_theme['theme_name'];
 
@@ -2030,6 +2058,8 @@ function copy_theme($from_theme_id)
     $force['menu_var_kind'] = $menu_var_kind;
     $force['theme_color'] = $theme_color;
     $force['theme_set_allowed'] = $theme_set_allowed;
+    $force['config_tabs'] = $config_tabs;
+    $force['config_enable'] = $config_enable;
 
     export_config($from_theme_id, $from_theme_name, $from_theme_name, $theme_name, $force);
 

@@ -4,7 +4,7 @@
 
             <!--滑動圖片寬度-->
             <{if $enable.slide_width=="1"}>
-                <div class="form-group row">
+                <div class="form-group row mb-3">
                     <label class="col-sm-4 col-form-label text-sm-right control-label">
                         <{$smarty.const._MA_TADTHEMES_SLIDE_WIDTH}>
                     </label>
@@ -23,7 +23,7 @@
 
             <!--滑動圖片高度-->
             <{if $enable.slide_height=="1"}>
-                <div class="form-group row">
+                <div class="form-group row mb-3">
                     <label class="col-sm-4 col-form-label text-sm-right control-label">
                         <{$smarty.const._MA_TADTHEMES_SLIDE_HEIGHT}>
                     </label>
@@ -55,7 +55,7 @@
 </div>
 
 <{if $enable.slide_width=="1" or $enable.slide_height=="1" or $enable.use_slide=="1"}>
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <!-- 背景模式-->
         <label class="col-sm-2 col-form-label text-sm-right control-label">
             <{$smarty.const._MA_TAD_THEMES_UPLOAD}>

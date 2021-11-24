@@ -2,7 +2,7 @@
 <div class="alert alert-success">
     <div class="row">
         <div class="col-sm-6">
-            <div class="form-group row">
+            <div class="form-group row mb-3">
                 <label class="col-sm-4 col-form-label text-sm-right control-label">
                     <{$config.text}>
                 </label>
@@ -10,7 +10,7 @@
                         <{$config.form}>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row mb-3">
                 <label class="col-sm-4 col-form-label text-sm-right control-label">
                     <{$config.text}><{$smarty.const._MA_TADTHEMES_BG_ATTR}>
                 </label>
@@ -43,7 +43,7 @@
     </div>
 </div>
 <{else}>
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <label class="col-sm-2 col-form-label text-sm-right control-label">
             <{$config.text}>
         </label>
@@ -51,7 +51,10 @@
             <{if $config.type=="text"}>
                 <input type="text" name="<{$config.name}>" value="<{$config.value}>" data-toggle="tooltip" title="<{$config.default}>" class="form-control">
             <{elseif $config.type=="color"}>
-                <input type="text" name="<{$config.name}>" id="<{$config.name}>" value="<{$config.value}>"  data-toggle="tooltip" title="<{$config.default}>" class="form-control color-picker" data-hex="true" >
+                <{* <input type="text" name="<{$config.name}>" id="<{$config.name}>" value="<{$config.value}>"  data-toggle="tooltip" title="<{$config.default}>" class="form-control color-picker" data-hex="true" > *}>
+                <div class="input-group">
+                    <input type="text" name="<{$config.name}>" id="<{$config.name}>" value="<{$config.value}>" class="form-control color-picker"  data-toggle="tooltip" title="<{$config.default}>" data-hex="true">
+                </div>
             <{elseif $config.type=="array"}>
                 <textarea name="<{$config.name}>" class="form-control" rows=4 style="font-size:0.8em;" data-toggle="tooltip" title="<{$config.default}>"><{$config.value}></textarea>
             <{elseif $config.type=="textarea"}>

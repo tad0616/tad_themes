@@ -217,14 +217,11 @@ function TadUpFilesNavBg()
 //更新 tadtools 初始設定
 function update_tadtools_setup($theme = '', $theme_kind = '')
 {
-    global $xoopsDB, $xoopsConfig;
-    if ('bootstrap4' === $theme_kind) {
-        $bootstrap_color = $theme_kind;
-    } elseif ('bootstrap3' === $theme_kind) {
-        $bootstrap_color = $theme_kind;
-    } else {
-        $bootstrap_color = 'bootstrap3';
+    global $xoopsDB;
+    if (empty($theme_kind)) {
+        $theme_kind = 'bootstrap4';
     }
+    $bootstrap_color = $theme_kind;
 
     $sql = 'select `tt_theme_kind` from `' . $xoopsDB->prefix('tadtools_setup') . "` where `tt_theme`='{$theme}'";
     $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);

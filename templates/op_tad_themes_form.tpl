@@ -187,7 +187,7 @@
                 </div>
 
                 <div class="alert alert-info">
-                    <{if $theme_kind!="bootstrap" and $theme_kind!="bootstrap3" and $theme_kind!="bootstrap4"}>
+                    <{if $theme_kind!="bootstrap" and $theme_kind!="bootstrap3" and $theme_kind!="bootstrap4" and $theme_kind!="bootstrap5"}>
                         <{$smarty.const._MA_TADTHEMES_NOTICE}>
                     <{/if}>
                     <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_form.tpl"}>
