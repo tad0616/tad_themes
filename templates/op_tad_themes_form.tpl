@@ -183,7 +183,9 @@
                     <input type="hidden" name="theme_name" value="<{$theme_name}>">
 
                     <!--佈景圖片寬度-->
-                    <button type="submit" name="op" value="<{$op}>" class="btn btn-primary btn-lg btn-block"><{$smarty.const._TAD_SAVE}></button>
+                    <button type="submit" name="op" value="<{$op}>" class="btn btn-primary btn-lg btn-block" style="position: fixed; bottom: 60px; right:60px; z-index:100; box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.3);">
+                        <i class="fa fa-save" aria-hidden="true"></i> <{$smarty.const._TAD_SAVE}>
+                    </button>
                 </div>
 
                 <div class="alert alert-info">

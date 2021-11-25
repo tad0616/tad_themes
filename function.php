@@ -247,8 +247,6 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
     }
     $TadUpFiles_config2 = TadUpFiles_config2();
 
-    // Utility::dd($config2_arr);
-
     //額外佈景設定
     $myts = \MyTextSanitizer::getInstance();
     foreach ($config2_arr as $config2) {
@@ -275,7 +273,16 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
 
         foreach ($theme_config as $k => $config) {
             $name = $config['name'];
-            $value = isset($_POST[$name]) ? $myts->addSlashes($_POST[$name]) : $config['default'];
+            if (isset($_POST[$name])) {
+                if (is_array($_POST[$name])) {
+                    $value = $myts->addSlashes(json_encode($_POST[$name]));
+                } else {
+                    $value = $myts->addSlashes($_POST[$name]);
+                }
+            } else {
+                $value = $config['default'];
+            }
+
             if ('file' === $config['type']) {
                 $value = basename($value);
             }
