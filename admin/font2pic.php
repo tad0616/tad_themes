@@ -76,8 +76,8 @@ function tad_themes_logo_form()
     $margin_bottom = isset($fc['margin_bottom']) ? $fc['margin_bottom'] : '0';
     $xoopsTpl->assign('margin_bottom', $margin_bottom);
 
-    $MColorPicker = new MColorPicker('.color');
-    $MColorPicker->render();
+    $MColorPicker = new MColorPicker('.color-picker');
+    $MColorPicker->render('bootstrap');
 
     $dir = XOOPS_ROOT_PATH . '/uploads/logo/';
     $logos = [];
@@ -383,7 +383,7 @@ switch ($op) {
         exit;
 
     case 'save_font':
-        $TadUpFontFiles->upload_file('font', null, null, $files_sn, null, true);
+        $TadUpFontFiles->upload_file('font', null, null, $files_sn, null, true, false, 'file_name', 'ttf;otf;ttc');
         header("location: " . \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'));
         exit;
 

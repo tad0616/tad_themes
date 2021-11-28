@@ -317,9 +317,7 @@ function list_tad_themes_menu($add_of_level = '', $menuid = '')
 
     //treetable($show_jquery=true , $sn="cat_sn" , $of_sn="of_cat_sn" , $tbl_id="#tbl" , $post_url="save_drag.php" ,$folder_class=".folder", $msg="#save_msg" ,$expanded=true,$sort_id="", $sort_url="save_sort.php", $sort_msg="#save_msg2")
     $TreeTable = new TreeTable(false, 'menuid', 'of_level', '#tbl', 'save_drag.php', '.folder', '#save_msg', true, '.sort', 'save_sort.php', '#save_msg');
-    $treetable_code = $TreeTable->render();
-
-    $xoopsTpl->assign('treetable_code', $treetable_code);
+    $TreeTable->render();
 
     $FancyBox = new FancyBox('.edit_dropdown', '800', '400');
     $FancyBox->render();
@@ -334,8 +332,8 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '
     global $xoopsDB, $xoopsUser, $xoopsModule;
     $btn_xs = 4 == $_SESSION['bootstrap'] ? 'btn-sm' : 'btn-xs';
     $left = $level * 30;
-    $font_size = 18 - ($level * 2);
-    $icon_size = 22 - ($level * 2);
+    $font_size = 1.2 - ($level * 0.2);
+    $icon_size = 1.3 - ($level * 0.2);
     $level += 1;
 
     $left = (empty($left)) ? 4 : $left;
@@ -354,7 +352,7 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '
     while (list($menuid, $of_level, $itemname, $position, $itemurl, $status, $target, $icon, $link_cate_name, $link_cate_sn) = $xoopsDB->fetchRow($result)) {
         $item = (empty($itemurl)) ? "<i class='fa {$icon}'></i> " . $itemname : "<a name='$menuid' href='{$itemurl}'><i class='fa {$icon}'></i> $itemname</a>";
 
-        $add_img = ($level >= 3) ? '' : "<a href='{$_SERVER['PHP_SELF']}?op=add_tad_themes_menu&of_level={$menuid}' class='edit_dropdown' data-fancybox-type='iframe' style='font-size: {$icon_size}px; margin: 2px 10px;'><i class='fa fa-plus-circle text-success' aria-hidden='true' title='" . sprintf(_MA_TADTHEMES_ADDITEM, $itemname) . "'></i></a>";
+        $add_img = ($level >= 3) ? '' : "<a href='{$_SERVER['PHP_SELF']}?op=add_tad_themes_menu&of_level={$menuid}' class='edit_dropdown' data-fancybox-type='iframe' style='font-size: {$icon_size}rem; margin: 2px 10px;'><i class='fa fa-plus-circle text-success' aria-hidden='true' title='" . sprintf(_MA_TADTHEMES_ADDITEM, $itemname) . "'></i></a>";
 
         $status_tool = ('1' == $status) ? "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=0' class='btn $btn_xs btn-warning'>" . _TAD_UNABLE . '</a>' : "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=1' class='btn $btn_xs btn-info'>" . _TAD_ENABLE . '</a>';
 
@@ -388,12 +386,12 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '
             <a name='menuid_{$menuid}'></a>
             <img src='" . XOOPS_URL . "/modules/tadtools/treeTable/images/move.svg' class='folder' alt='" . _MA_TREETABLE_MOVE_PIC . "' title='" . _MA_TREETABLE_MOVE_PIC . "' style='width:20px;'>
             <img src='" . XOOPS_URL . "/modules/tadtools/treeTable/images/updown_s.svg' style='width:20px; cursor: s-resize;margin:0px 4px;' alt='" . _MA_TADTHEMES_SAVE_SORT . "' title='" . _MA_TADTHEMES_SAVE_SORT . "({$sort})' >
-            <span style='font-size:{$font_size}px;' class='$span'>{$item}</span>
+            <span style='font-size:{$font_size}rem;' class='$span'>{$item}</span>
             $target_icon
             $add_img
             </td>
             <td $status_color>
-            <a href=\"javascript:delete_tad_themes_menu($menuid);\" title='" . _TAD_DEL . "' style='font-size:16px; color:red;'><i class=\"fa fa-times-circle\" aria-hidden=\"true\"></i>
+            <a href=\"javascript:delete_tad_themes_menu($menuid);\" title='" . _TAD_DEL . "' style='font-size: 1rem; color:red;'><i class=\"fa fa-times-circle\" aria-hidden=\"true\"></i>
             </a>
             $status_tool
             <a href='{$_SERVER['PHP_SELF']}?op=modify_tad_themes_menu&menuid=$menuid#menuid_{$menuid}' class='btn $btn_xs btn-success edit_dropdown' data-fancybox-type='iframe'>" . _TAD_EDIT . "</a>
@@ -678,18 +676,21 @@ switch ($op) {
     //更新資料
     case 'update_tad_themes_menu':
         update_tad_themes_menu($menuid);
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
         exit;
 
     //新增資料
     case 'insert_tad_themes_menu':
         insert_tad_themes_menu();
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
         exit;
 
     //刪除資料
     case 'delete_tad_themes_menu':
         delete_tad_themes_menu($menuid);
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
@@ -700,6 +701,7 @@ switch ($op) {
     //儲存排序
     case 'save_sort':
         save_sort();
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
@@ -711,22 +713,26 @@ switch ($op) {
     //會入主選單
     case 'import':
         auto_import();
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
     //匯入編輯功能選項
     case 'import_edit':
         import_edit();
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
     case 'tad_themes_menu_status':
         tad_themes_menu_status($menuid, $status);
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
         exit;
 
     case 'del_pic':
         del_pic($type, $menuid);
+        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
         exit;
 

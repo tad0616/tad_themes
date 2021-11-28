@@ -217,14 +217,11 @@ function TadUpFilesNavBg()
 //更新 tadtools 初始設定
 function update_tadtools_setup($theme = '', $theme_kind = '')
 {
-    global $xoopsDB, $xoopsConfig;
-    if ('bootstrap4' === $theme_kind) {
-        $bootstrap_color = $theme_kind;
-    } elseif ('bootstrap3' === $theme_kind) {
-        $bootstrap_color = $theme_kind;
-    } else {
-        $bootstrap_color = 'bootstrap3';
+    global $xoopsDB;
+    if (empty($theme_kind)) {
+        $theme_kind = 'bootstrap4';
     }
+    $bootstrap_color = $theme_kind;
 
     $sql = 'select `tt_theme_kind` from `' . $xoopsDB->prefix('tadtools_setup') . "` where `tt_theme`='{$theme}'";
     $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
@@ -245,10 +242,10 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
 
     $theme_name = $xoopsConfig['theme_set'];
 
-    require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
+    if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php")) {
+        require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
+    }
     $TadUpFiles_config2 = TadUpFiles_config2();
-
-    // Utility::dd($config2_arr);
 
     //額外佈景設定
     $myts = \MyTextSanitizer::getInstance();
@@ -276,7 +273,16 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
 
         foreach ($theme_config as $k => $config) {
             $name = $config['name'];
-            $value = isset($_POST[$name]) ? $myts->addSlashes($_POST[$name]) : $config['default'];
+            if (isset($_POST[$name])) {
+                if (is_array($_POST[$name])) {
+                    $value = $myts->addSlashes(json_encode($_POST[$name]));
+                } else {
+                    $value = $myts->addSlashes($_POST[$name]);
+                }
+            } else {
+                $value = $config['default'];
+            }
+
             if ('file' === $config['type']) {
                 $value = basename($value);
             }
@@ -289,7 +295,7 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
             if ('file' === $config['type'] or 'bg_file' === $config['type']) {
                 // 上傳
                 $TadUpFiles_config2->set_col("config2_{$config['name']}", $theme_id);
-                $filename = $TadUpFiles_config2->upload_file("config2_{$config['name']}", null, null, null, '', true, false, 'file_name', 'png;jpg;gif');
+                $filename = $TadUpFiles_config2->upload_file("config2_{$config['name']}", null, null, null, '', true, false, 'file_name', 'png;jpg;gif;svg;webp');
                 if ($filename) {
                     update_theme_config2($config['name'], $filename, $theme_id, $theme_name);
                 }
@@ -297,7 +303,6 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
             }
 
             if ('bg_file' === $config['type']) {
-
                 $value_repeat = isset($_POST[$name . '_repeat']) ? $myts->addSlashes($_POST[$name . '_repeat']) : $config['repeat'];
                 $value_position = isset($_POST[$name . '_position']) ? $myts->addSlashes($_POST[$name . '_position']) : $config['position'];
                 $value_size = isset($_POST[$name . '_size']) ? $myts->addSlashes($_POST[$name . '_size']) : $config['size'];
@@ -308,6 +313,19 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
                 ($theme_id , '{$config['name']}_size' , 'select' , '{$value_size}')";
                 // die($sql);
                 $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            }
+
+            if (isset($config['callback'])) {
+                eval($config['callback']['func_code']);
+                foreach ($config['callback']['func_parm'] as $parm) {
+                    $config_name = $parm['col'];
+                    if ($parm['type'] == 'config') {
+                        $p[$config_name] = get_config_value($theme_id, $config_name);
+                    } elseif ($parm['type'] == 'config2') {
+                        $p[$config_name] = get_config2_value($theme_id, $config_name);
+                    }
+                }
+                call_user_func($config['callback']['func_name'], $p);
             }
         }
     }
@@ -331,4 +349,28 @@ function get_theme_id($theme_name = '')
     list($theme_id) = $xoopsDB->fetchRow($result);
 
     return $theme_id;
+}
+
+//取得佈景某個設定
+function get_config_value($theme_id = '', $config_name = '')
+{
+    global $xoopsDB;
+
+    $sql = "select `$config_name` from " . $xoopsDB->prefix('tad_themes') . " where `theme_id` = '{$theme_id}'";
+    $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    list($value) = $xoopsDB->fetchRow($result);
+
+    return $value;
+}
+
+//取得佈景某個額外設定
+function get_config2_value($theme_id = '', $config_name = '')
+{
+    global $xoopsDB;
+
+    $sql = 'select `value` from ' . $xoopsDB->prefix('tad_themes_config2') . " where `theme_id` = '{$theme_id}' and `name`='{$config_name}'";
+    $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    list($value) = $xoopsDB->fetchRow($result);
+
+    return $value;
 }

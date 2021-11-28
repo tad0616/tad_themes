@@ -23,10 +23,10 @@ CREATE TABLE `tad_themes` (
   `bg_position` varchar(255) default '' COMMENT '背景位置',
   `bg_repeat` varchar(255) default '' COMMENT '背景重複',
   `bg_size` varchar(255) default '' COMMENT '背景縮放',
-  `logo_top` smallint(5) unsigned default 0 COMMENT 'Logo離上方距離',
-  `logo_right` smallint(5) unsigned default 0 COMMENT 'Logo離右邊距離',
-  `logo_bottom` smallint(5) unsigned default 0 COMMENT 'Logo離下方距離',
-  `logo_left` smallint(5) unsigned default 0 COMMENT 'Logo離左邊距離',
+  `logo_top` smallint(5) default 0 COMMENT 'Logo離上方距離',
+  `logo_right` smallint(5) default 0 COMMENT 'Logo離右邊距離',
+  `logo_bottom` smallint(5) default 0 COMMENT 'Logo離下方距離',
+  `logo_left` smallint(5) default 0 COMMENT 'Logo離左邊距離',
   `logo_center` enum('0','1') default '0' COMMENT 'Logo 置中',
   `theme_enable` enum('1','0') default '1' COMMENT '使用狀況',
   `slide_width` varchar(255) default '' COMMENT '佈景圖片寬度',
@@ -113,13 +113,14 @@ CREATE TABLE `tad_themes_config2` (
 
 
 CREATE TABLE `tad_themes_data_center` (
-`mid` mediumint(9) unsigned  COMMENT '模組編號',
-`col_name` varchar(100) default '' COMMENT '欄位名稱',
-`col_sn` mediumint(9) unsigned COMMENT '欄位編號',
-`data_name` varchar(100) default '' COMMENT '資料名稱',
-`data_value` text COMMENT '儲存值',
-`data_sort` mediumint(9) unsigned  COMMENT '排序',
-`col_id` varchar(100) default '' COMMENT '辨識字串',
-`update_time` datetime COMMENT '更新時間',
-PRIMARY KEY  (`mid`,`col_name`,`col_sn`,`data_name`,`data_sort`)
+  `mid` mediumint(9) unsigned  COMMENT '模組編號',
+  `col_name` varchar(100) default '' COMMENT '欄位名稱',
+  `col_sn` mediumint(9) unsigned COMMENT '欄位編號',
+  `data_name` varchar(100) default '' COMMENT '資料名稱',
+  `data_value` text COMMENT '儲存值',
+  `data_sort` mediumint(9) unsigned  COMMENT '排序',
+  `col_id` varchar(100) default '' COMMENT '辨識字串',
+  `sort` mediumint(9) unsigned COMMENT '顯示順序',
+  `update_time` datetime COMMENT '更新時間',
+  PRIMARY KEY  (`mid`,`col_name`,`col_sn`,`data_name`,`data_sort`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

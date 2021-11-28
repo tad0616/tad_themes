@@ -1,6 +1,6 @@
 <!--導覽工具列位置-->
 <{if $enable.navbar_pos=="1" or $enable.navbar_font_size!="0"}>
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <{if $enable.navbar_pos=="1"}>
             <label class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION}></label>
             <div class="col-sm-4">
@@ -27,7 +27,7 @@
                 <div class="input-group">
                     <{$navbar_font_size_input}>
                     <div class="input-group-append input-group-addon">
-                        <span class="input-group-text">%</span>
+                        <span class="input-group-text">rem</span>
                     </div>
                 </div>
             </div>
@@ -43,14 +43,17 @@
 
 
 <{if $enable.navbar_color=="1" or $enable.navbar_icon=="1"}>
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <!--導覽工具列 文字顏色-->
         <{if $enable.navbar_color=="1"}>
             <label class="col-sm-2 col-form-label text-sm-right control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR}>
             </label>
             <div class="col-sm-4">
-                <input type="text" name="navbar_color" id="navbar_color" value="<{$navbar_color}>" class="form-control color-picker <{$validate.navbar_color}>" data-hex="true">
+                <{* <input type="text" name="navbar_color" id="navbar_color" value="<{$navbar_color}>" class="form-control color-picker <{$validate.navbar_color}>" data-hex="true"> *}>
+                <div class="input-group">
+                    <input type="text" name="navbar_color" id="navbar_color" value="<{$navbar_color}>" class="form-control color-picker <{$validate.navbar_color}>" data-hex="true">
+                </div>
             </div>
         <{else}>
             <input type="hidden" name="navbar_color" id="navbar_color" value="<{$navbar_color}>">
@@ -81,14 +84,17 @@
 <{/if}>
 
 <{if $enable.navbar_bg_top=="1" or $enable.navbar_bg_bottom=="1"}>
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <!--導覽工具列 漸層顏色(top) -->
         <{if $enable.navbar_bg_top=="1"}>
             <label class="col-sm-2 col-form-label text-sm-right control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_BG_COLOR}>
             </label>
             <div class="col-sm-4">
-                <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>" class="form-control color-picker <{$validate.navbar_bg_top}>" data-hex="true">
+                <{* <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>" class="form-control color-picker <{$validate.navbar_bg_top}>" data-hex="true"> *}>
+                <div class="input-group">
+                    <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>" class="form-control color-picker <{$validate.navbar_bg_top}>" data-hex="true">
+                </div>
             </div>
         <{else}>
             <input type="hidden" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>">
@@ -99,7 +105,10 @@
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_CHANGE}>
             </label>
             <div class="col-sm-4">
-                <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>" class="form-control color-picker <{$validate.navbar_bg_bottom}>" data-hex="true">
+                <{* <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>" class="form-control color-picker <{$validate.navbar_bg_bottom}>" data-hex="true"> *}>
+                <div class="input-group">
+                    <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>" class="form-control color-picker <{$validate.navbar_bg_bottom}>" data-hex="true">
+                </div>
             </div>
         <{else}>
             <input type="hidden" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>">
@@ -112,14 +121,17 @@
 
 
 <{if $enable.navbar_color_hover=="1" or $enable.navbar_hover=="1"}>
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <!--導覽工具列 滑鼠移過顏色-->
         <{if $enable.navbar_color_hover=="1"}>
             <label class="col-sm-2 col-form-label text-sm-right control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR_HOVER}>
             </label>
             <div class="col-sm-4">
-                <input type="text" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>" class="form-control color-picker <{$validate.navbar_color_hover}>" data-hex="true">
+                <{* <input type="text" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>" class="form-control color-picker <{$validate.navbar_color_hover}>" data-hex="true"> *}>
+                <div class="input-group">
+                    <input type="text" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>" class="form-control color-picker <{$validate.navbar_color_hover}>" data-hex="true">
+                </div>
             </div>
         <{else}>
             <input type="hidden" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>">
@@ -129,7 +141,10 @@
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_HOVER_COLOR}>
             </label>
             <div class="col-sm-4">
-                <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>" class="form-control color-picker <{$validate.navbar_hover}>" data-hex="true">
+                <{* <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>" class="form-control color-picker <{$validate.navbar_hover}>" data-hex="true"> *}>
+                <div class="input-group">
+                    <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>" class="form-control color-picker <{$validate.navbar_hover}>" data-hex="true">
+                </div>
             </div>
         <{else}>
             <input type="hidden" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>">
@@ -145,7 +160,7 @@
 
 
 <{if $enable.navbar_py=="1" or $enable.navbar_px=="1"}>
-    <div class="form-group row">
+    <div class="form-group row mb-3">
         <!--導覽工具列 導覽選項上下距離-->
         <{if $enable.navbar_py=="1"}>
             <label class="col-sm-2 col-form-label text-sm-right control-label">

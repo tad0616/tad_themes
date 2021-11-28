@@ -18,7 +18,7 @@
                         <{$smarty.const._MA_TADTHEMES_BLOCK_ALL_POSITION}>
                     </label>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <!-- 區塊標題文字大小-->
                         <{if $enable.bt_text_size=="1"}>
                             <label class="col-sm-2 col-form-label text-sm-right control-label">
@@ -49,14 +49,17 @@
                         <{/if}>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <!-- 區塊標題列文字顏色-->
                         <{if $enable.bt_text=="1"}>
                             <label class="col-sm-2 col-form-label text-sm-right control-label">
                                 <{$smarty.const._MA_TADTHEMES_FONT_COLOR}>
                             </label>
                             <div class="col-sm-4">
-                                <input type="text" name="bt_text[<{$block.block_position}>]" id="bt_text_<{$block.block_position}>" value="<{$block.bt_text}>" class="form-control color-picker <{$validate.bt_text}>"  data-hex="true">
+                                <{* <input type="text" name="bt_text[<{$block.block_position}>]" id="bt_text_<{$block.block_position}>" value="<{$block.bt_text}>" class="form-control color-picker <{$validate.bt_text}>"  data-hex="true"> *}>
+                                <div class="input-group">
+                                    <input type="text" name="bt_text[<{$block.block_position}>]" id="bt_text_<{$block.block_position}>" value="<{$block.bt_text}>" class="form-control color-picker <{$validate.bt_text}>" data-hex="true">
+                                </div>
                             </div>
                         <{else}>
                             <input type="hidden" name="bt_text" id="bt_text" value="<{$bt_text}>">
@@ -68,14 +71,17 @@
                                 <{$smarty.const._MA_TADTHEMES_BG_COLOR}>
                             </label>
                             <div class="col-sm-4">
-                                <input type="text" name="bt_bg_color[<{$block.block_position}>]" id="bt_bg_color_<{$block.block_position}>" value="<{$block.bt_bg_color}>" class="form-control color-picker <{$validate.bt_bg_color}>" data-hex="true">
+                                <{* <input type="text" name="bt_bg_color[<{$block.block_position}>]" id="bt_bg_color_<{$block.block_position}>" value="<{$block.bt_bg_color}>" class="form-control color-picker <{$validate.bt_bg_color}>" data-hex="true"> *}>
+                                <div class="input-group">
+                                    <input type="text" name="bt_bg_color[<{$block.block_position}>]" id="bt_bg_color_<{$block.block_position}>" value="<{$block.bt_bg_color}>" class="form-control color-picker <{$validate.bt_bg_color}>" data-hex="true">
+                                </div>
                             </div>
                         <{else}>
                             <input type="hidden" name="bt_bg_color" id="bt_bg_color" value="<{$bt_bg_color}>">
                         <{/if}>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <!-- 區塊標題圓角設定-->
                         <{if $enable.bt_radius=="1"}>
                             <label class="col-sm-2 col-form-label text-sm-right control-label">
@@ -109,7 +115,7 @@
                         <{/if}>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <!-- 上傳區塊標題列背景圖-->
                         <{if $enable.bt_bg_img=="1"}>
                             <label class="col-sm-2 col-form-label text-sm-right control-label">
@@ -142,7 +148,7 @@
 
                     <!-- 選擇預設區塊標題列背景圖-->
                     <{if $block.all_bt_bg and $enable.bt_bg_img=='1'}>
-                        <div class="form-group row">
+                        <div class="form-group row mb-3">
                             <div class="col-sm-12">
                                 <div class="thumb_div">
                                     <label for="bt_bg_img0_<{$block.block_position}>" class="thumb_none" >
@@ -164,7 +170,7 @@
                         </div>
                     <{/if}>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <!-- 區塊整體樣式-->
                         <{if $enable.block_style=="1"}>
                             <div class="col-sm-12">
@@ -177,7 +183,7 @@
                         <{/if}>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <!-- 區塊標題樣式-->
                         <{if $enable.block_title_style=="1"}>
                             <div class="col-sm-12">
@@ -190,7 +196,7 @@
                         <{/if}>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <!-- 區塊內容樣式-->
                         <{if $enable.block_content_style=="1"}>
                             <div class="col-sm-12">

@@ -27,7 +27,7 @@
         position:relative;
         text-decoration:none;
         text-transform:uppercase;
-        font-size:14px;
+        font-size: 0.875rem;
         color:#686868;
 
         -webkit-transition:all 0.2s linear;

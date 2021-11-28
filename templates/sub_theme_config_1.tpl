@@ -1,6 +1,5 @@
 <!--佈景類型-->
-
-<div class="form-group row">
+<div class="form-group row mb-3">
     <!--版面類型-->
     <{if $enable.theme_type}>
         <label class="col-sm-2 col-form-label text-sm-right control-label">
@@ -46,7 +45,10 @@
     </label>
     <div class="col-sm-2">
         <{if $enable.base_color}>
-            <input type="text" name="base_color" class="form-control color-picker <{$validate.base_color}>" value="<{$base_color}>" id="base_color" data-hex="true" onChange="change_css();">
+            <{* <input type="text" name="base_color" class="form-control color-picker <{$validate.base_color}>" value="<{$base_color}>" id="base_color" data-hex="true" onChange="change_css();"> *}>
+            <div class="input-group">
+                <input type="text" name="base_color" id="base_color" value="<{$base_color}>" class="form-control color-picker <{$validate.base_color}>"  onChange="change_css();" data-hex="true">
+            </div>
         <{else}>
             <input type="hidden" name="base_color" id="base_color" value="<{$base_color}>">
         <{/if}>
@@ -54,14 +56,16 @@
 </div>
 
 
-<div class="form-group row">
+<div class="form-group row mb-3">
     <!--左區塊顏色-->
     <{if $enable.lb_color}>
         <label class="col-sm-2 col-form-label text-sm-right control-label">
             <{$smarty.const._MA_TADTHEMES_LB_COLOR}>
         </label>
         <div class="col-sm-2">
-            <input type="text" name="lb_color" id="lb_color" value="<{$lb_color}>" class="form-control color-picker <{$validate.lb_color}>"  data-hex="true" onChange="change_css();">
+            <div class="input-group">
+                <input type="text" name="lb_color" id="lb_color" value="<{$lb_color}>" class="form-control color-picker <{$validate.lb_color}>"  onChange="change_css();" data-hex="true">
+            </div>
         </div>
     <{else}>
         <input type="hidden" name="lb_color" id="lb_color" value="<{$lb_color}>">
@@ -73,7 +77,10 @@
             <{$smarty.const._MA_TADTHEMES_CB_COLOR}>
         </label>
         <div class="col-sm-2">
-            <input type="text" name="cb_color" id="cb_color" value="<{$cb_color}>" class="form-control color-picker <{$validate.cb_color}>"  data-hex="true" onChange="change_css();">
+            <{* <input type="text" name="cb_color" id="cb_color" value="<{$cb_color}>" class="form-control color-picker <{$validate.cb_color}>"  data-hex="true" onChange="change_css();"> *}>
+            <div class="input-group">
+                <input type="text" name="cb_color" id="cb_color" value="<{$cb_color}>" class="form-control color-picker <{$validate.cb_color}>"  onChange="change_css();" data-hex="true">
+            </div>
         </div>
     <{else}>
         <input type="hidden" name="cb_color" id="cb_color" value="<{$cb_color}>">
@@ -83,14 +90,17 @@
     <{if $enable.rb_color}>
         <label class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_RB_COLOR}></label>
         <div class="col-sm-2">
-            <input type="text" name="rb_color" id="rb_color" value="<{$rb_color}>" class="form-control color-picker <{$validate.rb_color}>" data-hex="true" onChange="change_css();">
+            <{* <input type="text" name="rb_color" id="rb_color" value="<{$rb_color}>" class="form-control color-picker <{$validate.rb_color}>" data-hex="true" onChange="change_css();"> *}>
+            <div class="input-group">
+                <input type="text" name="rb_color" id="rb_color" value="<{$rb_color}>" class="form-control color-picker <{$validate.rb_color}>"  onChange="change_css();" data-hex="true">
+            </div>
         </div>
     <{else}>
         <input type="hidden" name="rb_color" id="rb_color" value="<{$rb_color}>">
     <{/if}>
 </div>
 
-<div class="form-group row">
+<div class="form-group row mb-3">
     <!--左區塊寬度-->
     <{if $enable.lb_width}>
         <label class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_LB_WIDTH}></label>
@@ -137,7 +147,7 @@
     <{/if}>
 </div>
 
-<div class="form-group row">
+<div class="form-group row mb-3">
     <!--文字大小-->
     <{if $enable.font_size}>
         <label class="col-sm-2 col-form-label text-sm-right control-label">
@@ -185,14 +195,17 @@
     <{/if}>
 </div>
 
-<div class="form-group row">
+<div class="form-group row mb-3">
     <!--文字顏色-->
     <{if $enable.font_color}>
         <label class="col-sm-2 col-form-label text-sm-right control-label">
             <{$smarty.const._MA_TADTHEMES_FONT_COLOR}>
         </label>
         <div class="col-sm-2">
-            <input type="text" name="font_color" id="font_color" value="<{$font_color}>" class="form-control color-picker <{$validate.font_color}>" data-hex="true" onChange="change_css();">
+            <{* <input type="text" name="font_color" id="font_color" value="<{$font_color}>" class="form-control color-picker <{$validate.font_color}>" data-hex="true" onChange="change_css();"> *}>
+            <div class="input-group">
+                <input type="text" name="font_color" id="font_color" value="<{$font_color}>" class="form-control color-picker <{$validate.font_color}>"  onChange="change_css();" data-hex="true">
+            </div>
         </div>
     <{else}>
         <input type="hidden" name="font_color" id="font_color" value="<{$font_color}>">
@@ -204,7 +217,10 @@
             <{$smarty.const._MA_TADTHEMES_LINK_COLOR}>
         </label>
         <div class="col-sm-2">
-            <input type="text" name="link_color" id="link_color" value="<{$link_color}>" class="form-control color-picker <{$validate.link_color}>" data-hex="true" onChange="change_css();">
+            <{* <input type="text" name="link_color" id="link_color" value="<{$link_color}>" class="form-control color-picker <{$validate.link_color}>" data-hex="true" onChange="change_css();"> *}>
+            <div class="input-group">
+                <input type="text" name="link_color" id="link_color" value="<{$link_color}>" class="form-control color-picker <{$validate.link_color}>"  onChange="change_css();" data-hex="true">
+            </div>
         </div>
     <{else}>
         <input type="hidden" name="link_color" id="link_color" value="<{$link_color}>">
@@ -216,7 +232,10 @@
             <{$smarty.const._MA_TADTHEMES_HOVER_COLOR}>
         </label>
         <div class="col-sm-2">
-            <input type="text" name="hover_color" id="hover_color" value="<{$hover_color}>" class="form-control color-picker<{$validate.hover_color}>" data-hex="true" onChange="change_css();">
+            <{* <input type="text" name="hover_color" id="hover_color" value="<{$hover_color}>" class="form-control color-picker<{$validate.hover_color}>" data-hex="true" onChange="change_css();"> *}>
+            <div class="input-group">
+                <input type="text" name="hover_color" id="hover_color" value="<{$hover_color}>" class="form-control color-picker <{$validate.hover_color}>"  onChange="change_css();" data-hex="true">
+            </div>
         </div>
     <{else}>
         <input type="hidden" name="hover_color" id="hover_color" value="<{$hover_color}>">

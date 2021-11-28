@@ -3,7 +3,7 @@ $modversion = [];
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADTHEMES_NAME;
-$modversion['version'] = '6.6';
+$modversion['version'] = '7.0';
 $modversion['description'] = _MI_TADTHEMES_DESC;
 $modversion['author'] = 'tad (tad0616@gmail.com)';
 $modversion['credits'] = 'hirokofan (hirokofan@mail.cyc.edu.tw)';
@@ -14,7 +14,7 @@ $modversion['image'] = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname'] = basename(__DIR__);
 
 //---模組狀態資訊---//
-$modversion['release_date'] = '2020/06/20';
+$modversion['release_date'] = '2021-10-06';
 $modversion['module_website_url'] = 'https://www.tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status'] = 'release';
@@ -74,7 +74,7 @@ $modversion['templates'][$i]['description'] = 'tad_themes_adm_font2pic.tpl';
 
 //---偏好設定---//
 $modversion['config'] = [];
-$i++;
+$i = 1;
 $modversion['config'][$i]['name'] = 'auto_mainmenu';
 $modversion['config'][$i]['title'] = '_MI_TADTHEMES_AUTO_MENU';
 $modversion['config'][$i]['description'] = '_MI_TADTHEMES_AUTO_MENU_DESC';
@@ -108,6 +108,14 @@ $modversion['config'][$i]['formtype'] = 'select';
 $modversion['config'][$i]['valuetype'] = 'int';
 $modversion['config'][$i]['default'] = '4';
 $modversion['config'][$i]['options'] = [1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6'];
+
+$i++;
+$modversion['config'][$i]['name'] = 'use_pin';
+$modversion['config'][$i]['title'] = '_MI_TADTHEMES_USE_PIN';
+$modversion['config'][$i]['description'] = '_MI_TADTHEMES_USE_PIN_DESC';
+$modversion['config'][$i]['formtype'] = 'yesno';
+$modversion['config'][$i]['valuetype'] = 'int';
+$modversion['config'][$i]['default'] = '1';
 
 //---搜尋---//
 //$modversion['hasSearch'] = 1;

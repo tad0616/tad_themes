@@ -32,3 +32,6 @@ define('_MI_TADTHEMES_DESC3', '若「是否崁入快速登入到登入選單中�
 define('_MI_TADTHEMES_HOME', '顯示回首頁');
 define('_MI_TADTHEMES_SITENAME', '顯示網站名稱');
 define('_MI_TADTHEMES_HIDE', '不顯示');
+
+define('_MI_TADTHEMES_USE_PIN', '是否使用導覽列的釘住功能');
+define('_MI_TADTHEMES_USE_PIN_DESC', '選「是」時，在畫面往下移動時，導覽列會自動維持在最上方。');

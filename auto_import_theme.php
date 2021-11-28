@@ -7,11 +7,10 @@ require_once __DIR__ . '/function.php';
 function auto_import_theme($mode = '')
 {
     global $xoopsDB, $xoopsConfig, $config2_files;
-    if (empty($xoopsConfig['theme_set'])) {
+    $theme_name = $xoopsConfig['theme_set'];
+    if (empty($theme_name)) {
         return;
     }
-
-    $theme_name = $xoopsConfig['theme_set'];
 
     if ($mode == 'default') {
         if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php")) {
@@ -25,6 +24,7 @@ function auto_import_theme($mode = '')
 
     if (empty($config_enable)) {
         return;
+        // redirect_header('index.php', 3, sprintf(_MA_TAD_THEMES_NOT_TAD_THEME, $theme_name, XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php"));
     }
 
     foreach ($config_enable as $k => $v) {
@@ -148,6 +148,8 @@ function auto_import_theme($mode = '')
         }
     }
 
+    header('location: main.php');
+    exit;
 }
 
 // 匯入或套用設定檔

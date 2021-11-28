@@ -1,8 +1,35 @@
+Tad Themes 7.0 (released 2021-10-06)
+====================================
+1. Add the function of converting old scenery
+2. Fix the sliding image block
+3.Logo image position can be used with negative value
+4. Add BootStrap5 support
+5. Fix the problem that non-Tad Themes compatible layout will lead to a blank backend.
+
+
+Tad Themes 6.9 (released 2021-08-22)
+====================================
+1.Revised for the new version of AA Accessibility Standard 2021/07
+
+Tad Themes 6.8 (released on 2021-07-14)
+=================================================
+1.Adjust tad_themes_data_center field
+2.Add layout json caching support
+
+
+Tad Themes 6.7 (released 2021-05-27)
+=================================================
+1. Error occurs when modifying no language
+2. Added "Pinned navigation bar" setting to preferences
+3. Add extra settings of callback function
+4. Fix the problem of font not uploading
+
 Tad Themes 6.6 (Released 2020-06-20)
 ============================================================= ========
 1.Fix the problem that the outer frame will be blurred when generating the logo.
 2. New online installation style function.
 3. Support for XOOPS 2.5.11.
+4.Modify the preview
 
 Tad Themes 6.5 (2020-04-24 released)
 =====================================================

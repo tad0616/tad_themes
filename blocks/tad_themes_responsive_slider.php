@@ -51,7 +51,7 @@ function tad_themes_responsive_slider($options)
                 }
             }
 
-            $block = "<a href='" . XOOPS_URL . "' alt='{$xoopsConfig['sitename']}' title='{$xoopsConfig['sitename']}'><img src='{$logo_img}' style='position:absolute;z-index:100;{$logo_place}'></a>";
+            $block = "<a href='" . XOOPS_URL . "' title='{$xoopsConfig['sitename']}'><img src='" . XOOPS_URL . "/uploads/tad_themes/{$xoopsConfig['theme_set']}/logo/{$logo_img}' alt='{$xoopsConfig['sitename']}' style='position:absolute; z-index:3;{$logo_place}'></a>";
         }
     }
 
@@ -107,7 +107,15 @@ function tad_themes_responsive_slider($options)
         $ResponsiveSlides->add_content(3, $title, $content, XOOPS_URL . "/themes/{$xoopsConfig['theme_set']}/images/slide/default3.png", '', XOOPS_URL);
     }
 
-    $block .= $ResponsiveSlides->render('tad_themes_ResponsiveSlides');
+    $sql = "select a.`value` from " . $xoopsDB->prefix("tad_themes_config2") . " as a left join " . $xoopsDB->prefix("tad_themes") . " as b on a.theme_id=b.theme_id where a.`name`='slide_timeout' and b.`theme_name`='{$xoopsConfig['theme_set']}'";
+    $result = $xoopsDB->query($sql);
+    list($slide_timeout) = $xoopsDB->fetchRow($result);
+
+    $sql = "select a.`value` from " . $xoopsDB->prefix("tad_themes_config2") . " as a left join " . $xoopsDB->prefix("tad_themes") . " as b on a.theme_id=b.theme_id where a.`name`='slide_nav' and b.`theme_name`='{$xoopsConfig['theme_set']}'";
+    $result = $xoopsDB->query($sql);
+    list($slide_nav) = $xoopsDB->fetchRow($result);
+
+    $block .= $ResponsiveSlides->render('tad_themes_ResponsiveSlides', null, $slide_timeout, $slide_nav);
 
     return $block;
 }
