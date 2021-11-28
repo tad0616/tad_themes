@@ -2004,7 +2004,7 @@
     $v_result_list = array();
     
     // ----- Look each entry
-    for ($i=0; $i<sizeof($p_filedescr_list); $i++) {
+    for ($i=0; $i<sizeof($p_filedescr_list); ++$i) {
       
       // ----- Get filedescr
       $v_descr = $p_filedescr_list[$i];
@@ -2256,7 +2256,7 @@
     }
 
     // ----- Create the Central Dir files header
-    for ($i=0, $v_count=0; $i<sizeof($v_header_list); $i++)
+    for ($i=0, $v_count=0; $i<sizeof($v_header_list); ++$i)
     {
       // ----- Create the file header
       if ($v_header_list[$i]['status'] == 'ok') {
@@ -2412,7 +2412,7 @@
     $v_offset = @ftell($this->zip_fd);
 
     // ----- Create the Central Dir files header
-    for ($i=0,$v_count=0; $i<sizeof($v_header_list); $i++)
+    for ($i=0,$v_count=0; $i<sizeof($v_header_list); ++$i)
     {
       // ----- Create the file header
       if ($v_header_list[$i]['status'] == 'ok') {
@@ -3188,7 +3188,7 @@
     }
 
     // ----- Read each entry
-    for ($i=0; $i<$v_central_dir['entries']; $i++)
+    for ($i=0; $i<$v_central_dir['entries']; ++$i)
     {
       // ----- Read the file header
       if (($v_result = $this->privReadCentralFileHeader($v_header)) != 1)
@@ -3326,7 +3326,7 @@
 
     // ----- Read each entry
     $j_start = 0;
-    for ($i=0, $v_nb_extracted=0; $i<$v_central_dir['entries']; $i++)
+    for ($i=0, $v_nb_extracted=0; $i<$v_central_dir['entries']; ++$i)
     {
 
       // ----- Read next Central dir entry
@@ -4721,7 +4721,7 @@
     // ----- Read each entry
     $v_header_list = array();
     $j_start = 0;
-    for ($i=0, $v_nb_extracted=0; $i<$v_central_dir['entries']; $i++)
+    for ($i=0, $v_nb_extracted=0; $i<$v_central_dir['entries']; ++$i)
     {
 
       // ----- Read the file header
@@ -4841,7 +4841,7 @@
         }
 
         // ----- Look which file need to be kept
-        for ($i=0; $i<sizeof($v_header_list); $i++) {
+        for ($i=0; $i<sizeof($v_header_list); ++$i) {
 
             // ----- Calculate the position of the header
             @rewind($this->zip_fd);
@@ -4904,7 +4904,7 @@
         $v_offset = @ftell($v_temp_zip->zip_fd);
 
         // ----- Re-Create the Central Dir files header
-        for ($i=0; $i<sizeof($v_header_list); $i++) {
+        for ($i=0; $i<sizeof($v_header_list); ++$i) {
             // ----- Create the file header
             if (($v_result = $v_temp_zip->privWriteCentralFileHeader($v_header_list[$i])) != 1) {
                 $v_temp_zip->privCloseFd();

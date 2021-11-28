@@ -110,7 +110,7 @@ function strLength($str, $charset = 'utf-8')
 
     $num = strlen($str);
     $cnNum = 0;
-    for ($i = 0; $i < $num; $i++) {
+    for ($i = 0; $i < $num; ++$i) {
         if (ord(substr($str, $i, 1)) > 127) {
             $cnNum++;
         }
