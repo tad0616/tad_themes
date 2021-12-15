@@ -1,3 +1,4 @@
+<script type="text/javascript" src="<{xoAppUrl modules/tadtools/jquery.sticky/jquery.sticky.js}>"></script>
 <script type="text/javascript">
     $(document).ready(function(){
 
@@ -10,6 +11,7 @@
         <{else}>
             $("#logo_place_setup").show();
         <{/if}>
+        $("#save_theme_config").sticky({topSpacing:0 , zIndex: 150});
     });
 
     function logo_place_setup(logo_position){
@@ -174,7 +176,7 @@
                     </div>
                 </div>
 
-                <div class="text-center" style="margin: 30px auto;">
+                <div id="save_theme_config" class="text-center d-grid gap-2" style="margin: 30px 0px;">
                     <!--中左區塊寬度-->
                     <input type="hidden" name="clb_width" value="<{$clb_width}>" id="clb_width" >
                     <!--中右區塊寬度-->
@@ -183,12 +185,12 @@
                     <input type="hidden" name="theme_name" value="<{$theme_name}>">
 
                     <!--佈景圖片寬度-->
-                    <button type="submit" name="op" value="<{$op}>" class="btn btn-primary btn-lg btn-block" style="position: fixed; bottom: 60px; right:60px; z-index:100; box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.3);">
+                    <button type="submit" name="op" value="<{$op}>" class="btn btn-primary btn-lg btn-block border border-light border-4" style="box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.5);">
                         <i class="fa fa-save" aria-hidden="true"></i> <{$smarty.const._TAD_SAVE}>
                     </button>
                 </div>
 
-                <div class="alert alert-info">
+                <div class="alert alert-info" style="margin: 30px 0px;">
                     <{if $theme_kind!="bootstrap" and $theme_kind!="bootstrap3" and $theme_kind!="bootstrap4" and $theme_kind!="bootstrap5"}>
                         <{$smarty.const._MA_TADTHEMES_NOTICE}>
                     <{/if}>

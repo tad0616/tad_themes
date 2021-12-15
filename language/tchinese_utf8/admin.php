@@ -51,9 +51,8 @@ define('_MA_TADTHEMES_LOGO_POSITION', 'logo圖位置');
 define('_MA_TADTHEMES_LOGO_SLIDE', '置於滑動圖文框中');
 define('_MA_TADTHEMES_LOGO_PAGE', '置於頁面上');
 define('_MA_TADTHEMES_NAVLOGO_IMG', '導覽列logo圖');
-define('_MA_TADTHEMES_SLIDE_WIDTH', '滑動區域寬度');
-define('_MA_TADTHEMES_SLIDE_HEIGHT', '滑動區域高度');
-define('_MA_TADTHEMES_SLIDE_DESC', "<ol><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>寬度為 0 時表示不顯示滑動區域</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>高度為 0 時表示自動判斷高度。</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>圖片說明框中可輸入說明，在說明框中輸入 <span style='color:blue;'>[url]http://網址[/url]</span> 可替圖片加上連結。</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>用<span style='color: red;'>[url_blank]http://網址[/url_blank]</span> 則可將連結開在新視窗。</li></ol>");
+define('_MA_TADTHEMES_SLIDE_ENABLE', '是否使用滑動圖？');
+define('_MA_TADTHEMES_SLIDE_DESC', "<ol><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>圖片說明框中可輸入說明，在說明框中輸入 <span style='color:blue;'>[url]http://網址[/url]</span> 可替圖片加上連結。</li><li style='list-style-type:decimal;line-height:180%;list-style-position:outside;'>用<span style='color: red;'>[url_blank]http://網址[/url_blank]</span> 則可將連結開在新視窗。</li></ol>");
 define('_MA_TAD_THEMES_FORM', '佈景設定');
 
 define('_MA_TAD_THEMES_NOT_TAD_THEME', '目前使用之佈景「%s」非 Tad Themes 相容佈景，無法使用此工具。<div>該佈景找不到「%s」檔案。</div>');

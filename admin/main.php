@@ -137,7 +137,7 @@ function tad_themes_form($mode = '')
         $theme_unit = _MA_TADTHEMES_COL;
         $_SESSION['bootstrap'] = '5';
     } elseif ('bootstrap4' === $theme_kind) {
-        $theme_kind_txt = _MA_TADTHEMES_THEME_KIND_BOOTSTRAP5;
+        $theme_kind_txt = _MA_TADTHEMES_THEME_KIND_BOOTSTRAP4;
         $chang_css = change_css_bootstrap($theme_width, $lb_width, $cb_width);
         $theme_unit = _MA_TADTHEMES_COL;
         $_SESSION['bootstrap'] = '4';
@@ -762,12 +762,9 @@ function insert_tad_themes()
 
     $TadDataCenter->set_col('theme_id', $theme_id);
     $TadDataCenter->saveData();
-
-    $slide_width = strpos($theme_kind, 'bootstrap') !== false ? 1920 : $slide_width;
-
     $TadUpFilesSlide = TadUpFilesSlide();
     $TadUpFilesSlide->set_col('slide', $theme_id);
-    $TadUpFilesSlide->upload_file('slide', $slide_width, null, null, '', true);
+    $TadUpFilesSlide->upload_file('slide', 1920, null, null, '', true);
     $TadUpFilesBg = TadUpFilesBg();
     $TadUpFilesBg->set_col('bg', $theme_id);
     $TadUpFilesBg->upload_file('bg', 2048, null, null, '', true);
@@ -811,31 +808,26 @@ function update_tad_themes($theme_id = '')
             $lb_width = 3;
             $cb_width = 6;
             $rb_width = 3;
-            $slide_width = 980;
         } elseif ('html' === $theme_kind) {
             $theme_width = 980;
             $lb_width = 240;
             $cb_width = 500;
             $rb_width = 240;
-            $slide_width = 980;
         } elseif ('bootstrap5' === $theme_kind) {
             $theme_width = 12;
             $lb_width = 'auto';
             $cb_width = 9;
             $rb_width = 'auto';
-            $slide_width = 12;
         } elseif ('bootstrap3' === $theme_kind) {
             $theme_width = 12;
             $lb_width = 3;
             $cb_width = 6;
             $rb_width = 3;
-            $slide_width = 12;
         } else {
             $theme_width = 12;
             $lb_width = 'auto';
             $cb_width = 9;
             $rb_width = 'auto';
-            $slide_width = 12;
         }
     }
     update_tadtools_setup($theme_name, $theme_kind);
@@ -894,11 +886,9 @@ function update_tad_themes($theme_id = '')
 
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}");
 
-    $slide_width = strpos($theme_kind, 'bootstrap') !== false ? 1920 : $slide_width;
-
     $TadUpFilesSlide = TadUpFilesSlide();
     $TadUpFilesSlide->set_col('slide', $theme_id);
-    $TadUpFilesSlide->upload_file('slide', $slide_width, null, null, '', true);
+    $TadUpFilesSlide->upload_file('slide', 1920, null, null, '', true);
 
     $TadUpFilesBg = TadUpFilesBg();
     $TadUpFilesBg->set_col('bg', $theme_id);
@@ -1980,7 +1970,7 @@ switch ($op) {
 
     //下載資料
     case 'download_zip':
-        save_config($theme_id, $theme_config_name, false);
+        // save_config($theme_id, $theme_config_name, false);
         download_zip($theme_name, $theme_config_name, $theme_id);
         break;
 
