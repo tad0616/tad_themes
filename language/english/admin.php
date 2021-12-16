@@ -229,3 +229,7 @@ define('_MA_TADTHEMES_COLLAPSE_ALL', 'Collapse All');
 
 define('_MA_TADTHEMES_COPY_THEME', 'Reproduction of the set is set up here');
 define('_MA_TADTHEMES_COPY', 'Copy');
+
+define('_MA_TADTHEMES_CONFIG_PATH_ERROR', 'Save to %s Failed!');
+
+define('_MA_TADTHEMES_FOOTER', 'Footer');

@@ -17,7 +17,7 @@ require_once dirname(__DIR__) . '/auto_import_theme.php';
 //tad_themes編輯表單
 function tad_themes_form($mode = '')
 {
-    global $xoopsConfig, $xoopsTpl, $xoTheme, $TadDataCenter, $config2_files;
+    global $xoopsConfig, $xoopsTpl, $xoTheme, $TadDataCenter, $config2_files, $custom_tabs;
 
     //抓取預設值
     $DBV = get_tad_themes();
@@ -207,9 +207,16 @@ function tad_themes_form($mode = '')
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2");
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2/thumbs");
 
+    $custom_tabs_data=[];
     foreach ($config2_files as $config2_file) {
-        mk_config2($theme_id, $theme_name, $config2_file);
+        $config2 = mk_config2($theme_id, $theme_name, $config2_file);
+        if (in_array($config2_file, $custom_tabs)) {
+            $label = array_search($config2_file, $custom_tabs);
+            $custom_tabs_data[$label] = $config2;
+        }
     }
+
+    $xoopsTpl->assign('custom_tabs_data', $custom_tabs_data);
 
     $MColorPicker = new MColorPicker('.color-picker');
     $MColorPicker->render('bootstrap');
@@ -1518,7 +1525,7 @@ tabs-6 導覽工具列
 \$config_enable['navbar_icon'] = array('enable' => '{$config_enable['navbar_icon']['enable']}', 'min' => '{$config_enable['navbar_icon']['min']}', 'max' => '{$config_enable['navbar_icon']['max']}', 'require' => '{$config_enable['navbar_icon']['require']}', 'default' => '{$config_enable['navbar_icon']['default']}');
 
 //導覽工具列 導覽選項上下距離[theme_css_navbar.tpl]
-\$config_enable['navbar_py'] = array('enable' => '{$config_enable['navbar_py']['enable']}', 'min' => '{$config_enable['navbar_py']['min']}', 'max' => '{$config_enable['navbar_py']['max']}', 'require' => '{$config_enable['navbar_py']['require']}', 'default' => '{$config_enable['navbar_py']['enadefaultble']}');
+\$config_enable['navbar_py'] = array('enable' => '{$config_enable['navbar_py']['enable']}', 'min' => '{$config_enable['navbar_py']['min']}', 'max' => '{$config_enable['navbar_py']['max']}', 'require' => '{$config_enable['navbar_py']['require']}', 'default' => '{$config_enable['navbar_py']['default']}');
 
 //導覽工具列 導覽選項左右距離[theme_css_navbar.tpl]
 \$config_enable['navbar_px'] = array('enable' => '{$config_enable['navbar_px']['enable']}', 'min' => '{$config_enable['navbar_px']['min']}', 'max' => '{$config_enable['navbar_px']['max']}', 'require' => '{$config_enable['navbar_px']['require']}', 'default' => '{$config_enable['navbar_px']['default']}');
@@ -1538,127 +1545,134 @@ tabs-6 導覽工具列
         Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$to_theme_name}/setup");
         Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$to_theme_name}/setup/{$theme_config_name}");
         $file = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$to_theme_name}/setup/{$theme_config_name}/config.php";
-        if (!file_put_contents($file, $all_content)) {
-            redirect_header($_SERVER['PHP_SELF'], 3, "$file 建立失敗");
+        if (file_put_contents($file, $all_content)) {
+            return '<div>' . sprintf(_MA_TADTHEMES_CONFIG_PATH, $file) . '</div>';
         } else {
-            redirect_header($_SERVER['PHP_SELF'], 3, "$file OK");
+            return '<div>' . sprintf(_MA_TADTHEMES_CONFIG_PATH_ERROR, $file) . '</div>';
         }
     }
 }
 
 // 匯出額外設定
-function export_config2($theme_id = '', $type = 'config2', $theme_config_name = '', $from_theme_name = '', $to_theme_name = '')
+function export_config2($theme_id = '', $config2_file = 'config2', $theme_config_name = '', $from_theme_name = '', $to_theme_name = '')
 {
     global $xoopsConfig, $xoopsDB;
 
     $theme_name = $to_theme_name ? $to_theme_name : $xoopsConfig['theme_set'];
 
-    if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$type}.php")) {
-        require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$type}.php";
-    }
+    if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php")) {
+        require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php";
+        if (empty($theme_config)) {
+            return;
+        }
 
-    if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$type}.php")) {
-        require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$type}.php";
-    }
+        if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2_file}.php")) {
+            require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2_file}.php";
+        }
 
-    $config2 = [];
-    $sql = 'select * from ' . $xoopsDB->prefix('tad_themes_config2') . " where `theme_id` = '{$theme_id}'";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    while (false !== ($all = $xoopsDB->fetchArray($result))) {
-        $col = $all['name'];
-        $config2[$col] = $all;
-    }
-    $all_col = $default_v = [];
+        $config2 = [];
+        $sql = 'select * from ' . $xoopsDB->prefix('tad_themes_config2') . " where `theme_id` = '{$theme_id}'";
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        while (false !== ($all = $xoopsDB->fetchArray($result))) {
+            $col = $all['name'];
+            $config2[$col] = $all;
+        }
+        $all_col = $default_v = [];
 
-    if ($theme_config_name) {
-        $theme_config_image_path = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/{$theme_config_name}";
-        Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup");
-        Utility::mk_dir($theme_config_image_path);
-        Utility::mk_dir($theme_config_image_path . "/config2");
-    }
-
-    foreach ($theme_config as $i => $item) {
-        $col = $item['name'];
-        $default_v[$col] = $config2[$col]['value'];
-        $all_col[] = $col;
         if ($theme_config_name) {
-            if ($item['type'] == 'file' or $item['type'] == 'bg_file') {
-                $config2_img = basename($config2[$col]['value']);
-                copy_image($from_theme_name, $to_theme_name, $theme_config_name, "config2", $config2_img);
-                $default_v[$col] = $config2_img;
-            }
-            if ($item['type'] == 'bg_file') {
-                $default_v[$col . '_repeat'] = $config2[$col . '_repeat']['value'];
-                $default_v[$col . '_position'] = $config2[$col . '_position']['value'];
-                $default_v[$col . '_size'] = $config2[$col . '_size']['value'];
-            }
-        }
-    }
-
-    $myts = \MyTextSanitizer::getInstance();
-
-    $handle = fopen(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$type}.php", 'rb');
-    if ($theme_config_name == '') {
-        header('Content-type: text/php');
-        header("Content-Disposition: attachment; filename={$type}.php");
-    }
-
-    if ($handle) {
-        $all_content = '';
-        while (false !== ($buffer = fgets($handle, 4096))) {
-            if (false !== mb_strpos($buffer, "'name'")) {
-                list($opt, $val) = explode('=', $buffer);
-                $val = trim($val);
-                $val = str_replace(';', '', $val);
-                $val = str_replace('"', '', $val);
-                $val = str_replace(' ', '', $val);
-                $new_default = $myts->addSlashes($default_v[$val]);
-                $new_repeat = $myts->addSlashes($default_v[$val . '_repeat']);
-                $new_position = $myts->addSlashes($default_v[$val . '_position']);
-                $new_size = $myts->addSlashes($default_v[$val . '_size']);
-            } elseif (false !== mb_strpos($buffer, "'default'")) {
-                list($opt, $val) = explode('=', $buffer);
-                $val = trim($val);
-                $val = str_replace('"', '', $val);
-                $buffer = "\$theme_config[\$i]['default'] = \"$new_default\";\n";
-            } elseif (false !== mb_strpos($buffer, "'repeat'")) {
-                list($opt, $val) = explode('=', $buffer);
-                $val = trim($val);
-                $val = str_replace('"', '', $val);
-                $buffer = "\$theme_config[\$i]['repeat'] = \"$new_repeat\";\n";
-            } elseif (false !== mb_strpos($buffer, "'position'")) {
-                list($opt, $val) = explode('=', $buffer);
-                $val = trim($val);
-                $val = str_replace('"', '', $val);
-                $buffer = "\$theme_config[\$i]['position'] = \"$new_position\";\n";
-            } elseif (false !== mb_strpos($buffer, "'size'")) {
-                list($opt, $val) = explode('=', $buffer);
-                $val = trim($val);
-                $val = str_replace('"', '', $val);
-                $buffer = "\$theme_config[\$i]['size'] = \"$new_size\";\n";
-            } elseif (false !== mb_strpos($buffer, "//")) {
-                $buffer = "\n" . $buffer;
-            } elseif (false === mb_strpos($buffer, "\$i") and false === mb_strpos($buffer, "<?php") and false === mb_strpos($buffer, "//")) {
-                continue;
-            }
-            $all_content .= $buffer;
+            $theme_config_image_path = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/{$theme_config_name}";
+            Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup");
+            Utility::mk_dir($theme_config_image_path);
+            Utility::mk_dir($theme_config_image_path . "/config2");
         }
 
-        fclose($handle);
-    }
+        // $theme_config 來自各個 config2 設定檔
+        foreach ($theme_config as $item) {
+            $col = $item['name'];
+            $default_v[$col] = $config2[$col]['value'];
+            $all_col[] = $col;
+            if ($theme_config_name) {
+                if ($item['type'] == 'file' or $item['type'] == 'bg_file') {
+                    $config2_img = basename($config2[$col]['value']);
+                    copy_image($from_theme_name, $to_theme_name, $theme_config_name, "config2", $config2_img);
+                    $default_v[$col] = $config2_img;
+                }
+                if ($item['type'] == 'bg_file') {
+                    $default_v[$col . '_repeat'] = $config2[$col . '_repeat']['value'];
+                    $default_v[$col . '_position'] = $config2[$col . '_position']['value'];
+                    $default_v[$col . '_size'] = $config2[$col . '_size']['value'];
+                }
+            }
+        }
 
-    if ($theme_config_name == '') {
-        echo $all_content;
-        exit;
-    } else {
-        $file = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/{$theme_config_name}/{$type}.php";
-        file_put_contents($file, $all_content);
-        return;
+        $myts = \MyTextSanitizer::getInstance();
+
+        $handle = fopen(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php", 'rb');
+        if ($theme_config_name == '') {
+            header('Content-type: text/php');
+            header("Content-Disposition: attachment; filename={$config2_file}.php");
+        }
+
+        if ($handle) {
+            $all_content = '';
+            while (false !== ($buffer = fgets($handle, 4096))) {
+                if (false !== mb_strpos($buffer, "'name'")) {
+                    list($opt, $val) = explode('=', $buffer);
+                    $val = trim($val);
+                    $val = str_replace(';', '', $val);
+                    $val = str_replace('"', '', $val);
+                    $val = str_replace(' ', '', $val);
+                    $new_default = $myts->addSlashes($default_v[$val]);
+                    $new_repeat = $myts->addSlashes($default_v[$val . '_repeat']);
+                    $new_position = $myts->addSlashes($default_v[$val . '_position']);
+                    $new_size = $myts->addSlashes($default_v[$val . '_size']);
+                } elseif (false !== mb_strpos($buffer, "'default'")) {
+                    list($opt, $val) = explode('=', $buffer);
+                    $val = trim($val);
+                    $val = str_replace('"', '', $val);
+                    $buffer = "\$theme_config[\$i]['default'] = \"$new_default\";\n";
+                } elseif (false !== mb_strpos($buffer, "'repeat'")) {
+                    list($opt, $val) = explode('=', $buffer);
+                    $val = trim($val);
+                    $val = str_replace('"', '', $val);
+                    $buffer = "\$theme_config[\$i]['repeat'] = \"$new_repeat\";\n";
+                } elseif (false !== mb_strpos($buffer, "'position'")) {
+                    list($opt, $val) = explode('=', $buffer);
+                    $val = trim($val);
+                    $val = str_replace('"', '', $val);
+                    $buffer = "\$theme_config[\$i]['position'] = \"$new_position\";\n";
+                } elseif (false !== mb_strpos($buffer, "'size'")) {
+                    list($opt, $val) = explode('=', $buffer);
+                    $val = trim($val);
+                    $val = str_replace('"', '', $val);
+                    $buffer = "\$theme_config[\$i]['size'] = \"$new_size\";\n";
+                } elseif (false !== mb_strpos($buffer, "//")) {
+                    $buffer = "\n" . $buffer;
+                } elseif (false === mb_strpos($buffer, "\$i") and false === mb_strpos($buffer, "<?php") and false === mb_strpos($buffer, "//")) {
+                    continue;
+                }
+                $all_content .= $buffer;
+            }
+
+            fclose($handle);
+        }
+
+        if ($theme_config_name == '') {
+            echo $all_content;
+            exit;
+        } else {
+            $file = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/{$theme_config_name}/{$config2_file}.php";
+            if (file_put_contents($file, $all_content)) {
+                return '<div>' . sprintf(_MA_TADTHEMES_CONFIG_PATH, $file) . '</div>';
+            } else {
+                return '<div>' . sprintf(_MA_TADTHEMES_CONFIG_PATH_ERROR, $file) . '</div>';
+            }
+        }
     }
 }
 
 // 儲存設定
-function save_config($theme_id = '', $theme_config_name = '', $redirect = true)
+function save_config($theme_id = '', $theme_config_name = '')
 {
     global $xoopsConfig, $config2_files;
 
@@ -1676,15 +1690,14 @@ function save_config($theme_id = '', $theme_config_name = '', $redirect = true)
     }
 
     // 儲存主設定檔
-    export_config($theme_id, $theme_config_name);
+    $msg = export_config($theme_id, $theme_config_name);
     // 匯出額外設定
-    foreach ($config2_files as $config2) {
-        export_config2($theme_id, $config2, $theme_config_name, $theme_name, $theme_name);
+    foreach ($config2_files as $config2_file) {
+        $msg .= export_config2($theme_id, $config2_file, $theme_config_name, $theme_name, $theme_name);
     }
 
-    if ($redirect) {
-        redirect_header($_SERVER['PHP_SELF'] . "?theme_name={$theme_name}&theme_id={$theme_id}", 3, sprintf(_MA_TADTHEMES_CONFIG_PATH, XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/{$theme_config_name}/"));
-    }
+    return $msg;
+
 }
 
 // 匯入或套用設定檔
@@ -1941,7 +1954,9 @@ switch ($op) {
 
     //儲存資料
     case 'save_config':
-        save_config($theme_id, $theme_config_name);
+        $msg = save_config($theme_id, $theme_config_name);
+        // redirect_header($_SERVER['PHP_SELF'] . "?theme_name={$theme_name}&theme_id={$theme_id}", 3, sprintf(_MA_TADTHEMES_CONFIG_PATH, XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/{$theme_config_name}/"));
+        redirect_header($_SERVER['PHP_SELF'], 3, $msg);
         break;
 
     //刪除資料
@@ -1970,7 +1985,7 @@ switch ($op) {
 
     //下載資料
     case 'download_zip':
-        // save_config($theme_id, $theme_config_name, false);
+        save_config($theme_id, $theme_config_name);
         download_zip($theme_name, $theme_config_name, $theme_id);
         break;
 

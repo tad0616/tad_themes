@@ -95,6 +95,14 @@
                             <li><{$smarty.const._MA_TADTHEMES_NAVBAR}></li>
                         <{/if}>
 
+                        <!--額外頁籤-->
+                        <{if $custom_tabs_data}>
+                            <{foreach from=$custom_tabs_data key=custom_tab_title item=custom_tab}>
+                                <li><{$custom_tab_title}></li>
+                            <{/foreach}>
+                        <{/if}>
+
+
                         <{if $config2}>
                             <li><{$smarty.const._MA_TADTHEMES_CONFIG2}></li>
                         <{/if}>
@@ -148,6 +156,16 @@
                             </div>
                         <{else}>
                             <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_no_config_6.tpl"}>
+                        <{/if}>
+
+
+                        <!--額外頁籤-->
+                        <{if $custom_tabs_data}>
+                            <{foreach from=$custom_tabs_data key=custom_tab_title item=custom_config2}>
+                                <div>
+                                    <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_custom.tpl"}>
+                                </div>
+                            <{/foreach}>
                         <{/if}>
 
                         <!--額外設定-->

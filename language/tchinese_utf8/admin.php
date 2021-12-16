@@ -230,3 +230,7 @@ define('_MA_TADTHEMES_COLLAPSE_ALL', '全部闔起');
 
 define('_MA_TADTHEMES_COPY_THEME', '複製佈景設定至此');
 define('_MA_TADTHEMES_COPY', '複製');
+
+define('_MA_TADTHEMES_CONFIG_PATH_ERROR', '存至 %s 失敗！');
+
+define('_MA_TADTHEMES_FOOTER', '頁尾');
