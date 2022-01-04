@@ -18,8 +18,8 @@ define('_THEME_CONFIG2_PATH', XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_se
 
 $block_position_title = ['leftBlock' => _MA_TADTHEMES_BLOCK_LEFT, 'rightBlock' => _MA_TADTHEMES_BLOCK_RIGHT, 'centerBlock' => _MA_TADTHEMES_BLOCK_TOP_CENTER, 'centerLeftBlock' => _MA_TADTHEMES_BLOCK_TOP_LEFT, 'centerRightBlock' => _MA_TADTHEMES_BLOCK_TOP_RIGHT, 'centerBottomBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_CENTER, 'centerBottomLeftBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_LEFT, 'centerBottomRightBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_RIGHT, 'footerCenterBlock' => _MA_TADTHEMES_BLOCK_FOOTER_CENTER, 'footerLeftBlock' => _MA_TADTHEMES_BLOCK_FOOTER_LEFT, 'footerRightBlock' => _MA_TADTHEMES_BLOCK_FOOTER_RIGHT];
 
-$config2_files = ['config2_base', 'config2_bg', 'config2_slide', 'config2_logo', 'config2_block', 'config2_nav', 'config2_footer', 'config2'];
-$custom_tabs = [_MA_TADTHEMES_FOOTER => 'config2_footer'];
+$config2_files = ['config2_base', 'config2_bg', 'config2_logo', 'config2_nav', 'config2_slide', 'config2_content', 'config2_block', 'config2_topdiv', 'config2_footer', 'config2'];
+$custom_tabs = [_MA_TADTHEMES_FOOTER => 'config2_footer', _MA_TADTHEMES_TOPDIV => 'config2_topdiv', _MA_TADTHEMES_CONTENT => 'config2_content'];
 
 /********************* 預設函數 ********************
  * @param string $path
@@ -236,7 +236,14 @@ function update_tadtools_setup($theme = '', $theme_kind = '')
     }
 }
 
-//儲存額外設定值
+// 加入Smarty設定檔
+function save_conf($theme_kind)
+{
+    $bootstrap = (strpos($theme_kind, 'bootstrap') !== false) ? substr($theme_kind, -1) : '4';
+    file_put_contents(XOOPS_ROOT_PATH . "/uploads/bootstrap.conf", "bootstrap = {$bootstrap}");
+}
+
+//儲存額外設定值($mode = default 或 apply)
 function save_config2($theme_id = '', $config2_arr = [], $mode = '')
 {
     global $xoopsDB, $xoopsConfig;
@@ -255,7 +262,9 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
         if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php")) {
             require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php";
         }
-        if ($mode != 'default') {
+
+        // 先註解起來，不然儲存時，若設定檔有異動，會無法存入
+        if ($mode == 'apply') {
             if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2}.php")) {
                 require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2}.php";
             }
@@ -264,13 +273,6 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
         if (empty($theme_config)) {
             continue;
         }
-
-        /*
-        $theme_config[$i]['name']="footer_height";
-        $theme_config[$i]['text']=TF_FOOTER_HEIGHT;
-        $theme_config[$i]['type']="text";
-        $theme_config[$i]['default']="200px";
-         */
 
         foreach ($theme_config as $k => $config) {
             $name = $config['name'];
@@ -312,7 +314,15 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
                 values($theme_id , '{$config['name']}_repeat' , 'select' , '{$value_repeat}'),
                 ($theme_id , '{$config['name']}_position' , 'select' , '{$value_position}'),
                 ($theme_id , '{$config['name']}_size' , 'select' , '{$value_size}')";
-                // die($sql);
+                $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            } elseif ('padding_margin' === $config['type']) {
+                $value_mt = isset($_POST[$name . '_mt']) ? $myts->addSlashes($_POST[$name . '_mt']) : $config['mt'];
+                $value_mb = isset($_POST[$name . '_mb']) ? $myts->addSlashes($_POST[$name . '_mb']) : $config['mb'];
+
+                $sql = 'replace into ' . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`)
+                values($theme_id , '{$config['name']}_mt' , 'text' , '{$value_mt}'),
+                ($theme_id , '{$config['name']}_mb' , 'text' , '{$value_mb}')";
+
                 $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
             }
 
@@ -330,6 +340,9 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
             }
         }
     }
+
+    $config2_json_file = XOOPS_VAR_PATH . "/data/tad_themes_config2.json";
+    unlink($config2_json_file);
 }
 
 //更新佈景的某個設定值

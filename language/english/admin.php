@@ -65,6 +65,8 @@ define('_MA_TAD_THEMES_TYPE5', '3 Columns');
 define('_MA_TAD_THEMES_TYPE6', '3 Columns (All Left)');
 define('_MA_TAD_THEMES_TYPE7', '3 Columns (All Right)');
 define('_MA_TAD_THEMES_TYPE8', 'Single Columns');
+
+define('_MA_TAD_THEMES_TOP', 'Top');
 define('_MA_TAD_THEMES_HEAD', 'Theme Head');
 define('_MA_TAD_THEMES_LEFT', 'Left Zone');
 define('_MA_TAD_THEMES_CENTER', 'Content and Center Zone');
@@ -233,3 +235,8 @@ define('_MA_TADTHEMES_COPY', 'Copy');
 define('_MA_TADTHEMES_CONFIG_PATH_ERROR', 'Save to %s Failed!');
 
 define('_MA_TADTHEMES_FOOTER', 'Footer');
+define('_MA_TADTHEMES_TOPDIV', 'Top customization area');
+define('_MA_TADTHEMES_CONTENT', 'Content Area');
+define('_MA_TADTHEMES_PADDING', 'Padding');
+define('_MA_TADTHEMES_TOP', 'Top');
+define('_MA_TADTHEMES_BOTTOM', 'Bottom');

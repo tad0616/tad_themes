@@ -925,6 +925,16 @@ class Update
         $xoopsDB->queryF($sql);
     }
 
+    //加入設定檔
+    public static function go_update_conf()
+    {
+
+        if (!file_exists(XOOPS_ROOT_PATH . "/uploads/bootstrap.conf")) {
+            $bootstrap = $_SESSION['bootstrap'] ? $_SESSION['bootstrap'] : '4';
+            file_put_contents(XOOPS_ROOT_PATH . "/uploads/bootstrap.conf", "bootstrap = {$bootstrap}");
+        }
+    }
+
     //修正 logo 允許負值
     public static function go_update_logo()
     {

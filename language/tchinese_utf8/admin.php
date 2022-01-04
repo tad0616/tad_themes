@@ -66,6 +66,7 @@ define('_MA_TAD_THEMES_TYPE6', '三欄式（左右區域皆在左邊）');
 define('_MA_TAD_THEMES_TYPE7', '三欄式（左右區域皆在右邊）');
 define('_MA_TAD_THEMES_TYPE8', '單欄式（左區域在上方，右區域在下方）');
 
+define('_MA_TAD_THEMES_TOP', '頂部');
 define('_MA_TAD_THEMES_HEAD', '滑動圖片');
 define('_MA_TAD_THEMES_LEFT', '左區域');
 define('_MA_TAD_THEMES_CENTER', '主內容及中間區域');
@@ -234,3 +235,8 @@ define('_MA_TADTHEMES_COPY', '複製');
 define('_MA_TADTHEMES_CONFIG_PATH_ERROR', '存至 %s 失敗！');
 
 define('_MA_TADTHEMES_FOOTER', '頁尾');
+define('_MA_TADTHEMES_TOPDIV', '頂部自訂區');
+define('_MA_TADTHEMES_CONTENT', '內容區');
+define('_MA_TADTHEMES_PADDING', '內距');
+define('_MA_TADTHEMES_TOP', '上');
+define('_MA_TADTHEMES_BOTTOM', '下');

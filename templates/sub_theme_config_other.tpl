@@ -7,7 +7,7 @@
                         <{$config.text}>
                     </label>
                     <div class="col-sm-8">
-                            <{$config.form}>
+                        <{$config.form}>
                     </div>
                 </div>
                 <div class="form-group row mb-3">
@@ -51,7 +51,6 @@
             <{if $config.type=="text"}>
                 <input type="text" name="<{$config.name}>" value="<{$config.value}>" data-toggle="tooltip" title="<{$config.default}>" class="form-control">
             <{elseif $config.type=="color"}>
-                <{* <input type="text" name="<{$config.name}>" id="<{$config.name}>" value="<{$config.value}>"  data-toggle="tooltip" title="<{$config.default}>" class="form-control color-picker" data-hex="true" > *}>
                 <div class="input-group">
                     <input type="text" name="<{$config.name}>" id="<{$config.name}>" value="<{$config.value}>" class="form-control color-picker"  data-toggle="tooltip" title="<{$config.default}>" data-hex="true">
                 </div>
@@ -104,6 +103,21 @@
                 </select>
             <{elseif $config.type=="file"}>
                 <{$config.form}>
+            <{elseif $config.type=="padding_margin"}>
+                <div class="input-group">
+                    <div class="input-group-prepend input-group-addon">
+                        <span class="input-group-text"><{$smarty.const._MA_TADTHEMES_TOP}></span>
+                    </div>
+                    <input type="text" name="<{$config.name}>_mt" class="form-control" value="<{$config.mt}>">
+                    <div class="input-group-prepend input-group-addon">
+                        <span class="input-group-text"><{$smarty.const._MA_TADTHEMES_PADDING}></span>
+                    </div>
+                    <input type="text" name="<{$config.name}>" class="form-control" value="<{$config.value}>">
+                    <div class="input-group-prepend input-group-addon">
+                        <span class="input-group-text"><{$smarty.const._MA_TADTHEMES_BOTTOM}></span>
+                    </div>
+                    <input type="text" name="<{$config.name}>_mb" class="form-control" value="<{$config.mb}>">
+                </div>
             <{/if}>
         </div>
         <div class="col-sm-5">

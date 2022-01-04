@@ -163,6 +163,7 @@
                         <{if $custom_tabs_data}>
                             <{foreach from=$custom_tabs_data key=custom_tab_title item=custom_config2}>
                                 <div>
+                                    <input type="hidden" name="config2[]" value="<{$custom_tabs.$custom_tab_title}>">
                                     <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_custom.tpl"}>
                                 </div>
                             <{/foreach}>
@@ -186,6 +187,7 @@
                 <!--預覽-->
                 <div id='preview_zone'>
                     <div id='theme_demo' style='border:1px solid gray;background-color:white;margin:0px auto;'>
+                        <div id='theme_top' style='border:1px solid #E0E0E0;background-color:#F0F0F0;margin:4px auto 2px auto;font-size: 0.678em;text-align:center;'><{$smarty.const._MA_TAD_THEMES_TOP}></div>
                         <div id='theme_head' style='border:1px solid #E0E0E0;background-color:#F0F0F0;margin:4px auto 2px auto;font-size: 0.678em;text-align:center;'><{$smarty.const._MA_TAD_THEMES_HEAD}></div>
                         <div id='left_block' style='border:1px solid #E0E0E0;background-color:#99CCFF;font-size: 0.678em;text-align:center;'></div>
                         <div id='center_block' style='border:1px solid #E0E0E0;background-color:#CCFF66;font-size: 0.678em;text-align:center;'></div>

@@ -3,10 +3,11 @@ use XoopsModules\Tadtools\Utility;
 
 require_once __DIR__ . '/function.php';
 
-//自動存入佈景
+//自動存入佈景(default 或 apply)
 function auto_import_theme($mode = '')
 {
-    global $xoopsDB, $xoopsConfig, $config2_files;
+    global $xoopsDB, $xoopsConfig, $config2_files, $TadDataCenter;
+
     $theme_name = $xoopsConfig['theme_set'];
     if (empty($theme_name)) {
         return;
@@ -27,6 +28,7 @@ function auto_import_theme($mode = '')
         // redirect_header('index.php', 3, sprintf(_MA_TAD_THEMES_NOT_TAD_THEME, $theme_name, XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php"));
     }
 
+    // Utility::dd($config_enable);
     foreach ($config_enable as $k => $v) {
         $$k = $v['default'];
     }
@@ -116,6 +118,13 @@ function auto_import_theme($mode = '')
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     }
 
+    $TadDataCenter->set_col('theme_id', $theme_id);
+    $data_arr = [
+        'navbar_py' => [$navbar_py],
+        'navbar_px' => [$navbar_px],
+    ];
+    $TadDataCenter->saveCustomData($data_arr);
+
     update_tadtools_setup($theme_name, $theme_kind);
 
     if ($mode == 'default') {
@@ -147,6 +156,9 @@ function auto_import_theme($mode = '')
             $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         }
     }
+
+    // Smarty設定檔
+    save_conf($theme_kind);
 
     header('location: main.php');
     exit;
