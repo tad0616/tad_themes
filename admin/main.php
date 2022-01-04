@@ -1455,7 +1455,7 @@ tabs-4 logo圖
 
 
 /*
-tabs-5 區塊標題列
+tabs-5 區塊外觀
  */
 
 \$config_tabs[5] = {$config_tabs[5]};
@@ -1512,42 +1512,42 @@ tabs-5 區塊標題列
  */
 {$position_blocks}
 /*
-tabs-6 導覽工具列
+tabs-6 導覽選單
  */
 
 \$config_tabs[6] = {$config_tabs[6]};
 
-//導覽工具列位置[navbar.tpl]，值： fixed-top （固定上方）, fixed-bottom （固定下方）, sticky-top（滑動圖片上方）, default （滑動圖片下方）, not-use （不使用）
+//導覽選單位置[navbar.tpl]，值： fixed-top （固定上方）, fixed-bottom （固定下方）, sticky-top（滑動圖片上方）, default （滑動圖片下方）, not-use （不使用）
 \$config_enable['navbar_pos'] = array('enable' => '{$config_enable['navbar_pos']['enable']}', 'min' => '{$config_enable['navbar_pos']['min']}', 'max' => '{$config_enable['navbar_pos']['max']}', 'require' => '{$config_enable['navbar_pos']['require']}', 'default' => '{$config_enable['navbar_pos']['default']}');
 
-//導覽工具列 漸層顏色(top)[theme_css_navbar.tpl]
+//導覽選單 漸層顏色(top)[theme_css_navbar.tpl]
 \$config_enable['navbar_bg_top'] = array('enable' => '{$config_enable['navbar_bg_top']['enable']}', 'min' => '{$config_enable['navbar_bg_top']['min']}', 'max' => '{$config_enable['navbar_bg_top']['max']}', 'require' => '{$config_enable['navbar_bg_top']['require']}', 'default' => '{$config_enable['navbar_bg_top']['default']}');
 
-//導覽工具列 漸層顏色(bottom)[theme_css_navbar.tpl]
+//導覽選單 漸層顏色(bottom)[theme_css_navbar.tpl]
 \$config_enable['navbar_bg_bottom'] = array('enable' => '{$config_enable['navbar_bg_bottom']['enable']}', 'min' => '{$config_enable['navbar_bg_bottom']['min']}', 'max' => '{$config_enable['navbar_bg_bottom']['max']}', 'require' => '{$config_enable['navbar_bg_bottom']['require']}', 'default' => '{$config_enable['navbar_bg_bottom']['default']}');
 
-//導覽工具列 連結區塊底色[theme_css_navbar.tpl]
+//導覽選單 連結區塊底色[theme_css_navbar.tpl]
 \$config_enable['navbar_hover'] = array('enable' => '{$config_enable['navbar_hover']['enable']}', 'min' => '{$config_enable['navbar_hover']['min']}', 'max' => '{$config_enable['navbar_hover']['max']}', 'require' => '{$config_enable['navbar_hover']['require']}', 'default' => '{$config_enable['navbar_hover']['default']}');
 
 //上傳導覽列背景圖[navbar.tpl]，值：可指定置於「themes/佈景/images/nav_bg/」下的某一檔案名稱
 \$config_enable['navbar_img'] = array('enable' => '{$config_enable['navbar_img']['enable']}', 'min' => '{$config_enable['navbar_img']['min']}', 'max' => '{$config_enable['navbar_img']['max']}', 'require' => '{$config_enable['navbar_img']['require']}', 'default' => '{$navbar_img_default}');
 
-//導覽工具列 文字顏色[theme_css_navbar.tpl]
+//導覽選單 文字顏色[theme_css_navbar.tpl]
 \$config_enable['navbar_color'] = array('enable' => '{$config_enable['navbar_color']['enable']}', 'min' => '{$config_enable['navbar_color']['min']}', 'max' => '{$config_enable['navbar_color']['max']}', 'require' => '{$config_enable['navbar_color']['require']}', 'default' => '{$config_enable['navbar_color']['default']}');
 
-//導覽工具列 文字移過顏色[theme_css_navbar.tpl]
+//導覽選單 文字移過顏色[theme_css_navbar.tpl]
 \$config_enable['navbar_color_hover'] = array('enable' => '{$config_enable['navbar_color_hover']['enable']}', 'min' => '{$config_enable['navbar_color_hover']['min']}', 'max' => '{$config_enable['navbar_color_hover']['max']}', 'require' => '{$config_enable['navbar_color_hover']['require']}', 'default' => '{$config_enable['navbar_color_hover']['default']}');
 
-//導覽工具列 圖示顏色[navbar.tpl]，值： icon-white （白色圖案）, '' （黑色圖案）
+//導覽選單 圖示顏色[navbar.tpl]，值： icon-white （白色圖案）, '' （黑色圖案）
 \$config_enable['navbar_icon'] = array('enable' => '{$config_enable['navbar_icon']['enable']}', 'min' => '{$config_enable['navbar_icon']['min']}', 'max' => '{$config_enable['navbar_icon']['max']}', 'require' => '{$config_enable['navbar_icon']['require']}', 'default' => '{$config_enable['navbar_icon']['default']}');
 
-//導覽工具列 導覽選項上下距離[theme_css_navbar.tpl]
+//導覽選單 導覽選項上下距離[theme_css_navbar.tpl]
 \$config_enable['navbar_py'] = array('enable' => '{$config_enable['navbar_py']['enable']}', 'min' => '{$config_enable['navbar_py']['min']}', 'max' => '{$config_enable['navbar_py']['max']}', 'require' => '{$config_enable['navbar_py']['require']}', 'default' => '{$config_enable['navbar_py']['default']}');
 
-//導覽工具列 導覽選項左右距離[theme_css_navbar.tpl]
+//導覽選單 導覽選項左右距離[theme_css_navbar.tpl]
 \$config_enable['navbar_px'] = array('enable' => '{$config_enable['navbar_px']['enable']}', 'min' => '{$config_enable['navbar_px']['min']}', 'max' => '{$config_enable['navbar_px']['max']}', 'require' => '{$config_enable['navbar_px']['require']}', 'default' => '{$config_enable['navbar_px']['default']}');
 
-//導覽工具列 導覽選項文字大小[theme_css_navbar.tpl]
+//導覽選單 導覽選項文字大小[theme_css_navbar.tpl]
 \$config_enable['navbar_font_size'] = array('enable' => '{$config_enable['navbar_font_size']['enable']}', 'min' => '{$config_enable['navbar_font_size']['min']}', 'max' => '{$config_enable['navbar_font_size']['max']}', 'require' => '{$config_enable['navbar_font_size']['require']}', 'default' => '{$config_enable['navbar_font_size']['default']}');
 
 // 上傳導覽列logo圖[navbar.tpl]，值：可指定置於「themes/佈景/images/navlogo/」下的某一檔案名稱

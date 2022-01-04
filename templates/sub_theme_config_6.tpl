@@ -1,4 +1,4 @@
-<!--導覽工具列位置-->
+<!--導覽選單位置-->
 <{if $enable.navbar_pos=="1" or $enable.navbar_font_size!="0"}>
     <div class="form-group row mb-3">
         <{if $enable.navbar_pos=="1"}>
@@ -18,7 +18,7 @@
         <{/if}>
 
 
-        <!--導覽工具列 文字大小-->
+        <!--導覽選單 文字大小-->
         <{if $enable.navbar_font_size!="0"}>
             <label class="col-sm-2 col-form-label text-sm-right control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_FONT_SIZE}>
@@ -44,7 +44,7 @@
 
 <{if $enable.navbar_color=="1" or $enable.navbar_icon=="1"}>
     <div class="form-group row mb-3">
-        <!--導覽工具列 文字顏色-->
+        <!--導覽選單 文字顏色-->
         <{if $enable.navbar_color=="1"}>
             <label class="col-sm-2 col-form-label text-sm-right control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR}>
@@ -59,7 +59,7 @@
             <input type="hidden" name="navbar_color" id="navbar_color" value="<{$navbar_color}>">
         <{/if}>
 
-        <!--導覽工具列 圖示顏色-->
+        <!--導覽選單 圖示顏色-->
         <{if $enable.navbar_icon=="1"}>
             <label class="col-sm-2 col-form-label text-sm-right control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_ICON_COLOR}>
@@ -85,7 +85,7 @@
 
 <{if $enable.navbar_bg_top=="1" or $enable.navbar_bg_bottom=="1"}>
     <div class="form-group row mb-3">
-        <!--導覽工具列 漸層顏色(top) -->
+        <!--導覽選單 漸層顏色(top) -->
         <{if $enable.navbar_bg_top=="1"}>
             <label class="col-sm-2 col-form-label text-sm-right control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_BG_COLOR}>
@@ -99,7 +99,7 @@
         <{else}>
             <input type="hidden" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>">
         <{/if}>
-        <!--導覽工具列 漸層顏色(bottom) -->
+        <!--導覽選單 漸層顏色(bottom) -->
         <{if $enable.navbar_bg_bottom=="1"}>
             <label class="col-sm-2 col-form-label text-sm-right control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_CHANGE}>
@@ -122,7 +122,7 @@
 
 <{if $enable.navbar_color_hover=="1" or $enable.navbar_hover=="1"}>
     <div class="form-group row mb-3">
-        <!--導覽工具列 滑鼠移過顏色-->
+        <!--導覽選單 滑鼠移過顏色-->
         <{if $enable.navbar_color_hover=="1"}>
             <label class="col-sm-2 col-form-label text-sm-right control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR_HOVER}>
@@ -161,7 +161,7 @@
 
 <{if $enable.navbar_py=="1" or $enable.navbar_px=="1"}>
     <div class="form-group row mb-3">
-        <!--導覽工具列 導覽選項上下距離-->
+        <!--導覽選單 導覽選項上下距離-->
         <{if $enable.navbar_py=="1"}>
             <label class="col-sm-2 col-form-label text-sm-right control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_PY}>
@@ -178,7 +178,7 @@
             <{$navbar_py_hidden}>
         <{/if}>
 
-        <!--導覽工具列 導覽選項左右距離-->
+        <!--導覽選單 導覽選項左右距離-->
         <{if $enable.navbar_px=="1"}>
             <label class="col-sm-2 col-form-label text-sm-right control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_PX}>
