@@ -17,7 +17,7 @@ require_once dirname(__DIR__) . '/auto_import_theme.php';
 //tad_themes編輯表單(default 或 apply)
 function tad_themes_form($mode = '')
 {
-    global $xoopsConfig, $xoopsTpl, $xoTheme, $TadDataCenter, $config2_files, $custom_tabs;
+    global $xoopsConfig, $xoopsTpl, $xoTheme, $TadDataCenter, $config2_arr, $custom_tabs;
 
     //抓取預設值
     $DBV = get_tad_themes();
@@ -207,16 +207,18 @@ function tad_themes_form($mode = '')
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2/thumbs");
 
     $custom_tabs_data = [];
-    foreach ($config2_files as $config2_file) {
-        $config2 = mk_config2($theme_id, $theme_name, $config2_file);
-        if (in_array($config2_file, $custom_tabs)) {
-            $label = array_search($config2_file, $custom_tabs);
-            $custom_tabs_data[$label] = $config2;
+    foreach ($config2_arr as $config2_name => $config2_data) {
+        // 讀入額外設定並產生變數
+
+        $config2 = mk_config2($theme_id, $theme_name, $config2_name);
+        if ($config2) {
+            $custom_tabs_data[$config2_name] = $config2;
         }
+
     }
 
     $xoopsTpl->assign('custom_tabs_data', $custom_tabs_data);
-    $xoopsTpl->assign('custom_tabs', $custom_tabs);
+    $xoopsTpl->assign('config2_arr', $config2_arr);
 
     $MColorPicker = new MColorPicker('.color-picker');
     $MColorPicker->render('bootstrap');
@@ -355,7 +357,7 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
         $xoopsTpl->assign($config2_file, $config2);
         return $config2;
     } else {
-        $xoopsTpl->assign($config2_file, '');
+        return;
     }
 }
 

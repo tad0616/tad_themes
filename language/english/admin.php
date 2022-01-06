@@ -235,8 +235,9 @@ define('_MA_TADTHEMES_COPY', 'Copy');
 define('_MA_TADTHEMES_CONFIG_PATH_ERROR', 'Save to %s Failed!');
 
 define('_MA_TADTHEMES_FOOTER', 'Footer');
-define('_MA_TADTHEMES_TOPDIV', 'Top customization area');
+define('_MA_TADTHEMES_TOP', 'Top customization area');
+define('_MA_TADTHEMES_BOTTOM', 'Bottom customization area');
 define('_MA_TADTHEMES_CONTENT', 'Content Area');
 define('_MA_TADTHEMES_PADDING', 'Padding');
-define('_MA_TADTHEMES_TOP', 'Top');
-define('_MA_TADTHEMES_BOTTOM', 'Bottom');
+define('_MA_TADTHEMES_TOPSIDE', 'Top');
+define('_MA_TADTHEMES_BOTTOMSIDE', 'Bottom');

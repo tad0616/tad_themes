@@ -18,8 +18,23 @@ define('_THEME_CONFIG2_PATH', XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_se
 
 $block_position_title = ['leftBlock' => _MA_TADTHEMES_BLOCK_LEFT, 'rightBlock' => _MA_TADTHEMES_BLOCK_RIGHT, 'centerBlock' => _MA_TADTHEMES_BLOCK_TOP_CENTER, 'centerLeftBlock' => _MA_TADTHEMES_BLOCK_TOP_LEFT, 'centerRightBlock' => _MA_TADTHEMES_BLOCK_TOP_RIGHT, 'centerBottomBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_CENTER, 'centerBottomLeftBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_LEFT, 'centerBottomRightBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_RIGHT, 'footerCenterBlock' => _MA_TADTHEMES_BLOCK_FOOTER_CENTER, 'footerLeftBlock' => _MA_TADTHEMES_BLOCK_FOOTER_LEFT, 'footerRightBlock' => _MA_TADTHEMES_BLOCK_FOOTER_RIGHT];
 
-$config2_files = ['config2_base', 'config2_bg', 'config2_logo', 'config2_nav', 'config2_slide', 'config2_content', 'config2_block', 'config2_topdiv', 'config2_footer', 'config2'];
-$custom_tabs = [_MA_TADTHEMES_FOOTER => 'config2_footer', _MA_TADTHEMES_TOPDIV => 'config2_topdiv', _MA_TADTHEMES_CONTENT => 'config2_content'];
+$config2_arr = [
+    'config2_base' => ['label' => _MA_TADTHEMES_THEME_BASE, 'tpl' => 'sub_theme_config_1', 'type' => 'config', 'key' => '1'],
+    'config2_bg' => ['label' => _MA_TADTHEMES_BG_IMG, 'tpl' => 'sub_theme_config_2', 'type' => 'config', 'key' => '2'],
+    'config2_top' => ['label' => _MA_TADTHEMES_TOP, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
+    'config2_logo' => ['label' => _MA_TADTHEMES_LOGO_IMG, 'tpl' => 'sub_theme_config_4', 'type' => 'config', 'key' => '4'],
+    'config2_nav' => ['label' => _MA_TADTHEMES_NAVBAR, 'tpl' => 'sub_theme_config_6', 'type' => 'config', 'key' => '6'],
+    'config2_slide' => ['label' => _MA_TAD_THEMES_HEAD, 'tpl' => 'sub_theme_config_3', 'type' => 'config', 'key' => '3'],
+    'config2_content' => ['label' => _MA_TADTHEMES_CONTENT, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
+    'config2_block' => ['label' => _MA_TADTHEMES_BLOCK_TITLE, 'tpl' => 'sub_theme_config_5', 'type' => 'config', 'key' => '5'],
+    'config2_footer' => ['label' => _MA_TADTHEMES_FOOTER, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
+    'config2_bottom' => ['label' => _MA_TADTHEMES_BOTTOM, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
+    'config2' => ['label' => _MA_TADTHEMES_CONFIG2, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
+];
+
+$config2_files = array_keys($config2_arr);
+
+$custom_tabs = [_MA_TADTHEMES_THEME_BASE => 'config2_base', _MA_TADTHEMES_BG_IMG => 'config2_bg', _MA_TADTHEMES_TOP => 'config2_top', _MA_TADTHEMES_LOGO_IMG => 'config2_logo', _MA_TADTHEMES_NAVBAR => 'config2_nav', _MA_TAD_THEMES_HEAD => 'config2_slide', _MA_TADTHEMES_CONTENT => 'config2_content', _MA_TADTHEMES_BLOCK_TITLE => 'config2_block', _MA_TADTHEMES_FOOTER => 'config2_footer', _MA_TADTHEMES_BOTTOM => 'config2_bottom'];
 
 /********************* 預設函數 ********************
  * @param string $path

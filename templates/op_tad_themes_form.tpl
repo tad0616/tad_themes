@@ -71,113 +71,55 @@
 
                 <div id="themeTab">
                     <ul class="resp-tabs-list tab_identifier_parent">
-                        <{if $config_tabs.1}>
-                            <li><{$smarty.const._MA_TADTHEMES_THEME_BASE}></li>
-                        <{/if}>
-
-                        <{if $config_tabs.2}>
-                            <li><{$smarty.const._MA_TADTHEMES_BG_IMG}></li>
-                        <{/if}>
-
-                        <{if $config_tabs.3}>
-                            <li><{$smarty.const._MA_TAD_THEMES_HEAD}></li>
-                        <{/if}>
-
-                        <{if $config_tabs.4}>
-                            <li><{$smarty.const._MA_TADTHEMES_LOGO_IMG}></li>
-                        <{/if}>
-
-                        <{if $config_tabs.5}>
-                            <li><{$smarty.const._MA_TADTHEMES_BLOCK_TITLE}></li>
-                        <{/if}>
-
-                        <{if $config_tabs.6}>
-                            <li><{$smarty.const._MA_TADTHEMES_NAVBAR}></li>
-                        <{/if}>
-
-                        <!--額外頁籤-->
-                        <{if $custom_tabs_data}>
-                            <{foreach from=$custom_tabs_data key=custom_tab_title item=custom_tab}>
-                                <li><{$custom_tab_title}></li>
-                            <{/foreach}>
-                        <{/if}>
+                        <!--頁籤-->
+                        <{foreach from=$config2_arr key=config_file  item=config}>
+                            <{if $custom_tabs_data.$config_file || $config.type=='config'}>
+                            <li><{$config.label}></li>
+                            <{/if}>
+                        <{/foreach}>
 
 
-                        <{if $config2}>
+
+                        <{* <{if $config2}>
                             <li><{$smarty.const._MA_TADTHEMES_CONFIG2}></li>
-                        <{/if}>
+                        <{/if}> *}>
 
                     </ul>
 
                     <div class="resp-tabs-container tab_identifier_parent">
-                        <{if $config_tabs.1}>
-                            <div>
-                                <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_1.tpl"}>
-                            </div>
-                        <{else}>
-                            <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_no_config_1.tpl"}>
-                        <{/if}>
-
-                        <{if $config_tabs.2}>
-                            <div>
-                                <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_2.tpl"}>
-                            </div>
-                        <{else}>
-                            <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_no_config_2.tpl"}>
-                        <{/if}>
-
-                        <{if $config_tabs.3}>
-                            <div>
-                                <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_3.tpl"}>
-                            </div>
-                        <{else}>
-                            <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_no_config_3.tpl"}>
-                        <{/if}>
-
-                        <{if $config_tabs.4}>
-                        <div>
-                            <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_4.tpl"}>
-                        </div>
-                        <{else}>
-                            <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_no_config_4.tpl"}>
-                        <{/if}>
-
-                        <{if $config_tabs.5}>
-                            <div>
-                                <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_5.tpl"}>
-                            </div>
-                        <{else}>
-                            <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_no_config_5.tpl"}>
-                        <{/if}>
-
-                        <{if $config_tabs.6}>
-                            <div>
-                                <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_6.tpl"}>
-                            </div>
-                        <{else}>
-                            <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_no_config_6.tpl"}>
-                        <{/if}>
-
-
                         <!--額外頁籤-->
-                        <{if $custom_tabs_data}>
-                            <{foreach from=$custom_tabs_data key=custom_tab_title item=custom_config2}>
-                                <div>
-                                    <input type="hidden" name="config2[]" value="<{$custom_tabs.$custom_tab_title}>">
-                                    <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_custom.tpl"}>
-                                </div>
-                            <{/foreach}>
-                        <{/if}>
+                        <{foreach from=$config2_arr key=config_file item=config}>
+                            <{if $custom_tabs_data.$config_file || $config.type=='config'}>
+                                <{if $config.type=='config'}>
+                                    <{assign var="key" value=$config.key}>
+                                    <{if $config_tabs.$key}>
+                                    <div>
+                                        <{assign var="sub_theme_config" value="sub_theme_config_`$key`"}>
+                                        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/`$sub_theme_config`.tpl"}>
+                                    </div>
+                                    <{else}>
+                                        <{assign var="sub_theme_no_config" value="sub_theme_no_config_`$key`"}>
+                                        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/`$sub_theme_no_config`.tpl"}>
+                                    <{/if}>
+                                <{elseif $config.type=='config2'}>
+                                    <div>
+                                    <{assign var="custom_config2" value=$custom_tabs_data[$config_file]}>
+                                    <input type="hidden" name="config2[]" value="<{$config_file}>">
+                                    <{includeq file="$xoops_rootpath/modules/tad_themes/templates/`$config.tpl`.tpl"}>
+                                    </div>
+                                <{/if}>
+                            <{/if}>
+                        <{/foreach}>
 
                         <!--額外設定-->
-                        <{if $config2}>
+                        <{* <{if $config2}>
                             <div>
                                 <input type="hidden" name="config2[]" value="config2">
                                 <{foreach from=$config2 item=config}>
                                     <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
                                 <{/foreach}>
                             </div>
-                        <{/if}>
+                        <{/if}> *}>
 
                     </div>
                 </div>
@@ -215,7 +157,6 @@
                         <{$smarty.const._MA_TADTHEMES_NOTICE}>
                     <{/if}>
                     <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_form.tpl"}>
-                    <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_copy_theme_config.tpl"}>
                 </div>
             </div>
         </div>

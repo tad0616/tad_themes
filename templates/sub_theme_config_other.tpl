@@ -106,7 +106,7 @@
             <{elseif $config.type=="padding_margin"}>
                 <div class="input-group">
                     <div class="input-group-prepend input-group-addon">
-                        <span class="input-group-text"><{$smarty.const._MA_TADTHEMES_TOP}></span>
+                        <span class="input-group-text"><{$smarty.const._MA_TADTHEMES_TOPSIDE}></span>
                     </div>
                     <input type="text" name="<{$config.name}>_mt" class="form-control" value="<{$config.mt}>">
                     <div class="input-group-prepend input-group-addon">
@@ -114,7 +114,7 @@
                     </div>
                     <input type="text" name="<{$config.name}>" class="form-control" value="<{$config.value}>">
                     <div class="input-group-prepend input-group-addon">
-                        <span class="input-group-text"><{$smarty.const._MA_TADTHEMES_BOTTOM}></span>
+                        <span class="input-group-text"><{$smarty.const._MA_TADTHEMES_BOTTOMSIDE}></span>
                     </div>
                     <input type="text" name="<{$config.name}>_mb" class="form-control" value="<{$config.mb}>">
                 </div>
