@@ -251,7 +251,7 @@ function update_tadtools_setup($theme = '', $theme_kind = '')
     }
 }
 
-// 加入Smarty設定檔
+// 加入Smarty設定檔（避免抓不到 $_SESSION['bootstrap']）
 function save_conf($theme_kind)
 {
     $bootstrap = (strpos($theme_kind, 'bootstrap') !== false) ? substr($theme_kind, -1) : '4';
@@ -278,7 +278,7 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
             require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php";
         }
 
-        // 先註解起來，不然儲存時，若設定檔有異動，會無法存入
+        // 按下套用的話
         if ($mode == 'apply') {
             if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2}.php")) {
                 require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2}.php";
@@ -292,18 +292,15 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
         foreach ($theme_config as $k => $config) {
             $name = $config['name'];
             if (isset($_POST[$name])) {
-                if (is_array($_POST[$name])) {
-                    $value = $myts->addSlashes(json_encode($_POST[$name]));
-                } else {
-                    $value = $myts->addSlashes($_POST[$name]);
-                }
+                $value = is_array($_POST[$name]) ? json_encode($_POST[$name], 256) : $_POST[$name];
             } else {
-                $value = $config['default'];
+                $value = is_array($config['default']) ? json_encode($config['default'], 256) : $config['default'];
             }
 
             if ('file' === $config['type']) {
                 $value = basename($value);
             }
+            $value = $myts->addSlashes($value);
 
             $sql = 'replace into ' . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`) values($theme_id , '{$config['name']}' , '{$config['type']}' , '{$value}')";
 

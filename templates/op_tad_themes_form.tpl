@@ -77,13 +77,6 @@
                             <li><{$config.label}></li>
                             <{/if}>
                         <{/foreach}>
-
-
-
-                        <{* <{if $config2}>
-                            <li><{$smarty.const._MA_TADTHEMES_CONFIG2}></li>
-                        <{/if}> *}>
-
                     </ul>
 
                     <div class="resp-tabs-container tab_identifier_parent">
@@ -110,17 +103,6 @@
                                 <{/if}>
                             <{/if}>
                         <{/foreach}>
-
-                        <!--額外設定-->
-                        <{* <{if $config2}>
-                            <div>
-                                <input type="hidden" name="config2[]" value="config2">
-                                <{foreach from=$config2 item=config}>
-                                    <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
-                                <{/foreach}>
-                            </div>
-                        <{/if}> *}>
-
                     </div>
                 </div>
             </div>

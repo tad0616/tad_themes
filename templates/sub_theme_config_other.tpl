@@ -49,15 +49,15 @@
         </label>
         <div class="col-sm-5">
             <{if $config.type=="text"}>
-                <input type="text" name="<{$config.name}>" value="<{$config.value}>" data-toggle="tooltip" title="<{$config.default}>" class="form-control">
+                <input type="text" name="<{$config.name}>" value="<{$config.value}>" class="form-control">
             <{elseif $config.type=="color"}>
                 <div class="input-group">
-                    <input type="text" name="<{$config.name}>" id="<{$config.name}>" value="<{$config.value}>" class="form-control color-picker"  data-toggle="tooltip" title="<{$config.default}>" data-hex="true">
+                    <input type="text" name="<{$config.name}>" id="<{$config.name}>" value="<{$config.value}>" class="form-control color-picker"  data-hex="true">
                 </div>
             <{elseif $config.type=="array"}>
-                <textarea name="<{$config.name}>" class="form-control" rows=4 style="font-size:0.8em;" data-toggle="tooltip" title="<{$config.default}>"><{$config.value}></textarea>
+                <textarea name="<{$config.name}>" class="form-control" rows=4 style="font-size:0.8em;"><{$config.value}></textarea>
             <{elseif $config.type=="textarea"}>
-                <textarea name="<{$config.name}>" class="form-control" rows=4 style="font-size:0.8em;" data-toggle="tooltip" title="<{$config.default}>"><{$config.value}></textarea>
+                <textarea name="<{$config.name}>" class="form-control" rows=4 style="font-size:0.8em;"><{$config.value}></textarea>
             <{elseif $config.type=="yesno"}>
                 <div class="form-check form-check-inline radio-inline">
                     <label class="form-check-label" for="<{$config.name}>1">

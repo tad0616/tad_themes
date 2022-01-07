@@ -7,6 +7,7 @@ Tad Themes 7.1 (尚未釋出)
 5.加入自訂佈景頁籤機制
 6.修正無法完整套用佈景問題
 7.加入Smarty設定檔
+8.支援更多佈景設定
 
 
 Tad Themes 7.0 (2021-10-06 釋出)
@@ -401,3 +402,26 @@ Tad Themes 1.1 (2013-02-25 釋出)
  4.滑動圖片已可直接從後台秀出文字
  5.新增區塊標題的各種設定功能！ (by hirokofan)
  6.新增選單位置、顏色等設定功能！ (by hirokofan)
+
+
+使用佈景流程
+一、tadtools 的 get_var.tpl 會嘗試取得佈景設定值，並直接 assign 到樣板
+若無：用 auto_import_theme.php 用 default 模式匯入資料
+
+若有：
+    1.從資料庫撈出基本資料，並計算出各種用到的變數
+    2.從資料庫讀取區塊標題設定
+    3.從 /data/tad_themes_config2.json 讀出額外資訊（若無該檔，會從 tad_themes_config2 資料庫取得額外設定，並產生該檔）
+    4.依序讀取佈景額外設定檔，並以 tad_themes_config2.json 的值為主取代之
+
+auto_import_theme 匯入資料流程：有 default（回復到原佈景）和 apply（套用自己存的佈景）兩種模式
+    1.讀取實體設定檔
+    2.將讀到的資料寫入資料庫，並更新 tadtools 初始設定
+    3.若是 default 模式，則將佈景設定複製一份到  uploads/tad_themes/佈景名稱/ 下
+    4.儲存區塊設定到資料庫
+    5.匯入額外設定值
+
+儲存佈景流程：
+    1.建立 /uploads/tad_themes/{$theme_name}/setup/ 目錄
+    2.匯出主設定檔（會以 uploads 下的設定檔為主））
+    3.匯出額外設定（會以原始佈景下的設定檔為主架構，然後將資料庫現存的值塞入）

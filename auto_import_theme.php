@@ -25,7 +25,6 @@ function auto_import_theme($mode = '')
 
     if (empty($config_enable)) {
         return;
-        // redirect_header('index.php', 3, sprintf(_MA_TAD_THEMES_NOT_TAD_THEME, $theme_name, XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php"));
     }
 
     // Utility::dd($config_enable);
@@ -47,10 +46,6 @@ function auto_import_theme($mode = '')
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2");
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2/thumbs");
 
-    // $bg_img = !empty($bg_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/bg/{$bg_img}" : '';
-    // $logo_img = !empty($logo_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/logo/{$logo_img}" : '';
-    // $navlogo_img = !empty($navlogo_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/navlogo/{$navlogo_img}" : '';
-    // $navbar_img = !empty($navbar_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/nav_bg/{$navbar_img}" : '';
     $theme_type = empty($theme_type) ? 'theme_type_2' : $theme_type;
 
     $logo_top = (int) $logo_top;
