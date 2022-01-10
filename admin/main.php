@@ -17,7 +17,7 @@ require_once dirname(__DIR__) . '/auto_import_theme.php';
 //tad_themes編輯表單(default 或 apply)
 function tad_themes_form($mode = '')
 {
-    global $xoopsConfig, $xoopsTpl, $xoTheme, $TadDataCenter, $config2_arr, $custom_tabs;
+    global $xoopsConfig, $xoopsTpl, $xoTheme, $TadDataCenter, $config2_arr, $xoopsDB;
 
     //抓取預設值
     $DBV = get_tad_themes();
@@ -235,8 +235,8 @@ function tad_themes_form($mode = '')
     $xoopsTpl->assign('navbar_px_input', $TadDataCenter->getForm('return', 'input', 'navbar_px', 'text', $navbar_px, null, ['class' => 'form-control']));
     $xoopsTpl->assign('navbar_px_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_px', 'hidden', $navbar_px, null, ['class' => 'form-control']));
 
-    $xoopsTpl->assign('navbar_font_size_input', $TadDataCenter->getForm('return', 'input', 'navbar_font_size', 'text', 100, null, ['class' => 'form-control']));
-    $xoopsTpl->assign('navbar_font_size_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_font_size', 'hidden', 100, null, ['class' => 'form-control']));
+    $xoopsTpl->assign('navbar_font_size_input', $TadDataCenter->getForm('return', 'input', 'navbar_font_size', 'text', $navbar_font_size, null, ['class' => 'form-control']));
+    $xoopsTpl->assign('navbar_font_size_hidden', $TadDataCenter->getForm('return', 'input', 'navbar_font_size', 'hidden', $navbar_font_size, null, ['class' => 'form-control']));
 
     // 儲存設定表單
     $dir = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/";
@@ -257,6 +257,45 @@ function tad_themes_form($mode = '')
             closedir($dh);
         }
     }
+
+    // 找出區塊
+    $blocks = [];
+    $tags = ['hide', 'pic', 'img', 'link', 'icon'];
+    $sql = "select a.`bid`,a.`mid`, a.`name`, a.`title`, b.`name` as mod_name, b.`dirname` from " . $xoopsDB->prefix('newblocks') . " as a
+    left join  " . $xoopsDB->prefix('modules') . " as b on a.`mid`=b.`mid`
+    where a.`block_type`='C' or b.`isactive` = 1
+    order by a.`mid`, a.`weight`";
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    while ($data = $xoopsDB->fetchArray($result)) {
+        foreach ($tags as $tag) {
+            $start = strpos($data['name'], "[$tag]");
+            if ($start !== false) {
+                $data['name'] = substr($data['name'], 0, $start);
+                break;
+            }
+            $start = strpos($data['title'], "[$tag]");
+            if ($start !== false) {
+                $data['title'] = substr($data['title'], 0, $start);
+                break;
+            }
+        }
+
+        if (empty($data['mid'])) {
+            $data['mod_name'] = _MA_TADTHEMES_BLOCKS_CUSTOM;
+        }
+
+        $blocks[$data['mod_name']][$data['bid']] = $data;
+        $xoopsTpl->assign('blocks', $blocks);
+    }
+
+    // 進階區塊
+    $adv_bids = [];
+    $sql = "select `bid` from " . $xoopsDB->prefix('tad_blocks');
+    $result = $xoopsDB->query($sql);
+    while (list($bid) = $xoopsDB->fetchRow($result)) {
+        $adv_bids[] = $bid;
+    }
+    $xoopsTpl->assign('adv_bids', $adv_bids);
 
     DataList::render();
     $xoopsTpl->assign('theme_config_list', $theme_config_list);
@@ -304,7 +343,7 @@ function tad_themes_form($mode = '')
 // 讀入額外設定並產生變數
 function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
 {
-    global $xoopsTpl, $xoopsConfig;
+    global $xoopsTpl, $xoopsConfig, $xoopsDB;
 
     if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php")) {
         $myts = \MyTextSanitizer::getInstance();
@@ -351,6 +390,15 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
             } elseif ('padding_margin' === $config['type']) {
                 $config2[$k]['mt'] = isset($config2_values[$config_name . '_mt']) ? $myts->htmlSpecialChars($config2_values[$config_name . '_mt']) : '';
                 $config2[$k]['mb'] = isset($config2_values[$config_name . '_mb']) ? $myts->htmlSpecialChars($config2_values[$config_name . '_mb']) : '';
+            } elseif ('checkbox' === $config['type'] and !empty($config2_values[$config_name . '_bid'])) {
+                $bid = $config2_values[$config_name . '_bid'];
+                $sql = "select options from " . $xoopsDB->prefix('newblocks') . "
+                where `bid` = {$bid}";
+                $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+                list($options) = $xoopsDB->fetchRow($result);
+                $bids['bid'] = $bid;
+                $bids['options'] = $options;
+                $config2[$k]['bid'] = $bids;
             }
         }
 
@@ -1634,7 +1682,6 @@ function export_config2($theme_id = '', $config2_file = 'config2', $theme_config
 
         $myts = \MyTextSanitizer::getInstance();
 
-        $handle = fopen(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php", 'rb');
         if ($theme_config_name == '') {
             header('Content-type: text/php');
             header("Content-Disposition: attachment; filename={$config2_file}.php");
@@ -1963,6 +2010,7 @@ $mode = Request::getString('mode');
 $module_sn = Request::getInt('module_sn');
 $style_param = Request::getString('style_param');
 $from_theme_id = Request::getInt('from_theme_id');
+$config2_file = Request::getString('config2_file');
 
 switch ($op) {
     /*---判斷動作請貼在下方--- */
@@ -2039,6 +2087,16 @@ switch ($op) {
         unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
+
+    //線上觀看設定檔
+    case 'export_config':
+        export_config($theme_id);
+        break;
+
+    //線上觀看設定檔
+    case 'export_config2':
+        export_config2($theme_id, $config2_file);
+        break;
 
     //預設動作
     default:

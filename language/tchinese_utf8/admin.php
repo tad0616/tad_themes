@@ -226,9 +226,6 @@ define('_MA_TADTHEMES_EDIT_MENU_JILL_BOOKING', '預約場地');
 
 define('_MA_TADTHEMES_DOWNLOAD', '下載');
 define('_MA_TADTHEMES_DL_FAIL', '「%s」下載失敗！');
-define('_MA_TADTHEMES_EXPAND_ALL', '全部展開');
-define('_MA_TADTHEMES_COLLAPSE_ALL', '全部闔起');
-
 define('_MA_TADTHEMES_COPY_THEME', '複製佈景設定至此');
 define('_MA_TADTHEMES_COPY', '複製');
 
@@ -236,8 +233,10 @@ define('_MA_TADTHEMES_CONFIG_PATH_ERROR', '存至 %s 失敗！');
 
 define('_MA_TADTHEMES_FOOTER', '頁尾');
 define('_MA_TADTHEMES_TOP', '頂部自訂區');
+define('_MA_TADTHEMES_MIDDLE', '中間自訂區');
 define('_MA_TADTHEMES_BOTTOM', '底部自訂區');
 define('_MA_TADTHEMES_CONTENT', '內容區');
 define('_MA_TADTHEMES_PADDING', '內距');
 define('_MA_TADTHEMES_TOPSIDE', '上');
 define('_MA_TADTHEMES_BOTTOMSIDE', '下');
+define('_MA_TADTHEMES_BLOCKS_CUSTOM', '自訂區塊');

@@ -87,6 +87,34 @@
                             <input class="form-check-input" type="checkbox" name="<{$config.name}>[]" id="<{$config.name}>_<{$val}>" value="<{$val}>" <{if $val|in_array:$config.value}>checked<{/if}>>
                             <{$opt}>
                         </label>
+                        <{if $val=='block'}>
+                            <{assign var="conf_name" value=$config.name}>
+                            <select name="<{$config.name}>_bid" style="border: 1px solid #acacac">
+                                <option value="" <{if $bid == ""}>selected<{/if}>></option>
+                                <{foreach from=$blocks key=mod_name item=mod_blocks}>
+                                    <optgroup label="<{$mod_name}>">
+                                        <{foreach from=$mod_blocks key=bid item=block}>
+                                            <option value="<{$bid}>" <{if $bid == $config.bid.bid}>selected<{/if}>>
+                                                <{if $block.name|strpos:$smarty.const._MA_TADTHEMES_BLOCKS_CUSTOM !== false}>
+                                                    <{$block.title}><{$block.name|replace:$smarty.const._MA_TADTHEMES_BLOCKS_CUSTOM:''}>
+                                                <{elseif $block.title|strpos:$block.name !== false}>
+                                                    <{$block.name}>
+                                                <{else}>
+                                                    <{$block.name}> (<{$block.title}>)
+                                                <{/if}>
+                                            </option>
+                                        <{/foreach}>
+                                    </optgroup>
+                                <{/foreach}>
+                            </select>
+                            <{if $config.bid.bid}>
+                                <{if $config.bid.bid|in_array:$adv_bids}>
+                                    <a href="<{$xoops}>/modules/tad_blocks/index.php?op=block_form&bid=<{$config.bid.bid}>" target="_blank"><{$smarty.const._TAD_EDIT}></a>
+                                <{else}>
+                                    <a href="<{$xoops}>/modules/system/admin.php?fct=blocksadmin&op=edit&bid=<{$config.bid.bid}>" target="_blank"><{$smarty.const._TAD_EDIT}></a>
+                                <{/if}>
+                            <{/if}>
+                        <{/if}>
                     </div>
                 <{/foreach}>
             <{elseif $config.type=="select"}>

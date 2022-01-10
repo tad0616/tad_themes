@@ -131,7 +131,6 @@ define('_MA_TADTHEMES_NAVBAR_POSITION_6', 'Slide bottom');
 define('_MA_TADTHEMES_NAVBAR_POSITION_4', 'By theme setup');
 define('_MA_TADTHEMES_NAVBAR_POSITION_5', 'Hide');
 define('_MA_TADTHEMES_NAVBAR_BG_COLOR', 'Color');
-define('_MA_TADTHEMES_NAVBAR_HOVER_COLOR', 'Background Color');
 define('_MA_TADTHEMES_TARGET_BLANK', '_blank');
 define('_MA_TADTHEMES_NAVBAR_COLOR', 'Text Color');
 define('_MA_TADTHEMES_NAVBAR_COLOR_HOVER', 'Text hover Color');
@@ -226,8 +225,6 @@ define('_MA_TADTHEMES_EDIT_MENU_JILL_BOOKING', 'Booking Place');
 
 define('_MA_TADTHEMES_DOWNLOAD', 'Download');
 define('_MA_TADTHEMES_DL_FAIL', '"%s" failed to download!');
-define('_MA_TADTHEMES_EXPAND_ALL', 'Expand All');
-define('_MA_TADTHEMES_COLLAPSE_ALL', 'Collapse All');
 
 define('_MA_TADTHEMES_COPY_THEME', 'Reproduction of the set is set up here');
 define('_MA_TADTHEMES_COPY', 'Copy');
@@ -236,8 +233,10 @@ define('_MA_TADTHEMES_CONFIG_PATH_ERROR', 'Save to %s Failed!');
 
 define('_MA_TADTHEMES_FOOTER', 'Footer');
 define('_MA_TADTHEMES_TOP', 'Top customization area');
+define('_MA_TADTHEMES_MIDDLE', 'Middle Custom Area');
 define('_MA_TADTHEMES_BOTTOM', 'Bottom customization area');
 define('_MA_TADTHEMES_CONTENT', 'Content Area');
 define('_MA_TADTHEMES_PADDING', 'Padding');
 define('_MA_TADTHEMES_TOPSIDE', 'Top');
 define('_MA_TADTHEMES_BOTTOMSIDE', 'Bottom');
+define('_MA_TADTHEMES_BLOCKS_CUSTOM', 'Custom Block');

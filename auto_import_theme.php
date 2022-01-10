@@ -32,6 +32,8 @@ function auto_import_theme($mode = '')
         $$k = $v['default'];
     }
 
+    unlink(XOOPS_ROOT_PATH . "/uploads/bootstrap.conf");
+
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}");
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg");
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide");
