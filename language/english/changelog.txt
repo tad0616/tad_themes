@@ -1,3 +1,16 @@
+Tad Themes 7.1 (released on 2022-01-11)
+====================================
+1.Upgrade bootstrap-select to support bootStrap5
+2.Optimize color selection interface
+3.Add multiple selection function for extra settings
+4.Fix the problem of extra settings can not be exported
+5. Add custom layout tab mechanism
+6. Fix the problem of incomplete application of scenery.
+7. Add Smarty settings file.
+8. Support more scenery settings.
+9. Add single setting export function.
+
+
 Tad Themes 7.0 (released 2021-10-06)
 ====================================
 1. Add the function of converting old scenery

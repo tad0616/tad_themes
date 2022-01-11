@@ -289,11 +289,15 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
         if (empty($theme_config)) {
             continue;
         }
-
+        // Utility::dd($_POST);
         foreach ($theme_config as $k => $config) {
             $name = $config['name'];
-            if (isset($_POST[$name])) {
-                $value = is_array($_POST[$name]) ? json_encode($_POST[$name], 256) : $_POST[$name];
+            if (isset($_POST[$name]) || ('checkbox' === $config['type'] and $mode != 'default')) {
+                if ('checkbox' === $config['type'] and $mode != 'default') {
+                    $value = json_encode($_POST[$name], 256);
+                } else {
+                    $value = is_array($_POST[$name]) ? json_encode($_POST[$name], 256) : $_POST[$name];
+                }
             } else {
                 $value = is_array($config['default']) ? json_encode($config['default'], 256) : $config['default'];
             }
