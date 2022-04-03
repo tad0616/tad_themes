@@ -1,3 +1,9 @@
+Tad Themes 7.2 (released on 2022-02-05)
+====================================
+1. New navigation bar location options
+2. Modify various problems of export and import of layout style files
+3. Copy scenery to only copy the logo and sliding image
+
 Tad Themes 7.1 (released on 2022-01-11)
 ====================================
 1.Upgrade bootstrap-select to support bootStrap5

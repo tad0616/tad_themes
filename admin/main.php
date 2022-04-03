@@ -849,6 +849,7 @@ function insert_tad_themes()
 
     // Smarty設定檔
     save_conf($theme_kind);
+
     return $theme_id;
 }
 
@@ -989,6 +990,7 @@ function update_tad_themes($theme_id = '')
 
     // Smarty設定檔
     save_conf($theme_kind);
+
     return $theme_id;
 }
 
@@ -1067,9 +1069,9 @@ function delete_tad_themes($theme_id = '')
     $TadUpFilesNavLogo->del_files();
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navlogo");
 
-    Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navbar_img/thumbs");
+    Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/nav_bg/thumbs");
     $TadUpFilesNavBg = TadUpFilesNavBg();
-    $TadUpFilesNavBg->set_col('navbar_img', $theme_id);
+    $TadUpFilesNavBg->set_col('nav_bg', $theme_id);
     $TadUpFilesNavBg->del_files();
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navbar_img");
 
@@ -1263,7 +1265,7 @@ function export_config($theme_id = '', $theme_config_name = '', $from_theme_name
 
     foreach ($DBV as $k => $v) {
         $v = $myts->addSlashes($v);
-        $$k = $v;
+        $$k = isset($force[$k]) ? $force[$k] : $v;
         $config_enable[$k]['default'] = isset($force_config_enable[$k]['default']) ? $force_config_enable[$k]['default'] : $v;
     }
 
@@ -1286,7 +1288,7 @@ function export_config($theme_id = '', $theme_config_name = '', $from_theme_name
     if ($config_enable['navbar_img']['default']) {
         $navbar_img_default = basename($config_enable['navbar_img']['default']);
         if (!empty($theme_config_name)) {
-            copy_image($from_theme_name, $to_theme_name, $theme_config_name, "navbg", $navbar_img_default);
+            copy_image($from_theme_name, $to_theme_name, $theme_config_name, "nav_bg", $navbar_img_default);
         }
     }
 
@@ -1567,7 +1569,7 @@ tabs-6 導覽選單
 
 \$config_tabs[6] = {$config_tabs[6]};
 
-//導覽選單位置[navbar.tpl]，值： fixed-top （固定上方）, fixed-bottom （固定下方）, sticky-top（滑動圖片上方）, default （滑動圖片下方）, not-use （不使用）
+//導覽選單位置[navbar.tpl]，值： fixed-top （固定上方）, fixed-bottom （固定下方）, sticky-top（滑動圖片上方）, default （滑動圖片下方）, middle-bottom （中間區域下方）, not-use （不使用）
 \$config_enable['navbar_pos'] = array('enable' => '{$config_enable['navbar_pos']['enable']}', 'min' => '{$config_enable['navbar_pos']['min']}', 'max' => '{$config_enable['navbar_pos']['max']}', 'require' => '{$config_enable['navbar_pos']['require']}', 'default' => '{$config_enable['navbar_pos']['default']}');
 
 //導覽選單 漸層顏色(top)[theme_css_navbar.tpl]
@@ -1633,9 +1635,12 @@ function export_config2($theme_id = '', $config2_file = 'config2', $theme_config
             return;
         }
 
-        // if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2_file}.php")) {
-        //     require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2_file}.php";
-        // }
+        $blocks = [];
+        $sql = 'select `bid`, `name` from ' . $xoopsDB->prefix('newblocks') . "";
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        while (list($bid, $name) = $xoopsDB->fetchRow($result)) {
+            $blocks[$bid] = $name;
+        }
 
         $config2 = [];
         $sql = 'select * from ' . $xoopsDB->prefix('tad_themes_config2') . " where `theme_id` = '{$theme_id}'";
@@ -1657,29 +1662,37 @@ function export_config2($theme_id = '', $config2_file = 'config2', $theme_config
         // $theme_config 來自各個 config2 設定檔
         foreach ($theme_config as $item) {
             $col = $item['name'];
+
             $default_v[$col] = $config2[$col]['value'];
             $type_v[$col] = $config2[$col]['type'];
             $all_col[] = $col;
-            if ($theme_config_name) {
-                if ($config2[$col]['type'] == 'file' or $config2[$col]['type'] == 'bg_file') {
-                    $config2_img = basename($config2[$col]['value']);
+            if ($config2[$col]['type'] == 'file' or $config2[$col]['type'] == 'bg_file') {
+                $config2_img = basename($config2[$col]['value']);
+                if ($theme_config_name) {
                     copy_image($from_theme_name, $to_theme_name, $theme_config_name, "config2", $config2_img);
                     $default_v[$col] = $config2_img;
-                } elseif ($config2[$col]['type'] == 'checkbox') {
-                    $default_v[$col] = $config2[$col]['value'];
                 }
-
-                if ($config2[$col]['type'] == 'bg_file') {
-                    $default_v[$col . '_repeat'] = $config2[$col . '_repeat']['value'];
-                    $default_v[$col . '_position'] = $config2[$col . '_position']['value'];
-                    $default_v[$col . '_size'] = $config2[$col . '_size']['value'];
-                } elseif ($config2[$col]['type'] == 'padding_margin') {
-                    $default_v[$col . '_mt'] = $config2[$col . '_mt']['value'];
-                    $default_v[$col . '_mb'] = $config2[$col . '_mb']['value'];
+            } elseif ($config2[$col]['type'] == 'checkbox') {
+                $default_v[$col] = $config2[$col]['value'];
+                if (strpos($config2[$col]['value'], 'block') !== false) {
+                    $bid = $config2[$col . "_bid"]['value'];
+                    $default_v[$col . '_bid_name'] = $blocks[$bid];
                 }
             }
-        }
 
+            if ($config2[$col]['type'] == 'bg_file') {
+                $default_v[$col . '_repeat'] = $config2[$col . '_repeat']['value'];
+                $default_v[$col . '_position'] = $config2[$col . '_position']['value'];
+                $default_v[$col . '_size'] = $config2[$col . '_size']['value'];
+            } elseif ($config2[$col]['type'] == 'padding_margin') {
+                $default_v[$col . '_mt'] = $config2[$col . '_mt']['value'];
+                $default_v[$col . '_mb'] = $config2[$col . '_mb']['value'];
+            }
+
+        }
+        // if ($config2_file == "config2_logo") {
+        //     Utility::dd($theme_config);
+        // }
         $myts = \MyTextSanitizer::getInstance();
 
         if ($theme_config_name == '') {
@@ -1695,6 +1708,7 @@ function export_config2($theme_id = '', $config2_file = 'config2', $theme_config
         $all_content = '<?php' . "\n";
         $all_content .= 'require XOOPS_ROOT_PATH . \'/themes/' . $theme_name . '/bg_config.php\';' . "\n";
         $all_content .= '$i = 0;' . "\n";
+
         foreach ($theme_config as $setup_items) {
             //$all_content .= "\n//" . $setup_items['text'] . "\n";
             $all_content .= "\n" . '$i++;' . "\n";
@@ -1703,6 +1717,8 @@ function export_config2($theme_id = '', $config2_file = 'config2', $theme_config
 
                 if ($label == 'default') {
                     $value = $default_v[$col];
+                } elseif ($label == 'repeat' || $label == 'position' || $label == 'size' || $label == 'mt' || $label == 'mb' || $label == 'bid_name') {
+                    $value = $default_v[$col . '_' . $label];
                 }
 
                 if (is_array($value)) {
@@ -1724,6 +1740,9 @@ function export_config2($theme_id = '', $config2_file = 'config2', $theme_config
                 if ($label == 'name' || $label == 'type') {
                     $all_content .= "\$theme_config[\$i]['$label'] = \"$value\";\n";
                 } elseif ($label == 'text' || $label == 'desc') {
+                    if (strpos($value, 'TF_', 3) !== false) {
+                        $value = substr(str_replace("TF_", " . TF_", $value), 3);
+                    }
                     $all_content .= "\$theme_config[\$i]['$label'] = $value;\n";
                 } elseif ($label == 'options' || $label == 'images') {
                     if ($setup_items['type'] == 'bg_file') {
@@ -1739,11 +1758,13 @@ function export_config2($theme_id = '', $config2_file = 'config2', $theme_config
                             $all_content .= "\$theme_config[\$i]['$label'] = $value;\n";
                         }
                     } else {
-                        $value = $myts->addSlashes($value);
+                        // $value = $myts->addSlashes($value);
+                        $value = str_replace('"', '\"', $value);
                         $all_content .= "\$theme_config[\$i]['$label'] = \"$value\";\n";
                     }
                 } else {
-                    $value = $myts->addSlashes($value);
+                    // $value = $myts->addSlashes($value);
+                    $value = str_replace('"', '\"', $value);
                     $all_content .= "\$theme_config[\$i]['$label'] = \"$value\";\n";
                 }
             }
@@ -1783,6 +1804,7 @@ function save_config($theme_id = '', $theme_config_name = '')
 
     // 匯出主設定檔
     $msg = export_config($theme_id, $theme_config_name);
+
     // 匯出額外設定
     foreach ($config2_files as $config2_file) {
         $msg .= export_config2($theme_id, $config2_file, $theme_config_name, $theme_name, $theme_name);
@@ -1801,7 +1823,6 @@ function apply_config($theme_id, $theme_name, $theme_config_name)
     Utility::mk_dir($target);
     Utility::full_copy($source, $target);
     redirect_header($_SERVER['PHP_SELF'] . '?mode=apply', 3, sprintf(_MA_TADTHEMES_APPLY_OK, $theme_config_name));
-    // redirect_header($_SERVER['PHP_SELF'] . "?op=update_tad_themes&theme_id=$theme_id&theme_name=$theme_name", 3, sprintf(_MA_TADTHEMES_APPLY_OK, $theme_config_name));
 }
 
 // 匯入設定檔
@@ -1964,39 +1985,52 @@ function download_zip($theme_name, $theme_config_name, $theme_id)
 // 複製佈景
 function copy_theme($from_theme_id)
 {
-    global $xoopsConfig;
+    global $xoopsConfig, $xoopsDB;
     if (empty($xoopsConfig['theme_set'])) {
         return;
     }
 
     $theme_name = $xoopsConfig['theme_set'];
+    $theme_id = get_theme_id($theme_name);
+
     $from_theme = get_tad_themes($from_theme_id);
     $from_theme_name = $from_theme['theme_name'];
 
-    if (file_exists(XOOPS_ROOT_PATH . "/themes/{$from_theme_name}/config.php")) {
-        require XOOPS_ROOT_PATH . "/themes/{$from_theme_name}/config.php";
-        if ($theme_set_allowed != 1 or empty($config_enable)) {
-            redirect_header($_SERVER['PHP_SELF'], 3, _MA_NOT_TAD_THEME);
-        }
+    $files = scandir(XOOPS_ROOT_PATH . "/uploads/tad_themes/$from_theme_name/slide/");
+
+    if (count($files) > 3) {
+        Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide/thumbs");
+        $TadUpFilesSlide = TadUpFilesSlide();
+        $TadUpFilesSlide->set_col('slide', $theme_id);
+        $TadUpFilesSlide->del_files();
+        Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide");
+        Utility::full_copy(XOOPS_ROOT_PATH . "/uploads/tad_themes/$from_theme_name/slide/", XOOPS_ROOT_PATH . "/uploads/tad_themes/$theme_name/slide/");
     }
 
-    if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php")) {
-        require XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
-    }
+    import_file(XOOPS_ROOT_PATH . "/uploads/tad_themes/$from_theme_name/logo/{$from_theme['logo_img']}", 'logo', $theme_id, null, null, '', false, false);
+    $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `logo_img`='{$from_theme['logo_img']}' where theme_id='{$theme_id}'";
+    $xoopsDB->queryF($sql);
 
-    $force['theme_change'] = $theme_change;
-    $force['theme_kind'] = $theme_kind;
-    $force['theme_kind_arr'] = $theme_kind_arr;
-    $force['menu_var_kind'] = $menu_var_kind;
-    $force['theme_color'] = $theme_color;
-    $force['theme_set_allowed'] = $theme_set_allowed;
-    $force['config_tabs'] = $config_tabs;
-    $force['config_enable'] = $config_enable;
+    // require XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
 
-    export_config($from_theme_id, $from_theme_name, $from_theme_name, $theme_name, $force);
+    // $force['theme_change'] = $theme_change;
+    // $force['theme_kind'] = $theme_kind;
+    // $force['theme_kind_arr'] = $theme_kind_arr;
+    // $force['menu_var_kind'] = $menu_var_kind;
+    // $force['theme_color'] = $theme_color;
+    // $force['theme_set_allowed'] = $theme_set_allowed;
+    // $force['config_tabs'] = $config_tabs;
+    // $force['config_enable'] = $config_enable;
+
+    // if (file_exists(XOOPS_ROOT_PATH . "/themes/{$from_theme_name}/config.php")) {
+    //     require XOOPS_ROOT_PATH . "/themes/{$from_theme_name}/config.php";
+    //     if ($theme_set_allowed != 1 or empty($config_enable)) {
+    //         redirect_header($_SERVER['PHP_SELF'], 3, _MA_NOT_TAD_THEME);
+    //     }
+    // }
+    // export_config($from_theme_id, $from_theme_name, $from_theme_name, $theme_name, $force);
 
     // 不用匯出額外設定
-
     redirect_header($_SERVER['PHP_SELF'], 3, sprintf(_MA_TADTHEMES_CONFIG_PATH, $from_theme_name));
 }
 
@@ -2077,7 +2111,8 @@ switch ($op) {
 
     //下載資料
     case 'download_zip':
-        save_config($theme_id, $theme_config_name);
+        // 不能存，因為下載的有時並不是現在的佈景
+        // save_config($theme_id, $theme_config_name);
         download_zip($theme_name, $theme_config_name, $theme_id);
         break;
 

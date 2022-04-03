@@ -130,6 +130,7 @@ define('_MA_TADTHEMES_NAVBAR_POSITION_2', '下方鎖定');
 define('_MA_TADTHEMES_NAVBAR_POSITION_3', '滑動圖文上方');
 define('_MA_TADTHEMES_NAVBAR_POSITION_6', '滑動圖文下方');
 define('_MA_TADTHEMES_NAVBAR_POSITION_4', '佈景預設呈現方式');
+define('_MA_TADTHEMES_NAVBAR_POSITION_7', '中間區域下方');
 define('_MA_TADTHEMES_NAVBAR_POSITION_5', '不使用導覽列');
 define('_MA_TADTHEMES_NAVBAR_BG_COLOR', '選項底色上方色');
 define('_MA_TADTHEMES_TARGET_BLANK', '新視窗');
@@ -170,18 +171,17 @@ define('_MA_TADTHEMES_TARGET_FANCYBOX', '燈箱效果');
 define('_MA_TADTHEMES_OF_LEVEL', '父分類');
 define('_MA_TADTHEMES_ICON', '選擇圖示');
 define('_MA_TADTHEMES_LOGO_CENTER', '置中');
-define('_MA_TADTHEMES_SAVE', '暫存當前佈景設定');
+define('_MA_TADTHEMES_SAVE', '將目前設定匯出為風格檔');
 define('_MA_TADTHEMES_CONFIG_NAME', '請自訂佈景設定名稱');
 define('_MA_TADTHEMES_CONFIG_PATH', '已成功存至 %s');
 define('_MA_TADTHEMES_APPLY_OK', '已成功套用 %s');
 define('_MA_TADTHEMES_DEL_OK', '已成功刪除 %s');
-define('_MA_TADTHEMES_EXPORT', '匯出佈景設定檔');
-define('_MA_TADTHEMES_IMPORT', '匯入佈景設定檔');
+define('_MA_TADTHEMES_IMPORT', '匯入佈景風格檔');
 define('_MA_TADTHEMES_APPLY', '套用');
 define('_MA_TADTHEMES_MANAGER', '管理佈景設定檔');
 define('_MA_TADTHEMES_IMPORT_OK', '已成功匯入 %s，接著可套用之試試');
 define('_MA_TADTHEMES_IMPORT_FAIL', '匯入失敗，該設定檔僅支援 %s 佈景');
-define('_MA_TADTHEMES_IMPORT_STYLE', '遠端匯入佈景設定檔');
+define('_MA_TADTHEMES_IMPORT_STYLE', '匯入遠端佈景風格檔');
 
 define('_MA_TADTHEMES_NAVBAR_PY', '選項上下間距');
 define('_MA_TADTHEMES_NAVBAR_PX', '選項左右間距');
@@ -226,7 +226,7 @@ define('_MA_TADTHEMES_EDIT_MENU_JILL_BOOKING', '預約場地');
 
 define('_MA_TADTHEMES_DOWNLOAD', '下載');
 define('_MA_TADTHEMES_DL_FAIL', '「%s」下載失敗！');
-define('_MA_TADTHEMES_COPY_THEME', '複製佈景設定至此');
+define('_MA_TADTHEMES_COPY_THEME', '複製logo及滑動圖至此佈景');
 define('_MA_TADTHEMES_COPY', '複製');
 
 define('_MA_TADTHEMES_CONFIG_PATH_ERROR', '存至 %s 失敗！');

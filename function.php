@@ -253,8 +253,9 @@ function update_tadtools_setup($theme = '', $theme_kind = '')
 }
 
 // 加入Smarty設定檔（避免抓不到 $_SESSION['bootstrap']）
-function save_conf($theme_kind)
+function save_conf($theme_kind = "")
 {
+    unlink(XOOPS_ROOT_PATH . "/uploads/bootstrap.conf");
     $bootstrap = (strpos($theme_kind, 'bootstrap') !== false) ? substr($theme_kind, -1) : '4';
     file_put_contents(XOOPS_ROOT_PATH . "/uploads/bootstrap.conf", "bootstrap = {$bootstrap}");
 }
@@ -270,6 +271,13 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
         require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
     }
     $TadUpFiles_config2 = TadUpFiles_config2();
+
+    $blocks = [];
+    $sql = 'select `bid`, `name` from ' . $xoopsDB->prefix('newblocks') . "";
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    while (list($bid, $name) = $xoopsDB->fetchRow($result)) {
+        $blocks[$name] = $bid;
+    }
 
     //額外佈景設定
     $myts = \MyTextSanitizer::getInstance();
@@ -289,17 +297,31 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
         if (empty($theme_config)) {
             continue;
         }
-        // Utility::dd($_POST);
+
+        // if ($config2 == 'config2_top') {
+        //     Utility::dd($theme_config);
+        // }
+
         foreach ($theme_config as $k => $config) {
             $name = $config['name'];
-            if (isset($_POST[$name]) || ('checkbox' === $config['type'] and $mode != 'default')) {
+            if (isset($_POST[$name])) {
                 if ('checkbox' === $config['type'] and $mode != 'default') {
                     $value = json_encode($_POST[$name], 256);
                 } else {
                     $value = is_array($_POST[$name]) ? json_encode($_POST[$name], 256) : $_POST[$name];
                 }
+                // } elseif ('checkbox' === $config['type'] and $mode != 'default') {
+                //     if ('checkbox' === $config['type'] and $mode != 'default') {
+                //         $value = json_encode($config['default'], 256);
+                //     } else {
+                //         $value = is_array($config['default']) ? json_encode($config['default'], 256) : $config['default'];
+                //     }
             } else {
-                $value = is_array($config['default']) ? json_encode($config['default'], 256) : $config['default'];
+                if ('checkbox' === $config['type'] and $mode != 'default') {
+                    $value = json_encode($config['default'], 256);
+                } else {
+                    $value = is_array($config['default']) ? json_encode($config['default'], 256) : $config['default'];
+                }
             }
 
             if ('file' === $config['type']) {
@@ -319,7 +341,6 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
                 if ($filename) {
                     update_theme_config2($config['name'], $filename, $theme_id, $theme_name);
                 }
-
             }
 
             if ('bg_file' === $config['type']) {
@@ -341,9 +362,14 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
                 ($theme_id , '{$config['name']}_mb' , 'text' , '{$value_mb}')";
 
                 $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-            } elseif ('checkbox' === $config['type'] and in_array('block', $_POST[$name])) {
+            } elseif ('checkbox' === $config['type'] and (in_array('block', $_POST[$name]) || !empty($config['bid_name']))) {
+                if (isset($_POST[$name])) {
+                    $bid = (int) $_POST[$config['name'] . '_bid'];
+                } elseif (!empty($config['bid_name'])) {
+                    $bid = $blocks[$config['bid_name']];
+                }
                 $sql = 'replace into ' . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`)
-                values($theme_id , '{$config['name']}_bid' , 'text' , '{$_POST[$config['name'] . '_bid']}')";
+                values($theme_id , '{$config['name']}_bid' , 'text' , '{$bid}')";
                 $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
             }
 

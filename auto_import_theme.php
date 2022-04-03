@@ -9,6 +9,7 @@ function auto_import_theme($mode = '')
     global $xoopsDB, $xoopsConfig, $config2_files, $TadDataCenter;
 
     $theme_name = $xoopsConfig['theme_set'];
+
     if (empty($theme_name)) {
         return;
     }
@@ -27,12 +28,11 @@ function auto_import_theme($mode = '')
         return;
     }
 
-    // Utility::dd($config_enable);
     foreach ($config_enable as $k => $v) {
         $$k = $v['default'];
     }
 
-    unlink(XOOPS_ROOT_PATH . "/uploads/bootstrap.conf");
+    save_conf($theme_kind);
 
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}");
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg");
@@ -130,7 +130,7 @@ function auto_import_theme($mode = '')
     import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg", 'bg', $theme_id, '');
     import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/logo", 'logo', $theme_id, '');
     import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide", 'slide', $theme_id, '');
-    import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navbar_img", 'navbar_img', $theme_id, '');
+    import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/nav_bg", 'navbar_img', $theme_id, '');
     import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navlogo", 'navlogo', $theme_id, '');
     import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg", 'bt_bg', $theme_id, '');
     import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2", 'config2', $theme_id, '');
@@ -153,9 +153,6 @@ function auto_import_theme($mode = '')
             $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         }
     }
-
-    // Smarty設定檔
-    save_conf($theme_kind);
 
     header('location: main.php');
     exit;

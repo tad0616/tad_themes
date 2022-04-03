@@ -73,8 +73,11 @@
                     <ul class="resp-tabs-list tab_identifier_parent">
                         <!--頁籤-->
                         <{foreach from=$config2_arr key=config_file  item=config}>
-                            <{if $custom_tabs_data.$config_file || $config.type=='config'}>
-                            <li><{$config.label}></li>
+                            <{assign var="key" value=$config.key}>
+                            <{if $config_tabs.$key || $key==""}>
+                                <{if $custom_tabs_data.$config_file || $config.type=='config'}>
+                                    <li><{$config.label}></li>
+                                <{/if}>
                             <{/if}>
                         <{/foreach}>
                     </ul>
@@ -84,7 +87,7 @@
                             <{if $custom_tabs_data.$config_file || $config.type=='config'}>
                                 <{if $config.type=='config'}>
                                     <{assign var="key" value=$config.key}>
-                                    <{if $config_tabs.$key}>
+                                    <{if $config_tabs.$key || $key==""}>
                                     <div>
                                         <{assign var="sub_theme_config" value="sub_theme_config_`$key`"}>
                                         <{includeq file="$xoops_rootpath/modules/tad_themes/templates/`$sub_theme_config`.tpl"}>
@@ -100,7 +103,7 @@
                                         <{assign var="custom_config2" value=$custom_tabs_data[$config_file]}>
                                         <input type="hidden" name="config2[]" value="<{$config_file}>">
                                         <{includeq file="$xoops_rootpath/modules/tad_themes/templates/`$config.tpl`.tpl"}>
-                                        <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config2&theme_id=<{$theme_id}>&config2_file=<{$config.tpl}>" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2"><{$config_file}>.php</a>
+                                        <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config2&theme_id=<{$theme_id}>&config2_file=<{$config_file}>" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2"><{$config_file}>.php</a>
                                     </div>
                                 <{/if}>
                             <{/if}>
