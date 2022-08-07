@@ -1,3 +1,7 @@
+Tad Themes 7.3 (released on 2022-08-07)
+====================================
+1. New preference settings for "Login Text" and "Login Instructions".
+
 Tad Themes 7.2 (released on 2022-02-05)
 ====================================
 1. New navigation bar location options

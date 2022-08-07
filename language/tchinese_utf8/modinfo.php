@@ -35,3 +35,9 @@ define('_MI_TADTHEMES_HIDE', '不顯示');
 
 define('_MI_TADTHEMES_USE_PIN', '是否使用導覽列的釘住功能');
 define('_MI_TADTHEMES_USE_PIN_DESC', '選「是」時，在畫面往下移動時，導覽列會自動維持在最上方。');
+
+define('_MI_TADTHEMES_TITLE4', '導覽列的登入文字');
+define('_MI_TADTHEMES_DESC4', '可以自行修改「登入」的文字（一般應該不用改吧～ ^^）');
+define('_MI_TADTHEMES_DEFAULT4', '登入');
+define('_MI_TADTHEMES_TITLE5', '登入說明');
+define('_MI_TADTHEMES_DESC5', '說明文字會出現在子選單中');

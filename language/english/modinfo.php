@@ -35,3 +35,9 @@ define('_MI_TADTHEMES_HIDE', 'Do not show');
 
 define('_MI_TADTHEMES_USE_PIN', 'Whether to use the navigation bar sticky function');
 define('_MI_TADTHEMES_USE_PIN_DESC', 'When "Yes" is selected, the navigation bar will automatically be fixed at the top of the screen as you scroll down the screen.');
+
+define('_MI_TADTHEMES_TITLE4', 'Modify the login text of the navigation');
+define('_MI_TADTHEMES_DESC4', 'You can change the "Login" text by yourself (you shouldn\'t have to change it, right? ^^)');
+define('_MI_TADTHEMES_DEFAULT4', 'Login');
+define('_MI_TADTHEMES_TITLE5', 'Login Instructions');
+define('_MI_TADTHEMES_DESC5', 'The description text will appear in the submenu');

@@ -2007,28 +2007,12 @@ function copy_theme($from_theme_id)
         Utility::full_copy(XOOPS_ROOT_PATH . "/uploads/tad_themes/$from_theme_name/slide/", XOOPS_ROOT_PATH . "/uploads/tad_themes/$theme_name/slide/");
     }
 
-    import_file(XOOPS_ROOT_PATH . "/uploads/tad_themes/$from_theme_name/logo/{$from_theme['logo_img']}", 'logo', $theme_id, null, null, '', false, false);
-    $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `logo_img`='{$from_theme['logo_img']}' where theme_id='{$theme_id}'";
-    $xoopsDB->queryF($sql);
+    // import_file(XOOPS_ROOT_PATH . "/uploads/tad_themes/$from_theme_name/logo/{$from_theme['logo_img']}", 'logo', $theme_id, null, null, '', false, false);
+    // $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `logo_img`='{$from_theme['logo_img']}' where theme_id='{$theme_id}'";
+    // $xoopsDB->queryF($sql);
 
-    // require XOOPS_ROOT_PATH . "/themes/{$theme_name}/config.php";
-
-    // $force['theme_change'] = $theme_change;
-    // $force['theme_kind'] = $theme_kind;
-    // $force['theme_kind_arr'] = $theme_kind_arr;
-    // $force['menu_var_kind'] = $menu_var_kind;
-    // $force['theme_color'] = $theme_color;
-    // $force['theme_set_allowed'] = $theme_set_allowed;
-    // $force['config_tabs'] = $config_tabs;
-    // $force['config_enable'] = $config_enable;
-
-    // if (file_exists(XOOPS_ROOT_PATH . "/themes/{$from_theme_name}/config.php")) {
-    //     require XOOPS_ROOT_PATH . "/themes/{$from_theme_name}/config.php";
-    //     if ($theme_set_allowed != 1 or empty($config_enable)) {
-    //         redirect_header($_SERVER['PHP_SELF'], 3, _MA_NOT_TAD_THEME);
-    //     }
-    // }
-    // export_config($from_theme_id, $from_theme_name, $from_theme_name, $theme_name, $force);
+    import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$from_theme_name}/logo", 'logo', $theme_id, '');
+    import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$from_theme_name}/slide", 'slide', $theme_id, '');
 
     // 不用匯出額外設定
     redirect_header($_SERVER['PHP_SELF'], 3, sprintf(_MA_TADTHEMES_CONFIG_PATH, $from_theme_name));
@@ -2052,14 +2036,16 @@ switch ($op) {
     //新增資料
     case 'insert_tad_themes':
         $theme_id = insert_tad_themes();
-        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
+        // 在save_config2()中已經刪了
+        // unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: " . \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'));
         exit;
 
     //更新資料
     case 'update_tad_themes':
         update_tad_themes($theme_id);
-        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
+        // 在save_config2()中已經刪了
+        // unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         if (isset($_COOKIE['themeTab_baseURI'])) {
             header("location: {$_COOKIE['themeTab_baseURI']}");
         } else {
