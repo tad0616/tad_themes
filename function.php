@@ -18,22 +18,22 @@ define('_THEME_CONFIG2_PATH', XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_se
 
 $block_position_title = ['leftBlock' => _MA_TADTHEMES_BLOCK_LEFT, 'rightBlock' => _MA_TADTHEMES_BLOCK_RIGHT, 'centerBlock' => _MA_TADTHEMES_BLOCK_TOP_CENTER, 'centerLeftBlock' => _MA_TADTHEMES_BLOCK_TOP_LEFT, 'centerRightBlock' => _MA_TADTHEMES_BLOCK_TOP_RIGHT, 'centerBottomBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_CENTER, 'centerBottomLeftBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_LEFT, 'centerBottomRightBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_RIGHT, 'footerCenterBlock' => _MA_TADTHEMES_BLOCK_FOOTER_CENTER, 'footerLeftBlock' => _MA_TADTHEMES_BLOCK_FOOTER_LEFT, 'footerRightBlock' => _MA_TADTHEMES_BLOCK_FOOTER_RIGHT];
 
-$config2_arr = [
+$config2_files_arr = [
     'config2_base' => ['label' => _MA_TADTHEMES_THEME_BASE, 'tpl' => 'sub_theme_config_1', 'type' => 'config', 'key' => '1'],
     'config2_bg' => ['label' => _MA_TADTHEMES_BG_IMG, 'tpl' => 'sub_theme_config_2', 'type' => 'config', 'key' => '2'],
-    'config2_top' => ['label' => _MA_TADTHEMES_TOP, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
     'config2_logo' => ['label' => _MA_TADTHEMES_LOGO_IMG, 'tpl' => 'sub_theme_config_4', 'type' => 'config', 'key' => '4'],
     'config2_nav' => ['label' => _MA_TADTHEMES_NAVBAR, 'tpl' => 'sub_theme_config_6', 'type' => 'config', 'key' => '6'],
     'config2_slide' => ['label' => _MA_TAD_THEMES_HEAD, 'tpl' => 'sub_theme_config_3', 'type' => 'config', 'key' => '3'],
-    'config2_middle' => ['label' => _MA_TADTHEMES_MIDDLE, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
     'config2_content' => ['label' => _MA_TADTHEMES_CONTENT, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
     'config2_block' => ['label' => _MA_TADTHEMES_BLOCK_TITLE, 'tpl' => 'sub_theme_config_5', 'type' => 'config', 'key' => '5'],
     'config2_footer' => ['label' => _MA_TADTHEMES_FOOTER, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
+    'config2_top' => ['label' => _MA_TADTHEMES_TOP, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
+    'config2_middle' => ['label' => _MA_TADTHEMES_MIDDLE, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
     'config2_bottom' => ['label' => _MA_TADTHEMES_BOTTOM, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
     'config2' => ['label' => _MA_TADTHEMES_CONFIG2, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
 ];
 
-$config2_files = array_keys($config2_arr);
+$config2_files = array_keys($config2_files_arr);
 
 $custom_tabs = [_MA_TADTHEMES_THEME_BASE => 'config2_base', _MA_TADTHEMES_BG_IMG => 'config2_bg', _MA_TADTHEMES_TOP => 'config2_top', _MA_TADTHEMES_LOGO_IMG => 'config2_logo', _MA_TADTHEMES_NAVBAR => 'config2_nav', _MA_TAD_THEMES_HEAD => 'config2_slide', _MA_TADTHEMES_CONTENT => 'config2_content', _MA_TADTHEMES_BLOCK_TITLE => 'config2_block', _MA_TADTHEMES_FOOTER => 'config2_footer', _MA_TADTHEMES_BOTTOM => 'config2_bottom'];
 
@@ -260,8 +260,8 @@ function save_conf($theme_kind = "")
     file_put_contents(XOOPS_ROOT_PATH . "/uploads/bootstrap.conf", "bootstrap = {$bootstrap}");
 }
 
-//儲存額外設定值($mode = default 或 apply)
-function save_config2($theme_id = '', $config2_arr = [], $mode = '')
+//儲存額外設定值($mode = default 或 apply 或 post)，自動匯入、新增佈景、儲存佈景時會用到。$config2_files 是佈景額外設定的所有頁籤項目
+function save_config2($theme_id = '', $config2_files = [], $mode = '')
 {
     global $xoopsDB, $xoopsConfig;
 
@@ -272,25 +272,18 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
     }
     $TadUpFiles_config2 = TadUpFiles_config2();
 
-    $blocks = [];
-    $sql = 'select `bid`, `name` from ' . $xoopsDB->prefix('newblocks') . "";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    while (list($bid, $name) = $xoopsDB->fetchRow($result)) {
-        $blocks[$name] = $bid;
-    }
-
     //額外佈景設定
     $myts = \MyTextSanitizer::getInstance();
-    foreach ($config2_arr as $config2) {
+    foreach ($config2_files as $config2_file) {
         $theme_config = [];
-        if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php")) {
-            require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php";
+        if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php")) {
+            require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php";
         }
 
         // 按下套用的話
         if ($mode == 'apply') {
-            if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2}.php")) {
-                require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2}.php";
+            if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2_file}.php")) {
+                require XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2_file}.php";
             }
         }
 
@@ -298,31 +291,28 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
             continue;
         }
 
-        // if ($config2 == 'config2_top') {
-        //     Utility::dd($theme_config);
-        // }
-
+        // $theme_config 就是每個額外設定下的完整設定項目陣列
         foreach ($theme_config as $k => $config) {
+            // $config 就是一組額外設定
+            // $name 就是一組額外設定的名稱
             $name = $config['name'];
-            if (isset($_POST[$name])) {
-                if ('checkbox' === $config['type'] and $mode != 'default') {
-                    $value = json_encode($_POST[$name], 256);
-                } else {
-                    $value = is_array($_POST[$name]) ? json_encode($_POST[$name], 256) : $_POST[$name];
-                }
-                // } elseif ('checkbox' === $config['type'] and $mode != 'default') {
-                //     if ('checkbox' === $config['type'] and $mode != 'default') {
-                //         $value = json_encode($config['default'], 256);
-                //     } else {
-                //         $value = is_array($config['default']) ? json_encode($config['default'], 256) : $config['default'];
-                //     }
-            } else {
-                if ('checkbox' === $config['type'] and $mode != 'default') {
-                    $value = json_encode($config['default'], 256);
-                } else {
-                    $value = is_array($config['default']) ? json_encode($config['default'], 256) : $config['default'];
-                }
-            }
+
+            // if ($mode == "post") {
+            //     if (('checkbox' === $config['type'] or 'custom_zone' === $config['type']) and $mode != 'default') {
+            //         $value = json_encode($_POST[$name], 256);
+            //     } else {
+            //         $value = is_array($_POST[$name]) ? json_encode($_POST[$name], 256) : $_POST[$name];
+            //     }
+            // } else {
+            //     if (('checkbox' === $config['type'] or 'custom_zone' === $config['type']) and $mode != 'default') {
+            //         $value = json_encode($config['default'], 256);
+            //     } else {
+            //         $value = is_array($config['default']) ? json_encode($config['default'], 256) : $config['default'];
+            //     }
+            // }
+
+            $config_value = $mode == "post" ? $_POST[$name] : $config['default'];
+            $value = is_array($config_value) ? json_encode($config_value, 256) : $config_value;
 
             if ('file' === $config['type']) {
                 $value = basename($value);
@@ -353,6 +343,33 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
                 ($theme_id , '{$config['name']}_position' , 'select' , '{$value_position}'),
                 ($theme_id , '{$config['name']}_size' , 'select' , '{$value_size}')";
                 $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            } elseif ('custom_zone' === $config['type']) {
+                $block_value = '';
+                if (!empty($_POST[$config['name'] . '_bid'])) {
+                    $bid = (int) $_POST[$config['name'] . '_bid'];
+                    $sql = "select bid, name, show_func, c_type, content from " . $xoopsDB->prefix('newblocks') . "
+                    where `bid` = '{$bid}'";
+                    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+                    $block = $xoopsDB->fetchArray($result);
+                    $block['name'] = $myts->addSlashes($block['name']);
+                    $block['content'] = $myts->addSlashes($block['content']);
+                    $block_value = json_encode($block, 256);
+                }
+
+                $value_html_content = isset($_POST[$name . '_html_content']) ? $myts->addSlashes($_POST[$name . '_html_content']) : $config['html_content'];
+
+                $value_fa_content = isset($_POST[$name . '_fa_content']) ? $myts->addSlashes($_POST[$name . '_fa_content']) : $config['fa_content'];
+
+                $value_menu_content = isset($_POST[$name . '_menu_content']) ? $myts->addSlashes($_POST[$name . '_menu_content']) : $config['menu_content'];
+
+                // 將 config2_xxx 中，有啥寫啥
+                $sql = 'replace into ' . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`)
+                values($theme_id , '{$config['name']}_block' , 'text' , '{$block_value}'),
+                ($theme_id , '{$config['name']}_html_content' , 'text' , '{$value_html_content}'),
+                ($theme_id , '{$config['name']}_fa_content' , 'text' , '{$value_fa_content}'),
+                ($theme_id , '{$config['name']}_menu_content' , 'text' , '{$value_menu_content}')";
+
+                $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
             } elseif ('padding_margin' === $config['type']) {
                 $value_mt = isset($_POST[$name . '_mt']) ? $myts->addSlashes($_POST[$name . '_mt']) : $config['mt'];
                 $value_mb = isset($_POST[$name . '_mb']) ? $myts->addSlashes($_POST[$name . '_mb']) : $config['mb'];
@@ -361,15 +378,6 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
                 values($theme_id , '{$config['name']}_mt' , 'text' , '{$value_mt}'),
                 ($theme_id , '{$config['name']}_mb' , 'text' , '{$value_mb}')";
 
-                $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-            } elseif ('checkbox' === $config['type'] and (in_array('block', $_POST[$name]) || !empty($config['bid_name']))) {
-                if (isset($_POST[$name])) {
-                    $bid = (int) $_POST[$config['name'] . '_bid'];
-                } elseif (!empty($config['bid_name'])) {
-                    $bid = $blocks[$config['bid_name']];
-                }
-                $sql = 'replace into ' . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`)
-                values($theme_id , '{$config['name']}_bid' , 'text' , '{$bid}')";
                 $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
             }
 
@@ -388,8 +396,25 @@ function save_config2($theme_id = '', $config2_arr = [], $mode = '')
         }
     }
 
-    $config2_json_file = XOOPS_VAR_PATH . "/data/tad_themes_config2.json";
+    config2_json_file($theme_id);
+}
+
+// 重建 tad_themes_config2_xxx.json
+function config2_json_file($theme_id)
+{
+    global $xoopsDB;
+
+    $sql = "select `name`, `type`, `value` from " . $xoopsDB->prefix("tad_themes_config2") . " where `theme_id`='{$theme_id}'";
+    $result = $xoopsDB->query($sql);
+    while (list($name, $type, $value) = $xoopsDB->fetchRow($result)) {
+        $config2[$name] = $value;
+    }
+
+    $config2_json_file = XOOPS_VAR_PATH . "/data/tad_themes_config2_{$theme_id}.json";
     unlink($config2_json_file);
+
+    $json_content = json_encode($config2, 256);
+    file_put_contents($config2_json_file, $json_content);
 }
 
 //更新佈景的某個設定值

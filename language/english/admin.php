@@ -222,6 +222,7 @@ define('_MA_TADTHEMES_EDIT_MENU_TAD_GPHOTOS', 'Add Google Photos');
 define('_MA_TADTHEMES_EDIT_MENU_TAD_FORM', 'Add Form');
 define('_MA_TADTHEMES_EDIT_MENU_JILL_NOTICE', 'Add Notice');
 define('_MA_TADTHEMES_EDIT_MENU_JILL_BOOKING', 'Booking Place');
+define('_MA_TADTHEMES_EDIT_MENU_KW_DEVICE', 'Equipment Borrowing');
 
 define('_MA_TADTHEMES_DOWNLOAD', 'Download');
 define('_MA_TADTHEMES_DL_FAIL', '"%s" failed to download!');

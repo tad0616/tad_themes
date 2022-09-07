@@ -17,7 +17,7 @@ require_once dirname(__DIR__) . '/auto_import_theme.php';
 //tad_themes編輯表單(default 或 apply)
 function tad_themes_form($mode = '')
 {
-    global $xoopsConfig, $xoopsTpl, $xoTheme, $TadDataCenter, $config2_arr, $xoopsDB;
+    global $xoopsConfig, $xoopsTpl, $xoTheme, $TadDataCenter, $config2_files_arr, $xoopsDB;
 
     //抓取預設值
     $DBV = get_tad_themes();
@@ -203,19 +203,30 @@ function tad_themes_form($mode = '')
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2");
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2/thumbs");
 
-    $custom_tabs_data = [];
-    foreach ($config2_arr as $config2_name => $config2_data) {
+    $custom_tabs_data = $all_config2 = [];
+    foreach ($config2_files_arr as $config2_name => $config2_data) {
         // 讀入額外設定並產生變數
 
-        $config2 = mk_config2($theme_id, $theme_name, $config2_name);
-        if ($config2) {
-            $custom_tabs_data[$config2_name] = $config2;
+        list($config2, $pass_arr) = mk_config2($theme_id, $theme_name, $config2_name);
+        if ($pass_arr) {
+            foreach ($config2 as $key => $arr) {
+                if (!in_array($arr['name'], $pass_arr)) {
+                    $all_config2[$key] = $arr;
+                }
+
+            }
+        } else {
+            $all_config2 = $config2;
+        }
+
+        if ($all_config2) {
+            $custom_tabs_data[$config2_name] = $all_config2;
         }
 
     }
 
     $xoopsTpl->assign('custom_tabs_data', $custom_tabs_data);
-    $xoopsTpl->assign('config2_arr', $config2_arr);
+    $xoopsTpl->assign('config2_files_arr', $config2_files_arr);
 
     $MColorPicker = new MColorPicker('.color-picker');
     $MColorPicker->render('bootstrap');
@@ -340,7 +351,11 @@ function tad_themes_form($mode = '')
 
 }
 
-// 讀入額外設定並產生變數
+/* 讀入額外設定並產生變數（編輯用）
+1.先讀進佈景預設的某個 config2_xxx.php 取得佈景預設的設定項目，以造出設定表單頁面(這是開發者預設的外觀)
+2.再讀進目前網站佈景 uploads 下的 config2_xxx.php 設定值 $theme_config，以便填入表單的 value(這是使用者設定後的外觀)
+3.讀取資料庫中該佈景所有的額外設定值(其值會和 json 一致)
+ */
 function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
 {
     global $xoopsTpl, $xoopsConfig, $xoopsDB;
@@ -350,21 +365,33 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
         if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php")) {
             require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
         }
+
         require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php";
+        // if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2_file}.php")) {
+        //     require_once XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2_file}.php";
+        // }
 
         // 取得該佈景所有額外設定值
-        $config2_values = get_config2_values($theme_id);
+        $config2_dbv = get_config2_dbv($theme_id);
+        // if ($config2_file == 'config2_top') {
+        // Utility::dd($config2_dbv);
+        // }
+
         foreach ($theme_config as $k => $config) {
             $TadUpFiles_config2 = TadUpFiles_config2();
             $config_name = $config['name'];
-            if (isset($config2_values[$config_name])) {
-                $value = $config['type'] == 'checkbox' ? json_decode($config2_values[$config_name], true) : $myts->htmlSpecialChars($config2_values[$config_name]);
+            if (isset($config2_dbv[$config_name])) {
+                $value = ($config['type'] == 'checkbox' or $config['type'] == 'custom_zone') ? json_decode($config2_dbv[$config_name], true) : $myts->htmlSpecialChars($config2_dbv[$config_name]);
                 // if ($config['type'] == 'checkbox') {
-                //     Utility::dd(json_decode($config2_values[$config_name], true));
+                //     Utility::dd(json_decode($config2_dbv[$config_name], true));
                 // }
             } else {
                 $value = '';
             }
+
+            // if ($config2_file == 'config2_middle' && $config_name == 'middle_left') {
+            //     Utility::dd($config);
+            // }
 
             $config2[$k]['name'] = $config_name;
             $config2[$k]['text'] = $config['text'];
@@ -384,29 +411,72 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
 
             if ('bg_file' === $config['type']) {
                 // Utility::dd($config);
-                $config2[$k]['repeat'] = isset($config2_values[$config_name . '_repeat']) ? $myts->htmlSpecialChars($config2_values[$config_name . '_repeat']) : '';
-                $config2[$k]['position'] = isset($config2_values[$config_name . '_position']) ? $myts->htmlSpecialChars($config2_values[$config_name . '_position']) : '';
-                $config2[$k]['size'] = isset($config2_values[$config_name . '_size']) ? $myts->htmlSpecialChars($config2_values[$config_name . '_size']) : '';
+                $config2[$k]['repeat'] = isset($config2_dbv[$config_name . '_repeat']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_repeat']) : '';
+                $config2[$k]['position'] = isset($config2_dbv[$config_name . '_position']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_position']) : '';
+                $config2[$k]['size'] = isset($config2_dbv[$config_name . '_size']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_size']) : '';
+            } elseif ('custom_zone' === $config['type']) {
+                $block = json_decode($config2_dbv[$config_name . '_block'], true);
+
+                $config2[$k]['bid'] = get_bid($block);
+                $config2[$k]['html_content'] = isset($config2_dbv[$config_name . '_html_content']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_html_content']) : '';
+                $config2[$k]['fa_content'] = isset($config2_dbv[$config_name . '_fa_content']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_fa_content']) : '';
+                $config2[$k]['menu_content'] = isset($config2_dbv[$config_name . '_menu_content']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_menu_content']) : '';
+
+                $config2[$k]['html_content_desc'] = isset($config['html_content_desc']) ? $config['html_content_desc'] : '';
+                $config2[$k]['fa_content_desc'] = isset($config['fa_content_desc']) ? $config['fa_content_desc'] : '';
+                $config2[$k]['menu_content_desc'] = isset($config['menu_content_desc']) ? $config['menu_content_desc'] : '';
+
+                // 相容舊的
+            } elseif ('checkbox' === $config['type'] and isset($config2_dbv[$config_name . '_content'])) {
+
+                $block = json_decode($config2_dbv[$config_name . '_block'], true);
+                $config2[$k]['bid'] = get_bid($block);
+
+                if (in_array('html', $value)) {
+                    $config2[$k]['html_content'] = isset($config2_dbv[$config_name . '_content']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_content']) : '';
+                }
+                if (in_array('fa-icon', $value)) {
+                    $config2[$k]['fa_content'] = isset($config2_dbv[$config_name . '_content']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_content']) : '';
+                }
+                if (in_array('menu', $value)) {
+                    $config2[$k]['menu_content'] = isset($config2_dbv[$config_name . '_content']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_content']) : '';
+                }
+
+                $config2[$k]['html_content_desc'] = isset($config['html_content_desc']) ? $config['html_content_desc'] : '';
+                $config2[$k]['fa_content_desc'] = isset($config['fa_content_desc']) ? $config['fa_content_desc'] : '';
+                $config2[$k]['menu_content_desc'] = isset($config['menu_content_desc']) ? $config['menu_content_desc'] : '';
+                $config2[$k]['type'] = 'custom_zone';
+                $pass_arr[] = $config_name . '_content';
             } elseif ('padding_margin' === $config['type']) {
-                $config2[$k]['mt'] = isset($config2_values[$config_name . '_mt']) ? $myts->htmlSpecialChars($config2_values[$config_name . '_mt']) : '';
-                $config2[$k]['mb'] = isset($config2_values[$config_name . '_mb']) ? $myts->htmlSpecialChars($config2_values[$config_name . '_mb']) : '';
-            } elseif ('checkbox' === $config['type'] and !empty($config2_values[$config_name . '_bid'])) {
-                $bid = $config2_values[$config_name . '_bid'];
-                $sql = "select options from " . $xoopsDB->prefix('newblocks') . "
-                where `bid` = {$bid}";
-                $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-                list($options) = $xoopsDB->fetchRow($result);
-                $bids['bid'] = $bid;
-                $bids['options'] = $options;
-                $config2[$k]['bid'] = $bids;
+                $config2[$k]['mt'] = isset($config2_dbv[$config_name . '_mt']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_mt']) : '';
+                $config2[$k]['mb'] = isset($config2_dbv[$config_name . '_mb']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_mb']) : '';
             }
         }
 
+        // if ($config2_file == 'config2_top' && $config_name == 'top_left') {
+        //     Utility::dd($config2);
+        // }
         $xoopsTpl->assign($config2_file, $config2);
-        return $config2;
+        return [$config2, $pass_arr];
     } else {
         return;
     }
+}
+
+//{"bid":"3","name":"搜尋","show_func":"b_system_search_show","c_type":"H","content":""}
+//{"bid":"132","name":"自訂區塊（HTML）","show_func":"","c_type":"H","content":"自訂內容"}
+function get_bid($block = [])
+{
+    global $xoopsDB;
+
+    if ($block['show_func']) {
+        $sql = 'select bid from ' . $xoopsDB->prefix('newblocks') . " where `show_func`='{$block['show_func']}'";
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        list($bid) = $xoopsDB->fetchRow($result);
+    } else {
+        $bid = $block['bid'];
+    }
+    return $bid;
 }
 
 function change_css_bootstrap($theme_width = '12', $theme_left_width = '', $theme_center_width = '')
@@ -845,7 +915,7 @@ function insert_tad_themes()
     save_blocks($theme_id);
 
     //儲存額外設定值
-    save_config2($theme_id, $_POST['config2']);
+    save_config2($theme_id, $_POST['config2'], 'post');
 
     // Smarty設定檔
     save_conf($theme_kind);
@@ -986,7 +1056,7 @@ function update_tad_themes($theme_id = '')
     save_blocks($theme_id);
 
     //儲存額外設定值
-    save_config2($theme_id, $_POST['config2']);
+    save_config2($theme_id, $_POST['config2'], 'post');
 
     // Smarty設定檔
     save_conf($theme_kind);
@@ -1123,7 +1193,7 @@ function delete_tad_themes($theme_id = '')
 }
 
 //取得額外設定的儲存值
-function get_config2_values($theme_id = '')
+function get_config2_dbv($theme_id = '')
 {
     global $xoopsDB;
     $values = [];
@@ -1672,12 +1742,12 @@ function export_config2($theme_id = '', $config2_file = 'config2', $theme_config
                     copy_image($from_theme_name, $to_theme_name, $theme_config_name, "config2", $config2_img);
                     $default_v[$col] = $config2_img;
                 }
-            } elseif ($config2[$col]['type'] == 'checkbox') {
+            } elseif ($config2[$col]['type'] == 'custom_zone') {
                 $default_v[$col] = $config2[$col]['value'];
-                if (strpos($config2[$col]['value'], 'block') !== false) {
-                    $bid = $config2[$col . "_bid"]['value'];
-                    $default_v[$col . '_bid_name'] = $blocks[$bid];
-                }
+                $default_v[$col . '_block'] = $config2[$col . '_block']['value'];
+                $default_v[$col . '_html_content'] = $config2[$col . '_html_content']['value'];
+                $default_v[$col . '_fa_content'] = $config2[$col . '_fa_content']['value'];
+                $default_v[$col . '_menu_content'] = $config2[$col . '_menu_content']['value'];
             }
 
             if ($config2[$col]['type'] == 'bg_file') {
@@ -1706,7 +1776,9 @@ function export_config2($theme_id = '', $config2_file = 'config2', $theme_config
         // }
 
         $all_content = '<?php' . "\n";
-        $all_content .= 'require XOOPS_ROOT_PATH . \'/themes/' . $theme_name . '/bg_config.php\';' . "\n";
+        if (file_exists(XOOPS_ROOT_PATH . '/themes/' . $theme_name . '/bg_config.php')) {
+            $all_content .= 'require XOOPS_ROOT_PATH . \'/themes/' . $theme_name . '/bg_config.php\';' . "\n";
+        }
         $all_content .= '$i = 0;' . "\n";
 
         foreach ($theme_config as $setup_items) {
@@ -2036,16 +2108,12 @@ switch ($op) {
     //新增資料
     case 'insert_tad_themes':
         $theme_id = insert_tad_themes();
-        // 在save_config2()中已經刪了
-        // unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: " . \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'));
         exit;
 
     //更新資料
     case 'update_tad_themes':
         update_tad_themes($theme_id);
-        // 在save_config2()中已經刪了
-        // unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         if (isset($_COOKIE['themeTab_baseURI'])) {
             header("location: {$_COOKIE['themeTab_baseURI']}");
         } else {
@@ -2061,7 +2129,7 @@ switch ($op) {
     //刪除資料
     case 'delete_tad_themes':
         delete_tad_themes($theme_id);
-        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
+        config2_json_file($theme_id);
         header("location: {$_SERVER['PHP_SELF']}?mode=$mode");
         exit;
 
@@ -2079,14 +2147,14 @@ switch ($op) {
     //匯入資料
     case 'import_config':
         import_config($theme_id, $theme_name);
-        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
+        config2_json_file($theme_id);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
     //匯入遠端資料
     case 'import_style':
         import_style($theme_id, $theme_name, $style_param);
-        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
+        config2_json_file($theme_id);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
@@ -2105,7 +2173,7 @@ switch ($op) {
     //複製佈景
     case 'copy_theme':
         copy_theme($from_theme_id);
-        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
+        config2_json_file($theme_id);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 

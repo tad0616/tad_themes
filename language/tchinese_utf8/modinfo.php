@@ -3,7 +3,7 @@ xoops_loadLanguage('modinfo_common', 'tadtools');
 
 define('_MI_TADTHEMES_NAME', '佈景管理');
 define('_MI_TADTHEMES_DESC', '此模組用來管理佈景');
-define('_MI_TADTHEMES_ADMENU1', '主管理介面');
+define('_MI_TADTHEMES_ADMENU1', '佈景設定');
 define('_MI_TADTHEMES_ADMENU2', '選單設定');
 define('_MI_TADTHEMES_ADMENU3', 'Logo設計');
 define('_MI_TADTHEMES_BNAME1', '佈景首頁滑動區塊');

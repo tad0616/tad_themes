@@ -6,7 +6,6 @@ if (!class_exists('XoopsModules\Tadtools\Utility')) {
     require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
 }
 
-
 //區塊主函式 (vertical_menu)
 function vertical_menu($options)
 {
@@ -98,26 +97,26 @@ if (!function_exists('block_menu_options')) {
 
         $js = '<script>
     function bbv(){
-      i=0;
-      var arr = new Array();';
+        i=0;
+        var arr = new Array();';
 
         $sql = 'SELECT menuid,itemname,status,of_level FROM ' . $xoopsDB->prefix('tad_themes_menu') . ' ORDER BY position';
         $result = $xoopsDB->query($sql);
         $option = '';
         while (list($menuid, $itemname, $status, $of_level) = $xoopsDB->fetchRow($result)) {
             $js .= "if(document.getElementById('c{$menuid}').checked){
-         arr[i] = document.getElementById('c{$menuid}').value;
-         i++;
+            arr[i] = document.getElementById('c{$menuid}').value;
+            i++;
         }";
             $ckecked = (in_array($menuid, $sc)) ? 'checked' : '';
             $color = '0' == $of_level ? 'blue' : 'black';
             $color = '1' == $status ? $color : 'gray';
             $option .= "
         <span style='white-space:nowrap;'>
-          <label for='c{$menuid}' style='color:$color'>
-          <input type='checkbox' id='c{$menuid}' value='{$menuid}' class='bbv' onChange=bbv() $ckecked>
-          $itemname
-          </label>
+            <label for='c{$menuid}' style='color:$color'>
+            <input type='checkbox' id='c{$menuid}' value='{$menuid}' class='bbv' onChange=bbv() $ckecked>
+            $itemname
+            </label>
         </span> ";
         }
 

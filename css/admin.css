@@ -181,7 +181,6 @@ div.rmmenuicon a {
     -khtml-border-radius: 6px;
      border-radius: 6px;
 
-
 }
 div.rmmenuicon img { margin-top: 8px; margin-bottom: 8px; }
 div.rmmenuicon a span {
@@ -211,3 +210,7 @@ div.CPbigTitle{
 /* menu */
 
 .txtchangelog { height:350px; overflow:auto;}
+
+::placeholder {
+    font-size: 0.825rem;
+  }

@@ -596,33 +596,34 @@ function import_edit()
     $mod_posts['tad_form'] = ['title' => _MA_TADTHEMES_EDIT_MENU_TAD_FORM, 'url' => '/modules/tad_form/add.php'];
     $mod_posts['jill_notice'] = ['title' => _MA_TADTHEMES_EDIT_MENU_JILL_NOTICE, 'url' => '/modules/jill_notice/index.php?op=notice_form'];
     $mod_posts['jill_booking'] = ['title' => _MA_TADTHEMES_EDIT_MENU_JILL_BOOKING, 'url' => '/modules/jill_booking/index.php'];
+    $mod_posts['kw_device'] = ['title' => _MA_TADTHEMES_EDIT_MENU_KW_DEVICE, 'url' => '/modules/modules/index.php'];
 
     //已在資料庫的選項
-    $old_posts = [];
+    $old_items = [];
     $sql = 'select * from ' . $xoopsDB->prefix('tad_themes_menu') . " where of_level='$of_level' and link_cate_name!=''";
     $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while ($item = $xoopsDB->fetchArray($result)) {
         $dirname = $item['link_cate_name'];
-        $old_posts[$dirname] = $item;
+        $old_items[$dirname] = $item;
     }
 
-    $old_items = array_keys($old_posts);
+    $old_items_arr = array_keys($old_items);
     $mod_arr = array_keys($mod_posts);
 
     $sql = 'delete from ' . $xoopsDB->prefix('tad_themes_menu') . " where of_level='$of_level' and link_cate_name!=''";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    $sql = 'select name,dirname from ' . $xoopsDB->prefix('modules') . " where isactive='1' and hasmain='1' order by weight";
+    $sql = 'select dirname from ' . $xoopsDB->prefix('modules') . " where isactive='1' and hasmain='1' order by weight";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    while (list($name, $dirname) = $xoopsDB->fetchRow($result)) {
+    while (list($dirname) = $xoopsDB->fetchRow($result)) {
         if (in_array($dirname, $mod_arr)) {
             $position = get_max_sort($of_level);
-            if (in_array($dirname, $old_items)) {
-                $title = $old_posts[$dirname]['itemname'];
-                $status = $old_posts[$dirname]['status'];
-                $icon = $old_posts[$dirname]['icon'];
-                $read_group = $old_posts[$dirname]['read_group'];
+            if (in_array($dirname, $old_items_arr)) {
+                $title = $old_items[$dirname]['itemname'];
+                $status = $old_items[$dirname]['status'];
+                $icon = $old_items[$dirname]['icon'];
+                $read_group = $old_items[$dirname]['read_group'];
             } else {
                 $title = $mod_posts[$dirname]['title'];
                 $status = 1;
@@ -630,7 +631,7 @@ function import_edit()
                 $read_group = '1';
             }
 
-            $sql = 'insert into ' . $xoopsDB->prefix('tad_themes_menu') . " (`of_level`,`position`,`itemname`,`itemurl`,`status`, `icon`, `link_cate_name`, `read_group`) values('{$of_level}','{$position}','{$title}','" . XOOPS_URL . "{$mod_posts[$dirname]['url']}','$status', '$icon', '$dirname', '1')";
+            $sql = 'insert into ' . $xoopsDB->prefix('tad_themes_menu') . " (`of_level`,`position`,`itemname`,`itemurl`,`status`, `icon`, `link_cate_name`, `read_group`) values('{$of_level}','{$position}','{$title}','" . XOOPS_URL . "{$mod_posts[$dirname]['url']}','$status', '$icon', '$dirname', '$read_group')";
             $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         }
     }
@@ -676,21 +677,18 @@ switch ($op) {
     //更新資料
     case 'update_tad_themes_menu':
         update_tad_themes_menu($menuid);
-        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
         exit;
 
     //新增資料
     case 'insert_tad_themes_menu':
         insert_tad_themes_menu();
-        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
         exit;
 
     //刪除資料
     case 'delete_tad_themes_menu':
         delete_tad_themes_menu($menuid);
-        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
@@ -701,7 +699,6 @@ switch ($op) {
     //儲存排序
     case 'save_sort':
         save_sort();
-        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
@@ -713,26 +710,22 @@ switch ($op) {
     //會入主選單
     case 'import':
         auto_import();
-        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
     //匯入編輯功能選項
     case 'import_edit':
         import_edit();
-        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
     case 'tad_themes_menu_status':
         tad_themes_menu_status($menuid, $status);
-        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
         exit;
 
     case 'del_pic':
         del_pic($type, $menuid);
-        unlink(XOOPS_VAR_PATH . "/data/tad_themes_config2.json");
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
         exit;
 

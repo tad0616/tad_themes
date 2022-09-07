@@ -1,3 +1,12 @@
+Tad Themes 7.5 (released on 2022-09-01)
+====================================
+1. Support new structure of custom area
+2. Fix the problem of permission reset after importing editing options
+
+Tad Themes 7.4 (Released on 2022-08-21)
+====================================
+1.New "Device Borrowing" editing option
+
 Tad Themes 7.3 (released on 2022-08-07)
 ====================================
 1. New preference settings for "Login Text" and "Login Instructions".

@@ -223,6 +223,7 @@ define('_MA_TADTHEMES_EDIT_MENU_TAD_GPHOTOS', '加入Google相簿');
 define('_MA_TADTHEMES_EDIT_MENU_TAD_FORM', '新增萬用表單');
 define('_MA_TADTHEMES_EDIT_MENU_JILL_NOTICE', '新增臨時公告');
 define('_MA_TADTHEMES_EDIT_MENU_JILL_BOOKING', '預約場地');
+define('_MA_TADTHEMES_EDIT_MENU_KW_DEVICE', '設備借用');
 
 define('_MA_TADTHEMES_DOWNLOAD', '下載');
 define('_MA_TADTHEMES_DL_FAIL', '「%s」下載失敗！');

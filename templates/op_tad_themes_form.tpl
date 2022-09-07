@@ -72,7 +72,7 @@
                 <div id="themeTab">
                     <ul class="resp-tabs-list tab_identifier_parent">
                         <!--頁籤-->
-                        <{foreach from=$config2_arr key=config_file  item=config}>
+                        <{foreach from=$config2_files_arr key=config_file  item=config}>
                             <{assign var="key" value=$config.key}>
                             <{if $config_tabs.$key || $key==""}>
                                 <{if $custom_tabs_data.$config_file || $config.type=='config'}>
@@ -83,7 +83,7 @@
                     </ul>
 
                     <div class="resp-tabs-container tab_identifier_parent">
-                        <{foreach from=$config2_arr key=config_file item=config}>
+                        <{foreach from=$config2_files_arr key=config_file item=config}>
                             <{if $custom_tabs_data.$config_file || $config.type=='config'}>
                                 <{if $config.type=='config'}>
                                     <{assign var="key" value=$config.key}>
