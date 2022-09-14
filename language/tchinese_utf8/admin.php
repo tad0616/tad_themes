@@ -206,7 +206,7 @@ define('_MA_TADTHEMES_LOGO_SAVE_AS_LOGO', '存為logo');
 define('_MA_TADTHEMES_LOGO_DEMO_BGCOLOR', '範例背景色：');
 define('_MA_TADTHEMES_FONT_TOOL', '字型檔管理');
 define('_MA_TADTHEMES_FONT_UPLOAD', '上傳字型檔');
-define('_MA_TADTHEMES_FONT_NOTE', '僅支援 ttf、otf、ttc 字型檔，若無字型，可參考<a href="https://mrmad.com.tw/free-chinese-font" target="_blank">免費中文字體總整理，可用於商業使用</a>或<a href="http://www.fonts.net.cn/commercial-free-32767/fonts-zh-1.html" target="_blank">這裡</a>');
+define('_MA_TADTHEMES_FONT_NOTE', '僅支援 ttf、otf、ttc 字型檔，若無字型，可參考 <a href="https://www.cdps.hlc.edu.tw/modules/tadtools/fonts.php" target="_blank">免費字型</a>、<a href="https://zi-hi.com/%E7%B9%81%E9%AB%94%E4%B8%AD%E6%96%87%E5%85%8D%E8%B2%BB%E5%AD%97%E5%9E%8B%E5%88%97%E8%A1%A8" target="_blank">繁體中文免費字型列表</a>或<a href="http://www.fonts.net.cn/commercial-free-32767/fonts-zh-1.html" target="_blank">這裡</a>');
 define('_MA_TADTHEMES_FONT_SAVE', '儲存字型檔');
 define('_MA_TADTHEMES_READGROUP', '可讀群組');
 define('_MA_TADTHEMES_APPLY_READGROUP', '下層選項套用相同權限');

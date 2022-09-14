@@ -382,9 +382,7 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
             $config_name = $config['name'];
             if (isset($config2_dbv[$config_name])) {
                 $value = ($config['type'] == 'checkbox' or $config['type'] == 'custom_zone') ? json_decode($config2_dbv[$config_name], true) : $myts->htmlSpecialChars($config2_dbv[$config_name]);
-                // if ($config['type'] == 'checkbox') {
-                //     Utility::dd(json_decode($config2_dbv[$config_name], true));
-                // }
+
             } else {
                 $value = '';
             }
@@ -415,7 +413,7 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
                 $config2[$k]['position'] = isset($config2_dbv[$config_name . '_position']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_position']) : '';
                 $config2[$k]['size'] = isset($config2_dbv[$config_name . '_size']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_size']) : '';
             } elseif ('custom_zone' === $config['type']) {
-                $block = json_decode($config2_dbv[$config_name . '_block'], true);
+                $block = json_decode(str_replace(["\r", "\n"], "", $config2_dbv[$config_name . '_block']), true);
 
                 $config2[$k]['bid'] = get_bid($block);
                 $config2[$k]['html_content'] = isset($config2_dbv[$config_name . '_html_content']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_html_content']) : '';
@@ -429,7 +427,7 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
                 // 相容舊的
             } elseif ('checkbox' === $config['type'] and isset($config2_dbv[$config_name . '_content'])) {
 
-                $block = json_decode($config2_dbv[$config_name . '_block'], true);
+                $block = json_decode(str_replace(["\r", "\n"], "", $config2_dbv[$config_name . '_block']), true);
                 $config2[$k]['bid'] = get_bid($block);
 
                 if (in_array('html', $value)) {
