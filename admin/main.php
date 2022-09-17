@@ -2200,9 +2200,10 @@ if (isset($_COOKIE['themeTab_baseURI'])) {
 
 $xoopsTpl->assign('now_op', $op);
 
-$xoTheme->addStylesheet('modules/tad_themes/css/module.css');
-$xoTheme->addStylesheet('modules/tadtools/css/font-awesome/css/font-awesome.css');
-$xoTheme->addStylesheet('modules/tad_themes/class/bootstrap-select/css/bootstrap-select.min.css');
-$xoTheme->addScript('modules/tad_themes/class/bootstrap-select/js/bootstrap-select.min.js');
-$xoTheme->addScript('modules/tad_themes/class/bootstrap-select/js/i18n/defaults-zh_TW.min.js');
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/css/font-awesome/css/font-awesome.css');
+$xoTheme->addStylesheet(XOOPS_URL . "/modules/tadtools/css/xoops_adm{$_SEESION['bootstrap']}.css");
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_themes/css/module.css');
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_themes/class/bootstrap-select/css/bootstrap-select.min.css');
+$xoTheme->addScript(XOOPS_URL . '/modules/tad_themes/class/bootstrap-select/js/bootstrap-select.min.js');
+$xoTheme->addScript(XOOPS_URL . '/modules/tad_themes/class/bootstrap-select/js/i18n/defaults-zh_TW.min.js');
 require_once __DIR__ . '/footer.php';
