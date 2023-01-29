@@ -1,3 +1,7 @@
+Tad Themes 7.6 (Released 2023-01-29)
+====================================
+1. Fix the problem that some custom blocks cannot be placed in the custom area.
+
 Tad Themes 7.5 (released on 2022-09-01)
 ====================================
 1. Support new structure of custom area
