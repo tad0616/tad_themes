@@ -354,6 +354,8 @@ function save_config2($theme_id = '', $config2_files = [], $mode = '')
                     $block['name'] = $myts->addSlashes($block['name']);
                     $block['content'] = $myts->addSlashes($block['content']);
                     $block_value = json_encode($block, 256);
+
+                    $block_value = $myts->addSlashes($block_value);
                 }
 
                 $value_html_content = isset($_POST[$name . '_html_content']) ? $myts->addSlashes($_POST[$name . '_html_content']) : $config['html_content'];
