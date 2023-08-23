@@ -76,12 +76,6 @@ function tad_themes_logo_form()
     $margin_bottom = isset($fc['margin_bottom']) ? $fc['margin_bottom'] : '0';
     $xoopsTpl->assign('margin_bottom', $margin_bottom);
 
-    $image_width = isset($fc['image_width']) ? $fc['image_width'] : '0';
-    $xoopsTpl->assign('image_width', $image_width);
-
-    $image_height = isset($fc['image_height']) ? $fc['image_height'] : '0';
-    $xoopsTpl->assign('image_height', $image_height);
-
     $MColorPicker = new MColorPicker('.color-picker');
     $MColorPicker->render('bootstrap');
 
@@ -127,7 +121,7 @@ function strLength($str, $charset = 'utf-8')
 }
 
 //製作logo圖
-function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8', $border_color = '#FFFFFF', $font_file_sn = 0, $shadow_color = '#000000', $shadow_x = 1, $shadow_y = 1, $shadow_size = 3, $margin_top = 0, $margin_bottom = 0, $image_width = 0, $image_height = 0)
+function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8', $border_color = '#FFFFFF', $font_file_sn = 0, $shadow_color = '#000000', $shadow_x = 1, $shadow_y = 1, $shadow_size = 3, $margin_top = 0, $margin_bottom = 0)
 {
     global $TadUpFontFiles;
     $font = $TadUpFontFiles->get_file($font_file_sn);
@@ -143,8 +137,8 @@ function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8
         return;
     }
 
-    $width = $image_width ? $image_width : $size * 1.4 * $n;
-    $height = $image_height ? $image_height : $size * 2 + $margin_top + $margin_bottom;
+    $width = $size * 1.4 * $n;
+    $height = $size * 2 + $margin_top + $margin_bottom;
 
     $x = 2;
     $y = $size * 1.5;
@@ -367,8 +361,6 @@ $shadow_y = Request::getInt('shadow_y', 1);
 $shadow_size = Request::getInt('shadow_size', 3);
 $margin_top = Request::getInt('margin_top');
 $margin_bottom = Request::getInt('margin_bottom');
-$image_width = Request::getInt('image_width');
-$image_height = Request::getInt('image_height');
 
 switch ($op) {
     /*---判斷動作請貼在下方---*/
@@ -396,11 +388,11 @@ switch ($op) {
         exit;
 
     case 'mkTitlePic':
-        $filename = mkTitlePic($title, $size, $border_size, $color, $border_color, $font_file_sn, $shadow_color, $shadow_x, $shadow_y, $shadow_size, $margin_top, $margin_bottom, $image_width, $image_height);
+        $filename = mkTitlePic($title, $size, $border_size, $color, $border_color, $font_file_sn, $shadow_color, $shadow_x, $shadow_y, $shadow_size, $margin_top, $margin_bottom);
         $color = str_replace('#', '', $color);
         $border_color = str_replace('#', '', $border_color);
 
-        $_SESSION['font_config'] = json_encode(['title' => $title, 'size' => $size, 'border_size' => $border_size, 'color' => $color, 'border_color' => $border_color, 'font_file_sn' => $font_file_sn, 'bg_color' => $bg_color, 'shadow_color' => $shadow_color, 'shadow_x' => $shadow_x, 'shadow_y' => $shadow_y, 'shadow_size' => $shadow_size, 'margin_top' => $margin_top, 'margin_bottom' => $margin_bottom, 'image_width' => $image_width, 'image_height' => $image_height]);
+        $_SESSION['font_config'] = json_encode(['title' => $title, 'size' => $size, 'border_size' => $border_size, 'color' => $color, 'border_color' => $border_color, 'font_file_sn' => $font_file_sn, 'bg_color' => $bg_color, 'shadow_color' => $shadow_color, 'shadow_x' => $shadow_x, 'shadow_y' => $shadow_y, 'shadow_size' => $shadow_size, 'margin_top' => $margin_top, 'margin_bottom' => $margin_bottom]);
 
         header("location: font2pic.php?name=$filename");
         exit;

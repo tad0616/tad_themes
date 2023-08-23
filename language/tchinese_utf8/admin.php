@@ -194,8 +194,6 @@ define('_MA_TADTHEMES_LOGO_TEXT_COLOR', '文字顏色');
 define('_MA_TADTHEMES_LOGO_BORDER_COLOR', '邊框顏色');
 define('_MA_TADTHEMES_LOGO_TEXT_SIZE', '文字大小');
 define('_MA_TADTHEMES_LOGO_BORDER_SIZE', '外框粗細');
-define('_MA_TADTHEMES_LOGO_WIDTH', '圖片寬度');
-define('_MA_TADTHEMES_LOGO_HEIGHT', '圖片高度');
 define('_MA_TADTHEMES_LOGO_SHADOW_COLOR', '陰影顏色');
 define('_MA_TADTHEMES_LOGO_SHADOW_SIZE', '陰影大小');
 define('_MA_TADTHEMES_LOGO_SHADOW_X', '陰影左右位置');

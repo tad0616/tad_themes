@@ -5,9 +5,9 @@
         <div class="col-sm-2">
             <{* Google 翻譯 *}>
             <div class="input-group d-inline-block">
-                <div class="input-group-prepend input-group-addon">
+                <div class="input-group-append input-group-addon">
                     <span class="input-group-text">
-                        <input id="<{$conf_name}>_google_translate" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="google_translate" <{if "google_translate"|in_array:$config.value}>checked<{/if}>>
+                        <input id="<{$conf_name}>_google_translate" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="google_translate" <{if 'google_translate'|in_array:$config.value}>checked<{/if}>>
                         <label for="<{$conf_name}>_google_translate">
                         <{$smarty.const.TF_GOOGLE_TRANSLATE}>
                         </label>

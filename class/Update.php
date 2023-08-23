@@ -947,4 +947,20 @@ class Update
         $xoopsDB->queryF($sql);
     }
 
+    //修正 logo_right
+    public static function go_update_logo_right()
+    {
+        global $xoopsDB;
+
+        $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `name`='logo_right_zone' where `name`='logo_right' and `type`='custom_zone'";
+        $xoopsDB->queryF($sql) or die($sql);
+        $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `name`='logo_right_zone_fa_content' where `name`='logo_right_fa_content' and `type`='text'";
+        $xoopsDB->queryF($sql) or die($sql);
+        $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `name`='logo_right_zone_menu_content' where `name`='logo_right_menu_content' and `type`='text'";
+        $xoopsDB->queryF($sql) or die($sql);
+        $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `name`='logo_right_zone_block' where `name`='logo_right_block' and `type`='text'";
+        $xoopsDB->queryF($sql) or die($sql);
+        $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `name`='logo_right_zone_html_content' where `name`='logo_right_html_content' and `type`='text'";
+        $xoopsDB->queryF($sql) or die($sql);
+    }
 }

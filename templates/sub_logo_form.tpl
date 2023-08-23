@@ -82,17 +82,6 @@
             </div>
         </div>
 
-        <div class="form-group row mb-3">
-            <label class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_LOGO_WIDTH}></label>
-            <div class="col-sm-4">
-                <input type="number" class="form-control" name="image_width" id="image_width" placeholder="<{$smarty.const._MA_TADTHEMES_LOGO_WIDTH}>" value="<{$image_width}>">
-            </div>
-            <label class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_LOGO_HEIGHT}></label>
-            <div class="col-sm-4">
-                <input type="number" class="form-control" name="image_height" id="image_height" placeholder="<{$smarty.const._MA_TADTHEMES_LOGO_WIDTH}>" value="<{$image_height}>">
-            </div>
-        </div>
-
         <div class="text-center" style="margin: 30px auto;">
             <input type="hidden" name="op" value="mkTitlePic">
             <button type="submit" class="btn btn-primary"><{$smarty.const._MA_TADTHEMES_LOGO_MAKE_PNG}></button>

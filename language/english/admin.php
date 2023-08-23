@@ -193,8 +193,6 @@ define('_MA_TADTHEMES_LOGO_TEXT_COLOR', 'Text Color');
 define('_MA_TADTHEMES_LOGO_BORDER_COLOR', 'Border Color');
 define('_MA_TADTHEMES_LOGO_TEXT_SIZE', 'Text size');
 define('_MA_TADTHEMES_LOGO_BORDER_SIZE', 'outline size');
-define('_MA_TADTHEMES_LOGO_WIDTH', 'Image Width');
-define('_MA_TADTHEMES_LOGO_HEIGHT', 'Image Height');
 define('_MA_TADTHEMES_LOGO_SHADOW_COLOR', 'Shadow Color');
 define('_MA_TADTHEMES_LOGO_SHADOW_SIZE', 'Shadow Size');
 define('_MA_TADTHEMES_LOGO_SHADOW_X', 'Shadow X');

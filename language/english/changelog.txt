@@ -1,3 +1,7 @@
+Tad Themes 7.7 (released 2023-08-23)
+====================================
+1. Fixed the problem that the custom area on the right side of the extra settings logo duplicates some settings.
+
 Tad Themes 7.6 (Released 2023-01-29)
 ====================================
 1. Fix the problem that some custom blocks cannot be placed in the custom area.

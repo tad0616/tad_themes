@@ -15,6 +15,7 @@ function xoops_module_update_tad_themes(&$module, $old_version)
 
     Update::go_update_conf();
     Update::go_update_logo();
+    Update::go_update_logo_right();
 
     if (!Update::chk_chk1()) {
         Update::go_update1();
