@@ -317,7 +317,10 @@ function save_config2($theme_id = '', $config2_files = [], $mode = '')
             if ('file' === $config['type']) {
                 $value = basename($value);
             }
+
             $value = $myts->addSlashes($value);
+            $config['name'] = $myts->addSlashes($config['name']);
+            $config['type'] = $myts->addSlashes($config['type']);
 
             $sql = 'replace into ' . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`) values($theme_id , '{$config['name']}' , '{$config['type']}' , '{$value}')";
 
@@ -352,8 +355,8 @@ function save_config2($theme_id = '', $config2_files = [], $mode = '')
                     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
                     $block = $xoopsDB->fetchArray($result);
                     $block['name'] = $myts->addSlashes($block['name']);
-                    $block['content'] = $myts->addSlashes($block['content']);
-                    $block_value = json_encode($block, 256);
+                    // $block['content'] = $myts->addSlashes($block['content']);
+                    $block_value = $myts->addSlashes(json_encode($block, 256));
                 }
 
                 $value_html_content = isset($_POST[$name . '_html_content']) ? $myts->addSlashes($_POST[$name . '_html_content']) : $config['html_content'];

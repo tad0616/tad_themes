@@ -12,6 +12,76 @@ require_once dirname(__DIR__) . '/function.php';
 
 $TadUpFontFiles = new TadUpFiles('tad_themes', '/fonts');
 $TadUpFontFiles->set_col('logo_fonts', 0);
+
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+$title = Request::getString('title');
+$color = Request::getString('color', '#00a3a8');
+$border_color = Request::getString('border_color', '#ffffff');
+$name = Request::getString('name');
+$bg_color = Request::getString('bg_color');
+$logo = Request::getString('logo');
+$shadow_color = Request::getString('shadow_color', '#000000');
+$theme_id = Request::getInt('theme_id');
+$files_sn = Request::getInt('files_sn');
+$status = Request::getInt('status', 1);
+$size = Request::getInt('size', 24);
+$font_file_sn = Request::getInt('font_file_sn');
+$border_size = Request::getInt('border_size', 2);
+$sav_to_logo = Request::getInt('sav_to_logo');
+$shadow_x = Request::getInt('shadow_x', 1);
+$shadow_y = Request::getInt('shadow_y', 1);
+$shadow_size = Request::getInt('shadow_size', 3);
+$margin_top = Request::getInt('margin_top');
+$margin_bottom = Request::getInt('margin_bottom');
+
+switch ($op) {
+    /*---判斷動作請貼在下方---*/
+
+    case 'del_logo':
+        unlink(XOOPS_ROOT_PATH . "/uploads/logo/{$logo}");
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    case 'save_pic':
+        Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/logo');
+        if ($sav_to_logo == 1) {
+            save_to_logo($name, $theme_id);
+            header("location: main.php#themeTab4");
+        } else {
+            copy(XOOPS_ROOT_PATH . "/uploads/tmp_logo/{$name}.png", XOOPS_ROOT_PATH . "/uploads/logo/{$name}.png");
+            delete_dirfile(XOOPS_ROOT_PATH . '/uploads/tmp_logo');
+            header("location: font2pic.php");
+        }
+        exit;
+
+    case 'save_font':
+        $TadUpFontFiles->upload_file('font', null, null, $files_sn, null, true, false, 'file_name', 'ttf;otf;ttc');
+        header("location: " . \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'));
+        exit;
+
+    case 'mkTitlePic':
+        $filename = mkTitlePic($title, $size, $border_size, $color, $border_color, $font_file_sn, $shadow_color, $shadow_x, $shadow_y, $shadow_size, $margin_top, $margin_bottom);
+        $color = str_replace('#', '', $color);
+        $border_color = str_replace('#', '', $border_color);
+
+        $_SESSION['font_config'] = json_encode(['title' => $title, 'size' => $size, 'border_size' => $border_size, 'color' => $color, 'border_color' => $border_color, 'font_file_sn' => $font_file_sn, 'bg_color' => $bg_color, 'shadow_color' => $shadow_color, 'shadow_x' => $shadow_x, 'shadow_y' => $shadow_y, 'shadow_size' => $shadow_size, 'margin_top' => $margin_top, 'margin_bottom' => $margin_bottom]);
+
+        header("location: font2pic.php?name=$filename");
+        exit;
+
+    //預設動作
+    default:
+        tad_themes_logo_form();
+        $op = 'tad_themes_logo_form';
+        break;
+        /*---判斷動作請貼在上方---*/
+}
+
+/*-----------秀出結果區--------------*/
+$xoopsTpl->assign('op', $op);
+require_once __DIR__ . '/footer.php';
+
 /*-----------function區--------------*/
 function tad_themes_logo_form()
 {
@@ -64,7 +134,7 @@ function tad_themes_logo_form()
     $shadow_size = isset($fc['shadow_size']) ? $fc['shadow_size'] : '3';
     $xoopsTpl->assign('shadow_size', $shadow_size);
 
-    $fontUpForm = $TadUpFontFiles->upform(true, 'font');
+    $fontUpForm = $TadUpFontFiles->upform(true, 'font', '', true, '.ttf,.otf,.ttc');
     $xoopsTpl->assign('fontUpForm', $fontUpForm);
 
     $fonts = $TadUpFontFiles->get_file();
@@ -339,75 +409,3 @@ function save_to_logo($name = '', $theme_id = '')
     $xoopsDB->queryF($sql);
     delete_dirfile(XOOPS_ROOT_PATH . '/uploads/tmp_logo');
 }
-
-/*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$title = Request::getString('title');
-$color = Request::getString('color', '#00a3a8');
-$border_color = Request::getString('border_color', '#ffffff');
-$name = Request::getString('name');
-$bg_color = Request::getString('bg_color');
-$logo = Request::getString('logo');
-$shadow_color = Request::getString('shadow_color', '#000000');
-$theme_id = Request::getInt('theme_id');
-$files_sn = Request::getInt('files_sn');
-$status = Request::getInt('status', 1);
-$size = Request::getInt('size', 24);
-$font_file_sn = Request::getInt('font_file_sn');
-$border_size = Request::getInt('border_size', 2);
-$sav_to_logo = Request::getInt('sav_to_logo');
-$shadow_x = Request::getInt('shadow_x', 1);
-$shadow_y = Request::getInt('shadow_y', 1);
-$shadow_size = Request::getInt('shadow_size', 3);
-$margin_top = Request::getInt('margin_top');
-$margin_bottom = Request::getInt('margin_bottom');
-
-switch ($op) {
-    /*---判斷動作請貼在下方---*/
-
-    case 'del_logo':
-        unlink(XOOPS_ROOT_PATH . "/uploads/logo/{$logo}");
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    case 'save_pic':
-        Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/logo');
-        if ($sav_to_logo == 1) {
-            save_to_logo($name, $theme_id);
-            header("location: main.php#themeTab4");
-        } else {
-            copy(XOOPS_ROOT_PATH . "/uploads/tmp_logo/{$name}.png", XOOPS_ROOT_PATH . "/uploads/logo/{$name}.png");
-            delete_dirfile(XOOPS_ROOT_PATH . '/uploads/tmp_logo');
-            header("location: font2pic.php");
-        }
-        exit;
-
-    case 'save_font':
-        $TadUpFontFiles->upload_file('font', null, null, $files_sn, null, true, false, 'file_name', 'ttf;otf;ttc');
-        header("location: " . \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'));
-        exit;
-
-    case 'mkTitlePic':
-        $filename = mkTitlePic($title, $size, $border_size, $color, $border_color, $font_file_sn, $shadow_color, $shadow_x, $shadow_y, $shadow_size, $margin_top, $margin_bottom);
-        $color = str_replace('#', '', $color);
-        $border_color = str_replace('#', '', $border_color);
-
-        $_SESSION['font_config'] = json_encode(['title' => $title, 'size' => $size, 'border_size' => $border_size, 'color' => $color, 'border_color' => $border_color, 'font_file_sn' => $font_file_sn, 'bg_color' => $bg_color, 'shadow_color' => $shadow_color, 'shadow_x' => $shadow_x, 'shadow_y' => $shadow_y, 'shadow_size' => $shadow_size, 'margin_top' => $margin_top, 'margin_bottom' => $margin_bottom]);
-
-        header("location: font2pic.php?name=$filename");
-        exit;
-
-    //預設動作
-    default:
-        tad_themes_logo_form();
-        $op = 'tad_themes_logo_form';
-        break;
-        /*---判斷動作請貼在上方---*/
-}
-
-/*-----------秀出結果區--------------*/
-$xoopsTpl->assign('op', $op);
-$xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/css/font-awesome/css/font-awesome.css');
-$xoTheme->addStylesheet(XOOPS_URL . "/modules/tadtools/css/xoops_adm{$_SEESION['bootstrap']}.css");
-$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_themes/css/module.css');
-require_once __DIR__ . '/footer.php';

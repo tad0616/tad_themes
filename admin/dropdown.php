@@ -9,6 +9,79 @@ $xoopsOption['template_main'] = 'tad_themes_adm_dropdown.tpl';
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
 
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+$type = Request::getString('type');
+$menuid = Request::getInt('menuid');
+$of_level = Request::getInt('of_level');
+$status = Request::getInt('status', 1);
+
+switch ($op) {
+    //更新資料
+    case 'update_tad_themes_menu':
+        update_tad_themes_menu($menuid);
+        header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
+        exit;
+
+    //新增資料
+    case 'insert_tad_themes_menu':
+        insert_tad_themes_menu();
+        header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
+        exit;
+
+    //刪除資料
+    case 'delete_tad_themes_menu':
+        delete_tad_themes_menu($menuid);
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    //新增項目
+    case 'add_tad_themes_menu':
+        tad_themes_menu_form($of_level, $menuid, 'die');
+        break;
+    //儲存排序
+    case 'save_sort':
+        save_sort();
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    //修改項目
+    case 'modify_tad_themes_menu':
+        tad_themes_menu_form($of_level, $menuid, 'die');
+        break;
+
+    //會入主選單
+    case 'import':
+        auto_import();
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    //匯入編輯功能選項
+    case 'import_edit':
+        import_edit();
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    case 'tad_themes_menu_status':
+        tad_themes_menu_status($menuid, $status);
+        header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
+        exit;
+
+    case 'del_pic':
+        del_pic($type, $menuid);
+        header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
+        exit;
+
+    //預設動作
+    default:
+        list_tad_themes_menu();
+        break;
+}
+
+/*-----------秀出結果區--------------*/
+$xoopsTpl->assign('now_op', $op);
+require_once __DIR__ . '/footer.php';
+
 /*-----------function區--------------*/
 //tad_themes_menu編輯表單
 function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
@@ -34,7 +107,7 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
     $target = (!isset($DBV['target'])) ? '' : $DBV['target'];
     $icon = (!isset($DBV['icon'])) ? '' : $DBV['icon'];
     $read_group = (!isset($DBV['read_group'])) ? [1, 2, 3] : $DBV['read_group'];
-    $read_group_array = explode(',', $read_group);
+    $read_group_array = is_string($read_group) ? explode(',', $read_group) : $read_group;
     $xoopsTpl->assign('icon', $icon);
     Utility::add_migrate();
 
@@ -665,79 +738,3 @@ function del_pic($type, $menuid)
         unlink($file2);
     }
 }
-
-/*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$type = Request::getString('type');
-$menuid = Request::getInt('menuid');
-$of_level = Request::getInt('of_level');
-$status = Request::getInt('status', 1);
-
-switch ($op) {
-    //更新資料
-    case 'update_tad_themes_menu':
-        update_tad_themes_menu($menuid);
-        header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
-        exit;
-
-    //新增資料
-    case 'insert_tad_themes_menu':
-        insert_tad_themes_menu();
-        header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
-        exit;
-
-    //刪除資料
-    case 'delete_tad_themes_menu':
-        delete_tad_themes_menu($menuid);
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    //新增項目
-    case 'add_tad_themes_menu':
-        tad_themes_menu_form($of_level, $menuid, 'die');
-        break;
-    //儲存排序
-    case 'save_sort':
-        save_sort();
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    //修改項目
-    case 'modify_tad_themes_menu':
-        tad_themes_menu_form($of_level, $menuid, 'die');
-        break;
-
-    //會入主選單
-    case 'import':
-        auto_import();
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    //匯入編輯功能選項
-    case 'import_edit':
-        import_edit();
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    case 'tad_themes_menu_status':
-        tad_themes_menu_status($menuid, $status);
-        header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
-        exit;
-
-    case 'del_pic':
-        del_pic($type, $menuid);
-        header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
-        exit;
-
-    //預設動作
-    default:
-        list_tad_themes_menu();
-        break;
-}
-
-/*-----------秀出結果區--------------*/
-$xoopsTpl->assign('now_op', $op);
-$xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/css/font-awesome/css/font-awesome.css');
-$xoTheme->addStylesheet(XOOPS_URL . "/modules/tadtools/css/xoops_adm{$_SEESION['bootstrap']}.css");
-$xoTheme->addStylesheet(XOOPS_URL . '/modules/tad_themes/css/module.css');
-require_once __DIR__ . '/footer.php';

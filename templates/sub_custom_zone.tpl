@@ -7,7 +7,7 @@
             <div class="input-group d-inline-block">
                 <div class="input-group-append input-group-addon">
                     <span class="input-group-text">
-                        <input id="<{$conf_name}>_google_translate" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="google_translate" <{if 'google_translate'|in_array:$config.value}>checked<{/if}>>
+                        <input id="<{$conf_name}>_google_translate" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="google_translate" <{if $config.value|is_array && 'google_translate'|in_array:$config.value}>checked<{/if}>>
                         <label for="<{$conf_name}>_google_translate">
                         <{$smarty.const.TF_GOOGLE_TRANSLATE}>
                         </label>
@@ -20,7 +20,7 @@
             <div class="input-group d-inline-block">
                 <div class="input-group-prepend input-group-addon">
                     <span class="input-group-text">
-                        <input id="<{$conf_name}>_search" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="search" <{if "search"|in_array:$config.value}>checked<{/if}>>
+                        <input id="<{$conf_name}>_search" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="search" <{if $config.value|is_array && "search"|in_array:$config.value}>checked<{/if}>>
                         <label for="<{$conf_name}>_search">
                         <{$smarty.const.TF_SEARCH}>
                         </label>
@@ -33,7 +33,7 @@
             <div class="input-group d-inline-block">
                 <div class="input-group-prepend input-group-addon">
                     <span class="input-group-text">
-                        <input id="<{$conf_name}>_login" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="login" <{if "login"|in_array:$config.value}>checked<{/if}>>
+                        <input id="<{$conf_name}>_login" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="login" <{if $config.value|is_array && "login"|in_array:$config.value}>checked<{/if}>>
                         <label for="<{$conf_name}>_login">
                         <{$smarty.const.TF_LOGIN}>
                         </label>
@@ -46,7 +46,7 @@
             <div class="input-group d-inline">
                 <div class="input-group-prepend input-group-addon">
                     <span class="input-group-text">
-                        <input id="<{$conf_name}>_navbar" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="navbar" <{if "navbar"|in_array:$config.value}>checked<{/if}>>
+                        <input id="<{$conf_name}>_navbar" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="navbar" <{if $config.value|is_array && "navbar"|in_array:$config.value}>checked<{/if}>>
                         <label for="<{$conf_name}>_navbar">
                         <{$smarty.const.TF_NAVBAR}>
                         </label>
@@ -65,7 +65,7 @@
             <div class="input-group">
                 <div class="input-group-prepend input-group-addon">
                     <span class="input-group-text">
-                        <input id="<{$conf_name}>_block" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="block" <{if "block"|in_array:$config.value}>checked<{/if}>>
+                        <input id="<{$conf_name}>_block" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="block" <{if $config.value|is_array && "block"|in_array:$config.value}>checked<{/if}>>
                         <label for="<{$conf_name}>_block">
                         <{$smarty.const.TF_BLOCK}>
                         </label>
@@ -91,7 +91,7 @@
                 </select>
                 <div class="input-group-append input-group-btn">
                     <{if $config.bid}>
-                        <{if $config.bid|in_array:$adv_bids}>
+                        <{if $adv_bids|is_array && $config.bid|in_array:$adv_bids}>
                             <a href="<{$xoops}>/modules/tad_blocks/index.php?op=block_form&bid=<{$config.bid}>" target="_blank" class="btn btn-primary"><{$smarty.const._TAD_EDIT}></a>
                         <{else}>
                             <a href="<{$xoops}>/modules/system/admin.php?fct=blocksadmin&op=edit&bid=<{$config.bid}>" target="_blank" class="btn btn-primary"><{$smarty.const._TAD_EDIT}></a>
@@ -107,7 +107,7 @@
             <div class="input-group d-inline">
                 <div class="input-group-prepend input-group-addon">
                     <span class="input-group-text">
-                        <input id="<{$conf_name}>_html" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="html" <{if "html"|in_array:$config.value}>checked<{/if}>>
+                        <input id="<{$conf_name}>_html" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="html" <{if $config.value|is_array && "html"|in_array:$config.value}>checked<{/if}>>
                         <label for="<{$conf_name}>_html">
                         <{$smarty.const.TF_HTML}>
                         </label>
@@ -121,7 +121,7 @@
             <div class="input-group d-inline">
                 <div class="input-group-prepend input-group-addon">
                     <span class="input-group-text">
-                        <input id="<{$conf_name}>_fa-icon" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="fa-icon" <{if "fa-icon"|in_array:$config.value}>checked<{/if}>>
+                        <input id="<{$conf_name}>_fa-icon" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="fa-icon" <{if $config.value|is_array && "fa-icon"|in_array:$config.value}>checked<{/if}>>
                         <label for="<{$conf_name}>_fa-icon">
                         <{$smarty.const.TF_FA_ICON}>
                         </label>
@@ -135,7 +135,7 @@
             <div class="input-group d-inline">
                 <div class="input-group-prepend input-group-addon">
                     <span class="input-group-text">
-                        <input id="<{$conf_name}>_menu" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="menu" <{if "menu"|in_array:$config.value}>checked<{/if}>>
+                        <input id="<{$conf_name}>_menu" class="form-check-input me-2 mr-2" type="checkbox" name="<{$conf_name}>[]" value="menu" <{if $config.value|is_array && "menu"|in_array:$config.value}>checked<{/if}>>
                         <label for="<{$conf_name}>_menu">
                         <{$smarty.const.TF_MENU}>
                         </label>

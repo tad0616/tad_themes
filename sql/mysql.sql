@@ -1,6 +1,6 @@
 CREATE TABLE `tad_themes` (
   `theme_id` smallint(6) unsigned AUTO_INCREMENT COMMENT '佈景編號',
-  `theme_name` varchar(255) default '' COMMENT '佈景名稱',
+  `theme_name` varchar(100) default '' COMMENT '佈景名稱',
   `theme_type` varchar(255) default '' COMMENT '版面類型',
   `theme_width` varchar(255) default '' COMMENT '頁面寬度',
   `lb_width` varchar(255) default '' COMMENT '左區塊寬度',
@@ -67,7 +67,7 @@ CREATE TABLE `tad_themes_blocks` (
 
 CREATE TABLE `tad_themes_files_center` (
   `files_sn` smallint(5) unsigned AUTO_INCREMENT,
-  `col_name` varchar(255) default '',
+  `col_name` varchar(100) default '',
   `col_sn` mediumint(9) unsigned default '0',
   `sort` smallint(5) unsigned default '1',
   `kind` enum('img','file') default 'img',
@@ -114,9 +114,9 @@ CREATE TABLE `tad_themes_config2` (
 
 CREATE TABLE `tad_themes_data_center` (
   `mid` mediumint(9) unsigned  COMMENT '模組編號',
-  `col_name` varchar(100) default '' COMMENT '欄位名稱',
+  `col_name` varchar(50) default '' COMMENT '欄位名稱',
   `col_sn` mediumint(9) unsigned COMMENT '欄位編號',
-  `data_name` varchar(100) default '' COMMENT '資料名稱',
+  `data_name` varchar(50) default '' COMMENT '資料名稱',
   `data_value` text COMMENT '儲存值',
   `data_sort` mediumint(9) unsigned  COMMENT '排序',
   `col_id` varchar(100) default '' COMMENT '辨識字串',

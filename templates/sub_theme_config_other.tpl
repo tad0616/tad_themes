@@ -1,7 +1,7 @@
 <{if $config.type=="bg_file"}>
-    <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_bg_file.tpl"}>
+    <{include file="$xoops_rootpath/modules/tad_themes/templates/sub_bg_file.tpl"}>
 <{elseif $config.type=="custom_zone"}>
-    <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_custom_zone.tpl"}>
+    <{include file="$xoops_rootpath/modules/tad_themes/templates/sub_custom_zone.tpl"}>
 <{else}>
     <div class="form-group row mb-3">
         <label class="col-sm-2 col-form-label text-sm-right control-label">
@@ -44,7 +44,7 @@
                 <{foreach from=$config.options key=val item=opt}>
                     <div class="form-check form-check-inline checkbox-inline">
                         <label class="form-check-label" for="<{$config.name}>_<{$val}>">
-                            <input class="form-check-input" type="checkbox" name="<{$config.name}>[]" id="<{$config.name}>_<{$val}>" value="<{$val}>" <{if $val|in_array:$config.value}>checked<{/if}>>
+                            <input class="form-check-input" type="checkbox" name="<{$config.name}>[]" id="<{$config.name}>_<{$val}>" value="<{$val}>" <{if $config.value|is_array && $val|in_array:$config.value}>checked<{/if}>>
                             <{$opt}>
                         </label>
                         <{if $val=='block'}>
@@ -68,7 +68,7 @@
                                 <{/foreach}>
                             </select>
                             <{if $config.bid}>
-                                <{if $config.bid|in_array:$adv_bids}>
+                                <{if $adv_bids|is_array && $config.bid|in_array:$adv_bids}>
                                     <a href="<{$xoops}>/modules/tad_blocks/index.php?op=block_form&bid=<{$config.bid}>" target="_blank"><{$smarty.const._TAD_EDIT}></a>
                                 <{else}>
                                     <a href="<{$xoops}>/modules/system/admin.php?fct=blocksadmin&op=edit&bid=<{$config.bid}>" target="_blank"><{$smarty.const._TAD_EDIT}></a>
@@ -110,7 +110,7 @@
         </div>
         <div class="col-sm-5">
             <{if $config.type=="file"}>
-                <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_thumbs.tpl"}>
+                <{include file="$xoops_rootpath/modules/tad_themes/templates/sub_thumbs.tpl"}>
             <{else}>
                 <div class="alert alert-info"><{$config.desc}></div>
             <{/if}>

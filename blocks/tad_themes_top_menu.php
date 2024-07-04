@@ -9,32 +9,35 @@ function tad_themes_top_menu($options)
 {
     global $xoopsDB;
     require_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
-
+    $block = [];
     //$menu=explode(",",$options[0]);
-    $sql = 'select `menuid`,`itemname`,`itemurl`,`target`,`icon` from ' . $xoopsDB->prefix('tad_themes_menu') . " where menuid in({$options[0]}) order by position";
-    $result = $xoopsDB->query($sql);
-    $menu = [];
-    $i = 1;
+    if ($options[0]) {
+        $sql = 'select `menuid`,`itemname`,`itemurl`,`target`,`icon` from ' . $xoopsDB->prefix('tad_themes_menu') . " where menuid in({$options[0]}) order by position";
 
-    $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
-    $url = XOOPS_URL . '/uploads/tad_themes/menu_icons';
+        $result = $xoopsDB->query($sql) or die($sql);
+        $menu = [];
+        $i = 1;
 
-    while (list($menuid, $itemname, $itemurl, $target, $icon) = $xoopsDB->fetchRow($result)) {
-        $menu[$menuid]['itemname'] = $itemname;
-        $menu[$menuid]['itemurl'] = $itemurl;
-        $menu[$menuid]['target'] = $target;
-        $icon = '';
-        if (file_exists($dir . '/' . $menuid . '_64.png')) {
-            $icon = "{$url}/{$menuid}_64.png";
+        $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
+        $url = XOOPS_URL . '/uploads/tad_themes/menu_icons';
+
+        while (list($menuid, $itemname, $itemurl, $target, $icon) = $xoopsDB->fetchRow($result)) {
+            $menu[$menuid]['itemname'] = $itemname;
+            $menu[$menuid]['itemurl'] = $itemurl;
+            $menu[$menuid]['target'] = $target;
+            $icon = '';
+            if (file_exists($dir . '/' . $menuid . '_64.png')) {
+                $icon = "{$url}/{$menuid}_64.png";
+            }
+
+            $menu[$menuid]['icon'] = $icon;
+            $i++;
         }
+        $block['menu'] = $menu;
+        $block['width'] = $i * 110;
+        $block['jquery'] = Utility::get_jquery();
 
-        $menu[$menuid]['icon'] = $icon;
-        $i++;
     }
-    $block['menu'] = $menu;
-    $block['width'] = $i * 110;
-    $block['jquery'] = Utility::get_jquery();
-
     return $block;
 }
 

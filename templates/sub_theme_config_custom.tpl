@@ -6,6 +6,6 @@
         </h4>
     </div>
     <{foreach from=$custom_config2 item=config}>
-        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
+        <{include file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
     <{/foreach}>
 <{/if}>

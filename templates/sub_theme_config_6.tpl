@@ -301,7 +301,7 @@
         <input type="hidden" name="config2[]" value="config2_nav">
     </div>
     <{foreach from=$config2_nav item=config}>
-        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
+        <{include file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
     <{/foreach}>
     <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config2&theme_id=<{$theme_id}>&config2_file=config2_nav" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2">config2_nav.php</a>
 <{/if}>

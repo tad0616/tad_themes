@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="col-sm-6">
-            <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_thumbs.tpl"}>
+            <{include file="$xoops_rootpath/modules/tad_themes/templates/sub_thumbs.tpl"}>
         </div>
     </div>
 </div>

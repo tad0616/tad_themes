@@ -3,7 +3,8 @@ $modversion = [];
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADTHEMES_NAME;
-$modversion['version'] = '7.7';
+$modversion['version'] = $_SESSION['xoops_version'] >= 20511 ? '8.0.0-Stable' : '8.0';
+// $modversion['version'] = '7.7';
 $modversion['description'] = _MI_TADTHEMES_DESC;
 $modversion['author'] = 'tad (tad0616@gmail.com)';
 $modversion['credits'] = 'hirokofan (hirokofan@mail.cyc.edu.tw)';

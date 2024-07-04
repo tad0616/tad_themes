@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<{xoAppUrl modules/tadtools/jquery.sticky/jquery.sticky.js}>"></script>
+<script type="text/javascript" src="<{$xoops_url}>/modules/tadtools/jquery.sticky/jquery.sticky.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
 
@@ -72,7 +72,7 @@
                 <div id="themeTab">
                     <ul class="resp-tabs-list tab_identifier_parent">
                         <!--頁籤-->
-                        <{foreach from=$config2_files_arr key=config_file  item=config}>
+                        <{foreach from=$config2_files_arr key=config_file item=config}>
                             <{assign var="key" value=$config.key}>
                             <{if $config_tabs.$key || $key==""}>
                                 <{if $custom_tabs_data.$config_file || $config.type=='config'}>
@@ -90,19 +90,19 @@
                                     <{if $config_tabs.$key || $key==""}>
                                     <div>
                                         <{assign var="sub_theme_config" value="sub_theme_config_`$key`"}>
-                                        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/`$sub_theme_config`.tpl"}>
+                                        <{include file="$xoops_rootpath/modules/tad_themes/templates/`$sub_theme_config`.tpl"}>
 
                                         <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config&theme_id=<{$theme_id}>" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2">config.php</a>
                                     </div>
                                     <{else}>
                                         <{assign var="sub_theme_no_config" value="sub_theme_no_config_`$key`"}>
-                                        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/`$sub_theme_no_config`.tpl"}>
+                                        <{include file="$xoops_rootpath/modules/tad_themes/templates/`$sub_theme_no_config`.tpl"}>
                                     <{/if}>
                                 <{elseif $config.type=='config2'}>
                                     <div>
                                         <{assign var="custom_config2" value=$custom_tabs_data[$config_file]}>
                                         <input type="hidden" name="config2[]" value="<{$config_file}>">
-                                        <{includeq file="$xoops_rootpath/modules/tad_themes/templates/`$config.tpl`.tpl"}>
+                                        <{include file="$xoops_rootpath/modules/tad_themes/templates/`$config.tpl`.tpl"}>
                                         <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config2&theme_id=<{$theme_id}>&config2_file=<{$config_file}>" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2"><{$config_file}>.php</a>
                                     </div>
                                 <{/if}>
@@ -143,7 +143,7 @@
                     <{if $theme_kind!="bootstrap" and $theme_kind!="bootstrap3" and $theme_kind!="bootstrap4" and $theme_kind!="bootstrap5"}>
                         <{$smarty.const._MA_TADTHEMES_NOTICE}>
                     <{/if}>
-                    <{includeq file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_form.tpl"}>
+                    <{include file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_form.tpl"}>
                 </div>
             </div>
         </div>
