@@ -13,6 +13,15 @@ $xoopsOption['template_main'] = 'tad_themes_adm_main.tpl';
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/auto_import_theme.php';
 
+/*
+一般佈景執行流程：
+1.TadTools會取得tad_themes偏好設定及佈景預設設定值
+(1)檢查有無 /xoops_data/data/佈景名稱.json" 檔案，若無，import_theme_json() 會根據佈景預設設定值建立之。
+1.檢查有無 /xoops_data/data/佈景名稱.json" 檔案
+2.並建立 json 檔案
+
+ */
+
 /*-----------執行動作判斷區---------- */
 $op = Request::getString('op');
 $theme_id = Request::getInt('theme_id');
@@ -36,7 +45,8 @@ switch ($op) {
 
     //更新資料
     case 'update_tad_themes':
-        update_tad_themes($theme_id);
+        Tools::del_theme_json($theme_name);
+        update_tad_themes($theme_id, $theme_name);
         if (isset($_COOKIE['themeTab_baseURI'])) {
             header("location: {$_COOKIE['themeTab_baseURI']}");
         } else {
@@ -52,11 +62,12 @@ switch ($op) {
     //刪除資料
     case 'delete_tad_themes':
         delete_tad_themes($theme_id);
-        config2_json_file($theme_id);
+        // config2_json_file($theme_id);
+        Tools::del_theme_json($theme_name);
         header("location: {$_SERVER['PHP_SELF']}?mode=$mode");
         exit;
 
-    //儲存資料
+    //儲存風格檔
     case 'save_config':
         $msg = save_config($theme_id, $theme_config_name);
         redirect_header($_SERVER['PHP_SELF'], 3, $msg);
@@ -70,14 +81,16 @@ switch ($op) {
     //匯入資料
     case 'import_config':
         import_config($theme_id, $theme_name);
-        config2_json_file($theme_id);
+        // config2_json_file($theme_id);
+        Tools::del_theme_json($theme_name);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
     //匯入遠端資料
     case 'import_style':
         import_style($theme_id, $theme_name, $style_param);
-        config2_json_file($theme_id);
+        // config2_json_file($theme_id);
+        Tools::del_theme_json($theme_name);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
@@ -96,7 +109,8 @@ switch ($op) {
     //複製佈景
     case 'copy_theme':
         copy_theme($from_theme_id);
-        config2_json_file($theme_id);
+        // config2_json_file($theme_id);
+        Tools::del_theme_json($theme_name);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
@@ -1049,10 +1063,9 @@ function insert_tad_themes()
 }
 
 //更新tad_themes某一筆資料
-function update_tad_themes($theme_id = '')
+function update_tad_themes($theme_id = '', $theme_name = '')
 {
-    global $xoopsDB, $TadDataCenter;
-    Tools::del_theme_json();
+    global $xoopsDB, $TadDataCenter, $config2_files;
 
     $myts = \MyTextSanitizer::getInstance();
     foreach ($_POST as $key => $value) {
@@ -1157,25 +1170,25 @@ function update_tad_themes($theme_id = '')
     $TadUpFilesBg->set_col('bg', $theme_id);
     $bg_img = $TadUpFilesBg->upload_file('bg', 2048, null, null, '', true);
     if ($bg_img) {
-        update_theme('bg_img', 'bg', $bg_img, $theme_id, $theme_name);
+        update_theme('bg_img', $bg_img, $theme_id);
     }
     $TadUpFilesLogo = TadUpFilesLogo();
     $TadUpFilesLogo->set_col('logo', $theme_id);
     $logo_img = $TadUpFilesLogo->upload_file('logo', 2048, null, null, '', true);
     if ($logo_img) {
-        update_theme('logo_img', 'logo', $logo_img, $theme_id, $theme_name);
+        update_theme('logo_img', $logo_img, $theme_id);
     }
     $TadUpFilesNavLogo = TadUpFilesNavLogo();
     $TadUpFilesNavLogo->set_col('navlogo', $theme_id);
     $navlogo_img = $TadUpFilesNavLogo->upload_file('navlogo', null, null, null, '', true);
     if ($navlogo_img) {
-        update_theme('navlogo_img', 'navlogo', $navlogo_img, $theme_id, $theme_name);
+        update_theme('navlogo_img', $navlogo_img, $theme_id);
     }
     $TadUpFilesNavBg = TadUpFilesNavBg();
     $TadUpFilesNavBg->set_col('navbar_img', $theme_id);
     $navbar_img = $TadUpFilesNavBg->upload_file('navbar_img', null, null, null, '', true);
     if ($navbar_img) {
-        update_theme('navbar_img', 'navbar', $navbar_img, $theme_id, $theme_name);
+        update_theme('navbar_img', $navbar_img, $theme_id);
     }
 
     //儲存區塊設定
@@ -1187,14 +1200,21 @@ function update_tad_themes($theme_id = '')
     // Smarty設定檔
     save_conf($theme_kind);
 
+    // 匯出主設定檔
+    export_config($theme_id, $theme_config_name, true);
+
+    // 匯出額外設定
+    foreach ($config2_files as $config2_file) {
+        export_config2($theme_id, $config2_file, true, $theme_config_name, $theme_name, $theme_name);
+    }
+
     return $theme_id;
 }
 
 //更新佈景的某個設定值
-function update_theme($col = '', $folder = '', $file_name = '', $theme_id = '', $theme_name = '')
+function update_theme($col = '', $file_name = '', $theme_id = '')
 {
     global $xoopsDB;
-    // $file_name_url = XOOPS_URL . "/uploads/tad_themes/{$theme_name}/{$folder}/{$file_name}";
     $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `{$col}` = '{$file_name}' where theme_id='$theme_id'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
@@ -1414,7 +1434,7 @@ function copy_image($from_theme_name, $to_theme_name, $theme_config_name, $type,
 }
 
 // 匯出主設定檔
-function export_config($theme_id = '', $theme_config_name = '', $from_theme_name = '', $to_theme_name = '', $force = [])
+function export_config($theme_id = '', $theme_config_name = '', $main_theme = false, $from_theme_name = '', $to_theme_name = '', $force = [])
 {
     global $xoopsConfig, $xoopsDB;
     $to_theme_name = $to_theme_name ? $to_theme_name : $xoopsConfig['theme_set'];
@@ -1763,48 +1783,57 @@ tabs-5 區塊外觀
  */
 {$position_blocks}
 /*
-tabs-6 導覽選單
+tabs-6 導覽列
  */
 
 \$config_tabs[6] = {$config_tabs[6]};
 
-//導覽選單位置[navbar.tpl]，值： fixed-top （固定上方）, fixed-bottom （固定下方）, sticky-top（滑動圖片上方）, default （滑動圖片下方）, middle-bottom （中間區域下方）, not-use （不使用）
+//導覽列位置[navbar.tpl]，值： fixed-top （固定上方）, fixed-bottom （固定下方）, sticky-top（滑動圖片上方）, default （滑動圖片下方）, middle-bottom （中間區域下方）, not-use （不使用）
 \$config_enable['navbar_pos'] = array('enable' => '{$config_enable['navbar_pos']['enable']}', 'min' => '{$config_enable['navbar_pos']['min']}', 'max' => '{$config_enable['navbar_pos']['max']}', 'require' => '{$config_enable['navbar_pos']['require']}', 'default' => '{$config_enable['navbar_pos']['default']}');
 
-//導覽選單 漸層顏色(top)[theme_css_navbar.tpl]
+//導覽列 漸層顏色(top)[theme_css_navbar.tpl]
 \$config_enable['navbar_bg_top'] = array('enable' => '{$config_enable['navbar_bg_top']['enable']}', 'min' => '{$config_enable['navbar_bg_top']['min']}', 'max' => '{$config_enable['navbar_bg_top']['max']}', 'require' => '{$config_enable['navbar_bg_top']['require']}', 'default' => '{$config_enable['navbar_bg_top']['default']}');
 
-//導覽選單 漸層顏色(bottom)[theme_css_navbar.tpl]
+//導覽列 漸層顏色(bottom)[theme_css_navbar.tpl]
 \$config_enable['navbar_bg_bottom'] = array('enable' => '{$config_enable['navbar_bg_bottom']['enable']}', 'min' => '{$config_enable['navbar_bg_bottom']['min']}', 'max' => '{$config_enable['navbar_bg_bottom']['max']}', 'require' => '{$config_enable['navbar_bg_bottom']['require']}', 'default' => '{$config_enable['navbar_bg_bottom']['default']}');
 
-//導覽選單 連結區塊底色[theme_css_navbar.tpl]
+//導覽列 連結區塊底色[theme_css_navbar.tpl]
 \$config_enable['navbar_hover'] = array('enable' => '{$config_enable['navbar_hover']['enable']}', 'min' => '{$config_enable['navbar_hover']['min']}', 'max' => '{$config_enable['navbar_hover']['max']}', 'require' => '{$config_enable['navbar_hover']['require']}', 'default' => '{$config_enable['navbar_hover']['default']}');
 
 //上傳導覽列背景圖[navbar.tpl]，值：可指定置於「themes/佈景/images/nav_bg/」下的某一檔案名稱
 \$config_enable['navbar_img'] = array('enable' => '{$config_enable['navbar_img']['enable']}', 'min' => '{$config_enable['navbar_img']['min']}', 'max' => '{$config_enable['navbar_img']['max']}', 'require' => '{$config_enable['navbar_img']['require']}', 'default' => '{$navbar_img_default}');
 
-//導覽選單 文字顏色[theme_css_navbar.tpl]
+//導覽列 文字顏色[theme_css_navbar.tpl]
 \$config_enable['navbar_color'] = array('enable' => '{$config_enable['navbar_color']['enable']}', 'min' => '{$config_enable['navbar_color']['min']}', 'max' => '{$config_enable['navbar_color']['max']}', 'require' => '{$config_enable['navbar_color']['require']}', 'default' => '{$config_enable['navbar_color']['default']}');
 
-//導覽選單 文字移過顏色[theme_css_navbar.tpl]
+//導覽列 文字移過顏色[theme_css_navbar.tpl]
 \$config_enable['navbar_color_hover'] = array('enable' => '{$config_enable['navbar_color_hover']['enable']}', 'min' => '{$config_enable['navbar_color_hover']['min']}', 'max' => '{$config_enable['navbar_color_hover']['max']}', 'require' => '{$config_enable['navbar_color_hover']['require']}', 'default' => '{$config_enable['navbar_color_hover']['default']}');
 
-//導覽選單 圖示顏色[navbar.tpl]，值： icon-white （白色圖案）, '' （黑色圖案）
+//導覽列 圖示顏色[navbar.tpl]，值： icon-white （白色圖案）, '' （黑色圖案）
 \$config_enable['navbar_icon'] = array('enable' => '{$config_enable['navbar_icon']['enable']}', 'min' => '{$config_enable['navbar_icon']['min']}', 'max' => '{$config_enable['navbar_icon']['max']}', 'require' => '{$config_enable['navbar_icon']['require']}', 'default' => '{$config_enable['navbar_icon']['default']}');
 
-//導覽選單 導覽選項上下距離[theme_css_navbar.tpl]
+//導覽列 導覽選項上下距離[theme_css_navbar.tpl]
 \$config_enable['navbar_py'] = array('enable' => '{$config_enable['navbar_py']['enable']}', 'min' => '{$config_enable['navbar_py']['min']}', 'max' => '{$config_enable['navbar_py']['max']}', 'require' => '{$config_enable['navbar_py']['require']}', 'default' => '{$config_enable['navbar_py']['default']}');
 
-//導覽選單 導覽選項左右距離[theme_css_navbar.tpl]
+//導覽列 導覽選項左右距離[theme_css_navbar.tpl]
 \$config_enable['navbar_px'] = array('enable' => '{$config_enable['navbar_px']['enable']}', 'min' => '{$config_enable['navbar_px']['min']}', 'max' => '{$config_enable['navbar_px']['max']}', 'require' => '{$config_enable['navbar_px']['require']}', 'default' => '{$config_enable['navbar_px']['default']}');
 
-//導覽選單 導覽選項文字大小[theme_css_navbar.tpl]
+//導覽列 導覽選項文字大小[theme_css_navbar.tpl]
 \$config_enable['navbar_font_size'] = array('enable' => '{$config_enable['navbar_font_size']['enable']}', 'min' => '{$config_enable['navbar_font_size']['min']}', 'max' => '{$config_enable['navbar_font_size']['max']}', 'require' => '{$config_enable['navbar_font_size']['require']}', 'default' => '{$config_enable['navbar_font_size']['default']}');
 
 // 上傳導覽列logo圖[navbar.tpl]，值：可指定置於「themes/佈景/images/navlogo/」下的某一檔案名稱
 \$config_enable['navlogo_img'] = array('enable' => '{$config_enable['navlogo_img']['enable']}', 'min' => '{$config_enable['navlogo_img']['min']}', 'max' => '{$config_enable['navlogo_img']['max']}', 'require' => '{$config_enable['navlogo_img']['require']}', 'default' => '{$navlogo_img_default}');
 ";
-    if (empty($theme_config_name)) {
+
+    if ($main_theme) {
+        $file = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$to_theme_name}/config.php";
+        if (file_put_contents($file, $all_content)) {
+            return '<div>' . sprintf(_MA_TADTHEMES_CONFIG_PATH, $file) . '</div>';
+        } else {
+            return '<div>' . sprintf(_MA_TADTHEMES_CONFIG_PATH_ERROR, $file) . '</div>';
+        }
+
+    } elseif (empty($theme_config_name)) {
         header('Content-type: text/php');
         header('Content-Disposition: attachment; filename=config.php');
         echo $all_content;
@@ -1822,7 +1851,7 @@ tabs-6 導覽選單
 }
 
 // 匯出額外設定
-function export_config2($theme_id = '', $config2_file = 'config2', $theme_config_name = '', $from_theme_name = '', $to_theme_name = '')
+function export_config2($theme_id = '', $config2_file = 'config2', $main_theme = false, $theme_config_name = '', $from_theme_name = '', $to_theme_name = '')
 {
     global $xoopsConfig, $xoopsDB;
 
@@ -1830,6 +1859,7 @@ function export_config2($theme_id = '', $config2_file = 'config2', $theme_config
 
     if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php")) {
         require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php";
+        // Utility::dd($theme_config);
         if (empty($theme_config)) {
             return;
         }
@@ -1857,6 +1887,8 @@ function export_config2($theme_id = '', $config2_file = 'config2', $theme_config
             Utility::mk_dir($theme_config_image_path);
             Utility::mk_dir($theme_config_image_path . "/config2");
         }
+
+        $myts = \MyTextSanitizer::getInstance();
 
         // $theme_config 來自各個 config2 設定檔
         foreach ($theme_config as $item) {
@@ -1892,9 +1924,8 @@ function export_config2($theme_id = '', $config2_file = 'config2', $theme_config
         // if ($config2_file == "config2_logo") {
         //     Utility::dd($theme_config);
         // }
-        $myts = \MyTextSanitizer::getInstance();
 
-        if ($theme_config_name == '') {
+        if ($theme_config_name == '' && $main_theme == false) {
             header('Content-type: text/php');
             header("Content-Disposition: attachment; filename={$config2_file}.php");
         }
@@ -1943,8 +1974,10 @@ function export_config2($theme_id = '', $config2_file = 'config2', $theme_config
                 } elseif ($label == 'text' || $label == 'desc') {
                     if (strpos($value, 'TF_', 3) !== false) {
                         $value = substr(str_replace("TF_", " . TF_", $value), 3);
+                        $all_content .= "\$theme_config[\$i]['$label'] = $value;\n";
+                    } else {
+                        $all_content .= "\$theme_config[\$i]['$label'] = '$value';\n";
                     }
-                    $all_content .= "\$theme_config[\$i]['$label'] = $value;\n";
                 } elseif ($label == 'options' || $label == 'images') {
                     if ($setup_items['type'] == 'bg_file') {
                         $all_content .= "\$theme_config[\$i]['$label'] = \$bg_file;\n";
@@ -1971,7 +2004,10 @@ function export_config2($theme_id = '', $config2_file = 'config2', $theme_config
             }
         }
 
-        if ($theme_config_name == '') {
+        if ($main_theme) {
+            $file = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2_file}.php";
+            file_put_contents($file, $all_content);
+        } elseif ($theme_config_name == '') {
             echo $all_content;
             exit;
         } else {
@@ -2009,7 +2045,7 @@ function save_config($theme_id = '', $theme_config_name = '')
 
     // 匯出額外設定
     foreach ($config2_files as $config2_file) {
-        $msg .= export_config2($theme_id, $config2_file, $theme_config_name, $theme_name, $theme_name);
+        $msg .= export_config2($theme_id, $config2_file, false, $theme_config_name, $theme_name, $theme_name);
     }
 
     return $msg;
@@ -2051,8 +2087,6 @@ function import_config($theme_id = '', $theme_name = '')
 // 匯入遠端設定檔
 function import_style($theme_id = '', $theme_name = '', $style_param = '')
 {
-    global $xoopsConfig;
-
     list($module_name, $file_link, $update_sn, $module_sn) = explode(';', $style_param);
     // die("$module_name, $file_link, $update_sn, $module_sn");
     get_remote_file($theme_name, $module_name, $file_link, $update_sn, $module_sn);

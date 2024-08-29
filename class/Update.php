@@ -179,7 +179,7 @@ class Update
         $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
     }
 
-    //新增導覽選單欄位
+    //新增導覽列欄位
     public static function chk_chk4()
     {
         global $xoopsDB;

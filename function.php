@@ -355,7 +355,7 @@ function save_config2($theme_id = '', $config2_files = [], $mode = '')
                     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
                     $block = $xoopsDB->fetchArray($result);
                     $block['name'] = $myts->addSlashes($block['name']);
-                    // $block['content'] = $myts->addSlashes($block['content']);
+                    $block['content'] = $xoopsDB->escape($block['content']);
                     $block_value = $myts->addSlashes(json_encode($block, 256));
                 }
 
@@ -399,26 +399,27 @@ function save_config2($theme_id = '', $config2_files = [], $mode = '')
         }
     }
 
-    config2_json_file($theme_id);
+    // config2_json_file($theme_id);
 }
 
 // 重建 tad_themes_config2_xxx.json
-function config2_json_file($theme_id)
-{
-    global $xoopsDB;
+// function config2_json_file($theme_id)
+// {
+//     global $xoopsDB;
+//     return;
 
-    $sql = "select `name`, `type`, `value` from " . $xoopsDB->prefix("tad_themes_config2") . " where `theme_id`='{$theme_id}'";
-    $result = $xoopsDB->query($sql);
-    while (list($name, $type, $value) = $xoopsDB->fetchRow($result)) {
-        $config2[$name] = $value;
-    }
+//     $sql = "select `name`, `type`, `value` from " . $xoopsDB->prefix("tad_themes_config2") . " where `theme_id`='{$theme_id}'";
+//     $result = $xoopsDB->query($sql);
+//     while (list($name, $type, $value) = $xoopsDB->fetchRow($result)) {
+//         $config2[$name] = $value;
+//     }
 
-    $config2_json_file = XOOPS_VAR_PATH . "/data/tad_themes_config2_{$theme_id}.json";
-    unlink($config2_json_file);
+//     $config2_json_file = XOOPS_VAR_PATH . "/data/tad_themes_config2_{$theme_id}.json";
+//     unlink($config2_json_file);
 
-    $json_content = json_encode($config2, 256);
-    file_put_contents($config2_json_file, $json_content);
-}
+//     $json_content = json_encode($config2, 256);
+//     file_put_contents($config2_json_file, $json_content);
+// }
 
 //更新佈景的某個設定值
 function update_theme_config2($col = '', $file_name = '', $theme_id = '', $theme_name = '')
