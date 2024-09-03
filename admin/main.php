@@ -1010,9 +1010,8 @@ function insert_tad_themes()
 {
     global $xoopsDB, $TadDataCenter;
 
-    $myts = \MyTextSanitizer::getInstance();
     foreach ($_POST as $key => $value) {
-        $$key = $myts->addSlashes($value);
+        $$key = $xoopsDB->escape($value);
     }
 
     $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `theme_enable`='0'";
@@ -1067,9 +1066,8 @@ function update_tad_themes($theme_id = '', $theme_name = '')
 {
     global $xoopsDB, $TadDataCenter, $config2_files;
 
-    $myts = \MyTextSanitizer::getInstance();
     foreach ($_POST as $key => $value) {
-        $$key = $myts->addSlashes($value);
+        $$key = $xoopsDB->escape($value);
     }
     $logo_top = (int) $_POST['logo_top'];
     $logo_right = (int) $_POST['logo_right'];
@@ -1307,7 +1305,6 @@ function delete_tad_themes($theme_id = '')
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2/thumbs");
     $TadUpFiles_config2 = TadUpFiles_config2();
 
-    $myts = \MyTextSanitizer::getInstance();
     if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php")) {
         require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
     }
@@ -1888,8 +1885,6 @@ function export_config2($theme_id = '', $config2_file = 'config2', $main_theme =
             Utility::mk_dir($theme_config_image_path . "/config2");
         }
 
-        $myts = \MyTextSanitizer::getInstance();
-
         // $theme_config 來自各個 config2 設定檔
         foreach ($theme_config as $item) {
             $col = $item['name'];
@@ -1992,12 +1987,10 @@ function export_config2($theme_id = '', $config2_file = 'config2', $main_theme =
                             $all_content .= "\$theme_config[\$i]['$label'] = $value;\n";
                         }
                     } else {
-                        // $value = $myts->addSlashes($value);
                         $value = str_replace('"', '\"', $value);
                         $all_content .= "\$theme_config[\$i]['$label'] = \"$value\";\n";
                     }
                 } else {
-                    // $value = $myts->addSlashes($value);
                     $value = str_replace('"', '\"', $value);
                     $all_content .= "\$theme_config[\$i]['$label'] = \"$value\";\n";
                 }

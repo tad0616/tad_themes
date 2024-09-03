@@ -86,7 +86,7 @@ require_once __DIR__ . '/footer.php';
 //tad_themes_menu編輯表單
 function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
 {
-    global $xoopsDB, $xoopsTpl, $xoTheme, $xoopsModule;
+    global $xoopsTpl;
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     //抓取預設值
@@ -120,8 +120,8 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
     $get_tad_all_menu = '';
     if (!empty($menuid)) {
         $get_tad_all_menu = "
-          <label class='col-xs-3 control-label'>" . _MA_TADTHEMES_OF_LEVEL . _TAD_FOR . "</label>
-          <div class='col-xs-3'>
+          <label class='col-sm-3 control-label col-form-label text-md-right text-md-end'>" . _MA_TADTHEMES_OF_LEVEL . _TAD_FOR . "</label>
+          <div class='col-sm-3'>
             <select name='of_level' id='of_level' class='form-control'>
             <option value=''>" . _MA_TADTHEMES_ROOT . '</option>
             ' . get_tad_all_menu('', '', $of_level, $menuid, '1') . '
@@ -135,9 +135,9 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
     $apply_enable_group = '';
     if (!empty($menuid)) {
         $apply_enable_group = "
-        <div class='form-group'>
-            <label class='col-xs-3 control-label' for='itemurl'>" . _MA_TADTHEMES_APPLY_READGROUP . _TAD_FOR . "</label>
-            <div class='col-xs-9'>
+        <div class='form-group row mb-3'>
+            <label class='col-sm-3 control-label col-form-label text-md-right text-md-end' for='itemurl'>" . _MA_TADTHEMES_APPLY_READGROUP . _TAD_FOR . "</label>
+            <div class='col-sm-9'>
                 <input type='radio' name='apply_enable_group' value='1' checked> " . _YES . "
                 <input type='radio' name='apply_enable_group' value='0'> " . _NO . "
             </div>
@@ -147,28 +147,28 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
 
     $main = "
     <form method='post' id='myForm' enctype='multipart/form-data' class='form-horizontal' role='form'>
-        <div class='form-group'>
-            <label class='col-xs-3 control-label' for='icon'>" . _MA_TADTHEMES_ICON . _TAD_FOR . "</label>
-            <div class='col-xs-3'>
+        <div class='form-group row mb-3'>
+            <label class='col-sm-3 control-label col-form-label text-md-right text-md-end' for='icon'>" . _MA_TADTHEMES_ICON . _TAD_FOR . "</label>
+            <div class='col-sm-3'>
                 <input name='icon' class='selectpicker form-control' value='{$icon}' type='text'>
             </div>
             $get_tad_all_menu
         </div>
 
 
-        <div class='form-group'>
-            <label class='col-xs-3 control-label' for='itemname'>" . _MA_TADTHEMES_ITEMNAME . _TAD_FOR . "</label>
-            <div class='col-xs-9'>
+        <div class='form-group row mb-3'>
+            <label class='col-sm-3 control-label col-form-label text-md-right text-md-end' for='itemname'>" . _MA_TADTHEMES_ITEMNAME . _TAD_FOR . "</label>
+            <div class='col-sm-9'>
                 <input type='text' name='itemname' id='itemname' value='{$itemname}' class='form-control' placeholder='" . _MA_TADTHEMES_ITEMNAME . "'>
             </div>
         </div>
 
-        <div class='form-group'>
-            <label class='col-xs-3 control-label' for='itemurl'>" . _MA_TADTHEMES_ITEMURL . _TAD_FOR . "</label>
-            <div class='col-xs-6'>
+        <div class='form-group row mb-3'>
+            <label class='col-sm-3 control-label col-form-label text-md-right text-md-end' for='itemurl'>" . _MA_TADTHEMES_ITEMURL . _TAD_FOR . "</label>
+            <div class='col-sm-6'>
                 <input type='text' name='itemurl' id='itemurl' value='{$itemurl}' class='form-control' placeholder='" . _MA_TADTHEMES_ITEMURL . "'>
             </div>
-            <div class='col-xs-3'>
+            <div class='col-sm-3'>
                 <select name='target' class='form-control'>
                     <option value='_self'></option>
                     <option value='_blank' " . Utility::chk($target, '_blank', 0, 'selected') . '>' . _MA_TADTHEMES_TARGET_BLANK . "</option>
@@ -177,25 +177,25 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
             </div>
         </div>
 
-        <div class='form-group'>
-            <label class='col-xs-3 control-label' for='itemurl'>" . _MA_TADTHEMES_READGROUP . _TAD_FOR . "</label>
-            <div class='col-xs-9'>
+        <div class='form-group row mb-3'>
+            <label class='col-sm-3 control-label col-form-label text-md-right text-md-end' for='itemurl'>" . _MA_TADTHEMES_READGROUP . _TAD_FOR . "</label>
+            <div class='col-sm-9'>
                 {$enable_group}
             </div>
         </div>
 
         $apply_enable_group
 
-        <div class='form-group'>
-            <label class='col-xs-3 control-label' for='image'>" . _MA_TADTHEMES_ITEMICON . _TAD_FOR . "</label>
-            <div class='col-xs-8'>
+        <div class='form-group row mb-3'>
+            <label class='col-sm-3 control-label col-form-label text-md-right text-md-end' for='image'>" . _MA_TADTHEMES_ITEMICON . _TAD_FOR . "</label>
+            <div class='col-sm-8'>
                 <input type='file' name='image' id='image'>
             </div>
         </div>
 
-        <div class='form-group'>
-            <label class='col-xs-3 control-label' for='banner_image'>" . _MA_TADTHEMES_ITEMBANNER . _TAD_FOR . "</label>
-            <div class='col-xs-8'>
+        <div class='form-group row mb-3'>
+            <label class='col-sm-3 control-label col-form-label text-md-right text-md-end' for='banner_image'>" . _MA_TADTHEMES_ITEMBANNER . _TAD_FOR . "</label>
+            <div class='col-sm-8'>
                 <input type='file' name='banner_image' id='banner_image'>
             </div>
         </div>
@@ -223,22 +223,22 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
                 <link href='" . XOOPS_URL . "/modules/tadtools/css/font-awesome/css/font-awesome.min.css' rel='stylesheet'>
 
                 <script src='" . XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.js' type='text/javascript'></script>
-                <script src='" . XOOPS_URL . "/modules/tadtools/bootstrap3/js/bootstrap.min.js'></script>
+                <script src='" . XOOPS_URL . "/modules/tadtools/bootstrap5/js/bootstrap.min.js'></script>
                 $migrate
-                <link href='" . XOOPS_URL . "/modules/tad_themes/class/fontawesome-iconpicker/css/fontawesome-iconpicker.css' rel='stylesheet'>
-                <script src='" . XOOPS_URL . "/modules/tad_themes/class/fontawesome-iconpicker/js/fontawesome-iconpicker.min.js'></script>
+                <link href='" . XOOPS_URL . "/modules/tad_themes/class/simple-fontawesome-iconpicker/simple-iconpicker.min.css' rel='stylesheet'>
+                <script src='" . XOOPS_URL . "/modules/tad_themes/class/simple-fontawesome-iconpicker/simple-iconpicker.min.js'></script>
             </head>
             <body>
                 <div class='container-fluid'>
                     <div class='row'>
-                        <div class='col-xs-12'>
+                        <div class='col-sm-12'>
                             $main
                         </div>
                     </div>
                 </div>
                 <script type='text/javascript'>
                     $(document).ready(function(){
-                    $('.selectpicker').iconpicker();
+                    $('.selectpicker').iconpicker('.selectpicker');
                     $('#myForm').bind('submit', function()
                         {
                         $.ajax({
@@ -326,13 +326,13 @@ function get_max_sort($of_level = '')
 function insert_tad_themes_menu()
 {
     global $xoopsDB;
-    $myts = \MyTextSanitizer::getInstance();
+
     $of_level = (int) $_POST['of_level'];
     $position = (int) $_POST['position'];
-    $itemname = $myts->addSlashes($_POST['itemname']);
-    $itemurl = $myts->addSlashes($_POST['itemurl']);
-    $target = $myts->addSlashes($_POST['target']);
-    $icon = $myts->addSlashes($_POST['icon']);
+    $itemname = $xoopsDB->escape($_POST['itemname']);
+    $itemurl = $xoopsDB->escape($_POST['itemurl']);
+    $target = $xoopsDB->escape($_POST['target']);
+    $icon = $xoopsDB->escape($_POST['icon']);
     $read_group = implode(',', $_POST['read_group']);
 
     $sql = 'insert into ' . $xoopsDB->prefix('tad_themes_menu') . " (`of_level`,`position`,`itemname`,`itemurl`,`status`,`target`,`icon`,`read_group`) values('{$of_level}', '{$position}', '{$itemname}', '{$itemurl}', '1', '{$target}', '{$icon}', '{$read_group}')";
@@ -392,7 +392,7 @@ function list_tad_themes_menu($add_of_level = '', $menuid = '')
     $TreeTable = new TreeTable(false, 'menuid', 'of_level', '#tbl', 'save_drag.php', '.folder', '#save_msg', true, '.sort', 'save_sort.php', '#save_msg');
     $TreeTable->render();
 
-    $FancyBox = new FancyBox('.edit_dropdown', '800', '400');
+    $FancyBox = new FancyBox('.edit_dropdown', '800', '500');
     $FancyBox->render();
 
     $xoTheme->addStylesheet('modules/tadtools/css/font-awesome/css/font-awesome.min.css');
@@ -508,15 +508,15 @@ function get_tad_themes_menu($menuid = '')
 function update_tad_themes_menu($menuid = '')
 {
     global $xoopsDB;
-    $myts = \MyTextSanitizer::getInstance();
+
     $of_level = (int) $_POST['of_level'];
     $position = (int) $_POST['position'];
     $status = (int) $_POST['status'];
     $apply_enable_group = (int) $_POST['apply_enable_group'];
-    $itemname = $myts->addSlashes($_POST['itemname']);
-    $itemurl = $myts->addSlashes($_POST['itemurl']);
-    $target = $myts->addSlashes($_POST['target']);
-    $icon = $myts->addSlashes($_POST['icon']);
+    $itemname = $xoopsDB->escape($_POST['itemname']);
+    $itemurl = $xoopsDB->escape($_POST['itemurl']);
+    $target = $xoopsDB->escape($_POST['target']);
+    $icon = $xoopsDB->escape($_POST['icon']);
     $read_group = implode(',', $_POST['read_group']);
 
     $sql = 'update ' . $xoopsDB->prefix('tad_themes_menu') . " set  `of_level` = '{$of_level}', `position` = '{$position}', `itemname` = '{$itemname}', `itemurl` = '{$itemurl}', `status` = '{$status}', `target`='{$target}',`icon`='{$icon}', `read_group`='{$read_group}' where menuid='$menuid'";
@@ -568,14 +568,15 @@ function delete_tad_themes_menu($menuid = '')
 //取得分類下拉選單
 function get_tad_all_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '', $no_self = '1')
 {
-    global $xoopsDB, $xoopsUser, $xoopsModule;
+    global $xoopsDB;
 
+    $level = intval($level);
     if ($level >= 2) {
         return;
     }
 
-    //$left=$level*10;
-    $blank = str_repeat('&nbsp;', $level * 3);
+    $left = $level * 3;
+    $blank = str_repeat('&nbsp;', $left);
     $level += 1;
 
     $option = '';

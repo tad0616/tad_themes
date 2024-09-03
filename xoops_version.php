@@ -84,6 +84,14 @@ $modversion['config'][$i]['valuetype'] = 'int';
 $modversion['config'][$i]['default'] = 1;
 
 $i++;
+$modversion['config'][$i]['name'] = 'auto_mainmenu_icon';
+$modversion['config'][$i]['title'] = '_MI_TADTHEMES_AUTO_MENU_ICON';
+$modversion['config'][$i]['description'] = '_MI_TADTHEMES_AUTO_MENU_ICON_DESC';
+$modversion['config'][$i]['formtype'] = 'textbox';
+$modversion['config'][$i]['valuetype'] = 'text';
+$modversion['config'][$i]['default'] = 'fa-list';
+
+$i++;
 $modversion['config'][$i]['name'] = 'show_sitename';
 $modversion['config'][$i]['title'] = '_MI_TADTHEMES_SHOW_SITENAME';
 $modversion['config'][$i]['description'] = '_MI_TADTHEMES_SHOW_SITENAME_DESC';
@@ -125,6 +133,7 @@ $modversion['config'][$i]['description'] = '_MI_TADTHEMES_DESC4';
 $modversion['config'][$i]['formtype'] = 'textbox';
 $modversion['config'][$i]['valuetype'] = 'text';
 $modversion['config'][$i]['default'] = _MI_TADTHEMES_DEFAULT4;
+
 $i++;
 $modversion['config'][$i]['name'] = 'login_description';
 $modversion['config'][$i]['title'] = '_MI_TADTHEMES_TITLE5';

@@ -10,6 +10,8 @@ define('_MI_TADTHEMES_BNAME1', '佈景首頁滑動區塊');
 define('_MI_TADTHEMES_BDESC1', '佈景首頁滑動區塊');
 define('_MI_TADTHEMES_AUTO_MENU', '顯示主選單下拉選單');
 define('_MI_TADTHEMES_AUTO_MENU_DESC', '是否在選單列自動產生主選單下拉選單？');
+define('_MI_TADTHEMES_AUTO_MENU_ICON', '主選單圖示');
+define('_MI_TADTHEMES_AUTO_MENU_ICON_DESC', '請用<a href="https://fontawesome.com/v4/icons/" target="_blank">FontAwesome 4.7圖示</a>，只要填主要名稱即可，如：「fa-list」');
 define('_MI_TADTHEMES_SHOW_SITENAME', '是否在工具列顯示網站標題文字');
 define('_MI_TADTHEMES_SHOW_SITENAME_DESC', '選否會隱藏標題（適合拿logo來取代之的情形）');
 define('_MI_TADTHEMES_BNAME2', '上方隱藏選單');

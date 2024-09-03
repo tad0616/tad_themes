@@ -246,19 +246,18 @@ function save_blocks($theme_id = '', $import = false, $mode = '')
         }
     }
 
-    $myts = \MyTextSanitizer::getInstance();
     foreach ($block_position_title as $position => $title) {
-        $block_config = $myts->addSlashes($block_config_arr[$position]);
-        $bt_text = $myts->addSlashes($bt_text_arr[$position]);
-        $bt_text_padding = $myts->addSlashes($bt_text_padding_arr[$position]);
-        $bt_text_size = $myts->addSlashes($bt_text_size_arr[$position]);
-        $bt_bg_color = $myts->addSlashes($bt_bg_color_arr[$position]);
-        $bt_bg_img = $myts->addSlashes($bt_bg_img_arr[$position]);
-        $bt_bg_repeat = $myts->addSlashes($bt_bg_repeat_arr[$position]);
-        $bt_radius = $myts->addSlashes($bt_radius_arr[$position]);
-        $block_style = $myts->addSlashes($block_style_arr[$position]);
-        $block_title_style = $myts->addSlashes($block_title_style_arr[$position]);
-        $block_content_style = $myts->addSlashes($block_content_style_arr[$position]);
+        $block_config = $xoopsDB->escape($block_config_arr[$position]);
+        $bt_text = $xoopsDB->escape($bt_text_arr[$position]);
+        $bt_text_padding = $xoopsDB->escape($bt_text_padding_arr[$position]);
+        $bt_text_size = $xoopsDB->escape($bt_text_size_arr[$position]);
+        $bt_bg_color = $xoopsDB->escape($bt_bg_color_arr[$position]);
+        $bt_bg_img = $xoopsDB->escape($bt_bg_img_arr[$position]);
+        $bt_bg_repeat = $xoopsDB->escape($bt_bg_repeat_arr[$position]);
+        $bt_radius = $xoopsDB->escape($bt_radius_arr[$position]);
+        $block_style = $xoopsDB->escape($block_style_arr[$position]);
+        $block_title_style = $xoopsDB->escape($block_title_style_arr[$position]);
+        $block_content_style = $xoopsDB->escape($block_content_style_arr[$position]);
 
         $bt_text_padding = (int) $bt_text_padding;
         $bt_bg_repeat = (int) $bt_bg_repeat;
