@@ -24,8 +24,6 @@
             </div>
             <label class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_LOGO_TEXT_COLOR}></label>
             <div class="col-sm-4">
-                <{* <input type="text" name="color" class="form-control color-picker" value="#<{$color}>" id="font_color" data-hex="true"> *}>
-                <div class="input-group">
                     <input type="text" name="color" id="font_color" value="#<{$color}>" class="form-control color-picker" data-hex="true">
                 </div>
             </div>
@@ -37,7 +35,6 @@
             </div>
             <label class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_LOGO_BORDER_COLOR}></label>
             <div class="col-sm-4">
-                <{* <input type="text" name="border_color" class="form-control color-picker" value="#<{$border_color}>" id="border_color" data-hex="true"> *}>
                 <div class="input-group">
                     <input type="text" name="border_color" id="border_color" value="#<{$border_color}>" class="form-control color-picker" data-hex="true">
                 </div>
