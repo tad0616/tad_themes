@@ -1,7 +1,7 @@
 <!--佈景類型-->
 <div class="form-group row mb-3">
     <!--版面類型-->
-    <{if $enable.theme_type}>
+    <{if $enable.theme_type|default:false}>
         <label class="col-sm-2 col-form-label text-sm-right control-label">
             <{$smarty.const._MA_TADTHEMES_THEME_TYPE}>
         </label>
@@ -26,7 +26,7 @@
         <{$smarty.const._MA_TADTHEMES_THEME_WIDTH}>
     </label>
     <div class="col-sm-2">
-        <{if $enable.theme_width}>
+        <{if $enable.theme_width|default:false}>
             <div class="input-group">
                 <input type="text" name="theme_width" class="form-control <{$validate.theme_width}>" value="<{$theme_width}>" id="theme_width">
                 <div class="input-group-append input-group-addon">
@@ -44,7 +44,7 @@
         <{$smarty.const._MA_TADTHEMES_BASE_COLOR}>
     </label>
     <div class="col-sm-2">
-        <{if $enable.base_color}>
+        <{if $enable.base_color|default:false}>
             <{* <input type="text" name="base_color" class="form-control color-picker <{$validate.base_color}>" value="<{$base_color}>" id="base_color" data-hex="true" onChange="change_css();"> *}>
             <div class="input-group">
                 <input type="text" name="base_color" id="base_color" value="<{$base_color}>" class="form-control color-picker <{$validate.base_color}>"  onChange="change_css();" data-hex="true">
@@ -58,7 +58,7 @@
 
 <div class="form-group row mb-3">
     <!--左區塊顏色-->
-    <{if $enable.lb_color}>
+    <{if $enable.lb_color|default:false}>
         <label class="col-sm-2 col-form-label text-sm-right control-label">
             <{$smarty.const._MA_TADTHEMES_LB_COLOR}>
         </label>
@@ -72,7 +72,7 @@
     <{/if}>
 
     <!--中區塊顏色-->
-    <{if $enable.cb_color}>
+    <{if $enable.cb_color|default:false}>
         <label class="col-sm-2 col-form-label text-sm-right control-label">
             <{$smarty.const._MA_TADTHEMES_CB_COLOR}>
         </label>
@@ -87,7 +87,7 @@
     <{/if}>
 
     <!--右區塊顏色-->
-    <{if $enable.rb_color}>
+    <{if $enable.rb_color|default:false}>
         <label class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_RB_COLOR}></label>
         <div class="col-sm-2">
             <{* <input type="text" name="rb_color" id="rb_color" value="<{$rb_color}>" class="form-control color-picker <{$validate.rb_color}>" data-hex="true" onChange="change_css();"> *}>
@@ -102,7 +102,7 @@
 
 <div class="form-group row mb-3">
     <!--左區塊寬度-->
-    <{if $enable.lb_width}>
+    <{if $enable.lb_width|default:false}>
         <label class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_LB_WIDTH}></label>
         <div class="col-sm-2">
             <div class="input-group">
@@ -117,7 +117,7 @@
     <{/if}>
 
     <!--中區塊寬度-->
-    <{if $enable.cb_width}>
+    <{if $enable.cb_width|default:false}>
         <label class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_CB_WIDTH}></label>
         <div class="col-sm-2">
             <div class="input-group">
@@ -132,7 +132,7 @@
     <{/if}>
 
     <!--右區塊寬度-->
-    <{if $enable.rb_width}>
+    <{if $enable.rb_width|default:false}>
         <label class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_RB_WIDTH}></label>
         <div class="col-sm-2">
             <div class="input-group">
@@ -149,7 +149,7 @@
 
 <div class="form-group row mb-3">
     <!--文字大小-->
-    <{if $enable.font_size}>
+    <{if $enable.font_size|default:false}>
         <label class="col-sm-2 col-form-label text-sm-right control-label">
             <{$smarty.const._MA_TADTHEMES_FONT_SIZE}>
         </label>
@@ -161,7 +161,7 @@
     <{/if}>
 
     <!--離上邊界距離-->
-    <{if $enable.margin_top}>
+    <{if $enable.margin_top|default:false}>
         <label class="col-sm-2 col-form-label text-sm-right control-label">
             <{$smarty.const._MA_TADTHEMES_MARGIN_TOP}>
         </label>
@@ -178,7 +178,7 @@
     <{/if}>
 
     <!--離下邊界距離-->
-    <{if $enable.margin_bottom}>
+    <{if $enable.margin_bottom|default:false}>
         <label class="col-sm-2 col-form-label text-sm-right control-label">
             <{$smarty.const._MA_TADTHEMES_MARGIN_BOTTOM}>
         </label>
@@ -197,7 +197,7 @@
 
 <div class="form-group row mb-3">
     <!--文字顏色-->
-    <{if $enable.font_color}>
+    <{if $enable.font_color|default:false}>
         <label class="col-sm-2 col-form-label text-sm-right control-label">
             <{$smarty.const._MA_TADTHEMES_FONT_COLOR}>
         </label>
@@ -212,7 +212,7 @@
     <{/if}>
 
     <!--連結顏色-->
-    <{if $enable.link_color}>
+    <{if $enable.link_color|default:false}>
         <label class="col-sm-2 col-form-label text-sm-right control-label">
             <{$smarty.const._MA_TADTHEMES_LINK_COLOR}>
         </label>
@@ -227,7 +227,7 @@
     <{/if}>
 
     <!--滑鼠移到連結顏色-->
-    <{if $enable.hover_color}>
+    <{if $enable.hover_color|default:false}>
         <label class="col-sm-2 col-form-label text-sm-right control-label">
             <{$smarty.const._MA_TADTHEMES_HOVER_COLOR}>
         </label>
@@ -242,7 +242,7 @@
     <{/if}>
 </div>
 
-<{if $config2_base}>
+<{if $config2_base|default:false}>
     <div class="alert alert-warning">
         <h4>
             <{$smarty.const._MA_TADTHEMES_THEME_BASE}><{$smarty.const._MA_TADTHEMES_CONFIG2}>

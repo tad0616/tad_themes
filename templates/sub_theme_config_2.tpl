@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-5">
-        <{if $enable.bg_img}>
+        <{if $enable.bg_img|default:false}>
             <div class="form-group row mb-3">
                 <!-- 上傳 背景圖-->
                 <label class="col-sm-4 col-form-label text-sm-right control-label">
@@ -16,7 +16,7 @@
         <{/if}>
 
 
-        <{if $enable.bg_color}>
+        <{if $enable.bg_color|default:false}>
             <div class="form-group row mb-3">
                 <!-- 背景顏色-->
                 <label class="col-sm-4 col-form-label text-sm-right control-label">
@@ -33,7 +33,7 @@
             <input type="hidden" name="bg_color" id="bg_color" value="<{$bg_color}>">
         <{/if}>
 
-        <{if $enable.bg_repeat}>
+        <{if $enable.bg_repeat|default:false}>
         <div class="form-group row mb-3">
             <!-- 背景重複-->
             <label class="col-sm-4 col-form-label text-sm-right control-label">
@@ -52,7 +52,7 @@
         <input type="hidden" name="bg_repeat" id="bg_repeat" value="<{$bg_repeat}>">
         <{/if}>
 
-        <{if $enable.bg_size}>
+        <{if $enable.bg_size|default:false}>
         <div class="form-group row mb-3">
             <!-- 背景縮放-->
             <label class="col-sm-4 col-form-label text-sm-right control-label">
@@ -72,7 +72,7 @@
         <{/if}>
 
 
-        <{if $enable.bg_attachment}>
+        <{if $enable.bg_attachment|default:false}>
         <div class="form-group row mb-3">
             <!-- 背景模式-->
             <label class="col-sm-4 col-form-label text-sm-right control-label">
@@ -90,7 +90,7 @@
         <{/if}>
 
 
-        <{if $enable.bg_position}>
+        <{if $enable.bg_position|default:false}>
         <div class="form-group row mb-3">
             <!-- 背景位置-->
             <label class="col-sm-4 col-form-label text-sm-right control-label">
@@ -139,7 +139,7 @@
     </div>
 </div>
 
-<{if $config2_bg}>
+<{if $config2_bg|default:false}>
     <div class="alert alert-warning">
         <h4>
             <{$smarty.const._MA_TADTHEMES_BG_IMG}><{$smarty.const._MA_TADTHEMES_CONFIG2}>

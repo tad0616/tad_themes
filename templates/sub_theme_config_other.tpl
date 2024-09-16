@@ -67,7 +67,7 @@
                                     </optgroup>
                                 <{/foreach}>
                             </select>
-                            <{if $config.bid}>
+                            <{if $config.bid|default:false}>
                                 <{if $adv_bids|is_array && $config.bid|in_array:$adv_bids}>
                                     <a href="<{$xoops}>/modules/tad_blocks/index.php?op=block_form&bid=<{$config.bid}>" target="_blank"><{$smarty.const._TAD_EDIT}></a>
                                 <{else}>

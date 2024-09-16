@@ -229,7 +229,7 @@
                 </label>
             </div>
 
-            <{if $all_navbar_img}>
+            <{if $all_navbar_img|default:false}>
                 <{foreach from=$all_navbar_img item=navbarbg}>
                     <div class="thumb_div">
                         <label for="navbar_img<{$navbarbg.files_sn}>" class="thumb_label" style="background-image: url('<{$navbarbg.tb_path}>'), url('../images/t.gif');" >
@@ -276,7 +276,7 @@
                 </label>
             </div>
 
-            <{if $all_navlogo}>
+            <{if $all_navlogo|default:false}>
                 <{foreach from=$all_navlogo item=navlogo}>
                     <div class="thumb_div">
                         <label for="logo_img<{$navlogo.files_sn}>" class="thumb_label" style="background-image: url('<{$navlogo.tb_path}>'), url('../images/t.gif');" >
@@ -293,7 +293,7 @@
     <{/if}>
 </div>
 
-<{if $config2_nav}>
+<{if $config2_nav|default:false}>
     <div class="alert alert-warning">
         <h4>
             <{$smarty.const._MA_TADTHEMES_NAVBAR}><{$smarty.const._MA_TADTHEMES_CONFIG2}>

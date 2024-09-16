@@ -1,5 +1,5 @@
 <h2><{$smarty.const._MA_TADTHEMES_LOGO_DESIGN}></h2>
-<{if $fonts}>
+<{if $fonts|default:false}>
     <form action="font2pic.php" id="myForm" method="post" role="form" class="form-horizontal">
         <div class="form-group row mb-3">
             <label for="title" class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_LOGO_INPUT_TEXT}></label>
@@ -89,7 +89,7 @@
 <{/if}>
 
 <form action="font2pic.php" method="post" style="text-align:center;">
-    <{if $pic}>
+    <{if $pic|default:false}>
         <div class="text-center" style="margin: 30px auto;">
             <span style="background: url('../images/t.gif'); display: inline-block;">
                 <img src="<{$pic}>" alt="logo">
@@ -114,7 +114,7 @@
 
     <{/if}>
 
-    <{if $logos}>
+    <{if $logos|default:false}>
         <script>
             function change_css(){
                 $('#demo').css('background-color',$('#bg_color').val());

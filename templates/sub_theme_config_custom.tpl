@@ -1,5 +1,5 @@
 
-<{if $custom_config2}>
+<{if $custom_config2|default:false}>
     <div class="alert alert-warning">
         <h4>
             <{$config.label}><{$smarty.const._MA_TADTHEMES_CONFIG2}>

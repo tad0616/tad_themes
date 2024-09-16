@@ -34,7 +34,7 @@
 </div>
 
 
-<{if $config2_slide}>
+<{if $config2_slide|default:false}>
     <div class="alert alert-warning">
         <h4>
             <{$smarty.const._MA_TAD_THEMES_HEAD}><{$smarty.const._MA_TADTHEMES_CONFIG2}>

@@ -5,7 +5,7 @@
     </label>
 </div>
 
-<{if $config.default}>
+<{if $config.default|default:false}>
     <div class="thumb_div">
         <label for="<{$config.name}>" class="thumb_label" style="background-image: url('<{$xoops_url}>/themes/school2019/images/config2/<{$config.default}>'), url('../images/t.gif');" >
         <input type="radio" name="<{$config.name}>" id="<{$config.name}><{$file.files_sn}>" value="<{$config.default}>"  <{if $config.value==$config.default}>checked<{/if}>>

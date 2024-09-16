@@ -17,7 +17,7 @@
             <i class="fa fa-plus-circle text-success" aria-hidden="true" title="<{$add_item}>" style="font-size: 1.5rem;margin:0px 10px;"></i></a>
         </td>
     <tr>
-    <{if $all}>
+    <{if $all|default:false}>
         <tbody class="sort">
             <{$all}>
             <{$option}>

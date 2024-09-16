@@ -50,7 +50,7 @@
                     <{$smarty.const._MA_TADTHEMES_CHANGE_KIND_DESC}>
                 </div>
 
-                <{if $theme_change}>
+                <{if $theme_change|default:false}>
                     <{foreach from=$theme_kind_arr item=kind}>
                         <div class="form-check radio">
                             <label class="form-check-label" for="theme_kind">

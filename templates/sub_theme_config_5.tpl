@@ -215,7 +215,7 @@
 </p>
 <div style="clear:both;"></div>
 
-<{if $config2_block}>
+<{if $config2_block|default:false}>
     <div class="alert alert-warning">
         <h4>
             <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE}><{$smarty.const._MA_TADTHEMES_CONFIG2}>

@@ -133,7 +133,7 @@
                 </label>
             </div>
 
-            <{if $all_logo}>
+            <{if $all_logo|default:false}>
                 <{foreach from=$all_logo item=logo}>
                 <div class="thumb_div">
                     <label for="logo_img<{$logo.files_sn}>" class="thumb_label" style="background-image: url('<{$logo.tb_path}>'), url('../images/t.gif');" >
@@ -152,7 +152,7 @@
 </div>
 
 
-<{if $config2_logo}>
+<{if $config2_logo|default:false}>
     <div class="alert alert-warning">
         <h4>
             <{$smarty.const._MA_TADTHEMES_LOGO_IMG}><{$smarty.const._MA_TADTHEMES_CONFIG2}>
