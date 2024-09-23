@@ -8,11 +8,11 @@
                     <{$smarty.const._MA_TADTHEMES_BG_IMG}>
                 </label>
                 <div class="col-sm-8">
-                    <{$upform_bg}>
+                    <{$upform_bg|default:''}>
                 </div>
             </div>
         <{else}>
-            <input type="hidden" name="bg_img" id="bg_img" value="<{$bg_img}>">
+            <input type="hidden" name="bg_img" id="bg_img" value="<{$bg_img|default:''}>">
         <{/if}>
 
 
@@ -23,14 +23,14 @@
                     <{$smarty.const._MA_TADTHEMES_BG_COLOR}>
                 </label>
                 <div class="col-sm-8">
-                    <{* <input type="text" name="bg_color" id="bg_color" value="<{$bg_color}>" class="form-control color-picker <{$validate.bg_color}>" data-hex="true"  onChange="change_css();"> *}>
+                    <{* <input type="text" name="bg_color" id="bg_color" value="<{$bg_color|default:''}>" class="form-control color-picker <{$validate.bg_color}>" data-hex="true"  onChange="change_css();"> *}>
                     <div class="input-group">
-                        <input type="text" name="bg_color" id="bg_color" value="<{$bg_color}>" class="form-control color-picker <{$validate.bg_color}>"  onChange="change_css();" data-hex="true">
+                        <input type="text" name="bg_color" id="bg_color" value="<{$bg_color|default:''}>" class="form-control color-picker <{$validate.bg_color}>"  onChange="change_css();" data-hex="true">
                     </div>
                 </div>
             </div>
         <{else}>
-            <input type="hidden" name="bg_color" id="bg_color" value="<{$bg_color}>">
+            <input type="hidden" name="bg_color" id="bg_color" value="<{$bg_color|default:''}>">
         <{/if}>
 
         <{if $enable.bg_repeat|default:false}>
@@ -49,7 +49,7 @@
             </div>
         </div>
         <{else}>
-        <input type="hidden" name="bg_repeat" id="bg_repeat" value="<{$bg_repeat}>">
+        <input type="hidden" name="bg_repeat" id="bg_repeat" value="<{$bg_repeat|default:''}>">
         <{/if}>
 
         <{if $enable.bg_size|default:false}>
@@ -68,7 +68,7 @@
             </div>
         </div>
         <{else}>
-        <input type="hidden" name="bg_size" id="bg_size" value="<{$bg_size}>">
+        <input type="hidden" name="bg_size" id="bg_size" value="<{$bg_size|default:''}>">
         <{/if}>
 
 
@@ -86,7 +86,7 @@
             </div>
         </div>
         <{else}>
-        <input type="hidden" name="bg_attachment" id="bg_attachment" value="<{$bg_attachment}>">
+        <input type="hidden" name="bg_attachment" id="bg_attachment" value="<{$bg_attachment|default:''}>">
         <{/if}>
 
 
@@ -111,7 +111,7 @@
             </div>
         </div>
         <{else}>
-        <input type="hidden" name="bg_position" id="bg_position" value="<{$bg_position}>">
+        <input type="hidden" name="bg_position" id="bg_position" value="<{$bg_position|default:''}>">
         <{/if}>
     </div>
 
@@ -149,5 +149,5 @@
     <{foreach from=$config2_bg item=config}>
         <{include file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
     <{/foreach}>
-    <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config2&theme_id=<{$theme_id}>&config2_file=config2_bg" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2">config2_bg.php</a>
+    <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config2&theme_id=<{$theme_id|default:''}>&config2_file=config2_bg" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2">config2_bg.php</a>
 <{/if}>

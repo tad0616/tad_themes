@@ -4,7 +4,7 @@
 
         $('select.selectpicker').selectpicker();
         change_css();
-        preview_img("bg","<{$bg_img}>");
+        preview_img("bg","<{$bg_img|default:''}>");
 
         <{if $logo_position=="page"}>
             $("#logo_place_setup").hide();
@@ -34,7 +34,7 @@
         }
     }
 
-    <{$chang_css}>
+    <{$chang_css|default:''}>
 </script>
 
 <div class="container-fluid">
@@ -42,9 +42,9 @@
         <div class="row">
             <div class="col-sm-8">
                 <h1>
-                    <{$theme_name}><{$smarty.const._MA_TAD_THEMES_FORM}>
+                    <{$theme_name|default:''}><{$smarty.const._MA_TAD_THEMES_FORM}>
 
-                    <a href="javascript:delete_tad_themes_config(<{$theme_id}>)" class="btn btn-danger"><{$smarty.const._MA_TADTHEMES_TO_DEFAULT}></a>
+                    <a href="javascript:delete_tad_themes_config(<{$theme_id|default:''}>)" class="btn btn-danger"><{$smarty.const._MA_TADTHEMES_TO_DEFAULT}></a>
                 </h1>
                 <div class="alert alert-info">
                     <{$smarty.const._MA_TADTHEMES_CHANGE_KIND_DESC}>
@@ -54,18 +54,18 @@
                     <{foreach from=$theme_kind_arr item=kind}>
                         <div class="form-check radio">
                             <label class="form-check-label" for="theme_kind">
-                                <input class="form-check-input" type="radio" name="theme_kind" id="theme_kind" value="<{$kind}>" <{if $theme_kind==$kind}>checked<{/if}>>
-                                <{$kind}>
+                                <input class="form-check-input" type="radio" name="theme_kind" id="theme_kind" value="<{$kind|default:''}>" <{if $theme_kind==$kind}>checked<{/if}>>
+                                <{$kind|default:''}>
                                 <{$theme_kind_txt_arr.$kind}>
                             </label>
                         </div>
                     <{/foreach}>
 
-                    <input type="hidden" name="old_theme_kind" value="<{$theme_kind}>">
+                    <input type="hidden" name="old_theme_kind" value="<{$theme_kind|default:''}>">
                 <{else}>
                     <p style="margin: 20px 0px;">
-                        <{$theme_kind}><{$theme_kind_txt}>
-                        <input type="hidden" name="theme_kind" value="<{$theme_kind}>">
+                        <{$theme_kind|default:''}><{$theme_kind_txt|default:''}>
+                        <input type="hidden" name="theme_kind" value="<{$theme_kind|default:''}>">
                     </p>
                 <{/if}>
 
@@ -92,7 +92,7 @@
                                         <{assign var="sub_theme_config" value="sub_theme_config_`$key`"}>
                                         <{include file="$xoops_rootpath/modules/tad_themes/templates/`$sub_theme_config`.tpl"}>
 
-                                        <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config&theme_id=<{$theme_id}>" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2">config.php</a>
+                                        <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config&theme_id=<{$theme_id|default:''}>" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2">config.php</a>
                                     </div>
                                     <{else}>
                                         <{assign var="sub_theme_no_config" value="sub_theme_no_config_`$key`"}>
@@ -101,9 +101,9 @@
                                 <{elseif $config.type=='config2'}>
                                     <div>
                                         <{assign var="custom_config2" value=$custom_tabs_data[$config_file]}>
-                                        <input type="hidden" name="config2[]" value="<{$config_file}>">
+                                        <input type="hidden" name="config2[]" value="<{$config_file|default:''}>">
                                         <{include file="$xoops_rootpath/modules/tad_themes/templates/`$config.tpl`.tpl"}>
-                                        <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config2&theme_id=<{$theme_id}>&config2_file=<{$config_file}>" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2"><{$config_file}>.php</a>
+                                        <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config2&theme_id=<{$theme_id|default:''}>&config2_file=<{$config_file|default:''}>" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2"><{$config_file|default:''}>.php</a>
                                     </div>
                                 <{/if}>
                             <{/if}>
@@ -127,14 +127,14 @@
 
                 <div id="save_theme_config" class="text-center d-grid gap-2" style="margin: 30px 0px;">
                     <!--中左區塊寬度-->
-                    <input type="hidden" name="clb_width" value="<{$clb_width}>" id="clb_width" >
+                    <input type="hidden" name="clb_width" value="<{$clb_width|default:''}>" id="clb_width" >
                     <!--中右區塊寬度-->
-                    <input type="hidden" name="crb_width" value="<{$crb_width}>" id="crb_width" >
-                    <input type="hidden" name="theme_id" value="<{$theme_id}>">
-                    <input type="hidden" name="theme_name" value="<{$theme_name}>">
+                    <input type="hidden" name="crb_width" value="<{$crb_width|default:''}>" id="crb_width" >
+                    <input type="hidden" name="theme_id" value="<{$theme_id|default:''}>">
+                    <input type="hidden" name="theme_name" value="<{$theme_name|default:''}>">
 
                     <!--佈景圖片寬度-->
-                    <button type="submit" name="op" value="<{$op}>" class="btn btn-primary btn-lg btn-block border border-light border-4" style="box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.5);">
+                    <button type="submit" name="op" value="<{$op|default:''}>" class="btn btn-primary btn-lg btn-block border border-light border-4" style="box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.5);">
                         <i class="fa fa-save" aria-hidden="true"></i> <{$smarty.const._TAD_SAVE}>
                     </button>
                 </div>

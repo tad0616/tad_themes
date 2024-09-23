@@ -29,7 +29,7 @@
         <{$smarty.const._MA_TAD_THEMES_HEAD}>
     </label>
     <div class="col-sm-10">
-        <{$upform_slide}>
+        <{$upform_slide|default:''}>
     </div>
 </div>
 
@@ -44,5 +44,5 @@
     <{foreach from=$config2_slide item=config}>
         <{include file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
     <{/foreach}>
-    <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config2&theme_id=<{$theme_id}>&config2_file=config2_slide" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2">config2_slide.php</a>
+    <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config2&theme_id=<{$theme_id|default:''}>&config2_file=config2_slide" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2">config2_slide.php</a>
 <{/if}>

@@ -34,27 +34,27 @@
             <{elseif $config.type=="radio"}>
                 <{foreach from=$config.options key=val item=opt}>
                     <div class="form-check form-check-inline radio-inline">
-                        <label class="form-check-label" for="<{$config.name}>_<{$val}>">
-                            <input class="form-check-input" type="radio" name="<{$config.name}>" id="<{$config.name}>_<{$val}>" value="<{$val}>" <{if $config.value==$val}>checked<{/if}>>
-                            <{$opt}>
+                        <label class="form-check-label" for="<{$config.name}>_<{$val|default:''}>">
+                            <input class="form-check-input" type="radio" name="<{$config.name}>" id="<{$config.name}>_<{$val|default:''}>" value="<{$val|default:''}>" <{if $config.value==$val}>checked<{/if}>>
+                            <{$opt|default:''}>
                         </label>
                     </div>
                 <{/foreach}>
             <{elseif $config.type=="checkbox"}>
                 <{foreach from=$config.options key=val item=opt}>
                     <div class="form-check form-check-inline checkbox-inline">
-                        <label class="form-check-label" for="<{$config.name}>_<{$val}>">
-                            <input class="form-check-input" type="checkbox" name="<{$config.name}>[]" id="<{$config.name}>_<{$val}>" value="<{$val}>" <{if $config.value|is_array && $val|in_array:$config.value}>checked<{/if}>>
-                            <{$opt}>
+                        <label class="form-check-label" for="<{$config.name}>_<{$val|default:''}>">
+                            <input class="form-check-input" type="checkbox" name="<{$config.name}>[]" id="<{$config.name}>_<{$val|default:''}>" value="<{$val|default:''}>" <{if $config.value|is_array && $val|in_array:$config.value}>checked<{/if}>>
+                            <{$opt|default:''}>
                         </label>
                         <{if $val=='block'}>
                             <{assign var="conf_name" value=$config.name}>
                             <select name="<{$config.name}>_bid" style="border: 1px solid #acacac">
                                 <option value="" <{if $bid == ""}>selected<{/if}>></option>
                                 <{foreach from=$blocks key=mod_name item=mod_blocks}>
-                                    <optgroup label="<{$mod_name}>">
+                                    <optgroup label="<{$mod_name|default:''}>">
                                         <{foreach from=$mod_blocks key=bid item=block}>
-                                            <option value="<{$bid}>" <{if $bid == $config.bid}>selected<{/if}>>
+                                            <option value="<{$bid|default:''}>" <{if $bid == $config.bid}>selected<{/if}>>
                                                 <{if $block.name|strpos:$smarty.const._MA_TADTHEMES_BLOCKS_CUSTOM !== false}>
                                                     <{$block.title}><{$block.name|replace:$smarty.const._MA_TADTHEMES_BLOCKS_CUSTOM:''}>
                                                 <{elseif $block.title|strpos:$block.name !== false}>
@@ -69,9 +69,9 @@
                             </select>
                             <{if $config.bid|default:false}>
                                 <{if $adv_bids|is_array && $config.bid|in_array:$adv_bids}>
-                                    <a href="<{$xoops}>/modules/tad_blocks/index.php?op=block_form&bid=<{$config.bid}>" target="_blank"><{$smarty.const._TAD_EDIT}></a>
+                                    <a href="<{$xoops|default:''}>/modules/tad_blocks/index.php?op=block_form&bid=<{$config.bid}>" target="_blank"><{$smarty.const._TAD_EDIT}></a>
                                 <{else}>
-                                    <a href="<{$xoops}>/modules/system/admin.php?fct=blocksadmin&op=edit&bid=<{$config.bid}>" target="_blank"><{$smarty.const._TAD_EDIT}></a>
+                                    <a href="<{$xoops|default:''}>/modules/system/admin.php?fct=blocksadmin&op=edit&bid=<{$config.bid}>" target="_blank"><{$smarty.const._TAD_EDIT}></a>
                                 <{/if}>
                             <{/if}>
                         <{/if}>
@@ -80,13 +80,13 @@
             <{elseif $config.type=="select"}>
                 <select name="<{$config.name}>" id="<{$config.name}>" class="form-control">
                     <{foreach from=$config.options key=val item=opt}>
-                        <option value="<{$val}>" <{if $config.value==$val}>selected<{/if}>><{$opt}></option>
+                        <option value="<{$val|default:''}>" <{if $config.value==$val}>selected<{/if}>><{$opt|default:''}></option>
                     <{/foreach}>
                 </select>
             <{elseif $config.type=="selectpicker"}>
                 <select name="<{$config.name}>" id="<{$config.name}>" class="form-control selectpicker">
                     <{foreach from=$config.options key=val item=opt}>
-                        <option data-content="<img src='<{$config.images.$val}>'> <{$opt}>" value="<{$val}>" <{if $config.value==$val}>selected<{/if}>></option>
+                        <option data-content="<img src='<{$config.images.$val}>'> <{$opt|default:''}>" value="<{$val|default:''}>" <{if $config.value==$val}>selected<{/if}>></option>
                     <{/foreach}>
                 </select>
             <{elseif $config.type=="file"}>

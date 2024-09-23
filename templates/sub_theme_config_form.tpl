@@ -1,6 +1,6 @@
 <h2><{$smarty.const._MA_TADTHEMES_MANAGER}></h2>
-<input type="hidden" name="theme_name" value="<{$theme_name}>">
-<input type="hidden" name="theme_id" value="<{$theme_id}>">
+<input type="hidden" name="theme_name" value="<{$theme_name|default:''}>">
+<input type="hidden" name="theme_id" value="<{$theme_id|default:''}>">
 <table class="table" style="width: auto;">
     <tr>
         <td colspan=2>
@@ -8,7 +8,7 @@
 
             <datalist id="theme_config_list">
                 <{foreach from=$theme_config_list item=title}>
-                    <option value="<{$title}>">
+                    <option value="<{$title|default:''}>">
                 <{/foreach}>
             </datalist>
         </td>
@@ -20,7 +20,7 @@
         <td colspan=2>
             <select name="style_param" class="form-control">
                 <{foreach from=$style_arr key=module_name item=style}>
-                    <option value="<{$module_name}>;<{$style.file_link}>;<{$style.update_sn}>;<{$style.module_sn}>"><{$module_name}> <{$style.new_last_update|date_format:"%Y-%m-%d"}></option>
+                    <option value="<{$module_name|default:''}>;<{$style.file_link}>;<{$style.update_sn}>;<{$style.module_sn}>"><{$module_name|default:''}> <{$style.new_last_update|date_format:"%Y-%m-%d"}></option>
                 <{/foreach}>
             </select>
         </td>
@@ -32,7 +32,7 @@
         <td colspan=2>
             <select name="from_theme_id" class="form-control">
                 <{foreach from=$themes key=from_theme_id item=from_theme_name}>
-                    <option value="<{$from_theme_id}>"><{$from_theme_name}></option>
+                    <option value="<{$from_theme_id|default:''}>"><{$from_theme_name|default:''}></option>
                 <{/foreach}>
             </select>
         </td>
@@ -50,12 +50,12 @@
     </tr>
     <{foreach from=$theme_config_list key=date item=title}>
         <tr>
-            <td><{$title}></td>
-            <td style="font-size: 0.678em;"><{$date}></td>
+            <td><{$title|default:''}></td>
+            <td style="font-size: 0.678em;"><{$date|default:''}></td>
             <td>
-                <a href="javascript:delete_theme_config('<{$title}>')" class="btn btn-sm btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
-                <a href="main.php?op=download_zip&theme_config_name=<{$title}>&theme_id=<{$theme_id}>&theme_name=<{$theme_name}>" class="btn btn-sm btn-xs btn-success"><{$smarty.const._MA_TADTHEMES_DOWNLOAD}></a>
-                <a href="main.php?op=apply_config&theme_config_name=<{$title}>&theme_id=<{$theme_id}>&theme_name=<{$theme_name}>" class="btn btn-sm btn-xs btn-info"><{$smarty.const._MA_TADTHEMES_APPLY}></a>
+                <a href="javascript:delete_theme_config('<{$title|default:''}>')" class="btn btn-sm btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
+                <a href="main.php?op=download_zip&theme_config_name=<{$title|default:''}>&theme_id=<{$theme_id|default:''}>&theme_name=<{$theme_name|default:''}>" class="btn btn-sm btn-xs btn-success"><{$smarty.const._MA_TADTHEMES_DOWNLOAD}></a>
+                <a href="main.php?op=apply_config&theme_config_name=<{$title|default:''}>&theme_id=<{$theme_id|default:''}>&theme_name=<{$theme_name|default:''}>" class="btn btn-sm btn-xs btn-info"><{$smarty.const._MA_TADTHEMES_APPLY}></a>
             </td>
         </tr>
     <{/foreach}>

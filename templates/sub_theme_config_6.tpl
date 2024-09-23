@@ -15,7 +15,7 @@
                 </select>
             </div>
         <{else}>
-            <{$navbar_font_size_hidden}>
+            <{$navbar_font_size_hidden|default:''}>
         <{/if}>
 
 
@@ -26,19 +26,19 @@
             </label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <{$navbar_font_size_input}>
+                    <{$navbar_font_size_input|default:''}>
                     <div class="input-group-append input-group-addon">
                         <span class="input-group-text">rem</span>
                     </div>
                 </div>
             </div>
         <{else}>
-            <{$navbar_font_size_hidden}>
+            <{$navbar_font_size_hidden|default:''}>
         <{/if}>
     </div>
 <{else}>
-    <input type="hidden" name="navbar_pos" id="navbar_pos" value="<{$navbar_pos}>">
-    <{$navbar_font_size_hidden}>
+    <input type="hidden" name="navbar_pos" id="navbar_pos" value="<{$navbar_pos|default:''}>">
+    <{$navbar_font_size_hidden|default:''}>
 <{/if}>
 
 
@@ -51,13 +51,13 @@
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR}>
             </label>
             <div class="col-sm-4">
-                <{* <input type="text" name="navbar_color" id="navbar_color" value="<{$navbar_color}>" class="form-control color-picker <{$validate.navbar_color}>" data-hex="true"> *}>
+                <{* <input type="text" name="navbar_color" id="navbar_color" value="<{$navbar_color|default:''}>" class="form-control color-picker <{$validate.navbar_color}>" data-hex="true"> *}>
                 <div class="input-group">
-                    <input type="text" name="navbar_color" id="navbar_color" value="<{$navbar_color}>" class="form-control color-picker <{$validate.navbar_color}>" data-hex="true">
+                    <input type="text" name="navbar_color" id="navbar_color" value="<{$navbar_color|default:''}>" class="form-control color-picker <{$validate.navbar_color}>" data-hex="true">
                 </div>
             </div>
         <{else}>
-            <input type="hidden" name="navbar_color" id="navbar_color" value="<{$navbar_color}>">
+            <input type="hidden" name="navbar_color" id="navbar_color" value="<{$navbar_color|default:''}>">
         <{/if}>
 
         <!--導覽列 圖示顏色-->
@@ -76,12 +76,12 @@
                 </label>
             </div>
         <{else}>
-            <input type="hidden" name="navbar_icon" id="navbar_icon" value="<{$navbar_icon}>">
+            <input type="hidden" name="navbar_icon" id="navbar_icon" value="<{$navbar_icon|default:''}>">
         <{/if}>
     </div>
 <{else}>
-    <input type="hidden" name="navbar_color" id="navbar_color" value="<{$navbar_color}>">
-    <input type="hidden" name="navbar_icon" id="navbar_icon" value="<{$navbar_icon}>">
+    <input type="hidden" name="navbar_color" id="navbar_color" value="<{$navbar_color|default:''}>">
+    <input type="hidden" name="navbar_icon" id="navbar_icon" value="<{$navbar_icon|default:''}>">
 <{/if}>
 
 <{if $enable.navbar_bg_top=="1" or $enable.navbar_bg_bottom=="1"}>
@@ -92,13 +92,13 @@
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_BG_COLOR}>
             </label>
             <div class="col-sm-4">
-                <{* <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>" class="form-control color-picker <{$validate.navbar_bg_top}>" data-hex="true"> *}>
+                <{* <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top|default:''}>" class="form-control color-picker <{$validate.navbar_bg_top}>" data-hex="true"> *}>
                 <div class="input-group">
-                    <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>" class="form-control color-picker <{$validate.navbar_bg_top}>" data-hex="true">
+                    <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top|default:''}>" class="form-control color-picker <{$validate.navbar_bg_top}>" data-hex="true">
                 </div>
             </div>
         <{else}>
-            <input type="hidden" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>">
+            <input type="hidden" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top|default:''}>">
         <{/if}>
         <!--導覽列 漸層顏色(bottom) -->
         <{if $enable.navbar_bg_bottom=="1"}>
@@ -106,18 +106,18 @@
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_CHANGE}>
             </label>
             <div class="col-sm-4">
-                <{* <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>" class="form-control color-picker <{$validate.navbar_bg_bottom}>" data-hex="true"> *}>
+                <{* <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom|default:''}>" class="form-control color-picker <{$validate.navbar_bg_bottom}>" data-hex="true"> *}>
                 <div class="input-group">
-                    <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>" class="form-control color-picker <{$validate.navbar_bg_bottom}>" data-hex="true">
+                    <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom|default:''}>" class="form-control color-picker <{$validate.navbar_bg_bottom}>" data-hex="true">
                 </div>
             </div>
         <{else}>
-            <input type="hidden" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>">
+            <input type="hidden" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom|default:''}>">
         <{/if}>
     </div>
 <{else}>
-    <input type="hidden" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top}>">
-    <input type="hidden" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom}>">
+    <input type="hidden" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top|default:''}>">
+    <input type="hidden" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom|default:''}>">
 <{/if}>
 
 
@@ -129,31 +129,31 @@
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR_HOVER}>
             </label>
             <div class="col-sm-4">
-                <{* <input type="text" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>" class="form-control color-picker <{$validate.navbar_color_hover}>" data-hex="true"> *}>
+                <{* <input type="text" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover|default:''}>" class="form-control color-picker <{$validate.navbar_color_hover}>" data-hex="true"> *}>
                 <div class="input-group">
-                    <input type="text" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>" class="form-control color-picker <{$validate.navbar_color_hover}>" data-hex="true">
+                    <input type="text" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover|default:''}>" class="form-control color-picker <{$validate.navbar_color_hover}>" data-hex="true">
                 </div>
             </div>
         <{else}>
-            <input type="hidden" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>">
+            <input type="hidden" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover|default:''}>">
         <{/if}>
         <{if $enable.navbar_hover=="1"}>
             <label class="col-sm-2 col-form-label text-sm-right control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_HOVER_COLOR}>
             </label>
             <div class="col-sm-4">
-                <{* <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>" class="form-control color-picker <{$validate.navbar_hover}>" data-hex="true"> *}>
+                <{* <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover|default:''}>" class="form-control color-picker <{$validate.navbar_hover}>" data-hex="true"> *}>
                 <div class="input-group">
-                    <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>" class="form-control color-picker <{$validate.navbar_hover}>" data-hex="true">
+                    <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover|default:''}>" class="form-control color-picker <{$validate.navbar_hover}>" data-hex="true">
                 </div>
             </div>
         <{else}>
-            <input type="hidden" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>">
+            <input type="hidden" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover|default:''}>">
         <{/if}>
     </div>
 <{else}>
-    <input type="hidden" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover}>">
-    <input type="hidden" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover}>">
+    <input type="hidden" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover|default:''}>">
+    <input type="hidden" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover|default:''}>">
 <{/if}>
 
 
@@ -169,14 +169,14 @@
             </label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <{$navbar_py_input}>
+                    <{$navbar_py_input|default:''}>
                     <div class="input-group-append input-group-addon">
                         <span class="input-group-text">px</span>
                     </div>
                 </div>
             </div>
         <{else}>
-            <{$navbar_py_hidden}>
+            <{$navbar_py_hidden|default:''}>
         <{/if}>
 
         <!--導覽列 導覽選項左右距離-->
@@ -186,19 +186,19 @@
             </label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <{$navbar_px_input}>
+                    <{$navbar_px_input|default:''}>
                     <div class="input-group-append input-group-addon">
                         <span class="input-group-text">px</span>
                     </div>
                 </div>
             </div>
         <{else}>
-            <{$navbar_px_hidden}>
+            <{$navbar_px_hidden|default:''}>
         <{/if}>
     </div>
 <{else}>
-    <{$navbar_py_hidden}>
-    <{$navbar_px_hidden}>
+    <{$navbar_py_hidden|default:''}>
+    <{$navbar_px_hidden|default:''}>
 <{/if}>
 
 <div class="row">
@@ -210,11 +210,11 @@
                     <{$smarty.const._MA_TAD_THEMES_UPLOAD}><{$smarty.const._MA_TADTHEMES_NAVBAR_IMG}>
                 </label>
                 <div class="col-sm-8">
-                    <{$upform_navbar_img}>
+                    <{$upform_navbar_img|default:''}>
                 </div>
             </div>
         <{else}>
-            <input type="hidden" name="navbar_img" id="navbar_img" value="<{$navbar_img}>">
+            <input type="hidden" name="navbar_img" id="navbar_img" value="<{$navbar_img|default:''}>">
         <{/if}>
 
     </div>
@@ -257,11 +257,11 @@
                     <{$smarty.const._MA_TAD_THEMES_UPLOAD}><{$smarty.const._MA_TADTHEMES_NAVLOGO_IMG}>
                 </label>
                 <div class="col-sm-8">
-                    <{$upform_navlogo}>
+                    <{$upform_navlogo|default:''}>
                 </div>
             </div>
         <{else}>
-            <input type="hidden" name="navlogo_img" id="navlogo_img" value="<{$navlogo_img}>">
+            <input type="hidden" name="navlogo_img" id="navlogo_img" value="<{$navlogo_img|default:''}>">
         <{/if}>
 
     </div>
@@ -303,5 +303,5 @@
     <{foreach from=$config2_nav item=config}>
         <{include file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
     <{/foreach}>
-    <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config2&theme_id=<{$theme_id}>&config2_file=config2_nav" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2">config2_nav.php</a>
+    <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config2&theme_id=<{$theme_id|default:''}>&config2_file=config2_nav" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2">config2_nav.php</a>
 <{/if}>

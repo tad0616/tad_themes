@@ -3,7 +3,7 @@
     <div class="form-group row mb-3">
         <label for="title" class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_FONT_UPLOAD}></label>
         <div class="col-sm-10">
-            <{$fontUpForm}>
+            <{$fontUpForm|default:''}>
         </div>
     </div>
     <div class="alert alert-warning"><{$smarty.const._MA_TADTHEMES_FONT_NOTE}></div>

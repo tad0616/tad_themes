@@ -28,7 +28,7 @@
                                 <input type="text" name="bt_text_size[<{$block.block_position}>]" class="form-control <{$validate.bt_text_size}>" value="<{$block.bt_text_size}>" id="bt_text_size_<{$block.block_position}>">
                             </div>
                         <{else}>
-                            <input type="hidden" name="bt_text_size" id="bt_text_size" value="<{$bt_text_size}>">
+                            <input type="hidden" name="bt_text_size" id="bt_text_size" value="<{$bt_text_size|default:''}>">
                         <{/if}>
 
                         <!-- 區塊標題文字縮排-->
@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                         <{else}>
-                            <input type="hidden" name="bt_text_padding" id="bt_text_padding" value="<{$bt_text_padding}>">
+                            <input type="hidden" name="bt_text_padding" id="bt_text_padding" value="<{$bt_text_padding|default:''}>">
                         <{/if}>
                     </div>
 
@@ -61,7 +61,7 @@
                                 </div>
                             </div>
                         <{else}>
-                            <input type="hidden" name="bt_text" id="bt_text" value="<{$bt_text}>">
+                            <input type="hidden" name="bt_text" id="bt_text" value="<{$bt_text|default:''}>">
                         <{/if}>
 
                         <!-- 區塊標題列背景顏色-->
@@ -75,7 +75,7 @@
                                 </div>
                             </div>
                         <{else}>
-                            <input type="hidden" name="bt_bg_color" id="bt_bg_color" value="<{$bt_bg_color}>">
+                            <input type="hidden" name="bt_bg_color" id="bt_bg_color" value="<{$bt_bg_color|default:''}>">
                         <{/if}>
                     </div>
 
@@ -93,7 +93,7 @@
                                 </select>
                             </div>
                         <{else}>
-                            <input type="hidden" name="bt_radius" id="bt_radius" value="<{$bt_radius}>">
+                            <input type="hidden" name="bt_radius" id="bt_radius" value="<{$bt_radius|default:''}>">
                         <{/if}>
 
                         <!-- 區塊標題工具按鈕-->
@@ -109,7 +109,7 @@
                                 </select>
                             </div>
                         <{else}>
-                            <input type="hidden" name="block_config" id="block_config" value="<{$block_config}>">
+                            <input type="hidden" name="block_config" id="block_config" value="<{$block_config|default:''}>">
                         <{/if}>
                     </div>
 
@@ -124,7 +124,7 @@
                                 <{$block.upform_bt_bg}>
                             </div>
                         <{else}>
-                            <input type="hidden" name="bt_bg_img" id="bt_bg_img" value="<{$bt_bg_img}>">
+                            <input type="hidden" name="bt_bg_img" id="bt_bg_img" value="<{$bt_bg_img|default:''}>">
                         <{/if}>
 
                         <!-- 區塊標題列背景重複-->
@@ -139,7 +139,7 @@
                                 </select>
                             </div>
                         <{else}>
-                            <input type="hidden" name="bt_bg_repeat" id="bt_bg_repeat" value="<{$bt_bg_repeat}>">
+                            <input type="hidden" name="bt_bg_repeat" id="bt_bg_repeat" value="<{$bt_bg_repeat|default:''}>">
                         <{/if}>
                     </div>
 
@@ -177,7 +177,7 @@
                                 <textarea name="block_style[<{$block.block_position}>]" id="block_style_<{$block.block_position}>" class="form-control <{$validate.block_style}>" style="font-size: 0.678em;height:100px;"><{$block.block_style}></textarea>
                             </div>
                         <{else}>
-                            <input type="hidden" name="block_style" id="block_style" value="<{$block_style}>">
+                            <input type="hidden" name="block_style" id="block_style" value="<{$block_style|default:''}>">
                         <{/if}>
                     </div>
 
@@ -190,7 +190,7 @@
                                 <textarea name="block_title_style[<{$block.block_position}>]" id="block_title_style_<{$block.block_position}>" class="form-control <{$validate.block_title_style}>" style="font-size: 0.678em;height:100px;"><{$block.block_title_style}></textarea>
                             </div>
                         <{else}>
-                            <input type="hidden" name="block_title_style" id="block_title_style" value="<{$block_title_style}>">
+                            <input type="hidden" name="block_title_style" id="block_title_style" value="<{$block_title_style|default:''}>">
                         <{/if}>
                     </div>
 
@@ -203,7 +203,7 @@
                                 <textarea name="block_content_style[<{$block.block_position}>]" id="block_content_style_<{$block.block_position}>" class="form-control <{$validate.block_content_style}>" style="font-size: 0.678em;height:100px;"><{$block.block_content_style}></textarea>
                             </div>
                         <{else}>
-                            <input type="hidden" name="block_content_style" id="block_content_style" value="<{$block_content_style}>">
+                            <input type="hidden" name="block_content_style" id="block_content_style" value="<{$block_content_style|default:''}>">
                         <{/if}>
                     </div>
 
@@ -225,5 +225,5 @@
     <{foreach from=$config2_block item=config}>
         <{include file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
     <{/foreach}>
-    <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config2&theme_id=<{$theme_id}>&config2_file=config2_logo" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2">config2_block.php</a>
+    <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config2&theme_id=<{$theme_id|default:''}>&config2_file=config2_logo" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2">config2_block.php</a>
 <{/if}>

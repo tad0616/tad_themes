@@ -8,11 +8,11 @@
                     <{$smarty.const._MA_TAD_THEMES_UPLOAD}><{$smarty.const._MA_TADTHEMES_LOGO_IMG}>
                 </label>
                 <div class="col-sm-9">
-                    <{$upform_logo}>
+                    <{$upform_logo|default:''}>
                 </div>
             </div>
         <{else}>
-            <input type="hidden" name="logo_img" id="logo_img" value="<{$logo_img}>">
+            <input type="hidden" name="logo_img" id="logo_img" value="<{$logo_img|default:''}>">
         <{/if}>
 
         <!-- logo圖位置-->
@@ -31,7 +31,7 @@
                 </div>
             </div>
         <{else}>
-            <input type="hidden" name="logo_position" id="logo_position" value="<{$logo_position}>">
+            <input type="hidden" name="logo_position" id="logo_position" value="<{$logo_position|default:''}>">
         <{/if}>
 
 
@@ -48,7 +48,7 @@
                             <div class="col-sm-3"></div>
                             <div class="col-sm-6">
                                 <div class="input-group">
-                                    <input type="text" name="logo_top" class="form-control <{$validate.logo_top}> " value="<{$logo_top}>" id="logo_top" onChange="if(this.value > 0){$('#logo_bottom').val(0);}">
+                                    <input type="text" name="logo_top" class="form-control <{$validate.logo_top}> " value="<{$logo_top|default:''}>" id="logo_top" onChange="if(this.value > 0){$('#logo_bottom').val(0);}">
                                     <div class="input-group-append input-group-addon">
                                         <span class="input-group-text">%</span>
                                     </div>
@@ -57,7 +57,7 @@
                             <div class="col-sm-3"></div>
                         </div>
                     <{else}>
-                        <input type="hidden" name="logo_top" id="logo_top" value="<{$logo_top}>">
+                        <input type="hidden" name="logo_top" id="logo_top" value="<{$logo_top|default:''}>">
                     <{/if}>
 
 
@@ -65,14 +65,14 @@
                         <{if $enable.logo_left=="1"}>
                             <div class="col-sm-5">
                                 <div class="input-group">
-                                    <input type="text" name="logo_left" class="form-control <{$validate.logo_left}>" value="<{$logo_left}>" id="logo_left" onChange="if(this.value > 0){$('#logo_right').val(0);$('#logo_center').attr('checked',false);}">
+                                    <input type="text" name="logo_left" class="form-control <{$validate.logo_left}>" value="<{$logo_left|default:''}>" id="logo_left" onChange="if(this.value > 0){$('#logo_right').val(0);$('#logo_center').attr('checked',false);}">
                                     <div class="input-group-append input-group-addon">
                                         <span class="input-group-text">%</span>
                                     </div>
                                 </div>
                             </div>
                         <{else}>
-                            <input type="hidden" name="logo_left" id="logo_left" value="<{$logo_left}>">
+                            <input type="hidden" name="logo_left" id="logo_left" value="<{$logo_left|default:''}>">
                         <{/if}>
 
                         <div class="col-sm-2 text-center">
@@ -84,21 +84,21 @@
                                     </label>
                                 </div>
                             <{else}>
-                                <input type="hidden" name="logo_center" id="logo_right" value="<{$logo_right}>">
+                                <input type="hidden" name="logo_center" id="logo_right" value="<{$logo_right|default:''}>">
                             <{/if}>
                         </div>
 
                         <{if $enable.logo_right=="1"}>
                             <div class="col-sm-5">
                                 <div class="input-group">
-                                    <input type="text" name="logo_right" class="form-control <{$validate.logo_right}>" value="<{$logo_right}>" id="logo_right" onChange="if(this.value > 0){$('#logo_left').val(0);$('#logo_center').attr('checked',false);}">
+                                    <input type="text" name="logo_right" class="form-control <{$validate.logo_right}>" value="<{$logo_right|default:''}>" id="logo_right" onChange="if(this.value > 0){$('#logo_left').val(0);$('#logo_center').attr('checked',false);}">
                                     <div class="input-group-append input-group-addon">
                                         <span class="input-group-text">%</span>
                                     </div>
                                 </div>
                             </div>
                         <{else}>
-                            <input type="hidden" name="logo_right" id="logo_right" value="<{$logo_right}>">
+                            <input type="hidden" name="logo_right" id="logo_right" value="<{$logo_right|default:''}>">
                         <{/if}>
                     </div>
 
@@ -107,7 +107,7 @@
                             <div class="col-sm-3"></div>
                             <div class="col-sm-6">
                                 <div class="input-group">
-                                    <input type="text" name="logo_bottom" class="form-control <{$validate.logo_bottom}>" value="<{$logo_bottom}>" id="logo_bottom" onChange="if(this.value > 0){$('#logo_top').val(0);}">
+                                    <input type="text" name="logo_bottom" class="form-control <{$validate.logo_bottom}>" value="<{$logo_bottom|default:''}>" id="logo_bottom" onChange="if(this.value > 0){$('#logo_top').val(0);}">
                                     <div class="input-group-append input-group-addon">
                                         <span class="input-group-text">%</span>
                                     </div>
@@ -116,7 +116,7 @@
                             <div class="col-sm-3"></div>
                         </div>
                     <{else}>
-                        <input type="hidden" name="logo_bottom" id="logo_bottom" value="<{$logo_bottom}>">
+                        <input type="hidden" name="logo_bottom" id="logo_bottom" value="<{$logo_bottom|default:''}>">
                     <{/if}>
                 </div>
             </div>
@@ -162,5 +162,5 @@
     <{foreach from=$config2_logo item=config}>
         <{include file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_other.tpl"}>
     <{/foreach}>
-    <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config2&theme_id=<{$theme_id}>&config2_file=config2_logo" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2">config2_logo.php</a>
+    <a href="<{$xoops_url}>/modules/tad_themes/admin/main.php?op=export_config2&theme_id=<{$theme_id|default:''}>&config2_file=config2_logo" class="btn btn-light btn-sm btn-xs text-secondary pull-right float-end mx-2">config2_logo.php</a>
 <{/if}>

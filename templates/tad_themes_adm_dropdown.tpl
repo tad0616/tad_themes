@@ -13,14 +13,14 @@
     <tr data-tt-id="0" id="node-_0">
         <td colspan=2 >
             <a href="dropdown.php?op=add_tad_themes_menu&of_level=0" class="edit_dropdown" data-fancybox-type="iframe"  style="letter-spacing: 0em; font-size: 1.25rem;">
-            <{$add_item}>
-            <i class="fa fa-plus-circle text-success" aria-hidden="true" title="<{$add_item}>" style="font-size: 1.5rem;margin:0px 10px;"></i></a>
+            <{$add_item|default:''}>
+            <i class="fa fa-plus-circle text-success" aria-hidden="true" title="<{$add_item|default:''}>" style="font-size: 1.5rem;margin:0px 10px;"></i></a>
         </td>
     <tr>
     <{if $all|default:false}>
         <tbody class="sort">
-            <{$all}>
-            <{$option}>
+            <{$all|default:''}>
+            <{$option|default:''}>
         </tbody>
     <{/if}>
 </table>

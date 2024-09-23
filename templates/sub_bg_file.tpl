@@ -16,21 +16,21 @@
                 <div class="col-sm-3">
                     <select name="<{$config.name}>_repeat" id="<{$config.name}>_repeat" class="form-control">
                         <{foreach from=$config.options.repeat key=val item=opt}>
-                            <option value="<{$val}>" <{if $config.repeat==$val}>selected<{/if}>><{$opt}></option>
+                            <option value="<{$val|default:''}>" <{if $config.repeat==$val}>selected<{/if}>><{$opt|default:''}></option>
                         <{/foreach}>
                     </select>
                 </div>
                 <div class="col-sm-2">
                     <select name="<{$config.name}>_position" id="<{$config.name}>_position" class="form-control">
                         <{foreach from=$config.options.position key=val item=opt}>
-                            <option value="<{$val}>" <{if $config.position==$val}>selected<{/if}>><{$opt}></option>
+                            <option value="<{$val|default:''}>" <{if $config.position==$val}>selected<{/if}>><{$opt|default:''}></option>
                         <{/foreach}>
                     </select>
                 </div>
                 <div class="col-sm-3">
                     <select name="<{$config.name}>_size" id="<{$config.name}>_size" class="form-control">
                         <{foreach from=$config.options.size key=val item=opt}>
-                            <option value="<{$val}>" <{if $config.size==$val}>selected<{/if}>><{$opt}></option>
+                            <option value="<{$val|default:''}>" <{if $config.size==$val}>selected<{/if}>><{$opt|default:''}></option>
                         <{/foreach}>
                     </select>
                 </div>
