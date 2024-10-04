@@ -72,11 +72,11 @@
                     </span>
                 </div>
                 <select name="<{$conf_name|default:''}>_bid" class="form-control">
-                    <option value="" <{if $bid == ""}>selected<{/if}>></option>
+                    <option value="" <{if $bid|default:'' == ""}>selected<{/if}>></option>
                     <{foreach from=$blocks key=mod_name item=mod_blocks}>
                         <optgroup label="<{$mod_name|default:''}>">
                             <{foreach from=$mod_blocks key=bid item=block}>
-                                <option value="<{$bid|default:''}>" <{if $bid == $config.bid}>selected<{/if}>>
+                                <option value="<{$bid|default:''}>" <{if $bid|default:'' == $config.bid}>selected<{/if}>>
                                     <{if $block.name|strpos:$smarty.const._MA_TADTHEMES_BLOCKS_CUSTOM !== false}>
                                         <{$block.title}><{$block.name|replace:$smarty.const._MA_TADTHEMES_BLOCKS_CUSTOM:''}>
                                     <{elseif $block.title|strpos:$block.name !== false}>

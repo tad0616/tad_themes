@@ -5,7 +5,7 @@
 <{else}>
     <div class="form-group row mb-3">
         <label class="col-sm-2 col-form-label text-sm-right control-label">
-            <{$config.text}>
+            <{$config.text}>[<{$config.value}>]
         </label>
         <div class="col-sm-5">
             <{if $config.type=="text"}>
@@ -21,13 +21,13 @@
             <{elseif $config.type=="yesno"}>
                 <div class="form-check form-check-inline radio-inline">
                     <label class="form-check-label" for="<{$config.name}>1">
-                        <input class="form-check-input" type="radio" name="<{$config.name}>" id="<{$config.name}>1" value="1" <{if $config.value==1}>checked<{/if}>>
+                        <input class="form-check-input" type="radio" name="<{$config.name}>" id="<{$config.name}>1" value="1" <{if $config.value|default:'1'=='1'}>checked="checked"<{/if}>>
                         <{$smarty.const._YES}>
                     </label>
                 </div>
                 <div class="form-check form-check-inline radio-inline">
                     <label class="form-check-label" for="<{$config.name}>0">
-                        <input class="form-check-input" type="radio" name="<{$config.name}>" id="<{$config.name}>0" value="0" <{if $config.value==0}>checked<{/if}>>
+                        <input class="form-check-input" type="radio" name="<{$config.name}>" id="<{$config.name}>0" value="0" <{if $config.value|default:''=='0'}>checked="checked"<{/if}>>
                         <{$smarty.const._NO}>
                     </label>
                 </div>

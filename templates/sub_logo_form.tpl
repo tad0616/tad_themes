@@ -24,6 +24,7 @@
             </div>
             <label class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_LOGO_TEXT_COLOR}></label>
             <div class="col-sm-4">
+                <div class="input-group">
                     <input type="text" name="color" id="font_color" value="#<{$color|default:''}>" class="form-control color-picker" data-hex="true">
                 </div>
             </div>
@@ -48,7 +49,6 @@
             </div>
             <label class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_LOGO_SHADOW_COLOR}></label>
             <div class="col-sm-4">
-                <{* <input type="text" name="shadow_color" class="col-sm-10 form-control color-picker" value="#<{$shadow_color|default:''}>" id="shadow_color" data-hex="true"> *}>
                 <div class="input-group">
                     <input type="text" name="shadow_color" id="shadow_color" value="#<{$shadow_color|default:''}>" class="form-control color-picker" data-hex="true">
                 </div>
@@ -121,8 +121,11 @@
             }
         </script>
 
-        <div class="text-right">
-            <{$smarty.const._MA_TADTHEMES_LOGO_DEMO_BGCOLOR}>
+        <div class="input-group mb-2">
+            <div class="input-group-prepend input-group-addon">
+                <span class="input-group-text"><{$smarty.const._MA_TADTHEMES_LOGO_DEMO_BGCOLOR}></span>
+            </div>
+
             <input type="hidden" id="bg_color" value="<{$bg_color|default:''}>" style="width:100px;"  data-hex="true" onChange="change_css();">
         </div>
 

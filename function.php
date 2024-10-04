@@ -68,9 +68,11 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
     $db_files = [];
 
     // 撈出資料庫中該佈景的指定類型圖片（若是套用或恢復佈景，此時這裡應該都是空值）
-    $sql = 'select files_sn,file_name,original_filename from ' . $xoopsDB->prefix('tad_themes_files_center') . " where col_name='{$col_name}' and col_sn='{$col_sn}'";
+    $sql = 'SELECT `files_sn`, `file_name`, `original_filename`
+        FROM `' . $xoopsDB->prefix('tad_themes_files_center') . '`
+        WHERE `col_name` = ? AND `col_sn` = ?';
+    $result = Utility::query($sql, 'si', [$col_name, $col_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $db_files_amount = 0;
     while (list($files_sn, $file_name, $original_filename) = $xoopsDB->fetchRow($result)) {
         $db_files[$files_sn] = $original_filename;
@@ -240,24 +242,20 @@ function update_tadtools_setup($theme = '', $theme_kind = '')
     }
     $bootstrap_color = $theme_kind;
 
-    $sql = 'select `tt_theme_kind` from `' . $xoopsDB->prefix('tadtools_setup') . "` where `tt_theme`='{$theme}'";
-    $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `tt_theme_kind`
+        FROM `' . $xoopsDB->prefix('tadtools_setup') . '`
+        WHERE `tt_theme` = ?';
+    $result = Utility::query($sql, 's', [$theme]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     list($old_tt_theme_kind) = $xoopsDB->fetchRow($result);
 
     if ($theme_kind !== $old_tt_theme_kind) {
-        $sql = 'replace into `' . $xoopsDB->prefix('tadtools_setup') . "` (`tt_theme` , `tt_use_bootstrap`,`tt_bootstrap_color` , `tt_theme_kind`) values('{$theme}', '0', '{$bootstrap_color}', '{$theme_kind}')";
+        $sql = 'REPLACE INTO `' . $xoopsDB->prefix('tadtools_setup') . '`
+        (`tt_theme`, `tt_use_bootstrap`, `tt_bootstrap_color`, `tt_theme_kind`)
+        VALUES (?, ?, ?, ?)';
+        Utility::query($sql, 'ssss', [$theme, '0', $bootstrap_color, $theme_kind]) or Utility::web_error($sql, __FILE__, __LINE__);
 
-        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     }
-}
-
-// 加入Smarty設定檔（避免抓不到 $_SESSION['bootstrap']）
-function save_conf($theme_kind = "")
-{
-    unlink(XOOPS_ROOT_PATH . "/uploads/bootstrap.conf");
-    $bootstrap = (strpos($theme_kind, 'bootstrap') !== false) ? substr($theme_kind, -1) : '4';
-    file_put_contents(XOOPS_ROOT_PATH . "/uploads/bootstrap.conf", "bootstrap = {$bootstrap}");
 }
 
 //儲存額外設定值($mode = default 或 apply 或 post)，自動匯入、新增佈景、儲存佈景時會用到。$config2_files 是佈景額外設定的所有頁籤項目
@@ -322,9 +320,10 @@ function save_config2($theme_id = '', $config2_files = [], $mode = '')
             $config['name'] = $myts->addSlashes($config['name']);
             $config['type'] = $myts->addSlashes($config['type']);
 
-            $sql = 'replace into ' . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`) values($theme_id , '{$config['name']}' , '{$config['type']}' , '{$value}')";
-
-            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            $sql = 'REPLACE INTO `' . $xoopsDB->prefix('tad_themes_config2') . '`
+            (`theme_id`, `name`, `type`, `value`)
+            VALUES (?, ?, ?, ?)';
+            Utility::query($sql, 'isss', [$theme_id, $config['name'], $config['type'], $value]) or Utility::web_error($sql, __FILE__, __LINE__);
 
             // 若是上傳的欄位，需將圖片也上傳或匯入
             if ('file' === $config['type'] or 'bg_file' === $config['type']) {
@@ -341,47 +340,55 @@ function save_config2($theme_id = '', $config2_files = [], $mode = '')
                 $value_position = isset($_POST[$name . '_position']) ? $myts->addSlashes($_POST[$name . '_position']) : $config['position'];
                 $value_size = isset($_POST[$name . '_size']) ? $myts->addSlashes($_POST[$name . '_size']) : $config['size'];
 
-                $sql = 'replace into ' . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`)
-                values($theme_id , '{$config['name']}_repeat' , 'select' , '{$value_repeat}'),
-                ($theme_id , '{$config['name']}_position' , 'select' , '{$value_position}'),
-                ($theme_id , '{$config['name']}_size' , 'select' , '{$value_size}')";
-                $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+                $sql = 'REPLACE INTO `' . $xoopsDB->prefix('tad_themes_config2') . '`
+                (`theme_id`, `name`, `type`, `value`)
+                VALUES (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?)';
+                $result = Utility::query($sql, 'isssisssisss',
+                    [$theme_id, $config['name'] . '_repeat', 'select', $value_repeat,
+                        $theme_id, $config['name'] . '_position', 'select', $value_position,
+                        $theme_id, $config['name'] . '_size', 'select', $value_size])
+                or Utility::web_error($sql, __FILE__, __LINE__);
+
             } elseif ('custom_zone' === $config['type']) {
                 $block_value = '';
                 if (!empty($_POST[$config['name'] . '_bid'])) {
                     $bid = (int) $_POST[$config['name'] . '_bid'];
-                    $sql = "select bid, name, show_func, c_type, content from " . $xoopsDB->prefix('newblocks') . "
-                    where `bid` = '{$bid}'";
-                    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+                    $sql = "SELECT `bid`, `name`, `show_func`, `c_type`, `content`
+                    FROM `" . $xoopsDB->prefix('newblocks') . "`
+                    WHERE `bid` = ?";
+                    $result = Utility::query($sql, 'i', [$bid]) or Utility::web_error($sql, __FILE__, __LINE__);
+
                     $block = $xoopsDB->fetchArray($result);
                     $block['name'] = $myts->addSlashes($block['name']);
-                    $block['content'] = $xoopsDB->escape($block['content']);
-                    $block_value = $myts->addSlashes(json_encode($block, 256));
+                    $block['content'] = $myts->addSlashes($block['content']);
+                    $block_value = json_encode($block, 256);
                 }
 
-                $value_html_content = isset($_POST[$name . '_html_content']) ? $myts->addSlashes($_POST[$name . '_html_content']) : $config['html_content'];
-
-                $value_fa_content = isset($_POST[$name . '_fa_content']) ? $myts->addSlashes($_POST[$name . '_fa_content']) : $config['fa_content'];
-
-                $value_menu_content = isset($_POST[$name . '_menu_content']) ? $myts->addSlashes($_POST[$name . '_menu_content']) : $config['menu_content'];
-
+                $value_html_content = isset($_POST[$name . '_html_content']) ? $_POST[$name . '_html_content'] : $config['html_content'];
+                $value_fa_content = isset($_POST[$name . '_fa_content']) ? $_POST[$name . '_fa_content'] : $config['fa_content'];
+                $value_menu_content = isset($_POST[$name . '_menu_content']) ? $_POST[$name . '_menu_content'] : $config['menu_content'];
                 // 將 config2_xxx 中，有啥寫啥
-                $sql = 'replace into ' . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`)
-                values($theme_id , '{$config['name']}_block' , 'text' , '{$block_value}'),
-                ($theme_id , '{$config['name']}_html_content' , 'text' , '{$value_html_content}'),
-                ($theme_id , '{$config['name']}_fa_content' , 'text' , '{$value_fa_content}'),
-                ($theme_id , '{$config['name']}_menu_content' , 'text' , '{$value_menu_content}')";
-
-                $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+                $sql = 'REPLACE INTO `' . $xoopsDB->prefix('tad_themes_config2') . '`
+                (`theme_id`, `name`, `type`, `value`)
+                VALUES (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?)';
+                Utility::query($sql, 'isssisssisss',
+                    [$theme_id, $config['name'] . '_block', 'text', $block_value,
+                        $theme_id, $config['name'] . '_html_content', 'text', $value_html_content,
+                        $theme_id, $config['name'] . '_fa_content', 'text', $value_fa_content,
+                        $theme_id, $config['name'] . '_menu_content', 'text', $value_menu_content])
+                or Utility::web_error($sql, __FILE__, __LINE__);
             } elseif ('padding_margin' === $config['type']) {
                 $value_mt = isset($_POST[$name . '_mt']) ? $myts->addSlashes($_POST[$name . '_mt']) : $config['mt'];
                 $value_mb = isset($_POST[$name . '_mb']) ? $myts->addSlashes($_POST[$name . '_mb']) : $config['mb'];
 
-                $sql = 'replace into ' . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`)
-                values($theme_id , '{$config['name']}_mt' , 'text' , '{$value_mt}'),
-                ($theme_id , '{$config['name']}_mb' , 'text' , '{$value_mb}')";
+                $sql = 'REPLACE INTO `' . $xoopsDB->prefix('tad_themes_config2') . '`
+                (`theme_id`, `name`, `type`, `value`)
+                VALUES (?, ?, ?, ?), (?, ?, ?, ?)';
+                Utility::query($sql, 'isssisss',
+                    [$theme_id, $config['name'] . '_mt', 'text', $value_mt,
+                        $theme_id, $config['name'] . '_mb', 'text', $value_mb])
+                or Utility::web_error($sql, __FILE__, __LINE__);
 
-                $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
             }
 
             if (isset($config['callback'])) {
@@ -399,34 +406,15 @@ function save_config2($theme_id = '', $config2_files = [], $mode = '')
         }
     }
 
-    // config2_json_file($theme_id);
 }
-
-// 重建 tad_themes_config2_xxx.json
-// function config2_json_file($theme_id)
-// {
-//     global $xoopsDB;
-//     return;
-
-//     $sql = "select `name`, `type`, `value` from " . $xoopsDB->prefix("tad_themes_config2") . " where `theme_id`='{$theme_id}'";
-//     $result = $xoopsDB->query($sql);
-//     while (list($name, $type, $value) = $xoopsDB->fetchRow($result)) {
-//         $config2[$name] = $value;
-//     }
-
-//     $config2_json_file = XOOPS_VAR_PATH . "/data/tad_themes_config2_{$theme_id}.json";
-//     unlink($config2_json_file);
-
-//     $json_content = json_encode($config2, 256);
-//     file_put_contents($config2_json_file, $json_content);
-// }
 
 //更新佈景的某個設定值
 function update_theme_config2($col = '', $file_name = '', $theme_id = '', $theme_name = '')
 {
-    global $xoopsDB, $xoopsUser, $xoopsConfig;
-    $sql = 'update ' . $xoopsDB->prefix('tad_themes_config2') . " set `value` = '{$file_name}' where theme_id='$theme_id' and `name`='{$col}'";
-    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    global $xoopsDB;
+    $sql = 'UPDATE `' . $xoopsDB->prefix('tad_themes_config2') . '` SET `value` =? WHERE `theme_id` =? AND `name` =?';
+    Utility::query($sql, 'sis', [$file_name, $theme_id, $col]) or Utility::web_error($sql, __FILE__, __LINE__);
+
 }
 
 //取得佈景編號
@@ -434,8 +422,9 @@ function get_theme_id($theme_name = '')
 {
     global $xoopsDB;
 
-    $sql = 'select theme_id from ' . $xoopsDB->prefix('tad_themes') . " where `theme_name` = '{$theme_name}'";
-    $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `theme_id` FROM `' . $xoopsDB->prefix('tad_themes') . '` WHERE `theme_name` =?';
+    $result = Utility::query($sql, 's', [$theme_name]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     list($theme_id) = $xoopsDB->fetchRow($result);
 
     return $theme_id;
@@ -446,8 +435,8 @@ function get_config_value($theme_id = '', $config_name = '')
 {
     global $xoopsDB;
 
-    $sql = "select `$config_name` from " . $xoopsDB->prefix('tad_themes') . " where `theme_id` = '{$theme_id}'";
-    $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `' . $config_name . '` FROM `' . $xoopsDB->prefix('tad_themes') . '` WHERE `theme_id` = ?';
+    $result = Utility::query($sql, 'i', [$theme_id]) or Utility::web_error($sql, __FILE__, __LINE__);
     list($value) = $xoopsDB->fetchRow($result);
 
     return $value;
@@ -458,8 +447,8 @@ function get_config2_value($theme_id = '', $config_name = '')
 {
     global $xoopsDB;
 
-    $sql = 'select `value` from ' . $xoopsDB->prefix('tad_themes_config2') . " where `theme_id` = '{$theme_id}' and `name`='{$config_name}'";
-    $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `value` FROM `' . $xoopsDB->prefix('tad_themes_config2') . '` WHERE `theme_id` =? AND `name`=?';
+    $result = Utility::query($sql, 'is', [$theme_id, $config_name]) or Utility::web_error($sql, __FILE__, __LINE__);
     list($value) = $xoopsDB->fetchRow($result);
 
     return $value;

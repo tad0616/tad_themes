@@ -23,7 +23,6 @@
                     <{$smarty.const._MA_TADTHEMES_BG_COLOR}>
                 </label>
                 <div class="col-sm-8">
-                    <{* <input type="text" name="bg_color" id="bg_color" value="<{$bg_color|default:''}>" class="form-control color-picker <{$validate.bg_color}>" data-hex="true"  onChange="change_css();"> *}>
                     <div class="input-group">
                         <input type="text" name="bg_color" id="bg_color" value="<{$bg_color|default:''}>" class="form-control color-picker <{$validate.bg_color}>"  onChange="change_css();" data-hex="true">
                     </div>

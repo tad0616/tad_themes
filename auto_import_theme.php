@@ -32,8 +32,6 @@ function auto_import_theme($mode = '')
         $$k = $v['default'];
     }
 
-    save_conf($theme_kind);
-
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}");
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg");
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide");
@@ -58,61 +56,27 @@ function auto_import_theme($mode = '')
 
     $theme_id = get_theme_id($theme_name);
     if (empty($theme_id)) {
-        $sql = 'insert into ' . $xoopsDB->prefix('tad_themes') . "
-        (`theme_name` , `theme_type` , `theme_width` , `lb_width` , `cb_width` , `rb_width` , `clb_width` , `crb_width` , `base_color` , `lb_color` , `cb_color` , `rb_color` , `margin_top` , `margin_bottom` , `bg_img` , `bg_color`  , `bg_repeat`  , `bg_size`  ,`bg_attachment`  , `bg_position`  , `logo_img`  , `logo_position`  , `navlogo_img` , `logo_top` , `logo_right` , `logo_bottom` , `logo_left` , `logo_center` , `theme_enable` , `slide_width` , `slide_height` , `font_size` , `font_color` , `link_color` , `hover_color` , `theme_kind` , `navbar_pos` , `navbar_bg_top` , `navbar_bg_bottom` , `navbar_hover` , `navbar_color` , `navbar_color_hover` , `navbar_icon`, `navbar_img`)
-        values('{$theme_name}' , '{$theme_type}', '{$theme_width}' , '{$lb_width}', '{$cb_width}' , '{$rb_width}' , '{$clb_width}' , '{$crb_width}' , '{$base_color}' , '{$lb_color}' , '{$cb_color}' , '{$rb_color}' , '{$margin_top}' , '{$margin_bottom}' , '{$bg_img}' , '{$bg_color}' , '{$bg_repeat}', '{$bg_size}' , '{$bg_attachment}' , '{$bg_position}' , '{$logo_img}', '{$logo_position}' , '{$navlogo_img}' , '{$logo_top}' , '{$logo_right}' , '{$logo_bottom}' , '{$logo_left}' , '{$logo_center}' , '1' , '{$slide_width}' , '{$slide_height}' , '{$font_size}' , '{$font_color}' , '{$link_color}' , '{$hover_color}' , '{$theme_kind}', '{$navbar_pos}','{$navbar_bg_top}','{$navbar_bg_bottom}','{$navbar_hover}','{$navbar_color}','{$navbar_color_hover}','{$navbar_icon}','{$navbar_img}')";
-        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
+        $sql = 'INSERT INTO `' . $xoopsDB->prefix('tad_themes') . '` (`theme_name`, `theme_type`, `theme_width`, `lb_width`, `cb_width`, `rb_width`, `clb_width`, `crb_width`, `base_color`, `lb_color`, `cb_color`, `rb_color`, `margin_top`, `margin_bottom`, `bg_img`, `bg_color`, `bg_repeat`, `bg_size`, `bg_attachment`, `bg_position`, `logo_img`, `logo_position`, `navlogo_img`, `logo_top`, `logo_right`, `logo_bottom`, `logo_left`, `logo_center`, `theme_enable`, `slide_width`, `slide_height`, `font_size`, `font_color`, `link_color`, `hover_color`, `theme_kind`, `navbar_pos`, `navbar_bg_top`, `navbar_bg_bottom`, `navbar_hover`, `navbar_color`, `navbar_color_hover`, `navbar_icon`, `navbar_img`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        Utility::query($sql, 'ssiiiiiiiiiiisssssssssssssssssssssssssssssss', [
+            $theme_name, $theme_type, $theme_width, $lb_width, $cb_width,
+            $rb_width, $clb_width, $crb_width, $base_color, $lb_color,
+            $cb_color, $rb_color, $margin_top, $margin_bottom, $bg_img,
+            $bg_color, $bg_repeat, $bg_size, $bg_attachment, $bg_position,
+            $logo_img, $logo_position, $navlogo_img, $logo_top, $logo_right,
+            $logo_bottom, $logo_left, $logo_center, 1, $slide_width,
+            $slide_height, $font_size, $font_color, $link_color,
+            $hover_color, $theme_kind, $navbar_pos, $navbar_bg_top,
+            $navbar_bg_bottom, $navbar_hover, $navbar_color, $navbar_color_hover,
+            $navbar_icon, $navbar_img,
+        ]) or Utility::web_error($sql, __FILE__, __LINE__);
 
         //取得最後新增資料的流水編號
         $theme_id = $xoopsDB->getInsertId();
     } else {
-        $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set
-        `theme_name`='{$theme_name}' ,
-        `theme_type`='{$theme_type}' ,
-        `theme_width`='{$theme_width}' ,
-        `lb_width`='{$lb_width}' ,
-        `cb_width`='{$cb_width}' ,
-        `rb_width`='{$rb_width}' ,
-        `clb_width`='{$clb_width}' ,
-        `crb_width`='{$crb_width}' ,
-        `base_color`='{$base_color}' ,
-        `lb_color`='{$lb_color}' ,
-        `cb_color`='{$cb_color}' ,
-        `rb_color`='{$rb_color}' ,
-        `margin_top`='{$margin_top}' ,
-        `margin_bottom`='{$margin_bottom}' ,
-        `bg_img`='{$bg_img}' ,
-        `bg_color`='{$bg_color}'  ,
-        `bg_repeat`='{$bg_repeat}'  ,
-        `bg_size`='{$bg_size}'  ,
-        `bg_attachment`='{$bg_attachment}'  ,
-        `bg_position`='{$bg_position}'  ,
-        `logo_img`='{$logo_img}'  ,
-        `logo_position`='{$logo_position}'  ,
-        `navlogo_img`='{$navlogo_img}' ,
-        `logo_top`='{$logo_top}' ,
-        `logo_right`='{$logo_right}' ,
-        `logo_bottom`='{$logo_bottom}' ,
-        `logo_left`='{$logo_left}' ,
-        `logo_center`='{$logo_center}' ,
-        `theme_enable`='{$theme_enable}' ,
-        `slide_width`='{$slide_width}' ,
-        `slide_height`='{$slide_height}' ,
-        `font_size`='{$font_size}' ,
-        `font_color`='{$font_color}' ,
-        `link_color`='{$link_color}' ,
-        `hover_color`='{$hover_color}' ,
-        `theme_kind`='{$theme_kind}' ,
-        `navbar_pos`='{$navbar_pos}' ,
-        `navbar_bg_top`='{$navbar_bg_top}' ,
-        `navbar_bg_bottom`='{$navbar_bg_bottom}' ,
-        `navbar_hover`='{$navbar_hover}' ,
-        `navbar_color`='{$navbar_color}' ,
-        `navbar_color_hover`='{$navbar_color_hover}' ,
-        `navbar_icon`='{$navbar_icon}',
-        `navbar_img`='{$navbar_img}'
-        where `theme_id`='{$theme_id}'";
-        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'UPDATE `' . $xoopsDB->prefix('tad_themes') . '` SET `theme_name`=?, `theme_type`=?, `theme_width`=?, `lb_width`=?, `cb_width`=?, `rb_width`=?, `clb_width`=?, `crb_width`=?, `base_color`=?, `lb_color`=?, `cb_color`=?, `rb_color`=?, `margin_top`=?, `margin_bottom`=?, `bg_img`=?, `bg_color`=?, `bg_repeat`=?, `bg_size`=?, `bg_attachment`=?, `bg_position`=?, `logo_img`=?, `logo_position`=?, `navlogo_img`=?, `logo_top`=?, `logo_right`=?, `logo_bottom`=?, `logo_left`=?, `logo_center`=?, `theme_enable`=?, `slide_width`=?, `slide_height`=?, `font_size`=?, `font_color`=?, `link_color`=?, `hover_color`=?, `theme_kind`=?, `navbar_pos`=?, `navbar_bg_top`=?, `navbar_bg_bottom`=?, `navbar_hover`=?, `navbar_color`=?, `navbar_color_hover`=?, `navbar_icon`=?, `navbar_img`=? WHERE `theme_id`=?';
+        Utility::query($sql, 'sssssssssssssssssssssssssssssssssssssssssi', [$theme_name, $theme_type, $theme_width, $lb_width, $cb_width, $rb_width, $clb_width, $crb_width, $base_color, $lb_color, $cb_color, $rb_color, $margin_top, $margin_bottom, $bg_img, $bg_color, $bg_repeat, $bg_size, $bg_attachment, $bg_position, $logo_img, $logo_position, $navlogo_img, $logo_top, $logo_right, $logo_bottom, $logo_left, $logo_center, $theme_enable, $slide_width, $slide_height, $font_size, $font_color, $link_color, $hover_color, $theme_kind, $navbar_pos, $navbar_bg_top, $navbar_bg_bottom, $navbar_hover, $navbar_color, $navbar_color_hover, $navbar_icon, $navbar_img, $theme_id]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     }
 
     $TadDataCenter->set_col('theme_id', $theme_id);
@@ -144,13 +108,14 @@ function auto_import_theme($mode = '')
 
     //匯入額外設定值
     save_config2($theme_id, $config2_files, $mode);
+    $sql = 'SELECT `name`, `value` FROM `' . $xoopsDB->prefix('tad_themes_config2') . '` WHERE `theme_id`=? AND (`type`=? OR `type`=?)';
+    $result = Utility::query($sql, 'iss', [$theme_id, 'bg_file', 'file']) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    $sql = 'select `name`, `value` from ' . $xoopsDB->prefix('tad_themes_config2') . " where `theme_id`='{$theme_id}' and (`type`='bg_file' or `type`='file')";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while (list($name, $value) = $xoopsDB->fetchRow($result)) {
         if ($value) {
-            $sql = 'update ' . $xoopsDB->prefix('tad_themes_files_center') . " set col_name='config2_{$name}', `sort`=1 where `col_sn`='{$theme_id}' and col_name='config2' and file_name='$value'";
-            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            $sql = 'UPDATE `' . $xoopsDB->prefix('tad_themes_files_center') . "` SET `col_name`='config2_', `sort`=1 WHERE `col_sn`=? AND `col_name`='config2' AND `file_name`=?";
+            Utility::query($sql, 'is', [$theme_id, $value]) or Utility::web_error($sql, __FILE__, __LINE__);
+
         }
     }
 
@@ -247,33 +212,39 @@ function save_blocks($theme_id = '', $import = false, $mode = '')
     }
 
     foreach ($block_position_title as $position => $title) {
-        $block_config = $xoopsDB->escape($block_config_arr[$position]);
-        $bt_text = $xoopsDB->escape($bt_text_arr[$position]);
-        $bt_text_padding = $xoopsDB->escape($bt_text_padding_arr[$position]);
-        $bt_text_size = $xoopsDB->escape($bt_text_size_arr[$position]);
-        $bt_bg_color = $xoopsDB->escape($bt_bg_color_arr[$position]);
-        $bt_bg_img = $xoopsDB->escape($bt_bg_img_arr[$position]);
-        $bt_bg_repeat = $xoopsDB->escape($bt_bg_repeat_arr[$position]);
-        $bt_radius = $xoopsDB->escape($bt_radius_arr[$position]);
-        $block_style = $xoopsDB->escape($block_style_arr[$position]);
-        $block_title_style = $xoopsDB->escape($block_title_style_arr[$position]);
-        $block_content_style = $xoopsDB->escape($block_content_style_arr[$position]);
+        $block_config = $block_config_arr[$position];
+        $bt_text = $bt_text_arr[$position];
+        $bt_text_padding = $bt_text_padding_arr[$position];
+        $bt_text_size = $bt_text_size_arr[$position];
+        $bt_bg_color = $bt_bg_color_arr[$position];
+        $bt_bg_img = $bt_bg_img_arr[$position];
+        $bt_bg_repeat = $bt_bg_repeat_arr[$position];
+        $bt_radius = $bt_radius_arr[$position];
+        $block_style = $block_style_arr[$position];
+        $block_title_style = $block_title_style_arr[$position];
+        $block_content_style = $block_content_style_arr[$position];
 
         $bt_text_padding = (int) $bt_text_padding;
         $bt_bg_repeat = (int) $bt_bg_repeat;
         $bt_radius = (int) $bt_radius;
 
-        $sql = 'replace into ' . $xoopsDB->prefix('tad_themes_blocks') . "  (`theme_id` , `block_position` , `block_config` , `bt_text` , `bt_text_padding` , `bt_text_size` , `bt_bg_color` , `bt_bg_img` , `bt_bg_repeat` , `bt_radius`, `block_style`, `block_title_style`, `block_content_style`) values('{$theme_id}' , '{$position}' , '{$block_config}' , '{$bt_text}' , '{$bt_text_padding}' , '{$bt_text_size}' , '{$bt_bg_color}' , '{$bt_bg_img}' , '{$bt_bg_repeat}' , '{$bt_radius}' , '{$block_style}' , '{$block_title_style}' , '{$block_content_style}')";
-
-        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'REPLACE INTO `' . $xoopsDB->prefix('tad_themes_blocks') . '` (`theme_id`, `block_position`, `block_config`, `bt_text`, `bt_text_padding`, `bt_text_size`, `bt_bg_color`, `bt_bg_img`, `bt_bg_repeat`, `bt_radius`, `block_style`, `block_title_style`, `block_content_style`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        Utility::query($sql, 'issssssssssss', [$theme_id, $position, $block_config, $bt_text, $bt_text_padding, $bt_text_size, $bt_bg_color, $bt_bg_img, $bt_bg_repeat, $bt_radius, $block_style, $block_title_style, $block_content_style]) or Utility::web_error($sql, __FILE__, __LINE__);
 
         $TadUpFilesBt_bg = TadUpFilesBt_bg();
         // die(var_dump($TadUpFilesBt_bg));
         $TadUpFilesBt_bg->set_col("bt_bg_{$position}", $theme_id);
         $bt_bg_img = $TadUpFilesBt_bg->upload_file("bt_bg_{$position}", null, null, null, '', true);
         if ($bt_bg_img) {
-            $sql = 'update ' . $xoopsDB->prefix('tad_themes_blocks') . " set `bt_bg_img`='" . XOOPS_URL . "/uploads/tad_themes/{$theme_name}/bt_bg/{$bt_bg_img}' where `theme_id`='{$theme_id}' and `block_position`='{$position}'";
-            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            $sql = 'UPDATE `' . $xoopsDB->prefix('tad_themes_blocks') . '`
+            SET `bt_bg_img` = ?
+            WHERE `theme_id` = ?
+            AND `block_position` = ?';
+            Utility::query($sql, 'sis',
+                [XOOPS_URL . "/uploads/tad_themes/{$theme_name}/bt_bg/{$bt_bg_img}", $theme_id, $position])
+            or Utility::web_error($sql, __FILE__, __LINE__);
+
         }
+
     }
 }

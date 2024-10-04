@@ -51,7 +51,6 @@
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR}>
             </label>
             <div class="col-sm-4">
-                <{* <input type="text" name="navbar_color" id="navbar_color" value="<{$navbar_color|default:''}>" class="form-control color-picker <{$validate.navbar_color}>" data-hex="true"> *}>
                 <div class="input-group">
                     <input type="text" name="navbar_color" id="navbar_color" value="<{$navbar_color|default:''}>" class="form-control color-picker <{$validate.navbar_color}>" data-hex="true">
                 </div>
@@ -92,7 +91,6 @@
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_BG_COLOR}>
             </label>
             <div class="col-sm-4">
-                <{* <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top|default:''}>" class="form-control color-picker <{$validate.navbar_bg_top}>" data-hex="true"> *}>
                 <div class="input-group">
                     <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top|default:''}>" class="form-control color-picker <{$validate.navbar_bg_top}>" data-hex="true">
                 </div>
@@ -106,7 +104,6 @@
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_CHANGE}>
             </label>
             <div class="col-sm-4">
-                <{* <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom|default:''}>" class="form-control color-picker <{$validate.navbar_bg_bottom}>" data-hex="true"> *}>
                 <div class="input-group">
                     <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom|default:''}>" class="form-control color-picker <{$validate.navbar_bg_bottom}>" data-hex="true">
                 </div>
@@ -129,7 +126,6 @@
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR_HOVER}>
             </label>
             <div class="col-sm-4">
-                <{* <input type="text" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover|default:''}>" class="form-control color-picker <{$validate.navbar_color_hover}>" data-hex="true"> *}>
                 <div class="input-group">
                     <input type="text" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover|default:''}>" class="form-control color-picker <{$validate.navbar_color_hover}>" data-hex="true">
                 </div>
@@ -142,7 +138,6 @@
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_HOVER_COLOR}>
             </label>
             <div class="col-sm-4">
-                <{* <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover|default:''}>" class="form-control color-picker <{$validate.navbar_hover}>" data-hex="true"> *}>
                 <div class="input-group">
                     <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover|default:''}>" class="form-control color-picker <{$validate.navbar_hover}>" data-hex="true">
                 </div>

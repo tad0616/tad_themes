@@ -45,7 +45,6 @@
     </label>
     <div class="col-sm-2">
         <{if $enable.base_color|default:false}>
-            <{* <input type="text" name="base_color" class="form-control color-picker <{$validate.base_color}>" value="<{$base_color|default:''}>" id="base_color" data-hex="true" onChange="change_css();"> *}>
             <div class="input-group">
                 <input type="text" name="base_color" id="base_color" value="<{$base_color|default:''}>" class="form-control color-picker <{$validate.base_color}>"  onChange="change_css();" data-hex="true">
             </div>
@@ -77,7 +76,6 @@
             <{$smarty.const._MA_TADTHEMES_CB_COLOR}>
         </label>
         <div class="col-sm-2">
-            <{* <input type="text" name="cb_color" id="cb_color" value="<{$cb_color|default:''}>" class="form-control color-picker <{$validate.cb_color}>"  data-hex="true" onChange="change_css();"> *}>
             <div class="input-group">
                 <input type="text" name="cb_color" id="cb_color" value="<{$cb_color|default:''}>" class="form-control color-picker <{$validate.cb_color}>"  onChange="change_css();" data-hex="true">
             </div>
@@ -90,7 +88,6 @@
     <{if $enable.rb_color|default:false}>
         <label class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_RB_COLOR}></label>
         <div class="col-sm-2">
-            <{* <input type="text" name="rb_color" id="rb_color" value="<{$rb_color|default:''}>" class="form-control color-picker <{$validate.rb_color}>" data-hex="true" onChange="change_css();"> *}>
             <div class="input-group">
                 <input type="text" name="rb_color" id="rb_color" value="<{$rb_color|default:''}>" class="form-control color-picker <{$validate.rb_color}>"  onChange="change_css();" data-hex="true">
             </div>
@@ -202,7 +199,6 @@
             <{$smarty.const._MA_TADTHEMES_FONT_COLOR}>
         </label>
         <div class="col-sm-2">
-            <{* <input type="text" name="font_color" id="font_color" value="<{$font_color|default:''}>" class="form-control color-picker <{$validate.font_color}>" data-hex="true" onChange="change_css();"> *}>
             <div class="input-group">
                 <input type="text" name="font_color" id="font_color" value="<{$font_color|default:''}>" class="form-control color-picker <{$validate.font_color}>"  onChange="change_css();" data-hex="true">
             </div>
@@ -217,7 +213,6 @@
             <{$smarty.const._MA_TADTHEMES_LINK_COLOR}>
         </label>
         <div class="col-sm-2">
-            <{* <input type="text" name="link_color" id="link_color" value="<{$link_color|default:''}>" class="form-control color-picker <{$validate.link_color}>" data-hex="true" onChange="change_css();"> *}>
             <div class="input-group">
                 <input type="text" name="link_color" id="link_color" value="<{$link_color|default:''}>" class="form-control color-picker <{$validate.link_color}>"  onChange="change_css();" data-hex="true">
             </div>
@@ -232,7 +227,6 @@
             <{$smarty.const._MA_TADTHEMES_HOVER_COLOR}>
         </label>
         <div class="col-sm-2">
-            <{* <input type="text" name="hover_color" id="hover_color" value="<{$hover_color|default:''}>" class="form-control color-picker<{$validate.hover_color}>" data-hex="true" onChange="change_css();"> *}>
             <div class="input-group">
                 <input type="text" name="hover_color" id="hover_color" value="<{$hover_color|default:''}>" class="form-control color-picker <{$validate.hover_color}>"  onChange="change_css();" data-hex="true">
             </div>

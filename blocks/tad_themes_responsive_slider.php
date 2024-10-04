@@ -1,5 +1,6 @@
 <?php
 use XoopsModules\Tadtools\ResponsiveSlides;
+use XoopsModules\Tadtools\Utility;
 
 if (!class_exists('XoopsModules\Tadtools\ResponsiveSlides')) {
     require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
@@ -10,8 +11,9 @@ function tad_themes_responsive_slider($options)
 {
     global $xoopsDB, $xoopsConfig;
 
-    $sql = 'select * from ' . $xoopsDB->prefix('tad_themes') . " where `theme_name`='{$xoopsConfig['theme_set']}'";
-    $result = $xoopsDB->query($sql);
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_themes') . '` WHERE `theme_name` =?';
+    $result = Utility::query($sql, 's', [$xoopsConfig['theme_set']]);
+
     $data = $xoopsDB->fetchArray($result);
     if (empty($data)) {
         return;
@@ -57,11 +59,11 @@ function tad_themes_responsive_slider($options)
 
     $ResponsiveSlides = new ResponsiveSlides(120, false);
 
-    $sql = 'select a.*,b.slide_width,b.slide_height from ' . $xoopsDB->prefix('tad_themes_files_center') . ' as a left join ' . $xoopsDB->prefix('tad_themes') . " as b on a.col_sn=b.theme_id  where a.`col_name`='slide' and b.`theme_name`='{$xoopsConfig['theme_set']}'";
-
-    $result = $xoopsDB->query($sql);
+    $sql = 'SELECT a.*, b.`slide_width`, b.`slide_height` FROM `' . $xoopsDB->prefix('tad_themes_files_center') . '` AS a LEFT JOIN `' . $xoopsDB->prefix('tad_themes') . '` AS b ON a.`col_sn` = b.`theme_id` WHERE a.`col_name` = ? AND b.`theme_name` = ?';
+    $result = Utility::query($sql, 'ss', ['slide', $xoopsConfig['theme_set']]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $slide_images = 0;
+    $title = $date = '';
     while (false !== ($data = $xoopsDB->fetchArray($result))) {
         foreach ($data as $k => $v) {
             $$k = $v;
@@ -107,12 +109,14 @@ function tad_themes_responsive_slider($options)
         $ResponsiveSlides->add_content(3, $title, $content, XOOPS_URL . "/themes/{$xoopsConfig['theme_set']}/images/slide/default3.png", '', XOOPS_URL);
     }
 
-    $sql = "select a.`value` from " . $xoopsDB->prefix("tad_themes_config2") . " as a left join " . $xoopsDB->prefix("tad_themes") . " as b on a.theme_id=b.theme_id where a.`name`='slide_timeout' and b.`theme_name`='{$xoopsConfig['theme_set']}'";
-    $result = $xoopsDB->query($sql);
+    $sql = 'SELECT a.`value` FROM `' . $xoopsDB->prefix('tad_themes_config2') . '` AS a LEFT JOIN `' . $xoopsDB->prefix('tad_themes') . '` AS b ON a.`theme_id`=b.`theme_id` WHERE a.`name`=? AND b.`theme_name`=?';
+    $result = Utility::query($sql, 'ss', ['slide_timeout', $xoopsConfig['theme_set']]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     list($slide_timeout) = $xoopsDB->fetchRow($result);
 
-    $sql = "select a.`value` from " . $xoopsDB->prefix("tad_themes_config2") . " as a left join " . $xoopsDB->prefix("tad_themes") . " as b on a.theme_id=b.theme_id where a.`name`='slide_nav' and b.`theme_name`='{$xoopsConfig['theme_set']}'";
-    $result = $xoopsDB->query($sql);
+    $sql = 'SELECT a.`value` FROM `' . $xoopsDB->prefix('tad_themes_config2') . '` AS a LEFT JOIN `' . $xoopsDB->prefix('tad_themes') . '` AS b ON a.`theme_id`=b.`theme_id` WHERE a.`name`=? AND b.`theme_name`=?';
+    $result = Utility::query($sql, 'ss', ['slide_nav', $xoopsConfig['theme_set']]);
+
     list($slide_nav) = $xoopsDB->fetchRow($result);
 
     $block .= $ResponsiveSlides->render('tad_themes_ResponsiveSlides', null, $slide_timeout, $slide_nav);

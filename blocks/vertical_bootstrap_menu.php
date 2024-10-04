@@ -9,12 +9,15 @@ if (!class_exists('XoopsModules\Tadtools\Utility')) {
 function vertical_bootstrap_menu($options)
 {
     global $xoopsDB;
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
     require_once XOOPS_ROOT_PATH . '/modules/tad_themes/function_block.php';
-    $in = empty($options[0]) ? "status='1' and of_level=0" : "menuid in({$options[0]})";
-    //$menu=explode(",",$options[0]);
-    $sql = 'select `menuid`,`itemname`,`itemurl`,`target`,`icon`,`position` from ' . $xoopsDB->prefix('tad_themes_menu') . " where $in order by position";
-    $result = $xoopsDB->query($sql);
+    $in = empty($options[0]) ? "`status`='1' and `of_level`=0" : "`menuid` in({$options[0]})";
+
+    $sql = 'SELECT `menuid`, `itemname`, `itemurl`, `target`, `icon`, `position`
+        FROM `' . $xoopsDB->prefix('tad_themes_menu') . '`
+        WHERE ' . $in . '
+        ORDER BY `position`';
+    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
     $menu = [];
 
     $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
@@ -79,8 +82,11 @@ if (!function_exists('block_menu_options')) {
         i=0;
         var arr = new Array();';
 
-        $sql = 'SELECT menuid,itemname,status FROM ' . $xoopsDB->prefix('tad_themes_menu') . ' ORDER BY position';
-        $result = $xoopsDB->query($sql);
+        $sql = 'SELECT `menuid`, `itemname`, `status`
+        FROM `' . $xoopsDB->prefix('tad_themes_menu') . '`
+        ORDER BY `position`';
+        $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
         $option = '';
         while (list($menuid, $itemname, $status) = $xoopsDB->fetchRow($result)) {
             $js .= "if(document.getElementById('c{$menuid}').checked){

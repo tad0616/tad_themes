@@ -405,7 +405,11 @@ function save_to_logo($name = '', $theme_id = '')
         $theme_id = get_theme_id($xoopsConfig['theme_set']);
     }
     import_file(XOOPS_ROOT_PATH . "/uploads/tmp_logo/{$name}.png", 'logo', $theme_id, null, null, '', false, false);
-    $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set logo_img='{$name}.png' where theme_id='{$theme_id}'";
-    $xoopsDB->queryF($sql);
+
+    $sql = 'UPDATE `' . $xoopsDB->prefix('tad_themes') . '`
+        SET `logo_img` = ?
+        WHERE `theme_id` = ?';
+    Utility::query($sql, 'si', ["{$name}.png", $theme_id]);
+
     delete_dirfile(XOOPS_ROOT_PATH . '/uploads/tmp_logo');
 }
