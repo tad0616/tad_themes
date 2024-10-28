@@ -36,7 +36,6 @@ $margin_top = Request::getInt('margin_top');
 $margin_bottom = Request::getInt('margin_bottom');
 
 switch ($op) {
-    /*---判斷動作請貼在下方---*/
 
     case 'del_logo':
         unlink(XOOPS_ROOT_PATH . "/uploads/logo/{$logo}");
@@ -75,7 +74,7 @@ switch ($op) {
         tad_themes_logo_form();
         $op = 'tad_themes_logo_form';
         break;
-        /*---判斷動作請貼在上方---*/
+
 }
 
 /*-----------秀出結果區--------------*/

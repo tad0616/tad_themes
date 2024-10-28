@@ -1,5 +1,5 @@
 <div class="form-group row mb-3">
-    <label class="col-sm-2 col-form-label text-sm-right control-label">
+    <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
         <{$smarty.const._MA_TADTHEMES_SLIDE_ENABLE}>
     </label>
     <div class="col-sm-10">
@@ -24,7 +24,7 @@
 
 <div class="form-group row mb-3">
     <!-- 背景模式-->
-    <label class="col-sm-2 col-form-label text-sm-right control-label">
+    <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
         <{$smarty.const._MA_TAD_THEMES_UPLOAD}>
         <{$smarty.const._MA_TAD_THEMES_HEAD}>
     </label>

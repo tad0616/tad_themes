@@ -92,9 +92,9 @@
                 <div class="input-group-append input-group-btn">
                     <{if $config.bid|default:false}>
                         <{if $adv_bids|is_array && $config.bid|in_array:$adv_bids}>
-                            <a href="<{$xoops|default:''}>/modules/tad_blocks/index.php?op=block_form&bid=<{$config.bid}>" target="_blank" class="btn btn-primary"><{$smarty.const._TAD_EDIT}></a>
+                            <a href="<{$xoops|default:''}>/modules/tad_blocks/index.php?op=block_form&bid=<{$config.bid}>" target="_blank" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
                         <{else}>
-                            <a href="<{$xoops|default:''}>/modules/system/admin.php?fct=blocksadmin&op=edit&bid=<{$config.bid}>" target="_blank" class="btn btn-primary"><{$smarty.const._TAD_EDIT}></a>
+                            <a href="<{$xoops|default:''}>/modules/system/admin.php?fct=blocksadmin&op=edit&bid=<{$config.bid}>" target="_blank" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
                         <{/if}>
                     <{/if}>
                 </div>

@@ -104,6 +104,7 @@ define('_MA_TADTHEMES_WEB_MENU', 'Menu');
 define('_MA_TADTHEMES_EDIT_MENU', 'Various editing functions');
 define('_MA_TADTHEMES_IMPORT_MENU', 'Import Menu');
 define('_MA_TADTHEMES_IMPORT_EDIT_MENU', 'Import editing options');
+define('_MA_TADTHEMES_EDIT_MENU_TAD_ASSIGNMENT', 'Creating a Job Upload');
 define('_MA_TADTHEMES_EDIT_MENU_TADNEWS', 'Publish Article');
 define('_MA_TADTHEMES_EDIT_MENU_TAD_LINK', 'Add link');
 define('_MA_TADTHEMES_EDIT_MENU_TADGALLERY', 'Upload photo');

@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group row mb-3">
-                <label class="col-sm-4 col-form-label text-sm-right control-label">
+                <label class="col-sm-4 col-form-label text-sm-right text-sm-end control-label">
                     <{$config.text}>
                 </label>
                 <div class="col-sm-8">
@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="form-group row mb-3">
-                <label class="col-sm-4 col-form-label text-sm-right control-label">
+                <label class="col-sm-4 col-form-label text-sm-right text-sm-end control-label">
                     <{$config.text}><{$smarty.const._MA_TADTHEMES_BG_ATTR}>
                 </label>
                 <div class="col-sm-3">

@@ -4,7 +4,7 @@
     <{include file="$xoops_rootpath/modules/tad_themes/templates/sub_custom_zone.tpl"}>
 <{else}>
     <div class="form-group row mb-3">
-        <label class="col-sm-2 col-form-label text-sm-right control-label">
+        <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
             <{$config.text}>[<{$config.value}>]
         </label>
         <div class="col-sm-5">
@@ -69,9 +69,9 @@
                             </select>
                             <{if $config.bid|default:false}>
                                 <{if $adv_bids|is_array && $config.bid|in_array:$adv_bids}>
-                                    <a href="<{$xoops|default:''}>/modules/tad_blocks/index.php?op=block_form&bid=<{$config.bid}>" target="_blank"><{$smarty.const._TAD_EDIT}></a>
+                                    <a href="<{$xoops|default:''}>/modules/tad_blocks/index.php?op=block_form&bid=<{$config.bid}>" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
                                 <{else}>
-                                    <a href="<{$xoops|default:''}>/modules/system/admin.php?fct=blocksadmin&op=edit&bid=<{$config.bid}>" target="_blank"><{$smarty.const._TAD_EDIT}></a>
+                                    <a href="<{$xoops|default:''}>/modules/system/admin.php?fct=blocksadmin&op=edit&bid=<{$config.bid}>" target="_blank"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
                                 <{/if}>
                             <{/if}>
                         <{/if}>

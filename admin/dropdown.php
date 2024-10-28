@@ -122,7 +122,7 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
         $get_tad_all_menu = "
           <label class='col-sm-3 control-label col-form-label text-md-right text-md-end'>" . _MA_TADTHEMES_OF_LEVEL . _TAD_FOR . "</label>
           <div class='col-sm-3'>
-            <select name='of_level' id='of_level' class='form-control'>
+            <select name='of_level' id='of_level' class='form-select'>
             <option value=''>" . _MA_TADTHEMES_ROOT . '</option>
             ' . get_tad_all_menu('', '', $of_level, $menuid, '1') . '
             </select>
@@ -169,7 +169,7 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
                 <input type='text' name='itemurl' id='itemurl' value='{$itemurl}' class='form-control' placeholder='" . _MA_TADTHEMES_ITEMURL . "'>
             </div>
             <div class='col-sm-3'>
-                <select name='target' class='form-control'>
+                <select name='target' class='form-select'>
                     <option value='_self'></option>
                     <option value='_blank' " . Utility::chk($target, '_blank', 0, 'selected') . '>' . _MA_TADTHEMES_TARGET_BLANK . "</option>
                     <option value='popup' " . Utility::chk($target, 'popup', 0, 'selected') . '>' . _MA_TADTHEMES_TARGET_FANCYBOX . "</option>
@@ -675,6 +675,7 @@ function import_edit()
     $mod_posts['jill_notice'] = ['title' => _MA_TADTHEMES_EDIT_MENU_JILL_NOTICE, 'url' => '/modules/jill_notice/index.php?op=notice_form'];
     $mod_posts['jill_booking'] = ['title' => _MA_TADTHEMES_EDIT_MENU_JILL_BOOKING, 'url' => '/modules/jill_booking/index.php'];
     $mod_posts['kw_device'] = ['title' => _MA_TADTHEMES_EDIT_MENU_KW_DEVICE, 'url' => '/modules/modules/index.php'];
+    $mod_posts['tad_assignment'] = ['title' => _MA_TADTHEMES_EDIT_MENU_TAD_ASSIGNMENT, 'url' => '/modules/tad_assignment/admin/add.php'];
 
     //已在資料庫的選項
     $old_items = [];

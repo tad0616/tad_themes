@@ -4,7 +4,7 @@
         <!-- 上傳logo圖-->
         <{if $enable.logo_img=="1"}>
             <div class="form-group row mb-3">
-                <label class="col-sm-3 col-form-label text-sm-right control-label">
+                <label class="col-sm-3 col-form-label text-sm-right text-sm-end control-label">
                     <{$smarty.const._MA_TAD_THEMES_UPLOAD}><{$smarty.const._MA_TADTHEMES_LOGO_IMG}>
                 </label>
                 <div class="col-sm-9">
@@ -18,7 +18,7 @@
         <!-- logo圖位置-->
         <{if $enable.logo_position=="1"}>
             <div class="form-group row mb-3">
-                <label class="col-sm-3 col-form-label text-sm-right control-label">
+                <label class="col-sm-3 col-form-label text-sm-right text-sm-end control-label">
                     <{$smarty.const._MA_TADTHEMES_LOGO_POSITION}>
                 </label>
                 <div class="col-sm-9">
@@ -39,7 +39,7 @@
         <!-- 選擇預設logo圖-->
         <{if $enable.logo_top=="1" or  $enable.logo_right=="1" or $enable.logo_left=="1" or $enable.logo_bottom=="1"}>
             <div class="form-group row mb-3" id="logo_place_setup">
-                <label class="col-sm-3 col-form-label text-sm-right control-label">
+                <label class="col-sm-3 col-form-label text-sm-right text-sm-end control-label">
                     <{$smarty.const._MA_TADTHEMES_LOGO_PLACE}>
                 </label>
                 <div class="col-sm-9">

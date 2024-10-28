@@ -2,9 +2,9 @@
 <{if $enable.navbar_pos=="1" or $enable.navbar_font_size!="0"}>
     <div class="form-group row mb-3">
         <{if $enable.navbar_pos=="1"}>
-            <label class="col-sm-2 col-form-label text-sm-right control-label"><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION}></label>
+            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label"><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION}></label>
             <div class="col-sm-4">
-                <select name="navbar_pos" id="navbar_pos" class="form-control <{$validate.navbar_pos}>">
+                <select name="navbar_pos" id="navbar_pos" class="form-select <{$validate.navbar_pos}>">
                     <option value="fixed-top" <{if $navbar_pos=="fixed-top"}>selected<{/if}>>
                     <{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_1}></option>
                     <option value="fixed-bottom" <{if $navbar_pos=="fixed-bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_2}></option>
@@ -21,7 +21,7 @@
 
         <!--導覽列 文字大小-->
         <{if $enable.navbar_font_size!="0"}>
-            <label class="col-sm-2 col-form-label text-sm-right control-label">
+            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_FONT_SIZE}>
             </label>
             <div class="col-sm-4">
@@ -47,7 +47,7 @@
     <div class="form-group row mb-3">
         <!--導覽列 文字顏色-->
         <{if $enable.navbar_color=="1"}>
-            <label class="col-sm-2 col-form-label text-sm-right control-label">
+            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR}>
             </label>
             <div class="col-sm-4">
@@ -61,7 +61,7 @@
 
         <!--導覽列 圖示顏色-->
         <{if $enable.navbar_icon=="1"}>
-            <label class="col-sm-2 col-form-label text-sm-right control-label">
+            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_ICON_COLOR}>
             </label>
             <div class="col-sm-4">
@@ -87,7 +87,7 @@
     <div class="form-group row mb-3">
         <!--導覽列 漸層顏色(top) -->
         <{if $enable.navbar_bg_top=="1"}>
-            <label class="col-sm-2 col-form-label text-sm-right control-label">
+            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_BG_COLOR}>
             </label>
             <div class="col-sm-4">
@@ -100,7 +100,7 @@
         <{/if}>
         <!--導覽列 漸層顏色(bottom) -->
         <{if $enable.navbar_bg_bottom=="1"}>
-            <label class="col-sm-2 col-form-label text-sm-right control-label">
+            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_CHANGE}>
             </label>
             <div class="col-sm-4">
@@ -122,7 +122,7 @@
     <div class="form-group row mb-3">
         <!--導覽列 滑鼠移過顏色-->
         <{if $enable.navbar_color_hover=="1"}>
-            <label class="col-sm-2 col-form-label text-sm-right control-label">
+            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_COLOR_HOVER}>
             </label>
             <div class="col-sm-4">
@@ -134,7 +134,7 @@
             <input type="hidden" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover|default:''}>">
         <{/if}>
         <{if $enable.navbar_hover=="1"}>
-            <label class="col-sm-2 col-form-label text-sm-right control-label">
+            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_HOVER_COLOR}>
             </label>
             <div class="col-sm-4">
@@ -159,7 +159,7 @@
     <div class="form-group row mb-3">
         <!--導覽列 導覽選項上下距離-->
         <{if $enable.navbar_py=="1"}>
-            <label class="col-sm-2 col-form-label text-sm-right control-label">
+            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_PY}>
             </label>
             <div class="col-sm-4">
@@ -176,7 +176,7 @@
 
         <!--導覽列 導覽選項左右距離-->
         <{if $enable.navbar_px=="1"}>
-            <label class="col-sm-2 col-form-label text-sm-right control-label">
+            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
                 <{$smarty.const._MA_TADTHEMES_NAVBAR_PX}>
             </label>
             <div class="col-sm-4">
@@ -201,7 +201,7 @@
         <{if $enable.navbar_img=="1"}>
             <div class="row">
                 <!-- 上傳navbar_img圖-->
-                <label class="col-sm-4 col-form-label text-sm-right control-label">
+                <label class="col-sm-4 col-form-label text-sm-right text-sm-end control-label">
                     <{$smarty.const._MA_TAD_THEMES_UPLOAD}><{$smarty.const._MA_TADTHEMES_NAVBAR_IMG}>
                 </label>
                 <div class="col-sm-8">
@@ -248,7 +248,7 @@
         <{if $enable.navlogo_img=="1"}>
             <div class="row">
                 <!-- 上傳logo圖-->
-                <label class="col-sm-4 col-form-label text-sm-right control-label">
+                <label class="col-sm-4 col-form-label text-sm-right text-sm-end control-label">
                     <{$smarty.const._MA_TAD_THEMES_UPLOAD}><{$smarty.const._MA_TADTHEMES_NAVLOGO_IMG}>
                 </label>
                 <div class="col-sm-8">

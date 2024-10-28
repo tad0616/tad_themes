@@ -21,7 +21,7 @@
                     <div class="form-group row mb-3">
                         <!-- 區塊標題文字大小-->
                         <{if $enable.bt_text_size=="1"}>
-                            <label class="col-sm-2 col-form-label text-sm-right control-label">
+                            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
                                 <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_SIZE}>
                             </label>
                             <div class="col-sm-4">
@@ -33,7 +33,7 @@
 
                         <!-- 區塊標題文字縮排-->
                         <{if $enable.bt_text_padding=="1"}>
-                            <label class="col-sm-2 col-form-label text-sm-right control-label">
+                            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
                                 <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_PADDING}>
                             </label>
                             <div class="col-sm-4">
@@ -52,7 +52,7 @@
                     <div class="form-group row mb-3">
                         <!-- 區塊標題列文字顏色-->
                         <{if $enable.bt_text=="1"}>
-                            <label class="col-sm-2 col-form-label text-sm-right control-label">
+                            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
                                 <{$smarty.const._MA_TADTHEMES_FONT_COLOR}>
                             </label>
                             <div class="col-sm-4">
@@ -66,7 +66,7 @@
 
                         <!-- 區塊標題列背景顏色-->
                         <{if $enable.bt_bg_color=="1"}>
-                            <label class="col-sm-2 col-form-label text-sm-right control-label">
+                            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
                                 <{$smarty.const._MA_TADTHEMES_BG_COLOR}>
                             </label>
                             <div class="col-sm-4">
@@ -82,7 +82,7 @@
                     <div class="form-group row mb-3">
                         <!-- 區塊標題圓角設定-->
                         <{if $enable.bt_radius=="1"}>
-                            <label class="col-sm-2 col-form-label text-sm-right control-label">
+                            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
                                 <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_RADIUS}>
                             </label>
 
@@ -98,7 +98,7 @@
 
                         <!-- 區塊標題工具按鈕-->
                         <{if $enable.block_config=="1"}>
-                            <label class="col-sm-2 col-form-label text-sm-right control-label">
+                            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
                                 <{$smarty.const._MA_TADTHEMES_BLOCK_TITLE_BUTTOM}>
                             </label>
 
@@ -116,7 +116,7 @@
                     <div class="form-group row mb-3">
                         <!-- 上傳區塊標題列背景圖-->
                         <{if $enable.bt_bg_img=="1"}>
-                            <label class="col-sm-2 col-form-label text-sm-right control-label">
+                            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
                                 <{$smarty.const._MA_TAD_THEMES_UPLOAD}>
                                 <{$smarty.const._MA_TADTHEMES_BG_IMG}>
                             </label>
@@ -129,7 +129,7 @@
 
                         <!-- 區塊標題列背景重複-->
                         <{if $enable.bt_bg_repeat=="1"}>
-                            <label class="col-sm-2 col-form-label text-sm-right control-label">
+                            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
                                 <{$smarty.const._MA_TADTHEMES_BG_REPEAT}>
                             </label>
                             <div class="col-sm-4">

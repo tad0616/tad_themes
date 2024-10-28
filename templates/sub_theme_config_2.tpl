@@ -3,7 +3,7 @@
         <{if $enable.bg_img|default:false}>
             <div class="form-group row mb-3">
                 <!-- 上傳 背景圖-->
-                <label class="col-sm-4 col-form-label text-sm-right control-label">
+                <label class="col-sm-4 col-form-label text-sm-right text-sm-end control-label">
                     <{$smarty.const._MA_TAD_THEMES_UPLOAD}>
                     <{$smarty.const._MA_TADTHEMES_BG_IMG}>
                 </label>
@@ -19,7 +19,7 @@
         <{if $enable.bg_color|default:false}>
             <div class="form-group row mb-3">
                 <!-- 背景顏色-->
-                <label class="col-sm-4 col-form-label text-sm-right control-label">
+                <label class="col-sm-4 col-form-label text-sm-right text-sm-end control-label">
                     <{$smarty.const._MA_TADTHEMES_BG_COLOR}>
                 </label>
                 <div class="col-sm-8">
@@ -35,11 +35,11 @@
         <{if $enable.bg_repeat|default:false}>
         <div class="form-group row mb-3">
             <!-- 背景重複-->
-            <label class="col-sm-4 col-form-label text-sm-right control-label">
+            <label class="col-sm-4 col-form-label text-sm-right text-sm-end control-label">
                 <{$smarty.const._MA_TADTHEMES_BG_REPEAT}>
             </label>
             <div class="col-sm-8">
-            <select name="bg_repeat" id="bg_repeat" class="form-control <{$validate.bg_repeat}>" onChange="change_css();">
+            <select name="bg_repeat" id="bg_repeat" class="form-select <{$validate.bg_repeat}>" onChange="change_css();">
                 <option value="repeat" <{if $bg_repeat=="repeat"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_REPEAT_NORMAL}></option>
                 <option value="repeat-x" <{if $bg_repeat=="repeat-x"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_REPEAT_X}></option>
                 <option value="repeat-y" <{if $bg_repeat=="repeat-y"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_REPEAT_Y}></option>
@@ -54,11 +54,11 @@
         <{if $enable.bg_size|default:false}>
         <div class="form-group row mb-3">
             <!-- 背景縮放-->
-            <label class="col-sm-4 col-form-label text-sm-right control-label">
+            <label class="col-sm-4 col-form-label text-sm-right text-sm-end control-label">
                 <{$smarty.const._MA_TADTHEMES_BG_SIZE}>
             </label>
             <div class="col-sm-8">
-            <select name="bg_size" id="bg_size" class="form-control <{$validate.bg_size}>" onChange="change_css();">
+            <select name="bg_size" id="bg_size" class="form-select <{$validate.bg_size}>" onChange="change_css();">
                 <option value="auto" <{if $bg_size=="auto" or $bg_size==""}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_SIZE_NONE}></option>
                 <option value="cover" <{if $bg_size=="cover"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_SIZE_COVER}></option>
                 <option value="contain" <{if $bg_size=="contain"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_SIZE_CONTAIN}></option>
@@ -74,11 +74,11 @@
         <{if $enable.bg_attachment|default:false}>
         <div class="form-group row mb-3">
             <!-- 背景模式-->
-            <label class="col-sm-4 col-form-label text-sm-right control-label">
+            <label class="col-sm-4 col-form-label text-sm-right text-sm-end control-label">
                 <{$smarty.const._MA_TADTHEMES_BG_ATTACHMENT}>
             </label>
             <div class="col-sm-8">
-            <select name="bg_attachment" id="bg_attachment" class="form-control <{$validate.bg_attachment}>" onChange="change_css();">
+            <select name="bg_attachment" id="bg_attachment" class="form-select <{$validate.bg_attachment}>" onChange="change_css();">
                 <option value="scroll" <{if $bg_attachment=="scroll"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_ATTACHMENT_SCROLL}></option>
                 <option value="fixed" <{if $bg_attachment=="fixed"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_ATTACHMENT_FIXED}></option>
             </select>
@@ -92,11 +92,11 @@
         <{if $enable.bg_position|default:false}>
         <div class="form-group row mb-3">
             <!-- 背景位置-->
-            <label class="col-sm-4 col-form-label text-sm-right control-label">
+            <label class="col-sm-4 col-form-label text-sm-right text-sm-end control-label">
                 <{$smarty.const._MA_TADTHEMES_BG_POSITION}>
             </label>
             <div class="col-sm-8">
-                <select name="bg_position" id="bg_position" class="form-control <{$validate.bg_position}>" onChange="change_css();">
+                <select name="bg_position" id="bg_position" class="form-select <{$validate.bg_position}>" onChange="change_css();">
                     <option value="left top" <{if $bg_position=="left top" or $bg_position==""}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_LT}></option>
                     <option value="left center" <{if $bg_position=="left center"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_LC}></option>
                     <option value="left bottom" <{if $bg_position=="left bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_BG_POSITION_LB}></option>

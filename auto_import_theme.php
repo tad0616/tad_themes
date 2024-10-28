@@ -57,25 +57,14 @@ function auto_import_theme($mode = '')
     $theme_id = get_theme_id($theme_name);
     if (empty($theme_id)) {
 
-        $sql = 'INSERT INTO `' . $xoopsDB->prefix('tad_themes') . '` (`theme_name`, `theme_type`, `theme_width`, `lb_width`, `cb_width`, `rb_width`, `clb_width`, `crb_width`, `base_color`, `lb_color`, `cb_color`, `rb_color`, `margin_top`, `margin_bottom`, `bg_img`, `bg_color`, `bg_repeat`, `bg_size`, `bg_attachment`, `bg_position`, `logo_img`, `logo_position`, `navlogo_img`, `logo_top`, `logo_right`, `logo_bottom`, `logo_left`, `logo_center`, `theme_enable`, `slide_width`, `slide_height`, `font_size`, `font_color`, `link_color`, `hover_color`, `theme_kind`, `navbar_pos`, `navbar_bg_top`, `navbar_bg_bottom`, `navbar_hover`, `navbar_color`, `navbar_color_hover`, `navbar_icon`, `navbar_img`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        Utility::query($sql, 'ssiiiiiiiiiiisssssssssssssssssssssssssssssss', [
-            $theme_name, $theme_type, $theme_width, $lb_width, $cb_width,
-            $rb_width, $clb_width, $crb_width, $base_color, $lb_color,
-            $cb_color, $rb_color, $margin_top, $margin_bottom, $bg_img,
-            $bg_color, $bg_repeat, $bg_size, $bg_attachment, $bg_position,
-            $logo_img, $logo_position, $navlogo_img, $logo_top, $logo_right,
-            $logo_bottom, $logo_left, $logo_center, 1, $slide_width,
-            $slide_height, $font_size, $font_color, $link_color,
-            $hover_color, $theme_kind, $navbar_pos, $navbar_bg_top,
-            $navbar_bg_bottom, $navbar_hover, $navbar_color, $navbar_color_hover,
-            $navbar_icon, $navbar_img,
-        ]) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'INSERT INTO `' . $xoopsDB->prefix('tad_themes') . '` (`theme_name`, `theme_type`, `theme_width`, `lb_width`, `cb_width`, `rb_width`, `clb_width`, `crb_width`, `base_color`, `lb_color`, `cb_color`, `rb_color`, `margin_top`, `margin_bottom`, `bg_img`, `bg_color`, `bg_repeat`, `bg_size`, `bg_attachment`, `bg_position`, `logo_img`, `logo_position`, `navlogo_img`, `logo_top`, `logo_right`, `logo_bottom`, `logo_left`, `logo_center`, `theme_enable`, `slide_width`, `slide_height`, `font_size`, `font_color`, `link_color`, `hover_color`, `theme_kind`, `navbar_pos`, `navbar_bg_top`, `navbar_bg_bottom`, `navbar_hover`, `navbar_color`, `navbar_color_hover`, `navbar_icon`, `navbar_img`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        Utility::query($sql, 'sssssssssssssssssssssssiiiiissssssssssssssss', [$theme_name, $theme_type, $theme_width, $lb_width, $cb_width, $rb_width, $clb_width, $crb_width, $base_color, $lb_color, $cb_color, $rb_color, $margin_top, $margin_bottom, $bg_img, $bg_color, $bg_repeat, $bg_size, $bg_attachment, $bg_position, $logo_img, $logo_position, $navlogo_img, $logo_top, $logo_right, $logo_bottom, $logo_left, $logo_center, 1, $slide_width, $slide_height, $font_size, $font_color, $link_color, $hover_color, $theme_kind, $navbar_pos, $navbar_bg_top, $navbar_bg_bottom, $navbar_hover, $navbar_color, $navbar_color_hover, $navbar_icon, $navbar_img]) or Utility::web_error($sql, __FILE__, __LINE__);
 
         //取得最後新增資料的流水編號
         $theme_id = $xoopsDB->getInsertId();
     } else {
         $sql = 'UPDATE `' . $xoopsDB->prefix('tad_themes') . '` SET `theme_name`=?, `theme_type`=?, `theme_width`=?, `lb_width`=?, `cb_width`=?, `rb_width`=?, `clb_width`=?, `crb_width`=?, `base_color`=?, `lb_color`=?, `cb_color`=?, `rb_color`=?, `margin_top`=?, `margin_bottom`=?, `bg_img`=?, `bg_color`=?, `bg_repeat`=?, `bg_size`=?, `bg_attachment`=?, `bg_position`=?, `logo_img`=?, `logo_position`=?, `navlogo_img`=?, `logo_top`=?, `logo_right`=?, `logo_bottom`=?, `logo_left`=?, `logo_center`=?, `theme_enable`=?, `slide_width`=?, `slide_height`=?, `font_size`=?, `font_color`=?, `link_color`=?, `hover_color`=?, `theme_kind`=?, `navbar_pos`=?, `navbar_bg_top`=?, `navbar_bg_bottom`=?, `navbar_hover`=?, `navbar_color`=?, `navbar_color_hover`=?, `navbar_icon`=?, `navbar_img`=? WHERE `theme_id`=?';
-        Utility::query($sql, 'sssssssssssssssssssssssssssssssssssssssssi', [$theme_name, $theme_type, $theme_width, $lb_width, $cb_width, $rb_width, $clb_width, $crb_width, $base_color, $lb_color, $cb_color, $rb_color, $margin_top, $margin_bottom, $bg_img, $bg_color, $bg_repeat, $bg_size, $bg_attachment, $bg_position, $logo_img, $logo_position, $navlogo_img, $logo_top, $logo_right, $logo_bottom, $logo_left, $logo_center, $theme_enable, $slide_width, $slide_height, $font_size, $font_color, $link_color, $hover_color, $theme_kind, $navbar_pos, $navbar_bg_top, $navbar_bg_bottom, $navbar_hover, $navbar_color, $navbar_color_hover, $navbar_icon, $navbar_img, $theme_id]) or Utility::web_error($sql, __FILE__, __LINE__);
+        Utility::query($sql, 'sssssssssssssssssssssssiiiiisssssssssssssssssi', [$theme_name, $theme_type, $theme_width, $lb_width, $cb_width, $rb_width, $clb_width, $crb_width, $base_color, $lb_color, $cb_color, $rb_color, $margin_top, $margin_bottom, $bg_img, $bg_color, $bg_repeat, $bg_size, $bg_attachment, $bg_position, $logo_img, $logo_position, $navlogo_img, $logo_top, $logo_right, $logo_bottom, $logo_left, $logo_center, $theme_enable, $slide_width, $slide_height, $font_size, $font_color, $link_color, $hover_color, $theme_kind, $navbar_pos, $navbar_bg_top, $navbar_bg_bottom, $navbar_hover, $navbar_color, $navbar_color_hover, $navbar_icon, $navbar_img, $theme_id]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     }
 
@@ -212,17 +201,17 @@ function save_blocks($theme_id = '', $import = false, $mode = '')
     }
 
     foreach ($block_position_title as $position => $title) {
-        $block_config = $block_config_arr[$position];
-        $bt_text = $bt_text_arr[$position];
-        $bt_text_padding = $bt_text_padding_arr[$position];
-        $bt_text_size = $bt_text_size_arr[$position];
-        $bt_bg_color = $bt_bg_color_arr[$position];
-        $bt_bg_img = $bt_bg_img_arr[$position];
-        $bt_bg_repeat = $bt_bg_repeat_arr[$position];
-        $bt_radius = $bt_radius_arr[$position];
-        $block_style = $block_style_arr[$position];
-        $block_title_style = $block_title_style_arr[$position];
-        $block_content_style = $block_content_style_arr[$position];
+        $block_config = isset($block_config_arr[$position]) ? $block_config_arr[$position] : '';
+        $bt_text = isset($bt_text_arr[$position]) ? $bt_text_arr[$position] : '';
+        $bt_text_padding = isset($bt_text_padding_arr[$position]) ? $bt_text_padding_arr[$position] : '';
+        $bt_text_size = isset($bt_text_size_arr[$position]) ? $bt_text_size_arr[$position] : '';
+        $bt_bg_color = isset($bt_bg_color_arr[$position]) ? $bt_bg_color_arr[$position] : '';
+        $bt_bg_img = isset($bt_bg_img_arr[$position]) ? $bt_bg_img_arr[$position] : '';
+        $bt_bg_repeat = isset($bt_bg_repeat_arr[$position]) ? $bt_bg_repeat_arr[$position] : '';
+        $bt_radius = isset($bt_radius_arr[$position]) ? $bt_radius_arr[$position] : '';
+        $block_style = isset($block_style_arr[$position]) ? $block_style_arr[$position] : '';
+        $block_title_style = isset($block_title_style_arr[$position]) ? $block_title_style_arr[$position] : '';
+        $block_content_style = isset($block_content_style_arr[$position]) ? $block_content_style_arr[$position] : '';
 
         $bt_text_padding = (int) $bt_text_padding;
         $bt_bg_repeat = (int) $bt_bg_repeat;

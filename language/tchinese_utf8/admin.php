@@ -103,6 +103,7 @@ define('_MA_TADTHEMES_SAVE_SORT', '拉動排序');
 define('_MA_TADTHEMES_ROOT', '根目錄');
 define('_MA_TADTHEMES_WEB_MENU', '主選單');
 define('_MA_TADTHEMES_EDIT_MENU', '編輯功能');
+define('_MA_TADTHEMES_EDIT_MENU_TAD_ASSIGNMENT', '建立作業上傳');
 define('_MA_TADTHEMES_EDIT_MENU_TADNEWS', '發布文章');
 define('_MA_TADTHEMES_EDIT_MENU_TAD_LINK', '新增連結');
 define('_MA_TADTHEMES_EDIT_MENU_TADGALLERY', '上傳照片');

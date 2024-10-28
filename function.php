@@ -316,14 +316,10 @@ function save_config2($theme_id = '', $config2_files = [], $mode = '')
                 $value = basename($value);
             }
 
-            $value = $myts->addSlashes($value);
-            $config['name'] = $myts->addSlashes($config['name']);
-            $config['type'] = $myts->addSlashes($config['type']);
-
             $sql = 'REPLACE INTO `' . $xoopsDB->prefix('tad_themes_config2') . '`
             (`theme_id`, `name`, `type`, `value`)
             VALUES (?, ?, ?, ?)';
-            Utility::query($sql, 'isss', [$theme_id, $config['name'], $config['type'], $value]) or Utility::web_error($sql, __FILE__, __LINE__);
+            Utility::query($sql, 'isss', [$theme_id, $config['name'], $config['type'], (string) $value]) or Utility::web_error($sql, __FILE__, __LINE__);
 
             // 若是上傳的欄位，需將圖片也上傳或匯入
             if ('file' === $config['type'] or 'bg_file' === $config['type']) {
@@ -336,9 +332,9 @@ function save_config2($theme_id = '', $config2_files = [], $mode = '')
             }
 
             if ('bg_file' === $config['type']) {
-                $value_repeat = isset($_POST[$name . '_repeat']) ? $myts->addSlashes($_POST[$name . '_repeat']) : $config['repeat'];
-                $value_position = isset($_POST[$name . '_position']) ? $myts->addSlashes($_POST[$name . '_position']) : $config['position'];
-                $value_size = isset($_POST[$name . '_size']) ? $myts->addSlashes($_POST[$name . '_size']) : $config['size'];
+                $value_repeat = isset($_POST[$name . '_repeat']) ? $_POST[$name . '_repeat'] : $config['repeat'];
+                $value_position = isset($_POST[$name . '_position']) ? $_POST[$name . '_position'] : $config['position'];
+                $value_size = isset($_POST[$name . '_size']) ? $_POST[$name . '_size'] : $config['size'];
 
                 $sql = 'REPLACE INTO `' . $xoopsDB->prefix('tad_themes_config2') . '`
                 (`theme_id`, `name`, `type`, `value`)
@@ -359,8 +355,6 @@ function save_config2($theme_id = '', $config2_files = [], $mode = '')
                     $result = Utility::query($sql, 'i', [$bid]) or Utility::web_error($sql, __FILE__, __LINE__);
 
                     $block = $xoopsDB->fetchArray($result);
-                    $block['name'] = $myts->addSlashes($block['name']);
-                    $block['content'] = $myts->addSlashes($block['content']);
                     $block_value = json_encode($block, 256);
                 }
 
@@ -371,15 +365,15 @@ function save_config2($theme_id = '', $config2_files = [], $mode = '')
                 $sql = 'REPLACE INTO `' . $xoopsDB->prefix('tad_themes_config2') . '`
                 (`theme_id`, `name`, `type`, `value`)
                 VALUES (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?), (?, ?, ?, ?)';
-                Utility::query($sql, 'isssisssisss',
+                Utility::query($sql, 'isssisssisssisss',
                     [$theme_id, $config['name'] . '_block', 'text', $block_value,
                         $theme_id, $config['name'] . '_html_content', 'text', $value_html_content,
                         $theme_id, $config['name'] . '_fa_content', 'text', $value_fa_content,
                         $theme_id, $config['name'] . '_menu_content', 'text', $value_menu_content])
                 or Utility::web_error($sql, __FILE__, __LINE__);
             } elseif ('padding_margin' === $config['type']) {
-                $value_mt = isset($_POST[$name . '_mt']) ? $myts->addSlashes($_POST[$name . '_mt']) : $config['mt'];
-                $value_mb = isset($_POST[$name . '_mb']) ? $myts->addSlashes($_POST[$name . '_mb']) : $config['mb'];
+                $value_mt = isset($_POST[$name . '_mt']) ? $_POST[$name . '_mt'] : $config['mt'];
+                $value_mb = isset($_POST[$name . '_mb']) ? $_POST[$name . '_mb'] : $config['mb'];
 
                 $sql = 'REPLACE INTO `' . $xoopsDB->prefix('tad_themes_config2') . '`
                 (`theme_id`, `name`, `type`, `value`)

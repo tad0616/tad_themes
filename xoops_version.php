@@ -27,11 +27,12 @@ $modversion['min_xoops'] = '2.5.9';
 $modversion['min_tadtools'] = '3.48';
 
 //---paypal資訊---//
-$modversion['paypal'] = [];
-$modversion['paypal']['business'] = 'tad0616@gmail.com';
-$modversion['paypal']['item_name'] = 'Donation : ' . _MI_TAD_WEB;
-$modversion['paypal']['amount'] = 0;
-$modversion['paypal']['currency_code'] = 'USD';
+$modversion['paypal'] = [
+    'business' => 'tad0616@gmail.com',
+    'item_name' => 'Donation : ' . _MI_TAD_WEB,
+    'amount' => 0,
+    'currency_code' => 'USD',
+];
 
 //---後台使用系統選單---//
 $modversion['system_menu'] = 1;
