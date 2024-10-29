@@ -242,3 +242,6 @@ define('_MA_TADTHEMES_PADDING', '內距');
 define('_MA_TADTHEMES_TOPSIDE', '上');
 define('_MA_TADTHEMES_BOTTOMSIDE', '下');
 define('_MA_TADTHEMES_BLOCKS_CUSTOM', '自訂區塊');
+
+define('_MA_TADTHEMES_LOGO_WIDTH', 'Logo 圖寬度');
+define('_MA_TADTHEMES_LOGO_HEIGHT', 'Logo 圖高度');

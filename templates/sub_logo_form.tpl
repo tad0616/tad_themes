@@ -79,6 +79,17 @@
             </div>
         </div>
 
+        <div class="form-group row mb-3">
+            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label"><{$smarty.const._MA_TADTHEMES_LOGO_WIDTH}></label>
+            <div class="col-sm-4">
+                <input type="number" name="logo_width" class="col-sm-10 form-control" value="<{$logo_width|default:''}>" id="logo_width">
+            </div>
+            <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label"><{$smarty.const._MA_TADTHEMES_LOGO_HEIGHT}></label>
+            <div class="col-sm-4">
+                <input type="number" name="logo_height" class="col-sm-10 form-control" value="<{$logo_height|default:''}>" id="logo_height">
+            </div>
+        </div>
+
         <div class="text-center" style="margin: 30px auto;">
             <input type="hidden" name="op" value="mkTitlePic">
             <button type="submit" class="btn btn-primary"><{$smarty.const._MA_TADTHEMES_LOGO_MAKE_PNG}></button>

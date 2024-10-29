@@ -68,13 +68,13 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
     $db_files = [];
 
     // 撈出資料庫中該佈景的指定類型圖片（若是套用或恢復佈景，此時這裡應該都是空值）
-    $sql = 'SELECT `files_sn`, `file_name`, `original_filename`
+    $sql = 'SELECT `files_sn`, `original_filename`
         FROM `' . $xoopsDB->prefix('tad_themes_files_center') . '`
         WHERE `col_name` = ? AND `col_sn` = ?';
     $result = Utility::query($sql, 'si', [$col_name, $col_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $db_files_amount = 0;
-    while (list($files_sn, $file_name, $original_filename) = $xoopsDB->fetchRow($result)) {
+    while (list($files_sn, $original_filename) = $xoopsDB->fetchRow($result)) {
         $db_files[$files_sn] = $original_filename;
         $db_files_amount++;
     }
@@ -99,7 +99,7 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
         }
     } elseif (is_file($path)) {
         // 若是檔案，若檔案不在資料庫中，就直接匯入該檔案
-        if (!in_array($file, $db_files)) {
+        if (!in_array($path, $db_files)) {
             import_file($path, $col_name, $col_sn, null, null, $desc, $safe_name);
         }
     }
@@ -109,8 +109,6 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
 //匯入圖檔
 function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width = '', $thumb_width = '240', $desc = '', $safe_name = false, $only_import2db = true)
 {
-    global $xoopsDB, $xoopsUser, $xoopsModule, $xoopsConfig;
-
     if ('slide' === $col_name) {
         $TadUpFilesSlide = TadUpFilesSlide();
         if (is_object($TadUpFilesSlide)) {
