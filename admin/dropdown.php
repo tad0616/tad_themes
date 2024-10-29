@@ -284,7 +284,7 @@ if (!function_exists('thumbnail')) {
         $newheight = ($old_width > $old_height) ? round($old_height * $percent, 0) : $width;
 
         // Load
-        $thumb = imagecreatetruecolor($newwidth, $newheight);
+        $thumb = \imagecreatetruecolor($newwidth, $newheight);
         if ('image/jpeg' === $type or 'image/jpg' === $type or 'image/pjpg' === $type or 'image/pjpeg' === $type) {
             $source = imagecreatefromjpeg($filename);
             $type = 'image/jpeg';

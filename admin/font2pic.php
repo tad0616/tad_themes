@@ -216,7 +216,7 @@ function mkTitlePic($title = '', $size = 24, $border_size = 2, $color = '#00a3a8
     list($shadow_color_r, $shadow_color_g, $shadow_color_b) = sscanf($shadow_color, '#%02x%02x%02x');
 
     header('Content-type: image/png');
-    $im = imagecreatetruecolor($width, $height);
+    $im = \imagecreatetruecolor($width, $height);
     // 開了外框會模糊掉
     // imagealphablending($im, false);
     imagesavealpha($im, true);
@@ -287,7 +287,7 @@ function imagettftextblur(&$im, $size, $angle, $x, $y, $color, $fontfile, $text,
         ];
         // $temporary_image is a GD image that is the same size as our
         // original GD image
-        $temporary_image = imagecreatetruecolor(
+        $temporary_image = \imagecreatetruecolor(
             imagesx($im),
             imagesy($im)
         );
