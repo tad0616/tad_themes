@@ -1,6 +1,6 @@
 <?php
-
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_themes\Tools;
 if (!class_exists('XoopsModules\Tadtools\Utility')) {
     require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
 }
@@ -9,7 +9,6 @@ if (!class_exists('XoopsModules\Tadtools\Utility')) {
 function vertical_bootstrap_menu($options)
 {
     global $xoopsDB;
-    require_once XOOPS_ROOT_PATH . '/modules/tad_themes/function_block.php';
     $in = empty($options[0]) ? "`status`='1' and `of_level`=0" : "`menuid` in({$options[0]})";
 
     $sql = 'SELECT `menuid`, `itemname`, `itemurl`, `target`, `icon`, `position`
@@ -33,7 +32,7 @@ function vertical_bootstrap_menu($options)
         $menu[$i]['target'] = $target;
         $menu[$i]['bootstrap_icon'] = $bootstrap_icon;
         $menu[$i]['position'] = $position;
-        $menu[$i]['color'] = genColorCodeFromText($menuid);
+        $menu[$i]['color'] = Tools::genColorCodeFromText($menuid);
         $icon = '';
         if (file_exists($dir . '/' . $menuid . '_64.png')) {
             $icon = "{$url}/{$menuid}_64.png";

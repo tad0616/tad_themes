@@ -5,7 +5,7 @@
 <{else}>
     <div class="form-group row mb-3">
         <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label">
-            <{$config.text}>[<{$config.value}>]
+            <{$config.text}>
         </label>
         <div class="col-sm-5">
             <{if $config.type=="text"}>

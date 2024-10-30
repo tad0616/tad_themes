@@ -270,47 +270,6 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
     return $main;
 }
 
-//做縮圖
-if (!function_exists('thumbnail')) {
-    function thumbnail($filename = '', $thumb_name = '', $type = 'image/png', $width = '160')
-    {
-        set_time_limit(0);
-        ini_set('memory_limit', '100M');
-        // Get new sizes
-        list($old_width, $old_height) = getimagesize($filename);
-
-        $percent = ($old_width > $old_height) ? round($width / $old_width, 2) : round($width / $old_height, 2);
-        $newwidth = ($old_width > $old_height) ? $width : round($old_width * $percent, 0);
-        $newheight = ($old_width > $old_height) ? round($old_height * $percent, 0) : $width;
-
-        // Load
-        $thumb = \imagecreatetruecolor($newwidth, $newheight);
-        if ('image/jpeg' === $type or 'image/jpg' === $type or 'image/pjpg' === $type or 'image/pjpeg' === $type) {
-            $source = imagecreatefromjpeg($filename);
-            $type = 'image/jpeg';
-        } elseif ('image/png' === $type) {
-            $source = imagecreatefrompng($filename);
-            $type = 'image/png';
-        } elseif ('image/gif' === $type) {
-            $source = imagecreatefromgif($filename);
-            $type = 'image/gif';
-        } else {
-            die($type);
-        }
-
-        imagealphablending($thumb, false);
-        // Resize
-        imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $old_width, $old_height);
-
-        imagesavealpha($thumb, true);
-
-        // Output
-        imagepng($thumb, $thumb_name);
-        imagedestroy($source);
-        imagedestroy($thumb);
-    }
-}
-
 //自動取得新排序
 function get_max_sort($of_level = '')
 {
@@ -338,31 +297,25 @@ function insert_tad_themes_menu()
     //取得最後新增資料的流水編號
     $menuid = $xoopsDB->getInsertId();
 
-    $type_to_mime['png'] = 'image/png';
-    $type_to_mime['jpg'] = 'image/jpg';
-    $type_to_mime['peg'] = 'image/jpg';
-    $type_to_mime['gif'] = 'image/gif';
     //處理上傳的檔案
     if (!empty($_FILES['image']['name'])) {
-        $file_ending = mb_substr(mb_strtolower($_FILES['image']['name']), -3); //file extension
         $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
         Utility::mk_dir($dir);
         $filename = $_FILES['image']['tmp_name'];
         $thumb_name1 = "{$dir}/{$menuid}_64.png";
-        thumbnail($filename, $thumb_name1, $type_to_mime[$file_ending], 64);
+        Utility::generateThumbnail($filename, $thumb_name1, 64);
         $thumb_name2 = "{$dir}/{$menuid}_32.png";
-        thumbnail($filename, $thumb_name2, $type_to_mime[$file_ending], 32);
+        Utility::generateThumbnail($filename, $thumb_name2, 32);
     }
 
     if (!empty($_FILES['banner_image']['name'])) {
-        $file_ending = mb_substr(mb_strtolower($_FILES['banner_image']['name']), -3); //file extension
         $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_banner';
         Utility::mk_dir($dir);
         $filename = $_FILES['banner_image']['tmp_name'];
         $destination = "{$dir}/{$menuid}.png";
         $thumb = "{$dir}/{$menuid}_thumb.png";
         move_uploaded_file($filename, $destination);
-        thumbnail($destination, $thumb, $type_to_mime[$file_ending], 120);
+        Utility::generateThumbnail($destination, $thumb, 120);
     }
 
     return $menuid;
@@ -524,31 +477,25 @@ function update_tad_themes_menu($menuid = '')
 
     }
 
-    $type_to_mime['png'] = 'image/png';
-    $type_to_mime['jpg'] = 'image/jpg';
-    $type_to_mime['peg'] = 'image/jpg';
-    $type_to_mime['gif'] = 'image/gif';
     //處理上傳的檔案
     if (!empty($_FILES['image']['name'])) {
-        $file_ending = mb_substr(mb_strtolower($_FILES['image']['name']), -3); //file extension
         $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
         Utility::mk_dir($dir);
         $filename = $_FILES['image']['tmp_name'];
         $thumb_name1 = "{$dir}/{$menuid}_64.png";
-        thumbnail($filename, $thumb_name1, $type_to_mime[$file_ending], 64);
+        Utility::generateThumbnail($filename, $thumb_name1, 64);
         $thumb_name2 = "{$dir}/{$menuid}_32.png";
-        thumbnail($filename, $thumb_name2, $type_to_mime[$file_ending], 32);
+        Utility::generateThumbnail($filename, $thumb_name2, 32);
     }
 
     if (!empty($_FILES['banner_image']['name'])) {
-        $file_ending = mb_substr(mb_strtolower($_FILES['banner_image']['name']), -3); //file extension
         $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_banner';
         Utility::mk_dir($dir);
         $filename = $_FILES['banner_image']['tmp_name'];
         $destination = "{$dir}/{$menuid}.png";
         $thumb = "{$dir}/{$menuid}_thumb.png";
         move_uploaded_file($filename, $destination);
-        thumbnail($destination, $thumb, $type_to_mime[$file_ending], 120);
+        Utility::generateThumbnail($destination, $thumb, 120);
     }
 
     return $menuid;

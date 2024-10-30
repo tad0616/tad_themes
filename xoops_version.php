@@ -39,12 +39,14 @@ $modversion['system_menu'] = 1;
 
 //---資料表架構---//
 $modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
-$modversion['tables'][1] = 'tad_themes';
-$modversion['tables'][2] = 'tad_themes_files_center';
-$modversion['tables'][3] = 'tad_themes_menu';
-$modversion['tables'][4] = 'tad_themes_blocks';
-$modversion['tables'][5] = 'tad_themes_config2';
-$modversion['tables'][6] = 'tad_themes_data_center';
+$modversion['tables'] = [
+    'tad_themes',
+    'tad_themes_files_center',
+    'tad_themes_menu',
+    'tad_themes_blocks',
+    'tad_themes_config2',
+    'tad_themes_data_center',
+];
 
 //---管理介面設定---//
 $modversion['hasAdmin'] = 1;
@@ -60,121 +62,126 @@ $modversion['hasMain'] = 0;
 $modversion['onInstall'] = 'include/onInstall.php';
 $modversion['onUpdate'] = 'include/onUpdate.php';
 $modversion['onUninstall'] = 'include/onUninstall.php';
-
 //---樣板設定---//
-$modversion['templates'] = [];
-$i = 0;
-$modversion['templates'][$i]['file'] = 'tad_themes_adm_main.tpl';
-$modversion['templates'][$i]['description'] = 'tad_themes_adm_main.tpl';
-
-$i++;
-$modversion['templates'][$i]['file'] = 'tad_themes_adm_dropdown.tpl';
-$modversion['templates'][$i]['description'] = 'tad_themes_adm_dropdown.tpl';
-
-$i++;
-$modversion['templates'][$i]['file'] = 'tad_themes_adm_font2pic.tpl';
-$modversion['templates'][$i]['description'] = 'tad_themes_adm_font2pic.tpl';
+$modversion['templates'] = [
+    ['file' => 'tad_themes_adm_main.tpl', 'description' => 'tad_themes_adm_main.tpl'],
+    ['file' => 'tad_themes_adm_dropdown.tpl', 'description' => 'tad_themes_adm_dropdown.tpl'],
+    ['file' => 'tad_themes_adm_font2pic.tpl', 'description' => 'tad_themes_adm_font2pic.tpl'],
+];
 
 //---偏好設定---//
-$modversion['config'] = [];
-$i = 1;
-$modversion['config'][$i]['name'] = 'auto_mainmenu';
-$modversion['config'][$i]['title'] = '_MI_TADTHEMES_AUTO_MENU';
-$modversion['config'][$i]['description'] = '_MI_TADTHEMES_AUTO_MENU_DESC';
-$modversion['config'][$i]['formtype'] = 'yesno';
-$modversion['config'][$i]['valuetype'] = 'int';
-$modversion['config'][$i]['default'] = 1;
-
-$i++;
-$modversion['config'][$i]['name'] = 'auto_mainmenu_icon';
-$modversion['config'][$i]['title'] = '_MI_TADTHEMES_AUTO_MENU_ICON';
-$modversion['config'][$i]['description'] = '_MI_TADTHEMES_AUTO_MENU_ICON_DESC';
-$modversion['config'][$i]['formtype'] = 'textbox';
-$modversion['config'][$i]['valuetype'] = 'text';
-$modversion['config'][$i]['default'] = 'fa-list';
-
-$i++;
-$modversion['config'][$i]['name'] = 'show_sitename';
-$modversion['config'][$i]['title'] = '_MI_TADTHEMES_SHOW_SITENAME';
-$modversion['config'][$i]['description'] = '_MI_TADTHEMES_SHOW_SITENAME_DESC';
-$modversion['config'][$i]['formtype'] = 'select';
-$modversion['config'][$i]['valuetype'] = 'int';
-$modversion['config'][$i]['default'] = '1';
-$modversion['config'][$i]['options'] = [_MI_TADTHEMES_HIDE => '2', _MI_TADTHEMES_HOME => '0', _MI_TADTHEMES_SITENAME => '1'];
-
-$i++;
-$modversion['config'][$i]['name'] = 'openid_login';
-$modversion['config'][$i]['title'] = '_MI_TADTHEMES_TITLE2';
-$modversion['config'][$i]['description'] = '_MI_TADTHEMES_DESC2';
-$modversion['config'][$i]['formtype'] = 'select';
-$modversion['config'][$i]['valuetype'] = 'int';
-$modversion['config'][$i]['default'] = '1';
-$modversion['config'][$i]['options'] = [_MI_TADTHEMES_TITLE2_OPT0 => '0', _MI_TADTHEMES_TITLE2_OPT1 => '1', _MI_TADTHEMES_TITLE2_OPT2 => '2', _MI_TADTHEMES_TITLE2_OPT3 => '3'];
-
-$i++;
-$modversion['config'][$i]['name'] = 'openid_logo';
-$modversion['config'][$i]['title'] = '_MI_TADTHEMES_TITLE3';
-$modversion['config'][$i]['description'] = '_MI_TADTHEMES_DESC3';
-$modversion['config'][$i]['formtype'] = 'select';
-$modversion['config'][$i]['valuetype'] = 'int';
-$modversion['config'][$i]['default'] = '4';
-$modversion['config'][$i]['options'] = [1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6'];
-
-$i++;
-$modversion['config'][$i]['name'] = 'use_pin';
-$modversion['config'][$i]['title'] = '_MI_TADTHEMES_USE_PIN';
-$modversion['config'][$i]['description'] = '_MI_TADTHEMES_USE_PIN_DESC';
-$modversion['config'][$i]['formtype'] = 'yesno';
-$modversion['config'][$i]['valuetype'] = 'int';
-$modversion['config'][$i]['default'] = '1';
-
-$i++;
-$modversion['config'][$i]['name'] = 'login_text';
-$modversion['config'][$i]['title'] = '_MI_TADTHEMES_TITLE4';
-$modversion['config'][$i]['description'] = '_MI_TADTHEMES_DESC4';
-$modversion['config'][$i]['formtype'] = 'textbox';
-$modversion['config'][$i]['valuetype'] = 'text';
-$modversion['config'][$i]['default'] = _MI_TADTHEMES_DEFAULT4;
-
-$i++;
-$modversion['config'][$i]['name'] = 'login_description';
-$modversion['config'][$i]['title'] = '_MI_TADTHEMES_TITLE5';
-$modversion['config'][$i]['description'] = '_MI_TADTHEMES_DESC5';
-$modversion['config'][$i]['formtype'] = 'textbox';
-$modversion['config'][$i]['valuetype'] = 'text';
+$modversion['config'] = [
+    [
+        'name' => 'auto_mainmenu',
+        'title' => '_MI_TADTHEMES_AUTO_MENU',
+        'description' => '_MI_TADTHEMES_AUTO_MENU_DESC',
+        'formtype' => 'yesno',
+        'valuetype' => 'int',
+        'default' => 1,
+    ],
+    [
+        'name' => 'auto_mainmenu_icon',
+        'title' => '_MI_TADTHEMES_AUTO_MENU_ICON',
+        'description' => '_MI_TADTHEMES_AUTO_MENU_ICON_DESC',
+        'formtype' => 'textbox',
+        'valuetype' => 'text',
+        'default' => 'fa-list',
+    ],
+    [
+        'name' => 'show_sitename',
+        'title' => '_MI_TADTHEMES_SHOW_SITENAME',
+        'description' => '_MI_TADTHEMES_SHOW_SITENAME_DESC',
+        'formtype' => 'select',
+        'valuetype' => 'int',
+        'default' => '1',
+        'options' => [_MI_TADTHEMES_HIDE => '2', _MI_TADTHEMES_HOME => '0', _MI_TADTHEMES_SITENAME => '1'],
+    ],
+    [
+        'name' => 'openid_login',
+        'title' => '_MI_TADTHEMES_TITLE2',
+        'description' => '_MI_TADTHEMES_DESC2',
+        'formtype' => 'select',
+        'valuetype' => 'int',
+        'default' => '1',
+        'options' => [
+            _MI_TADTHEMES_TITLE2_OPT0 => '0',
+            _MI_TADTHEMES_TITLE2_OPT1 => '1',
+            _MI_TADTHEMES_TITLE2_OPT2 => '2',
+            _MI_TADTHEMES_TITLE2_OPT3 => '3',
+        ],
+    ],
+    [
+        'name' => 'openid_logo',
+        'title' => '_MI_TADTHEMES_TITLE3',
+        'description' => '_MI_TADTHEMES_DESC3',
+        'formtype' => 'select',
+        'valuetype' => 'int',
+        'default' => '4',
+        'options' => [1, 2, 3, 4, 5, 6],
+    ],
+    [
+        'name' => 'use_pin',
+        'title' => '_MI_TADTHEMES_USE_PIN',
+        'description' => '_MI_TADTHEMES_USE_PIN_DESC',
+        'formtype' => 'yesno',
+        'valuetype' => 'int',
+        'default' => '1',
+    ],
+    [
+        'name' => 'login_text',
+        'title' => '_MI_TADTHEMES_TITLE4',
+        'description' => '_MI_TADTHEMES_DESC4',
+        'formtype' => 'textbox',
+        'valuetype' => 'text',
+        'default' => _MI_TADTHEMES_DEFAULT4,
+    ],
+    [
+        'name' => 'login_description',
+        'title' => '_MI_TADTHEMES_TITLE5',
+        'description' => '_MI_TADTHEMES_DESC5',
+        'formtype' => 'textbox',
+        'valuetype' => 'text',
+    ],
+];
 
 //---搜尋---//
 //$modversion['hasSearch'] = 1;
 //$modversion['search']['file'] = "include/search.php";
 //$modversion['search']['func'] = "搜尋函數名稱";
-
 //---區塊設定---//
-$modversion['blocks'][1]['file'] = 'tad_themes_responsive_slider.php';
-$modversion['blocks'][1]['name'] = _MI_TADTHEMES_BNAME1;
-$modversion['blocks'][1]['description'] = _MI_TADTHEMES_BDESC1;
-$modversion['blocks'][1]['show_func'] = 'tad_themes_responsive_slider';
-$modversion['blocks'][1]['template'] = 'tad_themes_responsive_slider.tpl';
-
-$modversion['blocks'][2]['file'] = 'tad_themes_top_menu.php';
-$modversion['blocks'][2]['name'] = _MI_TADTHEMES_BNAME2;
-$modversion['blocks'][2]['description'] = _MI_TADTHEMES_BDESC2;
-$modversion['blocks'][2]['show_func'] = 'tad_themes_top_menu';
-$modversion['blocks'][2]['template'] = 'tad_themes_top_menu.tpl';
-$modversion['blocks'][2]['edit_func'] = 'tad_themes_top_menu_edit';
-$modversion['blocks'][2]['options'] = '';
-
-$modversion['blocks'][3]['file'] = 'vertical_bootstrap_menu.php';
-$modversion['blocks'][3]['name'] = _MI_TADTHEMES_BNAME3;
-$modversion['blocks'][3]['description'] = _MI_TADTHEMES_BDESC3;
-$modversion['blocks'][3]['show_func'] = 'vertical_bootstrap_menu';
-$modversion['blocks'][3]['template'] = 'vertical_bootstrap_menu.tpl';
-$modversion['blocks'][3]['edit_func'] = 'vertical_bootstrap_menu_edit';
-$modversion['blocks'][3]['options'] = '';
-
-$modversion['blocks'][4]['file'] = 'vertical_menu.php';
-$modversion['blocks'][4]['name'] = _MI_TADTHEMES_BNAME4;
-$modversion['blocks'][4]['description'] = _MI_TADTHEMES_BDESC4;
-$modversion['blocks'][4]['show_func'] = 'vertical_menu';
-$modversion['blocks'][4]['template'] = 'vertical_menu.tpl';
-$modversion['blocks'][4]['edit_func'] = 'vertical_menu_edit';
-$modversion['blocks'][4]['options'] = '|0';
+$modversion['blocks'] = [
+    [
+        'file' => 'tad_themes_responsive_slider.php',
+        'name' => _MI_TADTHEMES_BNAME1,
+        'description' => _MI_TADTHEMES_BDESC1,
+        'show_func' => 'tad_themes_responsive_slider',
+        'template' => 'tad_themes_responsive_slider.tpl',
+    ],
+    [
+        'file' => 'tad_themes_top_menu.php',
+        'name' => _MI_TADTHEMES_BNAME2,
+        'description' => _MI_TADTHEMES_BDESC2,
+        'show_func' => 'tad_themes_top_menu',
+        'template' => 'tad_themes_top_menu.tpl',
+        'edit_func' => 'tad_themes_top_menu_edit',
+        'options' => '',
+    ],
+    [
+        'file' => 'vertical_bootstrap_menu.php',
+        'name' => _MI_TADTHEMES_BNAME3,
+        'description' => _MI_TADTHEMES_BDESC3,
+        'show_func' => 'vertical_bootstrap_menu',
+        'template' => 'vertical_bootstrap_menu.tpl',
+        'edit_func' => 'vertical_bootstrap_menu_edit',
+        'options' => '',
+    ],
+    [
+        'file' => 'vertical_menu.php',
+        'name' => _MI_TADTHEMES_BNAME4,
+        'description' => _MI_TADTHEMES_BDESC4,
+        'show_func' => 'vertical_menu',
+        'template' => 'vertical_menu.tpl',
+        'edit_func' => 'vertical_menu_edit',
+        'options' => '|0',
+    ],
+];

@@ -151,6 +151,7 @@ function tad_themes_form($mode = '')
 {
     global $xoopsConfig, $xoopsTpl, $xoTheme, $TadDataCenter, $config2_files_arr, $xoopsDB;
 
+    $xoTheme->addScript('modules/tadtools/jquery.sticky/jquery.sticky.js');
     //抓取預設值
     $theme = get_tad_themes();
     if (empty($theme)) {
