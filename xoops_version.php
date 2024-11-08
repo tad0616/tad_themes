@@ -16,15 +16,14 @@ $modversion['image'] = "images/logo_{$xoopsConfig['language']}.png";
 $modversion['dirname'] = basename(__DIR__);
 
 //---模組狀態資訊---//
-$modversion['release_date'] = '2023-08-23';
+$modversion['release_date'] = '2024-11-11';
 $modversion['module_website_url'] = 'https://www.tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status'] = 'release';
 $modversion['author_website_url'] = 'https://www.tad0616.net/';
 $modversion['author_website_name'] = _MI_TAD_WEB;
 $modversion['min_php'] = 5.4;
-$modversion['min_xoops'] = '2.5.9';
-$modversion['min_tadtools'] = '3.48';
+$modversion['min_xoops'] = '2.5.10';
 
 //---paypal資訊---//
 $modversion['paypal'] = [

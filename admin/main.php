@@ -367,10 +367,10 @@ function tad_themes_form($mode = '')
     $xoTheme->addScript('modules/tadtools/jqueryCookie/jquery.cookie.js');
 
     $EasyResponsiveTabs = new EasyResponsiveTabs('#themeTab');
-    $EasyResponsiveTabs->rander('tab_identifier_parent');
+    $EasyResponsiveTabs->render('tab_identifier_parent');
 
     $block_tabs = new EasyResponsiveTabs('#bt_tabs', 'vertical');
-    $block_tabs->rander('tab_identifier_child');
+    $block_tabs->render('tab_identifier_child');
 
     $TadDataCenter->set_col('theme_id', $theme_id);
     $xoopsTpl->assign('navbar_py_input', $TadDataCenter->getForm('return', 'input', 'navbar_py', 'text', $navbar_py, null, ['class' => 'form-control']));
@@ -506,16 +506,9 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
         }
 
         require_once XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php";
-        // if (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2_file}.php")) {
-        //     require_once XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2_file}.php";
-        // }
 
         // 取得該佈景所有額外設定值
         $config2_dbv = get_config2_dbv($theme_id);
-
-        // if ($config2_file == 'config2_top') {
-        // Utility::dd($config2_dbv);
-        // }
 
         foreach ($theme_config as $k => $config) {
             $TadUpFiles_config2 = TadUpFiles_config2();
@@ -526,10 +519,6 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
             } else {
                 $value = '';
             }
-
-            // if ($config2_file == 'config2_middle' && $config_name == 'middle_left') {
-            //     Utility::dd($config);
-            // }
 
             $config2[$k]['name'] = $config_name;
             $config2[$k]['text'] = $config['text'];
@@ -2049,10 +2038,7 @@ function import_style($theme_id = '', $theme_name = '', $style_param = '')
 //下載檔案
 function get_remote_file($theme_name, $module_name, $file_link, $update_sn, $module_sn)
 {
-    $moduleHandler = xoops_getHandler('module');
-    $xModule = $moduleHandler->getByDirname('tad_adm');
-    $configHandler = xoops_getHandler('config');
-    $TadAmModuleConfig = $configHandler->getConfigsByCat(0, $xModule->mid());
+    $TadAmModuleConfig = Utility::getXoopsModuleConfig('tad_adm');
 
     $file_link = str_replace('[source]', $TadAmModuleConfig['source'], $file_link);
     $new_file = str_replace($TadAmModuleConfig['source'] . "/uploads/tad_modules/file/", XOOPS_ROOT_PATH . "/uploads/tad_themes/$theme_name/setup/", $file_link);
@@ -2074,12 +2060,7 @@ function get_remote_file($theme_name, $module_name, $file_link, $update_sn, $mod
 function copyemz($file1, $file2, $update_sn = '')
 {
     global $xoopsConfig;
-
-    $moduleHandler = xoops_getHandler('module');
-    $xModule = $moduleHandler->getByDirname('tad_adm');
-    $configHandler = xoops_getHandler('config');
-    $TadAmModuleConfig = $configHandler->getConfigsByCat(0, $xModule->mid());
-
+    $TadAmModuleConfig = Utility::getXoopsModuleConfig('tad_adm');
     $ver = (int) str_replace('.', '', substr(XOOPS_VERSION, 6, 5));
     $add_count_url = $TadAmModuleConfig['source'] . "/modules/tad_modules/api.php?update_sn={$update_sn}&from=" . XOOPS_URL . "&sitename={$xoopsConfig['sitename']}&theme={$xoopsConfig['theme_set']}&version=$ver&language={$xoopsConfig['language']}";
 

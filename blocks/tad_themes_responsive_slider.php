@@ -77,7 +77,7 @@ function tad_themes_responsive_slider($options)
             // $description = str_replace("[url]{$url}[/url]", "", $description);
 
             preg_match_all("/\](.*)\[/", $description, $matches);
-            $url = $matches[1][0];
+            $url = isset($matches[1][0])?$matches[1][0]:'';
             if (empty($url)) {
                 $url = XOOPS_URL;
             }
