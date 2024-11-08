@@ -45,7 +45,6 @@ Tad Themes 7.1 (released on 2022-01-11)
 8. Support more scenery settings.
 9. Add single setting export function.
 
-
 Tad Themes 7.0 (released 2021-10-06)
 ====================================
 1. Add the function of converting old scenery
@@ -53,7 +52,6 @@ Tad Themes 7.0 (released 2021-10-06)
 3.Logo image position can be used with negative value
 4. Add BootStrap5 support
 5. Fix the problem that non-Tad Themes compatible layout will lead to a blank backend.
-
 
 Tad Themes 6.9 (released 2021-08-22)
 ====================================
@@ -63,7 +61,6 @@ Tad Themes 6.8 (released on 2021-07-14)
 =================================================
 1.Adjust tad_themes_data_center field
 2.Add layout json caching support
-
 
 Tad Themes 6.7 (released 2021-05-27)
 =================================================
@@ -94,12 +91,10 @@ Tad Themes 6.3 (2020-03-28 released)
 1. Add background size setting
 2. Simplify the background setting interface
 
-
 Tad Themes 6.2 (2020-03-26 released)
 =====================================================
 1. Background thumbnails are displayed in full
 2. Fix the problem that you can't directly apply the logo image when you generate it.
-
 
 Tad Themes 6.1 (2020-03-20 released)
 =====================================================
@@ -107,14 +102,12 @@ Tad Themes 6.1 (2020-03-20 released)
 2. Make scene settings export and import more complete
 3. Fixed the problem that the exported configuration file will not be used when there are single quotes in the settings
 
-
 Tad Themes 6.0 (2020-03-05 released)
 =====================================================
 1. Added the function of "do not show the option to return to the homepage" in the navigation bar
 2. "Import Edit Menu" adds modules such as custom blocks, Google Photos detection, universal forms, temporary announcements, venue reservations, etc.
 3. Add save scene setting function
 4. Delete and use SweetAlert instead
-
 
 Tad Themes 5.9 (2019-08-28 released)
 ==========================================================
@@ -124,7 +117,6 @@ Tad Themes 5.9 (2019-08-28 released)
 4. Added the function of saving to the logo
 5.logo design adds shadow settings
 6. Fix the problem that the preview window is incorrect.
-
 
 Tad Themes 5.8 (2019-08-07 released)
 ==========================================================
@@ -150,7 +142,6 @@ Tad Themes 5.5 (released from 2019-06-17)
 2. Modify the migration introduction method
 3. Optimize the menu setting interface
 
-
 Tad Themes 5.4 (released from 2019-05-10)
 =================================================
 1. Remove the "Back to Home" link in the "Vertical Menu" and "Vertical BootStrap Menu" blocks.
@@ -162,11 +153,9 @@ Tad Themes 5.3 (released from 2019-03-21)
 ==========================================================
 1. Fix the BootStrap3 template
 
-
 Tad Themes 5.2 (released from 2019-02-11)
 ==========================================================
 1. Fixed block unable to set menu option problem
-
 
 Tad Themes 5.1 (released from 2019-01-01)
 ==========================================================
@@ -175,12 +164,10 @@ Tad Themes 5.1 (released from 2019-01-01)
 3. Attached support panoramic picture
 4. Support PHP 7.3
 
-
 Tad Themes 5.0 (released on 2018-08-23)
 ==========================================================
 1. Fixed the problem that pressing the storage in the background under chrome may cause blank space.
 2. Fixed the problem that the color is incorrect when designing the logo
-
 
 Tad Themes 4.9 (released on 2018-06-08)
 =================================================
@@ -188,19 +175,16 @@ Tad Themes 4.9 (released on 2018-06-08)
 2. Add navbar text size settings
 3. Shadows appear automatically when the navbar is locked
 
-
 Tad Themes 4.8 (released on 2018-05-14)
 =================================================
 1. After the theme settings are saved, the tab will return to the last position
 2. Menu Settings Add Watchable Group Settings
 3. Remove the tchinese Big5 language
 
-
 Tad Themes 4.7 (released on 2018-03-21)
 =================================================
 1. Fix invalid issue of [url_blank] tag in sliding image block
 2. Added simple Logo design function
-
 
 Tad Themes 4.6 (released on 2018-02-13)
 =================================================
@@ -208,50 +192,41 @@ Tad Themes 4.6 (released on 2018-02-13)
 2  new navbar options distance setting
 3. Fixed layout settings, some fields set the wrong item
 
-
 Tad Themes 4.5 (released on 2018-02-11)
 =================================================
 1. Fixed sliding picture upload sometimes overwrite other picture problems
 2. Add [url_blank] tab, slide the link can be opened in a new window
 3. Modify the background interface for the adaptive mode
 
-
 Tad Themes 4.4 (released on 2018-01-04)
 =================================================
 1. Fix the font awesome menu
 2. Support PHP 7.1
 
-
 Tad Themes 4.3 (released on 2017-06-16)
 =================================================
 1.Improve compatibility with older versions of PHP
-
 
 Tad Themes 4.2 (released on 2017-05-12)
 =================================================
 1. Add profile export function
 
-
 Tad Themes 4.1.1 (released on 2017-01-07)
 =================================================
 1. Adjust the RWD to 1024 to operate
-
 
 Tad Themes 4.1 (released on 2016-06-05)
 ================================================== ================
 1. Add logo to the function
 2. Support XOOPS 2.5.8
 
-
 Tad Themes 4.0.1 (released on 2016-05-26)
 ================================================== ================
 1. Remove the BootStrap2 residual syntax
 
-
 Tad Themes 4.0 (released on 2016-05-21)
 =================================================
 1. Fixed block title picture can not upload the problem
-
 
 Tad Themes 3.9 (released on 2016-05-17)
 =================================================
@@ -259,19 +234,16 @@ Support PHP7
 2. Remove the BootStrap2 setting
 3. Add picture upload function
 
-
 Tad Themes 3.8 (released on 2016-01-20)
 =================================================
 1. Add the missing English language
 2. Fix additional settings can not upload picture problems
-
 
 Tad Themes 3.7 (released by 2015-06-25)
 =================================================
 1. Fix the PHP syntax to conform to the PSR2 specification
 2. Correct the problem of incorrect importation of data when editing the scenery
 3. Join the free to switch Bootstrap2 or Bootstrap3 function
-
 
 Tad Themes 3.6 (released by 2015-03-23)
 =================================================
@@ -280,17 +252,14 @@ Tad Themes 3.6 (released by 2015-03-23)
 3. Added bootstrap3 template
 4. Fix the problem that the menu can not be saved
 
-
 Tad Themes 3.51 (released on 2014-09-25)
 =================================================
 1. Modify the program to comply with the accessibility guidelines
 2. Fixed MySQL strict mode can not save the set of problems
 
-
 Tad Themes 3.5 (released on 2014-09-22)
 =================================================
 1. Fixed a custom menu page at the beginning of a more form of the problem
-
 
 Tad Themes 3.4 (released 2014-07-05)
 =================================================
@@ -298,7 +267,6 @@ Tad Themes 3.4 (released 2014-07-05)
  2. Fixed an additional upload file that could not be selected without uploading a picture.
  3. Adjust the file upload field col_sn to mediumint (9) format
  4. Fix the tab can not remember the last position
-
 
 Tad Themes 3.3 (released on 2014-06-05)
 =================================================
@@ -308,7 +276,6 @@ Tad Themes 3.2 (released in 2014-05-23)
 =================================================
  1. Fixed bug where the custom set can not be changed to a fixed HTML set
  2. New section can be set from config.php to set the default value of each district
-
 
 Tad Themes 3.1 (released by 2014-05-17)
 =================================================
@@ -321,13 +288,11 @@ Tad Themes 3.1 (released by 2014-05-17)
  7. When you install the scene, you can import the default file without changing the file
  8. Additional settings array format, support multi-dimensional array.
 
-
 Tad Themes 3.0 (released from 2014-05-07)
 =================================================
  1. Fixed bug where the block title map can not be selected
  2. Block title settings are added to all zone functions
  3. Added block style manual line settings, a substantial increase in flexibility.
-
 
 Tad Themes 2.9 (released from 2014-05-02)
 =================================================
@@ -339,7 +304,6 @@ Tad Themes 2.9 (released from 2014-05-02)
  6. Fixed in a particular type of scenery can not apply swf problem
  7. Fix the problem that the left and right areas of the preview are inconsistent with the foreground display
 
-
 Tad Themes 2.8 (released on 2014-04-09)
 =================================================
  1. Fixing the vertical menu block on some pages will cause the page to be blank
@@ -350,14 +314,12 @@ Tad Themes 2.8 (released on 2014-04-09)
  6. Add content area background settings
  7. Added navigation bar background function
 
-
 Tad Themes 2.7 (released from 2014-03-16)
 =================================================
  1. When the logo is set on the page, the sliding area of ​​the block will repeat the logo of the logo
  2. Add a vertical menu
  3. Customize the menu with the BootStrap icon drop-down menu
  4. Customize the icon icon for the menu and the banner icon plus the delete function
-
 
 Tad Themes 2.6 (released from 2014-03-13)
 =================================================
@@ -368,7 +330,6 @@ Tad Themes 2.6 (released from 2014-03-13)
  5. Add the function that does not render the navigation bar
  6. The automatic import function filters out Thumbs.db
  7. Upload Slide Picture Preset does not write a description of the file name
-
 
 Tad Themes 2.5 (released from 2014-03-05)
 =================================================
@@ -404,7 +365,6 @@ Tad Themes 2.1 (released on 2013-10-28)
  3. Apply the new TadUpFiles.php upload mechanism
  4. Add the switch main menu settings
 
-
 Tad Themes 2.0 (released 2013-07-29)
 =================================================
  1. Change to XOOPS2.5 architecture
@@ -414,7 +374,6 @@ Tad Themes 2.0 (released 2013-07-29)
  5. Fix the school2013 set, the lower block forced to up to four blocks to avoid block overlap.
  6.school2012, school2013 above the menu to join the "main menu" function
 
-
 Tad Themes 1.2 (released on 2013-06-06)
 =================================================
  1. Fixed on the home page, the link to the background management page button link location is not correct bug
@@ -422,7 +381,6 @@ Tad Themes 1.2 (released on 2013-06-06)
  3. Change to XOOPS2.5 module structure
  4. Menu function Add a link to the new window
  5. Add a new sliding picture block (you can move the picture to the block block)
-
 
 Tad Themes 1.1 (released by 2013-02-25)
 =================================================

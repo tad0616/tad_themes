@@ -391,7 +391,6 @@ Tad Themes 1.1 (2013-02-25 釋出)
  5.新增區塊標題的各種設定功能！ (by hirokofan)
  6.新增選單位置、顏色等設定功能！ (by hirokofan)
 
-
 使用佈景流程（2.5.10(含)前的舊版）
 一、tadtools 的 get_var.tpl 會嘗試取得佈景設定值，並直接 assign 到樣板
 若無：用 auto_import_theme.php 用 default 模式匯入資料
