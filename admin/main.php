@@ -11,7 +11,7 @@ use XoopsModules\Tad_themes\Tools;
 /*-----------引入檔案區-------------- */
 $xoopsOption['template_main'] = 'tad_themes_adm_main.tpl';
 require_once __DIR__ . '/header.php';
-require_once dirname(__DIR__) . '/auto_import_theme.php';
+require_once dirname(__DIR__) . '/function.php';
 
 /*
 一般佈景執行流程：
@@ -164,7 +164,7 @@ function tad_themes_form($mode = '')
 
     if (empty($theme_id)) {
         $mode = $mode == '' ? 'default' : $mode;
-        auto_import_theme($mode);
+        Tools::auto_import_theme($mode);
     }
 
     $SweetAlert = new SweetAlert();
@@ -1032,7 +1032,7 @@ function insert_tad_themes()
     $TadUpFilesNavBg->set_col('navbar_img', $theme_id);
     $TadUpFilesNavBg->upload_file('navbar_img', null, null, null, '', true);
     //儲存區塊設定
-    save_blocks($theme_id);
+    Tools::save_blocks($theme_id);
 
     //儲存額外設定值
     save_config2($theme_id, $_POST['config2'], 'post');
@@ -1118,7 +1118,7 @@ function update_tad_themes($theme_id = '', $theme_name = '')
     }
 
     //儲存區塊設定
-    save_blocks($theme_id);
+    Tools::save_blocks($theme_id);
 
     //儲存額外設定值
     save_config2($theme_id, $_POST['config2'], 'post');
@@ -1225,6 +1225,8 @@ function delete_tad_themes($theme_id = '')
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg/thumbs");
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg");
 
+    Tools::del_theme_json($theme_name);
+
     $TadUpFilesBt_bg = TadUpFilesBt_bg();
     foreach ($block_position_title as $position => $title) {
         Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg_{$position}/thumbs");
@@ -1232,7 +1234,6 @@ function delete_tad_themes($theme_id = '')
         $TadUpFilesBt_bg->del_files();
         Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg_{$position}");
     }
-    Tools::del_theme_json($theme_name);
 
     //額外佈景設定
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2/thumbs");

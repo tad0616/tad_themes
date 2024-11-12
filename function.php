@@ -269,7 +269,6 @@ function save_config2($theme_id = '', $config2_files = [], $mode = '')
     $TadUpFiles_config2 = TadUpFiles_config2();
 
     //額外佈景設定
-    $myts = \MyTextSanitizer::getInstance();
     foreach ($config2_files as $config2_file) {
         $theme_config = [];
         if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php")) {
