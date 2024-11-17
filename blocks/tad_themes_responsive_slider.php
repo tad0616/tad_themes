@@ -59,8 +59,8 @@ function tad_themes_responsive_slider($options)
 
     $ResponsiveSlides = new ResponsiveSlides(120, false);
 
-    $sql = 'SELECT a.*, b.`slide_width`, b.`slide_height` FROM `' . $xoopsDB->prefix('tad_themes_files_center') . '` AS a LEFT JOIN `' . $xoopsDB->prefix('tad_themes') . '` AS b ON a.`col_sn` = b.`theme_id` WHERE a.`col_name` = ? AND b.`theme_name` = ?';
-    $result = Utility::query($sql, 'ss', ['slide', $xoopsConfig['theme_set']]) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT a.*, b.`slide_width`, b.`slide_height` FROM `' . $xoopsDB->prefix('tad_themes_files_center') . "` AS a LEFT JOIN `' . $xoopsDB->prefix('tad_themes') . '` AS b ON a.`col_sn` = b.`theme_id` WHERE a.`col_name` = 'slide' AND b.`theme_name` = '{$xoopsConfig['theme_set']}'";
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $slide_images = 0;
     $title = $date = '';
@@ -77,7 +77,7 @@ function tad_themes_responsive_slider($options)
             // $description = str_replace("[url]{$url}[/url]", "", $description);
 
             preg_match_all("/\](.*)\[/", $description, $matches);
-            $url = isset($matches[1][0])?$matches[1][0]:'';
+            $url = isset($matches[1][0]) ? $matches[1][0] : '';
             if (empty($url)) {
                 $url = XOOPS_URL;
             }

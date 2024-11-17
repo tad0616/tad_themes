@@ -244,3 +244,5 @@ define('_MA_TADTHEMES_BOTTOMSIDE', 'Bottom');
 define('_MA_TADTHEMES_BLOCKS_CUSTOM', 'Custom Block');
 define('_MA_TADTHEMES_LOGO_WIDTH', 'Logo Width');
 define('_MA_TADTHEMES_LOGO_HEIGHT', 'Logo Height');
+
+define('_MA_TADTHEMES_CANT_DELETE', 'Cannot delete %s');

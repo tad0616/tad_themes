@@ -69,9 +69,9 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
 
     // 撈出資料庫中該佈景的指定類型圖片（若是套用或恢復佈景，此時這裡應該都是空值）
     $sql = 'SELECT `files_sn`, `original_filename`
-        FROM `' . $xoopsDB->prefix('tad_themes_files_center') . '`
-        WHERE `col_name` = ? AND `col_sn` = ?';
-    $result = Utility::query($sql, 'si', [$col_name, $col_sn]) or Utility::web_error($sql, __FILE__, __LINE__);
+        FROM `' . $xoopsDB->prefix('tad_themes_files_center') . "`
+        WHERE `col_name` = '$col_name' AND `col_sn` = '$col_sn'";
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $db_files_amount = 0;
     while (list($files_sn, $original_filename) = $xoopsDB->fetchRow($result)) {
@@ -292,19 +292,9 @@ function save_config2($theme_id = '', $config2_files = [], $mode = '')
             // $name 就是一組額外設定的名稱
             $name = $config['name'];
 
-            // if ($mode == "post") {
-            //     if (('checkbox' === $config['type'] or 'custom_zone' === $config['type']) and $mode != 'default') {
-            //         $value = json_encode($_POST[$name], 256);
-            //     } else {
-            //         $value = is_array($_POST[$name]) ? json_encode($_POST[$name], 256) : $_POST[$name];
-            //     }
-            // } else {
-            //     if (('checkbox' === $config['type'] or 'custom_zone' === $config['type']) and $mode != 'default') {
-            //         $value = json_encode($config['default'], 256);
-            //     } else {
-            //         $value = is_array($config['default']) ? json_encode($config['default'], 256) : $config['default'];
-            //     }
-            // }
+            if (in_array($config['name'], ['slide_mask', 'slide_def_mask'])) {
+                continue;
+            }
 
             $config_value = $mode == "post" ? $_POST[$name] : $config['default'];
             $value = is_array($config_value) ? json_encode($config_value, 256) : $config_value;
@@ -382,18 +372,6 @@ function save_config2($theme_id = '', $config2_files = [], $mode = '')
 
             }
 
-            if (isset($config['callback'])) {
-                eval($config['callback']['func_code']);
-                foreach ($config['callback']['func_parm'] as $parm) {
-                    $config_name = $parm['col'];
-                    if ($parm['type'] == 'config') {
-                        $p[$config_name] = get_config_value($theme_id, $config_name);
-                    } elseif ($parm['type'] == 'config2') {
-                        $p[$config_name] = get_config2_value($theme_id, $config_name);
-                    }
-                }
-                call_user_func($config['callback']['func_name'], $p);
-            }
         }
     }
 

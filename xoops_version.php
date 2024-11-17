@@ -147,16 +147,17 @@ $modversion['config'] = [
 //$modversion['hasSearch'] = 1;
 //$modversion['search']['file'] = "include/search.php";
 //$modversion['search']['func'] = "搜尋函數名稱";
-//---區塊設定---//
+
+//---區塊設定 (索引為固定值，若欲刪除區塊記得補上索引，避免區塊重複)---//
 $modversion['blocks'] = [
-    [
+    1 => [
         'file' => 'tad_themes_responsive_slider.php',
         'name' => _MI_TADTHEMES_BNAME1,
         'description' => _MI_TADTHEMES_BDESC1,
         'show_func' => 'tad_themes_responsive_slider',
         'template' => 'tad_themes_responsive_slider.tpl',
     ],
-    [
+    2 => [
         'file' => 'tad_themes_top_menu.php',
         'name' => _MI_TADTHEMES_BNAME2,
         'description' => _MI_TADTHEMES_BDESC2,
@@ -165,7 +166,7 @@ $modversion['blocks'] = [
         'edit_func' => 'tad_themes_top_menu_edit',
         'options' => '',
     ],
-    [
+    3 => [
         'file' => 'vertical_bootstrap_menu.php',
         'name' => _MI_TADTHEMES_BNAME3,
         'description' => _MI_TADTHEMES_BDESC3,
@@ -174,7 +175,7 @@ $modversion['blocks'] = [
         'edit_func' => 'vertical_bootstrap_menu_edit',
         'options' => '',
     ],
-    [
+    4 => [
         'file' => 'vertical_menu.php',
         'name' => _MI_TADTHEMES_BNAME4,
         'description' => _MI_TADTHEMES_BDESC4,

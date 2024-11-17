@@ -245,3 +245,5 @@ define('_MA_TADTHEMES_BLOCKS_CUSTOM', '自訂區塊');
 
 define('_MA_TADTHEMES_LOGO_WIDTH', 'Logo 圖寬度');
 define('_MA_TADTHEMES_LOGO_HEIGHT', 'Logo 圖高度');
+
+define('_MA_TADTHEMES_CANT_DELETE', '無法刪除 %s');
