@@ -59,7 +59,7 @@ function tad_themes_responsive_slider($options)
 
     $ResponsiveSlides = new ResponsiveSlides(120, false);
 
-    $sql = 'SELECT a.*, b.`slide_width`, b.`slide_height` FROM `' . $xoopsDB->prefix('tad_themes_files_center') . "` AS a LEFT JOIN `' . $xoopsDB->prefix('tad_themes') . '` AS b ON a.`col_sn` = b.`theme_id` WHERE a.`col_name` = 'slide' AND b.`theme_name` = '{$xoopsConfig['theme_set']}'";
+    $sql = 'SELECT a.*, b.`slide_width`, b.`slide_height` FROM `' . $xoopsDB->prefix('tad_themes_files_center') . '` AS a LEFT JOIN `' . $xoopsDB->prefix('tad_themes') . "` AS b ON a.`col_sn` = b.`theme_id` WHERE a.`col_name` = 'slide' AND b.`theme_name` = '{$xoopsConfig['theme_set']}'";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $slide_images = 0;

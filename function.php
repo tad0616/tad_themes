@@ -336,7 +336,7 @@ function save_config2($theme_id = '', $config2_files = [], $mode = '')
                 $block_value = '';
                 if (!empty($_POST[$config['name'] . '_bid'])) {
                     $bid = (int) $_POST[$config['name'] . '_bid'];
-                    $sql = "SELECT `bid`, `name`, `show_func`, `c_type`, `content`
+                    $sql = "SELECT `bid`, `name`, `title`, `show_func`, `c_type`, `content`
                     FROM `" . $xoopsDB->prefix('newblocks') . "`
                     WHERE `bid` = ?";
                     $result = Utility::query($sql, 'i', [$bid]) or Utility::web_error($sql, __FILE__, __LINE__);

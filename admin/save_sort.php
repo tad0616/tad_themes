@@ -1,9 +1,11 @@
 <?php
 use Xmf\Request;
+use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
 // 關閉除錯訊息
+header('HTTP/1.1 200 OK');
 $xoopsLogger->activated = false;
 
 $updateRecordsArray = Request::getVar('node-', [], null, 'array', 4);

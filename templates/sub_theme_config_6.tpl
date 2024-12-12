@@ -4,7 +4,7 @@
         <{if $enable.navbar_pos=="1"}>
             <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label"><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION}></label>
             <div class="col-sm-4">
-                <select name="navbar_pos" id="navbar_pos" class="form-select <{$validate.navbar_pos}>">
+                <select name="navbar_pos" id="navbar_pos" class="form-control form-select <{$validate.navbar_pos}>">
                     <option value="fixed-top" <{if $navbar_pos=="fixed-top"}>selected<{/if}>>
                     <{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_1}></option>
                     <option value="fixed-bottom" <{if $navbar_pos=="fixed-bottom"}>selected<{/if}>><{$smarty.const._MA_TADTHEMES_NAVBAR_POSITION_2}></option>

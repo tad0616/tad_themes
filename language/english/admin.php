@@ -246,3 +246,4 @@ define('_MA_TADTHEMES_LOGO_WIDTH', 'Logo Width');
 define('_MA_TADTHEMES_LOGO_HEIGHT', 'Logo Height');
 
 define('_MA_TADTHEMES_CANT_DELETE', 'Cannot delete %s');
+define('_MA_TADTHEMES_CANT_WRITE', '%s has no write permission');

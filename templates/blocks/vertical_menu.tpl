@@ -4,7 +4,7 @@
             <{if $menu.itemname|default:false}>
                 <li>
                     <a href="<{$menu.itemurl}>" target="<{$menu.target}>">
-                        <i class="fa <{$menu.bootstrap_icon}>"></i>
+                        <i class="<{if $menu.bootstrap_icon|substr:0:3=='fa-'}>fa <{/if}><{$menu.bootstrap_icon}>"></i>
                         <{$menu.itemname}>
                     </a>
                 </li>

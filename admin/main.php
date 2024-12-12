@@ -358,6 +358,8 @@ function tad_themes_form($mode = '')
 
     }
 
+    Utility::test($custom_tabs_data, 'custom_tabs_data', 'dd');
+
     $xoopsTpl->assign('custom_tabs_data', $custom_tabs_data);
     $xoopsTpl->assign('config2_files_arr', $config2_files_arr);
 
@@ -409,7 +411,7 @@ function tad_themes_form($mode = '')
     FROM `' . $xoopsDB->prefix('newblocks') . '` AS a
     LEFT JOIN `' . $xoopsDB->prefix('modules') . "` AS b
     ON a.`mid`=b.`mid` WHERE a.`block_type`='C' OR b.`isactive` = 1 ORDER BY a.`mid`, a.`weight`";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $result = Utility::query($sql);
 
     while ($data = $xoopsDB->fetchArray($result)) {
         foreach ($tags as $tag) {
@@ -547,7 +549,8 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
             } elseif ('custom_zone' === $config['type']) {
                 $block = json_decode(str_replace(["\r", "\n"], "", $config2_dbv[$config_name . '_block']), true);
 
-                $config2[$k]['bid'] = get_bid($block);
+                // $config2[$k]['bid'] = get_bid($block);
+                $config2[$k]['bid'] = $block['bid'];
                 $config2[$k]['html_content'] = isset($config2_dbv[$config_name . '_html_content']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_html_content']) : '';
                 $config2[$k]['fa_content'] = isset($config2_dbv[$config_name . '_fa_content']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_fa_content']) : '';
                 $config2[$k]['menu_content'] = isset($config2_dbv[$config_name . '_menu_content']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_menu_content']) : '';
@@ -560,7 +563,9 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
             } elseif ('checkbox' === $config['type'] and isset($config2_dbv[$config_name . '_content'])) {
 
                 $block = json_decode(str_replace(["\r", "\n"], "", $config2_dbv[$config_name . '_block']), true);
-                $config2[$k]['bid'] = get_bid($block);
+
+                // $config2[$k]['bid'] = get_bid($block);
+                $config2[$k]['bid'] = $block['bid'];
 
                 if (in_array('html', $value)) {
                     $config2[$k]['html_content'] = isset($config2_dbv[$config_name . '_content']) ? $myts->htmlSpecialChars($config2_dbv[$config_name . '_content']) : '';
@@ -1177,12 +1182,32 @@ function update_tad_themes($theme_id = '', $theme_name = '')
     // 匯出主設定檔
     export_config($theme_id, $theme_config_name, true);
 
+    // 找出區塊
+    $blocks = get_all_blocks();
+
     // 匯出額外設定
     foreach ($config2_files as $config2_file) {
         export_config2($theme_id, $config2_file, true, $theme_config_name, $theme_name, $theme_name);
     }
 
     return $theme_id;
+}
+
+function get_all_blocks()
+{
+    global $xoopsDB;
+    // 找出區塊
+    $blocks = [];
+    $sql = 'SELECT a.`bid`, a.`mid`, a.`name`, a.`title`, b.`name` AS `mod_name`, b.`dirname`
+        FROM `' . $xoopsDB->prefix('newblocks') . '` AS a
+        LEFT JOIN `' . $xoopsDB->prefix('modules') . "` AS b
+        ON a.`mid`=b.`mid` WHERE a.`block_type`='C' OR b.`isactive` = 1 ORDER BY a.`mid`, a.`weight`";
+    $result = Utility::query($sql);
+    while ($block = $xoopsDB->fetchArray($result)) {
+        $bid = $block['bid'];
+        $blocks[$bid] = $block;
+    }
+    return $blocks;
 }
 
 //更新佈景的某個設定值
@@ -1848,21 +1873,18 @@ function export_config2($theme_id = '', $config2_file = 'config2', $main_theme =
 {
     global $xoopsConfig, $xoopsDB;
 
+    // if (empty($blocks)) {
+    //     $blocks = get_all_blocks();
+    // }
+
     $theme_name = $to_theme_name ? $to_theme_name : $xoopsConfig['theme_set'];
 
+    $myts = \MyTextSanitizer::getInstance();
     if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php")) {
         require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php";
         // Utility::dd($theme_config);
         if (empty($theme_config)) {
             return;
-        }
-
-        $blocks = [];
-        $sql = 'SELECT `bid`, `name` FROM `' . $xoopsDB->prefix('newblocks') . '`';
-        $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-
-        while (list($bid, $name) = $xoopsDB->fetchRow($result)) {
-            $blocks[$bid] = $name;
         }
 
         $config2 = [];
@@ -1946,7 +1968,7 @@ function export_config2($theme_id = '', $config2_file = 'config2', $main_theme =
 
                 if ($label == 'default') {
                     $value = $default_v[$col];
-                } elseif ($label == 'repeat' || $label == 'position' || $label == 'size' || $label == 'mt' || $label == 'mb' || $label == 'bid_name') {
+                } elseif ($label == 'repeat' || $label == 'position' || $label == 'size' || $label == 'mt' || $label == 'mb' || $label == 'block' || $label == 'html_content' || $label == 'fa_content' || $label == 'menu_content') {
                     $value = $default_v[$col . '_' . $label];
                 }
 
@@ -1992,6 +2014,8 @@ function export_config2($theme_id = '', $config2_file = 'config2', $main_theme =
                         $value = str_replace('"', '\"', $value);
                         $all_content .= "\$theme_config[\$i]['$label'] = \"$value\";\n";
                     }
+                } elseif ($label == 'block') {
+                    $all_content .= "\$theme_config[\$i]['$label'] = '$value';\n";
                 } else {
                     $value = str_replace('"', '\"', $value);
                     $all_content .= "\$theme_config[\$i]['$label'] = \"$value\";\n";
@@ -2001,7 +2025,9 @@ function export_config2($theme_id = '', $config2_file = 'config2', $main_theme =
 
         if ($main_theme) {
             $file = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/{$config2_file}.php";
-            file_put_contents($file, $all_content);
+            if (!file_put_contents($file, $all_content)) {
+                throw new \Exception(sprintf(_MA_TADTHEMES_CONFIG_PATH_ERROR, $file));
+            }
         } elseif ($theme_config_name == '') {
             echo $all_content;
             exit;

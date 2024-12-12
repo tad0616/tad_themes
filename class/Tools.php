@@ -36,9 +36,17 @@ class Tools
             $theme_name = $xoopsConfig['theme_set'];
         }
 
-        $json_file = XOOPS_VAR_PATH . "/data/theme_{$theme_name}.json";
-        if (!unlink($json_file)) {
-            throw new \Exception(sprintf(_MA_TADTHEMES_CANT_DELETE, $json_file));
+        // $theme_json_file = XOOPS_VAR_PATH . "/data/theme_{$theme_name}.json";
+        $theme_json_file = XOOPS_VAR_PATH . "/data/{$theme_name}_setup.json";
+
+        if (file_exists($theme_json_file)) {
+            if (!is_writable($theme_json_file)) {
+                throw new \Exception(sprintf(_MA_TADTHEMES_CANT_WRITE, $theme_json_file));
+            }
+
+            if (!unlink($theme_json_file)) {
+                throw new \Exception(sprintf(_MA_TADTHEMES_CANT_DELETE, $theme_json_file));
+            }
         }
     }
 
@@ -243,8 +251,8 @@ class Tools
 
         while (list($name, $value) = $xoopsDB->fetchRow($result)) {
             if ($value) {
-                $sql = 'UPDATE `' . $xoopsDB->prefix('tad_themes_files_center') . "` SET `col_name`='config2_', `sort`=1 WHERE `col_sn`='$theme_id' AND `col_name`='config2' AND `file_name`='$value'";
-                $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+                $sql = 'UPDATE `' . $xoopsDB->prefix('tad_themes_files_center') . "` SET `col_name`='config2_{$name}', `sort`=1 WHERE `col_sn`='$theme_id' AND `col_name`='config2' AND `file_name`='$value'";
+                $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
             }
         }
@@ -311,33 +319,33 @@ class Tools
                 $block_content_style_arr[$position] = isset($config_enable['block_content_style'][$position]) ? $config_enable['block_content_style'][$position]['default'] : $config_enable['block_content_style']['default'];
             }
         } elseif (!empty($_POST['apply_to_all'])) {
-            $apply_to_all_position = $_POST['apply_to_all'];
+            $apply_to_all_position = (string) $_POST['apply_to_all'];
             foreach ($block_position_title as $position => $title) {
-                $block_config_arr[$position] = $_POST['block_config'][$apply_to_all_position];
-                $bt_text_arr[$position] = $_POST['bt_text'][$apply_to_all_position];
-                $bt_text_padding_arr[$position] = $_POST['bt_text_padding'][$apply_to_all_position];
-                $bt_text_size_arr[$position] = $_POST['bt_text_size'][$apply_to_all_position];
-                $bt_bg_color_arr[$position] = $_POST['bt_bg_color'][$apply_to_all_position];
-                $bt_bg_img_arr[$position] = $_POST['bt_bg_img'][$apply_to_all_position];
-                $bt_bg_repeat_arr[$position] = $_POST['bt_bg_repeat'][$apply_to_all_position];
-                $bt_radius_arr[$position] = $_POST['bt_radius'][$apply_to_all_position];
-                $block_style_arr[$position] = $_POST['block_style'][$apply_to_all_position];
-                $block_title_style_arr[$position] = $_POST['block_title_style'][$apply_to_all_position];
-                $block_content_style_arr[$position] = $_POST['block_content_style'][$apply_to_all_position];
+                $block_config_arr[$position] = (string) $_POST['block_config'][$apply_to_all_position];
+                $bt_text_arr[$position] = (string) $_POST['bt_text'][$apply_to_all_position];
+                $bt_text_padding_arr[$position] = (string) $_POST['bt_text_padding'][$apply_to_all_position];
+                $bt_text_size_arr[$position] = (string) $_POST['bt_text_size'][$apply_to_all_position];
+                $bt_bg_color_arr[$position] = (string) $_POST['bt_bg_color'][$apply_to_all_position];
+                $bt_bg_img_arr[$position] = (string) $_POST['bt_bg_img'][$apply_to_all_position];
+                $bt_bg_repeat_arr[$position] = (string) $_POST['bt_bg_repeat'][$apply_to_all_position];
+                $bt_radius_arr[$position] = (string) $_POST['bt_radius'][$apply_to_all_position];
+                $block_style_arr[$position] = (string) $_POST['block_style'][$apply_to_all_position];
+                $block_title_style_arr[$position] = (string) $_POST['block_title_style'][$apply_to_all_position];
+                $block_content_style_arr[$position] = (string) $_POST['block_content_style'][$apply_to_all_position];
             }
         } else {
             foreach ($block_position_title as $position => $title) {
-                $block_config_arr[$position] = $_POST['block_config'][$position];
-                $bt_text_arr[$position] = $_POST['bt_text'][$position];
-                $bt_text_padding_arr[$position] = $_POST['bt_text_padding'][$position];
-                $bt_text_size_arr[$position] = $_POST['bt_text_size'][$position];
-                $bt_bg_color_arr[$position] = $_POST['bt_bg_color'][$position];
-                $bt_bg_img_arr[$position] = $_POST['bt_bg_img'][$position];
-                $bt_bg_repeat_arr[$position] = $_POST['bt_bg_repeat'][$position];
-                $bt_radius_arr[$position] = $_POST['bt_radius'][$position];
-                $block_style_arr[$position] = $_POST['block_style'][$position];
-                $block_title_style_arr[$position] = $_POST['block_title_style'][$position];
-                $block_content_style_arr[$position] = $_POST['block_content_style'][$position];
+                $block_config_arr[$position] = (string) $_POST['block_config'][$position];
+                $bt_text_arr[$position] = (string) $_POST['bt_text'][$position];
+                $bt_text_padding_arr[$position] = (string) $_POST['bt_text_padding'][$position];
+                $bt_text_size_arr[$position] = (string) $_POST['bt_text_size'][$position];
+                $bt_bg_color_arr[$position] = (string) $_POST['bt_bg_color'][$position];
+                $bt_bg_img_arr[$position] = (string) $_POST['bt_bg_img'][$position];
+                $bt_bg_repeat_arr[$position] = (string) $_POST['bt_bg_repeat'][$position];
+                $bt_radius_arr[$position] = (string) $_POST['bt_radius'][$position];
+                $block_style_arr[$position] = (string) $_POST['block_style'][$position];
+                $block_title_style_arr[$position] = (string) $_POST['block_title_style'][$position];
+                $block_content_style_arr[$position] = (string) $_POST['block_content_style'][$position];
             }
         }
 

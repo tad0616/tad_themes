@@ -6,7 +6,7 @@
             <{$smarty.const._MA_TADTHEMES_THEME_TYPE}>
         </label>
         <div class="col-sm-2">
-            <select name="theme_type" id="theme_type" class="form-select <{$validate.theme_type}>" onChange="change_css();">
+            <select name="theme_type" id="theme_type" class="form-control form-select <{$validate.theme_type}>" onChange="change_css();">
                 <option value="theme_type_1" <{if $theme_type=="theme_type_1"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE1}></option>
                 <option value="theme_type_2" <{if $theme_type=="theme_type_2"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE2}></option>
                 <option value="theme_type_3" <{if $theme_type=="theme_type_3"}>selected<{/if}>><{$smarty.const._MA_TAD_THEMES_TYPE3}></option>

@@ -8,7 +8,7 @@
             </div>
             <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label"><{$smarty.const._MA_TADTHEMES_LOGO_SELECT_FONT}></label>
             <div class="col-sm-4">
-                <select name="font_file_sn" id="font_file_sn" class="form-select">
+                <select name="font_file_sn" id="font_file_sn" class="form-control form-select">
                     <{foreach from=$fonts key=file_sn item=font name=f}>
                         <option value="<{$file_sn|default:''}>" <{if $font_file_sn==$file_sn or ($font_file_sn == 0 and $smarty.foreach.f.index == 0) }>selected<{/if}>>
                             <{$font.description}>

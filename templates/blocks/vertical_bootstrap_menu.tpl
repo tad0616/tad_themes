@@ -4,7 +4,7 @@
     <ul class="vertical_bootstrap_menu">
         <{foreach from=$block.menu item=menu key=i}>
             <{if $menu.itemname|default:false}>
-                <li><a style="border-left:5px solid <{$menu.color}>;" href="<{$menu.itemurl}>" target="<{$menu.target}>"><i class="fa <{$menu.bootstrap_icon}>"></i> <{$menu.itemname}></a></li>
+                <li><a style="border-left:5px solid <{$menu.color}>;" href="<{$menu.itemurl}>" target="<{$menu.target}>"><i class="<{if $menu.bootstrap_icon|substr:0:3=='fa-'}>fa <{/if}><{$menu.bootstrap_icon}>"></i> <{$menu.itemname}></a></li>
             <{/if}>
         <{/foreach}>
     </ul>

@@ -18,7 +18,7 @@
     </tr>
     <tr>
         <td colspan=2>
-            <select name="style_param" class="form-select">
+            <select name="style_param" class="form-control form-select">
                 <{foreach from=$style_arr key=module_name item=style}>
                     <option value="<{$module_name|default:''}>;<{$style.file_link}>;<{$style.update_sn}>;<{$style.module_sn}>"><{$module_name|default:''}> <{$style.new_last_update|date_format:"%Y-%m-%d"}></option>
                 <{/foreach}>
@@ -30,7 +30,7 @@
     </tr>
     <tr>
         <td colspan=2>
-            <select name="from_theme_id" class="form-select">
+            <select name="from_theme_id" class="form-control form-select">
                 <{foreach from=$themes key=from_theme_id item=from_theme_name}>
                     <option value="<{$from_theme_id|default:''}>"><{$from_theme_name|default:''}></option>
                 <{/foreach}>

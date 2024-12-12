@@ -86,7 +86,7 @@ require_once __DIR__ . '/footer.php';
 //tad_themes_menu編輯表單
 function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
 {
-    global $xoopsTpl;
+    global $xoopsTpl, $xoopsLogger;
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     //抓取預設值
@@ -122,7 +122,7 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
         $get_tad_all_menu = "
           <label class='col-sm-3 control-label col-form-label text-md-right text-md-end'>" . _MA_TADTHEMES_OF_LEVEL . _TAD_FOR . "</label>
           <div class='col-sm-3'>
-            <select name='of_level' id='of_level' class='form-select'>
+            <select name='of_level' id='of_level' class='form-control form-select'>
             <option value=''>" . _MA_TADTHEMES_ROOT . '</option>
             ' . get_tad_all_menu('', '', $of_level, $menuid, '1') . '
             </select>
@@ -169,7 +169,7 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
                 <input type='text' name='itemurl' id='itemurl' value='{$itemurl}' class='form-control' placeholder='" . _MA_TADTHEMES_ITEMURL . "'>
             </div>
             <div class='col-sm-3'>
-                <select name='target' class='form-select'>
+                <select name='target' class='form-control form-select'>
                     <option value='_self'></option>
                     <option value='_blank' " . Utility::chk($target, '_blank', 0, 'selected') . '>' . _MA_TADTHEMES_TARGET_BLANK . "</option>
                     <option value='popup' " . Utility::chk($target, 'popup', 0, 'selected') . '>' . _MA_TADTHEMES_TARGET_FANCYBOX . "</option>
@@ -210,6 +210,8 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
     </form>';
 
     if ('die' === $mode) {
+        header('HTTP/1.1 200 OK');
+        $xoopsLogger->activated = false;
         $migrate = Utility::add_migrate('return');
         $main2 = "<!DOCTYPE html>
         <html lang='zh-TW'>
@@ -217,10 +219,10 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
                 <meta charset='utf-8'>
                 <title></title>
                 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-                <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/bootstrap3/css/bootstrap.css'>
+                <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/bootstrap5/css/bootstrap.css'>
 
-                <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/css/xoops_adm.css'>
-                <link href='" . XOOPS_URL . "/modules/tadtools/css/font-awesome/css/font-awesome.min.css' rel='stylesheet'>
+                <link rel='stylesheet' type='text/css' media='screen' href='" . XOOPS_URL . "/modules/tadtools/css/xoops_adm5.css'>
+                <link href='" . XOOPS_URL . "/modules/tadtools/css/fontawesome6/css/all.min.css' rel='stylesheet'>
 
                 <script src='" . XOOPS_URL . "/browse.php?Frameworks/jquery/jquery.js' type='text/javascript'></script>
                 <script src='" . XOOPS_URL . "/modules/tadtools/bootstrap5/js/bootstrap.min.js'></script>
@@ -329,9 +331,6 @@ function list_tad_themes_menu($add_of_level = '', $menuid = '')
     $all = get_tad_level_menu(0, 0, $menuid, '', $add_of_level);
 
     $option = '';
-
-    //$all=(empty($all))?"<tr><td colspan=2>".tad_themes_menu_form()."</td></tr>":$all;
-
     $jquery = Utility::get_jquery(true);
 
     $xoopsTpl->assign('jquery', $jquery);
@@ -339,21 +338,20 @@ function list_tad_themes_menu($add_of_level = '', $menuid = '')
     $xoopsTpl->assign('option', $option);
     $xoopsTpl->assign('add_item', sprintf(_MA_TADTHEMES_ADDITEM, _MA_TADTHEMES_ROOT));
 
-    //treetable($show_jquery=true , $sn="cat_sn" , $of_sn="of_cat_sn" , $tbl_id="#tbl" , $post_url="save_drag.php" ,$folder_class=".folder", $msg="#save_msg" ,$expanded=true,$sort_id="", $sort_url="save_sort.php", $sort_msg="#save_msg2")
     $TreeTable = new TreeTable(false, 'menuid', 'of_level', '#tbl', 'save_drag.php', '.folder', '#save_msg', true, '.sort', 'save_sort.php', '#save_msg');
     $TreeTable->render();
 
     $FancyBox = new FancyBox('.edit_dropdown', '800', '500');
     $FancyBox->render();
 
-    $xoTheme->addStylesheet('modules/tadtools/css/font-awesome/css/font-awesome.min.css');
+    $xoTheme->addStylesheet('modules/tadtools/css/fontawesome6/css/all.min.css');
     $xoTheme->addScript('modules/tadtools/bootstrap3/js/bootstrap.js');
 }
 
 //取得分類項目
 function get_tad_level_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '', $add_of_level = '0', $parent_position = '')
 {
-    global $xoopsDB, $xoopsUser, $xoopsModule;
+    global $xoopsDB;
     $btn_xs = 4 == $_SESSION['bootstrap'] ? 'btn-sm' : 'btn-xs';
     $left = $level * 30;
     $font_size = 1.2 - ($level * 0.2);
@@ -375,7 +373,11 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '
     $SweetAlert = new SweetAlert();
 
     while (list($menuid, $of_level, $itemname, $position, $itemurl, $status, $target, $icon, $link_cate_name, $link_cate_sn) = $xoopsDB->fetchRow($result)) {
-        $item = (empty($itemurl)) ? "<i class='fa {$icon}'></i> " . $itemname : "<a name='$menuid' href='{$itemurl}'><i class='fa {$icon}'></i> $itemname</a>";
+        if (strpos($icon, 'fab ') === false) {
+            $icon = "fa {$icon}";
+        }
+
+        $item = (empty($itemurl)) ? "<i class='{$icon}'></i> " . $itemname : "<a name='$menuid' href='{$itemurl}'><i class='{$icon}'></i> $itemname</a>";
 
         $add_img = ($level >= 3) ? '' : "<a href='{$_SERVER['PHP_SELF']}?op=add_tad_themes_menu&of_level={$menuid}' class='edit_dropdown' data-fancybox-type='iframe' style='font-size: {$icon_size}rem; margin: 2px 10px;'><i class='fa fa-plus-circle text-success' aria-hidden='true' title='" . sprintf(_MA_TADTHEMES_ADDITEM, $itemname) . "'></i></a>";
 
