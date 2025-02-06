@@ -12,7 +12,7 @@ define('_MI_TADTHEMES_AUTO_MENU', 'Main menu dropdown?');
 define('_MI_TADTHEMES_AUTO_MENU_DESC', 'Does display main menu dropdown?');
 define('_MI_TADTHEMES_SHOW_SITENAME', 'Does display site name?');
 define('_MI_TADTHEMES_AUTO_MENU_ICON', 'Main Menu Icon');
-define('_MI_TADTHEMES_AUTO_MENU_ICON_DESC', 'Please use <a href="https://fontawesome.com/v4/icons/" target="_blank">FontAwesome 4.7 icons</a>, just fill in the main name, e.g. "fa-list".');
+define('_MI_TADTHEMES_AUTO_MENU_ICON_DESC', 'Please use <a href="https://fontawesome.com/search?ic=free" target="_blank">FontAwesome 6.x icons</a>, just fill in the main name, e.g. "fa-list".');
 define('_MI_TADTHEMES_SHOW_SITENAME_DESC', 'Does display site name?');
 define('_MI_TADTHEMES_BNAME2', 'Slide Out Navigation');
 define('_MI_TADTHEMES_BDESC2', 'Beautiful Slide Out Navigation');

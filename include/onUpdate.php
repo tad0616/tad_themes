@@ -13,6 +13,7 @@ function xoops_module_update_tad_themes(&$module, $old_version)
 {
     global $xoopsDB;
 
+    Update::modify_theme_name_length();
     Update::go_update_logo();
     Update::go_update_logo_right();
 

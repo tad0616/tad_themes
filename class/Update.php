@@ -27,6 +27,24 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 class Update
 {
 
+    public static function modify_theme_name_length()
+    {
+        global $xoopsDB;
+        // 檢查欄位目前設定
+        $sql = "SHOW COLUMNS FROM `" . $xoopsDB->prefix('tad_themes') . "` WHERE `Field` = 'theme_name'";
+        $result = $xoopsDB->query($sql);
+        $field = $xoopsDB->fetchArray($result);
+
+        // 如果已經是 varchar(100) 就不需要處理
+        if ($field['Type'] !== 'varchar(100)') {
+            // 修改欄位定義
+            $sql = "ALTER TABLE `" . $xoopsDB->prefix('tad_themes') . "`
+                    MODIFY COLUMN `theme_name` varchar(100) NOT NULL";
+            $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
+        }
+
+    }
+
     //data_center 加入 sort
     public static function chk_dc_sort()
     {
