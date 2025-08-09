@@ -1,6 +1,6 @@
 <{if $block.menu|default:false}>
     <ul class="vertical_menu">
-        <{foreach from=$block.menu item=menu key=i}>
+        <{foreach from=$block.menu  key=i item=menu}>
             <{if $menu.itemname|default:false}>
                 <li>
                     <a href="<{$menu.itemurl}>" target="<{$menu.target}>">

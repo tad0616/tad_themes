@@ -25,32 +25,32 @@ function vertical_menu($options)
 
     $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
     $url = XOOPS_URL . '/uploads/tad_themes/menu_icons';
-    $i = 1;
+    $i   = 1;
     while (list($menuid, $itemname, $itemurl, $target, $bootstrap_icon, $position) = $xoopsDB->fetchRow($result)) {
         if (empty($itemname) or empty($itemurl)) {
             continue;
         }
 
-        $menu[$i]['itemname'] = $itemname;
-        $menu[$i]['itemurl'] = $itemurl;
-        $menu[$i]['target'] = $target;
-        $menu[$i]['position'] = $position;
+        $menu[$i]['itemname']       = $itemname;
+        $menu[$i]['itemurl']        = $itemurl;
+        $menu[$i]['target']         = $target;
+        $menu[$i]['position']       = $position;
         $menu[$i]['bootstrap_icon'] = $bootstrap_icon;
-        $menu[$i]['color'] = Tools::genColorCodeFromText($menuid);
-        $icon = '';
+        $menu[$i]['color']          = Tools::genColorCodeFromText($menuid);
+        $icon                       = '';
         if (file_exists($dir . '/' . $menuid . '_64.png')) {
             $icon = "{$url}/{$menuid}_64.png";
         }
 
-        $menu[$menuid]['icon'] = $icon;
+        $menu[$i]['icon'] = $icon;
         $i++;
     }
-    $block['menu'] = $menu;
+
+    $block['menu']   = $menu;
     $block['jquery'] = Utility::get_jquery();
-    $block['pin'] = $options[1];
+    $block['pin']    = $options[1];
 
     if ('1' == $options[1]) {
-
         $JqueryPin = new JqueryPin();
         $JqueryPin->render('.vertical_menu');
     }
@@ -114,8 +114,8 @@ if (!function_exists('block_menu_options')) {
             i++;
         }";
             $ckecked = (in_array($menuid, $sc)) ? 'checked' : '';
-            $color = '0' == $of_level ? 'blue' : 'black';
-            $color = '1' == $status ? $color : 'gray';
+            $color   = '0' == $of_level ? 'blue' : 'black';
+            $color   = '1' == $status ? $color : 'gray';
             $option .= "
         <span style='white-space:nowrap;'>
             <label for='c{$menuid}' style='color:$color'>
@@ -129,7 +129,7 @@ if (!function_exists('block_menu_options')) {
     }
     </script>";
 
-        $main['js'] = $js;
+        $main['js']   = $js;
         $main['form'] = $option;
 
         return $main;
