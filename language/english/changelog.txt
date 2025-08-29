@@ -1,3 +1,7 @@
+Tad Themes 8.2 (released 2025-08-29)
+====================================
+1. Completed the layout copy function, which can speed up the transfer of old layouts to new ones.
+
 Tad Themes 8.1 (released on 2025-08-09)
 ====================================
 1.Added "Venue Equipment Booking" editing option.

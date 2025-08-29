@@ -229,7 +229,7 @@ define('_MA_TADTHEMES_EDIT_MENU_KW_DEVICE', '設備借用');
 
 define('_MA_TADTHEMES_DOWNLOAD', '下載');
 define('_MA_TADTHEMES_DL_FAIL', '「%s」下載失敗！');
-define('_MA_TADTHEMES_COPY_THEME', '複製logo及滑動圖至此佈景');
+define('_MA_TADTHEMES_COPY_THEME', '匯入指定佈景至此佈景');
 define('_MA_TADTHEMES_COPY', '複製');
 
 define('_MA_TADTHEMES_CONFIG_PATH_ERROR', '存至 %s 失敗！');

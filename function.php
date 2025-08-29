@@ -19,18 +19,18 @@ define('_THEME_CONFIG2_PATH', XOOPS_ROOT_PATH . "/themes/{$xoopsConfig['theme_se
 $block_position_title = ['leftBlock' => _MA_TADTHEMES_BLOCK_LEFT, 'rightBlock' => _MA_TADTHEMES_BLOCK_RIGHT, 'centerBlock' => _MA_TADTHEMES_BLOCK_TOP_CENTER, 'centerLeftBlock' => _MA_TADTHEMES_BLOCK_TOP_LEFT, 'centerRightBlock' => _MA_TADTHEMES_BLOCK_TOP_RIGHT, 'centerBottomBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_CENTER, 'centerBottomLeftBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_LEFT, 'centerBottomRightBlock' => _MA_TADTHEMES_BLOCK_BOTTOM_RIGHT, 'footerCenterBlock' => _MA_TADTHEMES_BLOCK_FOOTER_CENTER, 'footerLeftBlock' => _MA_TADTHEMES_BLOCK_FOOTER_LEFT, 'footerRightBlock' => _MA_TADTHEMES_BLOCK_FOOTER_RIGHT];
 
 $config2_files_arr = [
-    'config2_base'    => ['label' => _MA_TADTHEMES_THEME_BASE, 'tpl' => 'sub_theme_config_1', 'type' => 'config', 'key' => '1'],
-    'config2_bg'      => ['label' => _MA_TADTHEMES_BG_IMG, 'tpl' => 'sub_theme_config_2', 'type' => 'config', 'key' => '2'],
-    'config2_logo'    => ['label' => _MA_TADTHEMES_LOGO_IMG, 'tpl' => 'sub_theme_config_4', 'type' => 'config', 'key' => '4'],
-    'config2_nav'     => ['label' => _MA_TADTHEMES_NAVBAR, 'tpl' => 'sub_theme_config_6', 'type' => 'config', 'key' => '6'],
-    'config2_slide'   => ['label' => _MA_TAD_THEMES_HEAD, 'tpl' => 'sub_theme_config_3', 'type' => 'config', 'key' => '3'],
+    'config2_base' => ['label' => _MA_TADTHEMES_THEME_BASE, 'tpl' => 'sub_theme_config_1', 'type' => 'config', 'key' => '1'],
+    'config2_bg' => ['label' => _MA_TADTHEMES_BG_IMG, 'tpl' => 'sub_theme_config_2', 'type' => 'config', 'key' => '2'],
+    'config2_logo' => ['label' => _MA_TADTHEMES_LOGO_IMG, 'tpl' => 'sub_theme_config_4', 'type' => 'config', 'key' => '4'],
+    'config2_nav' => ['label' => _MA_TADTHEMES_NAVBAR, 'tpl' => 'sub_theme_config_6', 'type' => 'config', 'key' => '6'],
+    'config2_slide' => ['label' => _MA_TAD_THEMES_HEAD, 'tpl' => 'sub_theme_config_3', 'type' => 'config', 'key' => '3'],
     'config2_content' => ['label' => _MA_TADTHEMES_CONTENT, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
-    'config2_block'   => ['label' => _MA_TADTHEMES_BLOCK_TITLE, 'tpl' => 'sub_theme_config_5', 'type' => 'config', 'key' => '5'],
-    'config2_footer'  => ['label' => _MA_TADTHEMES_FOOTER, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
-    'config2_top'     => ['label' => _MA_TADTHEMES_TOP, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
-    'config2_middle'  => ['label' => _MA_TADTHEMES_MIDDLE, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
-    'config2_bottom'  => ['label' => _MA_TADTHEMES_BOTTOM, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
-    'config2'         => ['label' => _MA_TADTHEMES_CONFIG2, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
+    'config2_block' => ['label' => _MA_TADTHEMES_BLOCK_TITLE, 'tpl' => 'sub_theme_config_5', 'type' => 'config', 'key' => '5'],
+    'config2_footer' => ['label' => _MA_TADTHEMES_FOOTER, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
+    'config2_top' => ['label' => _MA_TADTHEMES_TOP, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
+    'config2_middle' => ['label' => _MA_TADTHEMES_MIDDLE, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
+    'config2_bottom' => ['label' => _MA_TADTHEMES_BOTTOM, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
+    'config2' => ['label' => _MA_TADTHEMES_CONFIG2, 'tpl' => 'sub_theme_config_custom', 'type' => 'config2'],
 ];
 
 $config2_files = array_keys($config2_files_arr);
@@ -61,7 +61,7 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
     }
 
     // 若路徑或檔案不存在就跳出
-    if (! is_dir($path) and ! is_file($path)) {
+    if (!is_dir($path) and !is_file($path)) {
         return;
     }
 
@@ -90,7 +90,7 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
                 $type = filetype($path . '/' . $file);
 
                 if ('dir' !== $type) {
-                    if (empty($db_files) or ! in_array($file, $db_files)) {
+                    if (empty($db_files) or !in_array($file, $db_files)) {
                         import_file($path . '/' . $file, $col_name, $col_sn, null, null, $desc, $safe_name);
                     }
                 }
@@ -99,7 +99,7 @@ function import_img($path = '', $col_name = 'logo', $col_sn = '', $desc = '', $s
         }
     } elseif (is_file($path)) {
         // 若是檔案，若檔案不在資料庫中，就直接匯入該檔案
-        if (! in_array($path, $db_files)) {
+        if (!in_array($path, $db_files)) {
             import_file($path, $col_name, $col_sn, null, null, $desc, $safe_name);
         }
     }
@@ -168,63 +168,70 @@ function import_file($file_name = '', $col_name = '', $col_sn = '', $main_width 
     }
 }
 
-function TadUpFilesBt_bg()
+function TadUpFilesBt_bg($theme_set = '')
 {
     global $xoopsConfig;
-    $TadUpFilesBt_bg = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/bt_bg", null, '', '/thumbs');
+    if (empty($theme_set)) {$theme_set = $xoopsConfig['theme_set'];}
+    $TadUpFilesBt_bg = new TadUpFiles('tad_themes', "/{$theme_set}/bt_bg", null, '', '/thumbs');
     $TadUpFilesBt_bg->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
 
     return $TadUpFilesBt_bg;
 }
 
-function TadUpFiles_config2()
+function TadUpFiles_config2($theme_set = '')
 {
     global $xoopsConfig;
-    $TadUpFiles_config2 = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/config2", null, '', '/thumbs');
+    if (empty($theme_set)) {$theme_set = $xoopsConfig['theme_set'];}
+    $TadUpFiles_config2 = new TadUpFiles('tad_themes', "/{$theme_set}/config2", null, '', '/thumbs');
     $TadUpFiles_config2->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
 
     return $TadUpFiles_config2;
 }
 
-function TadUpFilesSlide()
+function TadUpFilesSlide($theme_set = '')
 {
     global $xoopsConfig;
-    $TadUpFilesSlide = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/slide", null, '', '/thumbs');
+    if (empty($theme_set)) {$theme_set = $xoopsConfig['theme_set'];}
+    $TadUpFilesSlide = new TadUpFiles('tad_themes', "/{$theme_set}/slide", null, '', '/thumbs');
     $TadUpFilesSlide->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
     return $TadUpFilesSlide;
 }
 
-function TadUpFilesBg()
+function TadUpFilesBg($theme_set = '')
 {
     global $xoopsConfig;
-    $TadUpFilesBg = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/bg", null, '', '/thumbs');
+    if (empty($theme_set)) {$theme_set = $xoopsConfig['theme_set'];}
+    $TadUpFilesBg = new TadUpFiles('tad_themes', "/{$theme_set}/bg", null, '', '/thumbs');
     $TadUpFilesBg->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
 
     return $TadUpFilesBg;
 }
 
-function TadUpFilesLogo()
+function TadUpFilesLogo($theme_set = '')
 {
     global $xoopsConfig;
-    $TadUpFilesLogo = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/logo", null, '', '/thumbs');
+    if (empty($theme_set)) {$theme_set = $xoopsConfig['theme_set'];}
+    $TadUpFilesLogo = new TadUpFiles('tad_themes', "/{$theme_set}/logo", null, '', '/thumbs');
     $TadUpFilesLogo->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
 
     return $TadUpFilesLogo;
 }
 
-function TadUpFilesNavLogo()
+function TadUpFilesNavLogo($theme_set = '')
 {
     global $xoopsConfig;
-    $TadUpFilesNavLogo = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/navlogo", null, '', '/thumbs');
+    if (empty($theme_set)) {$theme_set = $xoopsConfig['theme_set'];}
+    $TadUpFilesNavLogo = new TadUpFiles('tad_themes', "/{$theme_set}/navlogo", null, '', '/thumbs');
     $TadUpFilesNavLogo->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
 
     return $TadUpFilesNavLogo;
 }
 
-function TadUpFilesNavBg()
+function TadUpFilesNavBg($theme_set = '')
 {
     global $xoopsConfig;
-    $TadUpFilesNavBg = new TadUpFiles('tad_themes', "/{$xoopsConfig['theme_set']}/nav_bg", null, '', '/thumbs');
+    if (empty($theme_set)) {$theme_set = $xoopsConfig['theme_set'];}
+    $TadUpFilesNavBg = new TadUpFiles('tad_themes', "/{$theme_set}/nav_bg", null, '', '/thumbs');
     $TadUpFilesNavBg->set_thumb('100px', '60px', '#000', 'center center', 'no-repeat', 'contain');
 
     return $TadUpFilesNavBg;
@@ -333,7 +340,7 @@ function save_config2($theme_id = '', $config2_files = [], $mode = '')
 
             } elseif ('custom_zone' === $config['type']) {
                 $block_value = '';
-                if (! empty($_POST[$config['name'] . '_bid'])) {
+                if (!empty($_POST[$config['name'] . '_bid'])) {
                     $bid = (int) $_POST[$config['name'] . '_bid'];
                     $sql = "SELECT `bid`, `name`, `title`, `show_func`, `c_type`, `content`
                     FROM `" . $xoopsDB->prefix('newblocks') . "`
