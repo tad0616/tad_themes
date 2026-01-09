@@ -5,6 +5,7 @@ use XoopsModules\Tadtools\FancyBox;
 use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\TreeTable;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_themes\Tools;
 /*-----------引入檔案區--------------*/
 
 $xoopsOption['template_main'] = 'tad_themes_adm_dropdown.tpl';
@@ -22,6 +23,7 @@ switch ($op) {
     //更新資料
     case 'update_tad_themes_menu':
         update_tad_themes_menu($menuid);
+        Tools::del_theme_json($theme_name);
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
         exit;
 

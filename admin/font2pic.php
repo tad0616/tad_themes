@@ -14,28 +14,28 @@ $TadUpFontFiles = new TadUpFiles('tad_themes', '/fonts');
 $TadUpFontFiles->set_col('logo_fonts', 0);
 
 /*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$title = Request::getString('title');
-$color = Request::getString('color', '#00a3a8');
-$border_color = Request::getString('border_color', '#ffffff');
-$name = Request::getString('name');
-$bg_color = Request::getString('bg_color');
-$logo = Request::getString('logo');
-$shadow_color = Request::getString('shadow_color', '#000000');
-$theme_id = Request::getInt('theme_id');
-$files_sn = Request::getInt('files_sn');
-$status = Request::getInt('status', 1);
-$size = Request::getInt('size', 24);
-$font_file_sn = Request::getInt('font_file_sn');
-$border_size = Request::getInt('border_size', 2);
-$sav_to_logo = Request::getInt('sav_to_logo');
-$shadow_x = Request::getInt('shadow_x', 1);
-$shadow_y = Request::getInt('shadow_y', 1);
-$shadow_size = Request::getInt('shadow_size', 3);
-$margin_top = Request::getInt('margin_top');
+$op            = Request::getString('op');
+$title         = Request::getString('title');
+$color         = Request::getString('color', '#00a3a8');
+$border_color  = Request::getString('border_color', '#ffffff');
+$name          = Request::getString('name');
+$bg_color      = Request::getString('bg_color');
+$logo          = Request::getString('logo');
+$shadow_color  = Request::getString('shadow_color', '#000000');
+$theme_id      = Request::getInt('theme_id');
+$files_sn      = Request::getInt('files_sn');
+$status        = Request::getInt('status', 1);
+$size          = Request::getInt('size', 24);
+$font_file_sn  = Request::getInt('font_file_sn');
+$border_size   = Request::getInt('border_size', 2);
+$sav_to_logo   = Request::getInt('sav_to_logo');
+$shadow_x      = Request::getInt('shadow_x', 1);
+$shadow_y      = Request::getInt('shadow_y', 1);
+$shadow_size   = Request::getInt('shadow_size', 3);
+$margin_top    = Request::getInt('margin_top');
 $margin_bottom = Request::getInt('margin_bottom');
-$logo_width = Request::getInt('logo_width');
-$logo_height = Request::getInt('logo_height');
+$logo_width    = Request::getInt('logo_width');
+$logo_height   = Request::getInt('logo_height');
 
 switch ($op) {
 
@@ -62,8 +62,8 @@ switch ($op) {
         exit;
 
     case 'mkTitlePic':
-        $filename = Utility::mkTitlePic('/uploads/tmp_logo', date('ymdHis'), $title, $size, $border_size, $color, $border_color, $font_file_sn, $shadow_color, $shadow_x, $shadow_y, $shadow_size, $margin_top, $margin_bottom, false, $logo_width, $logo_height);
-        $color = str_replace('#', '', $color);
+        $filename     = Utility::mkTitlePic('/uploads/tmp_logo', date('ymdHis'), $title, $size, $border_size, $color, $border_color, $font_file_sn, $shadow_color, $shadow_x, $shadow_y, $shadow_size, $margin_top, $margin_bottom, false, $logo_width, $logo_height);
+        $color        = str_replace('#', '', $color);
         $border_color = str_replace('#', '', $border_color);
 
         $_SESSION['font_config'] = json_encode(['title' => $title, 'size' => $size, 'border_size' => $border_size, 'color' => $color, 'border_color' => $border_color, 'font_file_sn' => $font_file_sn, 'bg_color' => $bg_color, 'shadow_color' => $shadow_color, 'shadow_x' => $shadow_x, 'shadow_y' => $shadow_y, 'shadow_size' => $shadow_size, 'margin_top' => $margin_top, 'margin_bottom' => $margin_bottom, 'logo_width' => $logo_width, 'logo_height' => $logo_height]);
@@ -156,7 +156,7 @@ function tad_themes_logo_form()
     $MColorPicker = new MColorPicker('.color-picker');
     $MColorPicker->render('bootstrap');
 
-    $dir = XOOPS_ROOT_PATH . '/uploads/logo/';
+    $dir   = XOOPS_ROOT_PATH . '/uploads/logo/';
     $logos = [];
     // Open a known directory, and proceed to read its contents
     if (is_dir($dir)) {
@@ -185,14 +185,14 @@ function strLength($str, $charset = 'utf-8')
         $str = iconv('utf-8', 'big5', $str);
     }
 
-    $num = strlen($str);
+    $num   = strlen($str);
     $cnNum = 0;
     for ($i = 0; $i < $num; ++$i) {
         if (ord(substr($str, $i, 1)) > 127) {
             $cnNum++;
         }
     }
-    $enNum = $num - ($cnNum * 2);
+    $enNum  = $num - ($cnNum * 2);
     $number = ($enNum / 2) + $cnNum;
     return ceil($number);
 }
@@ -225,9 +225,9 @@ function save_to_logo($name = '', $theme_id = '')
 {
     global $xoopsConfig, $xoopsDB;
     if (empty($theme_id)) {
-        $theme_id = get_theme_id($xoopsConfig['theme_set']);
+        $theme_id = Tools::get_theme_id($xoopsConfig['theme_set']);
     }
-    import_file(XOOPS_ROOT_PATH . "/uploads/tmp_logo/{$name}.png", 'logo', $theme_id, null, null, '', false, false);
+    Tools::import_file(XOOPS_ROOT_PATH . "/uploads/tmp_logo/{$name}.png", 'logo', $theme_id, null, null, false);
 
     $sql = 'UPDATE `' . $xoopsDB->prefix('tad_themes') . '`
         SET `logo_img` = ?

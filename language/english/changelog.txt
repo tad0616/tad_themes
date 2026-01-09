@@ -1,3 +1,10 @@
+Tad Themes 8.3 (Released 2026-01-09)
+====================================
+1. Added quick theme switching functionality
+2. Added quick default theme setup functionality
+3. Optimized upgrade process
+4. Fixed block background images failing to display in certain themes
+
 Tad Themes 8.2 (released 2025-08-29)
 ====================================
 1. Completed the layout copy function, which can speed up the transfer of old layouts to new ones.

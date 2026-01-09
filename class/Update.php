@@ -2,430 +2,418 @@
 
 namespace XoopsModules\Tad_themes;
 
-/*
-Update Class Definition
-
-You may not change or alter any portion of this comment or credits of
-supporting developers from this source code or any supporting source code
-which is considered copyrighted (c) material of the original comment or credit
-authors.
-
-This program is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- */
-
-/**
- * @license      http://www.fsf.org/copyleft/gpl.html GNU public license
- * @copyright    https://xoops.org 2001-2017 &copy; XOOPS Project
- * @author       Mamba <mambax7@gmail.com>
- */
-
-/**
- * Class Update
- */
 class Update
 {
+    // New public entry point for all updates
+    public static function run_all_updates()
+    {
+        self::_update_tad_themes_table();
+        self::_create_and_update_tad_themes_menu_table();
+        self::_create_and_update_tad_themes_files_center_table();
+        self::_create_and_update_tad_themes_data_center_table();
+        self::_migrate_to_tad_themes_blocks_table(); // This handles the complex block migration
+        self::_create_and_update_tad_themes_config2_table();
 
-    public static function modify_theme_name_length()
+        // Data-only migrations and other updates
+        self::_run_data_migrations();
+
+        // Other utility functions
+        self::add_bt_bg();
+        self::chk_tad_themes_block();
+    }
+
+    //
+    // PRIVATE HELPER METHODS
+    //
+
+    private static function _table_exists($table_name)
     {
         global $xoopsDB;
-        // 檢查欄位目前設定
-        $sql = "SHOW COLUMNS FROM `" . $xoopsDB->prefix('tad_themes') . "` WHERE `Field` = 'theme_name'";
-        $result = $xoopsDB->query($sql);
-        $field = $xoopsDB->fetchArray($result);
+        $sql    = 'SHOW TABLES LIKE ' . $xoopsDB->quote($xoopsDB->prefix($table_name));
+        $result = $xoopsDB->queryF($sql);
+        return $xoopsDB->getRowsNum($result) > 0;
+    }
 
-        // 如果已經是 varchar(100) 就不需要處理
-        if ($field['Type'] !== 'varchar(100)') {
-            // 修改欄位定義
-            $sql = "ALTER TABLE `" . $xoopsDB->prefix('tad_themes') . "`
-                    MODIFY COLUMN `theme_name` varchar(100) NOT NULL";
-            $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
+    private static function _column_exists($table_name, $column_name)
+    {
+        global $xoopsDB;
+        $sql    = 'SHOW COLUMNS FROM ' . $xoopsDB->prefix($table_name) . ' LIKE ' . $xoopsDB->quote($column_name);
+        $result = $xoopsDB->queryF($sql);
+        return $xoopsDB->getRowsNum($result) > 0;
+    }
+
+    private static function _key_exists($table_name, $key_name)
+    {
+        global $xoopsDB;
+        $sql    = 'SHOW KEYS FROM ' . $xoopsDB->prefix($table_name) . ' WHERE Key_name = ' . $xoopsDB->quote($key_name);
+        $result = $xoopsDB->queryF($sql);
+        return $xoopsDB->getRowsNum($result) > 0;
+    }
+
+    private static function _execute_sql($sql)
+    {
+        global $xoopsDB;
+        if (empty($sql)) {
+            return;
         }
-
-    }
-
-    //data_center 加入 sort
-    public static function chk_dc_sort()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`sort`) from ' . $xoopsDB->prefix('tad_themes_data_center');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public static function go_dc_sort()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes_data_center') . " ADD `sort` mediumint(9) unsigned COMMENT '顯示順序' after `col_id`";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
-
-    //修正上傳檔案的路徑，從絕對路徑改為相對路徑
-    public static function fix_config2_file_url()
-    {
-        global $xoopsDB;
-        $sql = 'SELECT `theme_id`, `bg_img`, `logo_img`, `navlogo_img`, `navbar_img` FROM ' . $xoopsDB->prefix('tad_themes') . " where left(`bg_img`, 4)='http' or left(`logo_img`, 4)='http' or left(`navlogo_img`, 4)='http' or left(`navbar_img`, 4)='http'";
-        $result = $xoopsDB->query($sql);
-        while (list($theme_id, $bg_img, $logo_img, $navlogo_img, $navbar_img) = $xoopsDB->fetchRow($result)) {
-            $bg_img = basename($bg_img);
-            $logo_img = basename($logo_img);
-            $navlogo_img = basename($navlogo_img);
-            $navbar_img = basename($navbar_img);
-            $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `bg_img`='{$bg_img}',`logo_img`='{$logo_img}',`navlogo_img`='{$navlogo_img}',`navbar_img`='{$navbar_img}' where `theme_id`='$theme_id'";
-            $xoopsDB->queryF($sql);
-        }
-
-        $sql = 'SELECT `theme_id`, `bt_bg_img`, `block_position` FROM ' . $xoopsDB->prefix('tad_themes_blocks') . " where left(`bt_bg_img`, 4)='http'";
-        $result = $xoopsDB->query($sql);
-        while (list($theme_id, $bt_bg_img, $block_position) = $xoopsDB->fetchRow($result)) {
-            $bt_bg_img = basename($bt_bg_img);
-            $sql = 'update ' . $xoopsDB->prefix('tad_themes_blocks') . " set `bt_bg_img`='{$bt_bg_img}' where `theme_id`='$theme_id' and `block_position`='$block_position'";
-            $xoopsDB->queryF($sql);
-        }
-
-        $sql = 'SELECT `theme_id`,`name`,`value` FROM ' . $xoopsDB->prefix('tad_themes_config2') . " where `type`='file' and left(`value`, 4)='http'";
-        $result = $xoopsDB->query($sql);
-        while (list($theme_id, $name, $value) = $xoopsDB->fetchRow($result)) {
-            $filename = basename($value);
-            $sql = 'update ' . $xoopsDB->prefix('tad_themes_config2') . " set `value`='$filename' where `type`='file' and `theme_id`='$theme_id' and `name`='$name'";
-            $xoopsDB->queryF($sql);
-        }
-    }
-
-    //新增檔案欄位
-    public static function chk_fc_tag()
-    {
-        global $xoopsDB;
-        $sql = 'SELECT count(`tag`) FROM ' . $xoopsDB->prefix('tad_themes_files_center');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public static function go_fc_tag()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes_files_center') . "
-        ADD `upload_date` DATETIME NOT NULL COMMENT '上傳時間',
-        ADD `uid` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT 0 COMMENT '上傳者',
-        ADD `tag` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '註記'
-        ";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
-
-    //新增佈景類型欄位
-    public static function chk_chk1()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`theme_kind`) from ' . $xoopsDB->prefix('tad_themes');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public static function go_update1()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes') . " ADD `theme_kind` varchar(255) NOT NULL default 'html'";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
-
-    //新增tad_themes_menu資料表
-    public static function chk_chk2()
-    {
-        global $xoopsDB;
-        $sql = 'select count(*) from ' . $xoopsDB->prefix('tad_themes_menu');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public static function go_update2()
-    {
-        global $xoopsDB;
-        $sql = 'CREATE TABLE `' . $xoopsDB->prefix('tad_themes_menu') . "` (
-    `menuid` smallint(5) unsigned NOT NULL auto_increment,
-    `of_level` smallint(5) unsigned NOT NULL default 0,
-    `position` smallint(5) unsigned NOT NULL default 0,
-    `itemname` varchar(255) NOT NULL default '',
-    `itemurl` varchar(255) NOT NULL default '',
-    `status` enum('1','0') NOT NULL,
-    PRIMARY KEY  (`menuid`),
-    KEY `of_level` (`of_level`)
-    )  ENGINE=MyISAM;";
         $xoopsDB->queryF($sql);
     }
 
-    //新增區塊欄位
-    public static function chk_chk3()
+    //
+    // SCHEMA AND DATA CONSOLIDATION METHODS
+    //
+
+    private static function _update_tad_themes_table()
     {
         global $xoopsDB;
-        $sql = 'select count(`block_config`) from ' . $xoopsDB->prefix('tad_themes');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
+        if (!self::_table_exists('tad_themes')) {
+            return;
         }
 
-        return true;
-    }
+        $alter_parts = [];
 
-    public static function go_update3()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes') . "
-    ADD `block_config` enum('right','left') NOT NULL DEFAULT 'right',
-    ADD `bt_text` varchar(255) NOT NULL DEFAULT '',
-    ADD `bt_text_padding` tinyint(4) NOT NULL DEFAULT '33',
-    ADD `bt_bg_color` varchar(255) NOT NULL DEFAULT '',
-    ADD `bt_bg_img` varchar(255) NOT NULL DEFAULT '',
-    ADD `bt_bg_repeat` enum('0','1') NOT NULL DEFAULT '0',
-    ADD `bt_radius` enum('0','1') NOT NULL DEFAULT '1'";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
+        $sql    = "SHOW COLUMNS FROM `" . $xoopsDB->prefix('tad_themes') . "` WHERE `Field` = 'theme_name'";
+        $result = $xoopsDB->queryF($sql);
+        $field  = $xoopsDB->fetchArray($result);
+        if ($field && $field['Type'] !== 'varchar(100)') {
+            $alter_parts[] = "MODIFY COLUMN `theme_name` varchar(100) NOT NULL";
+        }
+        $alter_parts[] = "CHANGE `logo_top` `logo_top` smallint(5) NOT NULL DEFAULT '0' COMMENT 'Logo離上方距離'";
+        $alter_parts[] = "CHANGE `logo_right` `logo_right` smallint(5) NOT NULL DEFAULT '0' COMMENT 'Logo離右邊距離'";
+        $alter_parts[] = "CHANGE `logo_bottom` `logo_bottom` smallint(5) NOT NULL DEFAULT '0' COMMENT 'Logo離下方距離'";
+        $alter_parts[] = "CHANGE `logo_left` `logo_left` smallint(5) NOT NULL DEFAULT '0' COMMENT 'Logo離左邊距離'";
 
-    //新增導覽列欄位
-    public static function chk_chk4()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`navbar_pos`) from ' . $xoopsDB->prefix('tad_themes');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
+        if (!self::_column_exists('tad_themes', 'theme_kind')) {
+            $alter_parts[] = "ADD `theme_kind` varchar(255) NOT NULL default 'html'";
         }
 
-        return true;
-    }
-
-    public static function go_update4()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes') . "
-        ADD `navbar_pos` varchar(255) NOT NULL DEFAULT 'default',
-        ADD `navbar_bg_top` varchar(255) NOT NULL DEFAULT '#54b4eb',
-        ADD `navbar_bg_bottom` varchar(255) NOT NULL DEFAULT '#2fa4e7',
-        ADD `navbar_hover` varchar(255) NOT NULL DEFAULT '#1684c2'";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
-
-    //新增選單欄位
-    public static function chk_chk5()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`target`) from ' . $xoopsDB->prefix('tad_themes_menu');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
+        if (!self::_column_exists('tad_themes', 'navbar_pos')) {
+            $alter_parts[] = "ADD `navbar_pos` varchar(255) NOT NULL DEFAULT 'default'";
         }
 
-        return true;
-    }
-
-    public static function go_update5()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes_menu') . "
-        ADD `target` varchar(255) NOT NULL default '',
-        ADD `icon` varchar(255) NOT NULL default 'icon-th-list'";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
-
-    //新增original_filename欄位
-    public static function chk_chk6()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`original_filename`) from ' . $xoopsDB->prefix('tad_themes_files_center');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
+        if (!self::_column_exists('tad_themes', 'navbar_bg_top')) {
+            $alter_parts[] = "ADD `navbar_bg_top` varchar(255) NOT NULL DEFAULT '#54b4eb'";
         }
 
-        return true;
-    }
-
-    public static function go_update6()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes_files_center') . "
-  ADD `original_filename` varchar(255) NOT NULL default ''";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-
-        $sql = 'update ' . $xoopsDB->prefix('tad_themes_files_center') . ' set
-        `original_filename`=`description`';
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
-
-    //新增hash_filename欄位
-    public static function chk_chk7()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`hash_filename`) from ' . $xoopsDB->prefix('tad_themes_files_center');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
+        if (!self::_column_exists('tad_themes', 'navbar_bg_bottom')) {
+            $alter_parts[] = "ADD `navbar_bg_bottom` varchar(255) NOT NULL DEFAULT '#2fa4e7'";
         }
 
-        return true;
-    }
-
-    public static function go_update7()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes_files_center') . "
-        ADD `hash_filename` varchar(255) NOT NULL default '',
-        ADD `sub_dir` varchar(255) NOT NULL default ''";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
-
-    //新增hash_filename欄位
-    public static function chk_chk8()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`navbar_color`) from ' . $xoopsDB->prefix('tad_themes');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
+        if (!self::_column_exists('tad_themes', 'navbar_hover')) {
+            $alter_parts[] = "ADD `navbar_hover` varchar(255) NOT NULL DEFAULT '#1684c2'";
         }
 
-        return true;
-    }
-
-    public static function go_update8()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes') . "
-        ADD `navbar_color` varchar(255) NOT NULL default '#FFFFFF',
-        ADD `navbar_color_hover` varchar(255) NOT NULL default 'yellow',
-        ADD `navbar_icon` varchar(255) NOT NULL default ''
-        ";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
-
-    //新增 theme_width 欄位
-    public static function chk_chk9()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`theme_width`) from ' . $xoopsDB->prefix('tad_themes');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
+        if (!self::_column_exists('tad_themes', 'navbar_color')) {
+            $alter_parts[] = "ADD `navbar_color` varchar(255) NOT NULL default '#FFFFFF'";
         }
 
-        return true;
-    }
-
-    public static function go_update9()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes') . "
-        ADD `theme_width` varchar(255) NOT NULL default '980' after `theme_type`;
-        ";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-
-        $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `theme_width`=12 where theme_kind='bootstrap'";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
-
-    //新增導覽列logo圖欄位
-    public static function chk_chk10()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`navlogo_img`) from ' . $xoopsDB->prefix('tad_themes');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
+        if (!self::_column_exists('tad_themes', 'navbar_color_hover')) {
+            $alter_parts[] = "ADD `navbar_color_hover` varchar(255) NOT NULL default 'yellow'";
         }
 
-        return true;
-    }
-
-    public static function go_update10()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes') . " ADD `navlogo_img` varchar(255) NOT NULL default '' after logo_img";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
-
-    //新增logo圖位置欄位
-    public static function chk_chk11()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`logo_position`) from ' . $xoopsDB->prefix('tad_themes');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
+        if (!self::_column_exists('tad_themes', 'navbar_icon')) {
+            $alter_parts[] = "ADD `navbar_icon` varchar(255) NOT NULL default ''";
         }
 
-        return true;
-    }
-
-    public static function go_update11()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes') . " ADD `logo_position` varchar(255) NOT NULL default 'slide' after logo_img";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
-
-    //新增tad_themes_config2資料表
-    public static function chk_chk12()
-    {
-        global $xoopsDB;
-        $sql = 'select count(*) from ' . $xoopsDB->prefix('tad_themes_config2');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
+        if (!self::_column_exists('tad_themes', 'theme_width')) {
+            $alter_parts[] = "ADD `theme_width` varchar(255) NOT NULL default '980' after `theme_type`";
         }
 
-        return true;
-    }
-
-    public static function go_update12()
-    {
-        global $xoopsDB;
-        $sql = 'CREATE TABLE `' . $xoopsDB->prefix('tad_themes_config2') . "` (
-            `theme_id` smallint(5) unsigned NOT NULL default 0,
-            `name` varchar(100) NOT NULL default '',
-            `type` varchar(255) NOT NULL default '',
-            `value` text NOT NULL,
-            PRIMARY KEY  (`theme_id`,`name`)
-        )  ENGINE=MyISAM;";
-        $xoopsDB->queryF($sql);
-    }
-
-    //新增 tad_themes_blocks 資料表
-    public static function chk_chk13()
-    {
-        global $xoopsDB;
-        $sql = 'select count(*) from ' . $xoopsDB->prefix('tad_themes_blocks');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
+        if (!self::_column_exists('tad_themes', 'navlogo_img')) {
+            $alter_parts[] = "ADD `navlogo_img` varchar(255) NOT NULL default '' after logo_img";
         }
 
-        return true;
+        if (!self::_column_exists('tad_themes', 'logo_position')) {
+            $alter_parts[] = "ADD `logo_position` varchar(255) NOT NULL default 'slide' after logo_img";
+        }
+
+        if (!self::_column_exists('tad_themes', 'base_color')) {
+            $alter_parts[] = "ADD `base_color` varchar(255) NOT NULL default 'transparent' COMMENT '頁面內容背景色'  after `crb_width`";
+        }
+
+        if (!self::_column_exists('tad_themes', 'navbar_img')) {
+            $alter_parts[] = "ADD `navbar_img` varchar(255) NOT NULL default 'transparent' COMMENT 'navbar背景圖'  after `navbar_icon`";
+        }
+
+        if (!self::_column_exists('tad_themes', 'logo_center')) {
+            $alter_parts[] = "ADD `logo_center` enum('0','1') NOT NULL default '0' after `logo_left`";
+        }
+
+        if (!self::_column_exists('tad_themes', 'cb_width')) {
+            $alter_parts[] = "ADD `cb_width` varchar(255) NOT NULL default '' AFTER `lb_width`";
+        }
+
+        if (!self::_column_exists('tad_themes', 'bg_size')) {
+            $alter_parts[] = "ADD `bg_size` varchar(255) DEFAULT '' COMMENT '背景縮放'";
+        }
+
+        if (!self::_key_exists('tad_themes', 'theme_name')) {
+            $alter_parts[] = 'ADD UNIQUE `theme_name` (`theme_name`)';
+        }
+
+        if (!empty($alter_parts)) {
+            $sql = "ALTER TABLE `" . $xoopsDB->prefix('tad_themes') . "` " . implode(",\n", $alter_parts);
+            self::_execute_sql($sql);
+        }
+
+        if (self::_column_exists('tad_themes', 'theme_width')) {
+            $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `theme_width`=12 where theme_kind='bootstrap'";
+            self::_execute_sql($sql);
+        }
+        if (self::_column_exists('tad_themes', 'cb_width')) {
+            $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `cb_width` = (`theme_width` - `lb_width` - `rb_width`) where theme_kind!='mix'";
+            self::_execute_sql($sql);
+            $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `cb_width` = (12 - `lb_width` - `rb_width`) where theme_kind='mix'";
+            self::_execute_sql($sql);
+        }
+        if (self::_column_exists('tad_themes', 'bg_size')) {
+            $sql    = "select theme_id,bg_repeat from " . $xoopsDB->prefix('tad_themes') . " where bg_size = '' OR bg_size IS NULL";
+            $result = $xoopsDB->queryF($sql);
+            while (list($theme_id, $bg_repeat) = $xoopsDB->fetchRow($result)) {
+                if (strpos($bg_repeat, 'cover') !== false) {
+                    $sql_update = "update " . $xoopsDB->prefix('tad_themes') . " set bg_repeat='no-repeat', bg_size='cover' where theme_id='$theme_id'";
+                } elseif (strpos($bg_repeat, 'contain') !== false) {
+                    $sql_update = "update " . $xoopsDB->prefix('tad_themes') . " set bg_repeat='no-repeat', bg_size='contain' where theme_id='$theme_id'";
+                } else {
+                    $sql_update = "update " . $xoopsDB->prefix('tad_themes') . " set bg_size='auto' where theme_id='$theme_id'";
+                }
+                self::_execute_sql($sql_update);
+            }
+        }
+        $sql = "update " . $xoopsDB->prefix('tad_themes') . " set `theme_kind`='bootstrap3' where `theme_kind`='bootstrap'";
+        self::_execute_sql($sql);
     }
 
-    public static function go_update13()
+    private static function _create_and_update_tad_themes_menu_table()
+    {
+        global $xoopsDB;
+        if (!self::_table_exists('tad_themes_menu')) {
+            $sql = 'CREATE TABLE `' . $xoopsDB->prefix('tad_themes_menu') . "` (
+            `menuid` smallint(5) unsigned NOT NULL auto_increment,
+            `of_level` smallint(5) unsigned NOT NULL default 0,
+            `position` smallint(5) unsigned NOT NULL default 0,
+            `itemname` varchar(255) NOT NULL default '',
+            `itemurl` varchar(255) NOT NULL default '',
+            `status` enum('1','0') NOT NULL,
+            PRIMARY KEY  (`menuid`),
+            KEY `of_level` (`of_level`)
+            ) ENGINE=MyISAM;";
+            self::_execute_sql($sql);
+        }
+
+        $alter_parts = [];
+        if (!self::_column_exists('tad_themes_menu', 'target')) {
+            $alter_parts[] = "ADD `target` varchar(255) NOT NULL default ''";
+        }
+
+        if (!self::_column_exists('tad_themes_menu', 'icon')) {
+            $alter_parts[] = "ADD `icon` varchar(255) NOT NULL default 'icon-th-list'";
+        }
+
+        if (!self::_column_exists('tad_themes_menu', 'link_cate_name')) {
+            $alter_parts[] = "ADD `link_cate_name` varchar(255) NOT NULL default ''";
+        }
+
+        if (!self::_column_exists('tad_themes_menu', 'link_cate_sn')) {
+            $alter_parts[] = "ADD `link_cate_sn` smallint(5) unsigned NOT NULL default 0";
+        }
+
+        if (!self::_column_exists('tad_themes_menu', 'read_group')) {
+            $alter_parts[] = "ADD `read_group` varchar(255) NOT NULL default '1,2,3'";
+        }
+
+        if (self::_column_exists('tad_themes_menu', 'membersonly')) {
+            $alter_parts[] = 'DROP `membersonly`';
+        }
+
+        if (self::_column_exists('tad_themes_menu', 'mainmenu')) {
+            $alter_parts[] = 'DROP `mainmenu`';
+        }
+
+        if (!empty($alter_parts)) {
+            $sql = "ALTER TABLE `" . $xoopsDB->prefix('tad_themes_menu') . "` " . implode(",\n", $alter_parts);
+            self::_execute_sql($sql);
+        }
+    }
+
+    private static function _create_and_update_tad_themes_files_center_table()
+    {
+        global $xoopsDB;
+        if (!self::_table_exists('tad_themes_files_center')) {
+            return;
+        }
+
+        $alter_parts = [];
+        if (!self::_column_exists('tad_themes_files_center', 'original_filename')) {
+            $alter_parts[] = "ADD `original_filename` varchar(255) NOT NULL default ''";
+        }
+
+        if (!self::_column_exists('tad_themes_files_center', 'hash_filename')) {
+            $alter_parts[] = "ADD `hash_filename` varchar(255) NOT NULL default ''";
+        }
+
+        if (!self::_column_exists('tad_themes_files_center', 'sub_dir')) {
+            $alter_parts[] = "ADD `sub_dir` varchar(255) NOT NULL default ''";
+        }
+
+        if (!self::_column_exists('tad_themes_files_center', 'upload_date')) {
+            $alter_parts[] = "ADD `upload_date` DATETIME NOT NULL COMMENT '上傳時間'";
+        }
+
+        if (!self::_column_exists('tad_themes_files_center', 'uid')) {
+            $alter_parts[] = "ADD `uid` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT 0 COMMENT '上傳者'";
+        }
+
+        if (!self::_column_exists('tad_themes_files_center', 'tag')) {
+            $alter_parts[] = "ADD `tag` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '註記'";
+        }
+
+        $sql        = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '" . $xoopsDB->prefix('tad_themes_files_center') . "' AND COLUMN_NAME = 'col_sn'";
+        $result     = $xoopsDB->query($sql);
+        list($type) = $xoopsDB->fetchRow($result);
+        if ($type === 'smallint') {
+            $alter_parts[] = 'CHANGE `col_sn` `col_sn` mediumint(9) unsigned NOT NULL default 0';
+        }
+
+        if (!empty($alter_parts)) {
+            $sql = "ALTER TABLE `" . $xoopsDB->prefix('tad_themes_files_center') . "` " . implode(",\n", $alter_parts);
+            self::_execute_sql($sql);
+        }
+
+        if (self::_column_exists('tad_themes_files_center', 'original_filename')) {
+            $sql = 'update ' . $xoopsDB->prefix('tad_themes_files_center') . ' set `original_filename`=`description` where `original_filename`=""';
+            self::_execute_sql($sql);
+        }
+    }
+
+    private static function _create_and_update_tad_themes_data_center_table()
+    {
+        global $xoopsDB;
+        if (!self::_table_exists('tad_themes_data_center')) {
+            $sql = "CREATE TABLE `" . $xoopsDB->prefix('tad_themes_data_center') . "` (
+            `mid` mediumint(9) unsigned NOT NULL  COMMENT '模組編號',
+            `col_name` varchar(100) NOT NULL default '' COMMENT '欄位名稱',
+            `col_sn` mediumint(9) unsigned NOT NULL COMMENT '欄位編號',
+            `data_name` varchar(100) NOT NULL default '' COMMENT '資料名稱',
+            `data_value` text NOT NULL COMMENT '儲存值',
+            `data_sort` mediumint(9) unsigned NOT NULL  COMMENT '排序',
+            PRIMARY KEY  (`mid`,`col_name`,`col_sn`,`data_name`,`data_sort`)
+            )  ENGINE=MyISAM";
+            self::_execute_sql($sql);
+        }
+
+        $alter_parts = [];
+        if (!self::_column_exists('tad_themes_data_center', 'col_id')) {
+            $alter_parts[] = "ADD `col_id` varchar(100) NOT NULL DEFAULT '' COMMENT '辨識字串'";
+        }
+
+        if (!self::_column_exists('tad_themes_data_center', 'update_time')) {
+            $alter_parts[] = "ADD `update_time` datetime NOT NULL COMMENT '更新時間'";
+        }
+
+        if (!self::_column_exists('tad_themes_data_center', 'sort')) {
+            $alter_parts[] = "ADD `sort` mediumint(9) unsigned COMMENT '顯示順序' after `col_id`";
+        }
+
+        if (self::_column_exists('tad_themes_data_center', 'col_id')) {
+            $sql    = 'SELECT COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = "' . $xoopsDB->prefix('tad_themes_data_center') . '" AND COLUMN_NAME = "col_id"';
+            $result = $xoopsDB->query($sql);
+            if ($result) {
+                list($default) = $xoopsDB->fetchRow($result);
+                if ($default === null || $default === 'NULL') {
+                    $alter_parts[] = "CHANGE `col_id` `col_id` varchar(100) NOT NULL DEFAULT '' COMMENT '辨識字串' AFTER `data_sort`";
+                }
+            }
+        }
+
+        if (!empty($alter_parts)) {
+            $sql = "ALTER TABLE `" . $xoopsDB->prefix('tad_themes_data_center') . "` " . implode(",\n", $alter_parts);
+            self::_execute_sql($sql);
+        }
+    }
+
+    private static function _create_and_update_tad_themes_config2_table()
+    {
+        global $xoopsDB;
+        if (!self::_table_exists('tad_themes_config2')) {
+            $sql = 'CREATE TABLE `' . $xoopsDB->prefix('tad_themes_config2') . "` (
+                `theme_id` smallint(5) unsigned NOT NULL default 0,
+                `name` varchar(100) NOT NULL default '',
+                `type` varchar(255) NOT NULL default '',
+                `value` text NOT NULL,
+                PRIMARY KEY  (`theme_id`,`name`)
+            )  ENGINE=MyISAM;";
+            self::_execute_sql($sql);
+        }
+    }
+
+    private static function _migrate_to_tad_themes_blocks_table()
     {
         global $xoopsDB;
 
-        $block_position = ['leftBlock', 'rightBlock', 'centerBlock', 'centerLeftBlock', 'centerRightBlock', 'centerBottomBlock', 'centerBottomLeftBlock', 'centerBottomRightBlock', 'footerLeftBlock', 'footerCenterBlock', 'footerRightBlock'];
+        $table_exists = self::_table_exists('tad_themes_blocks');
 
+        // If the migration has already run, just ensure schema is up-to-date
+        if ($table_exists) {
+            $alter_parts = [];
+            if (!self::_column_exists('tad_themes_blocks', 'block_style')) {
+                $alter_parts[] = "ADD `block_style` text NOT NULL COMMENT ''";
+            }
+
+            if (!self::_column_exists('tad_themes_blocks', 'block_title_style')) {
+                $alter_parts[] = "ADD `block_title_style` text NOT NULL COMMENT ''";
+            }
+
+            if (!self::_column_exists('tad_themes_blocks', 'block_content_style')) {
+                $alter_parts[] = "ADD `block_content_style` text NOT NULL COMMENT ''";
+            }
+
+            if (!empty($alter_parts)) {
+                $sql = "ALTER TABLE `" . $xoopsDB->prefix('tad_themes_blocks') . "` " . implode(",\n", $alter_parts);
+                self::_execute_sql($sql);
+                $sql = 'update ' . $xoopsDB->prefix('tad_themes_blocks') . " set block_title_style='border:none;height:40px;line-height:40px;margin-bottom:10px;' WHERE block_title_style=''";
+                self::_execute_sql($sql);
+            }
+
+            $sql    = "SELECT EXTRA FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name = '" . $xoopsDB->prefix('tad_themes_blocks') . "' AND COLUMN_NAME = 'theme_id'";
+            $result = $xoopsDB->query($sql);
+            if ($result) {
+                list($EXTRA) = $xoopsDB->fetchRow($result);
+                if ('auto_increment' === $EXTRA) {
+                    $sql_alter = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes_blocks') . " CHANGE `theme_id` `theme_id` smallint(6) unsigned NOT NULL COMMENT '佈景編號' FIRST";
+                    self::_execute_sql($sql_alter);
+                }
+            }
+            return;
+        }
+
+        // --- Start of migration: If tad_themes_blocks does not exist ---
+
+        // Step 1: Add temporary columns to tad_themes
+        $temp_cols = [
+            'block_config'    => "ADD `block_config` enum('right','left') NOT NULL DEFAULT 'right'",
+            'bt_text'         => "ADD `bt_text` varchar(255) NOT NULL DEFAULT ''",
+            'bt_text_padding' => "ADD `bt_text_padding` tinyint(4) NOT NULL DEFAULT '33'",
+            'bt_bg_color'     => "ADD `bt_bg_color` varchar(255) NOT NULL DEFAULT ''",
+            'bt_bg_img'       => "ADD `bt_bg_img` varchar(255) NOT NULL DEFAULT ''",
+            'bt_bg_repeat'    => "ADD `bt_bg_repeat` enum('0','1') NOT NULL DEFAULT '0'",
+            'bt_radius'       => "ADD `bt_radius` enum('0','1') NOT NULL DEFAULT '1'",
+        ];
+
+        $add_temp_cols_parts = [];
+        foreach ($temp_cols as $col => $def) {
+            if (!self::_column_exists('tad_themes', $col)) {
+                $add_temp_cols_parts[] = $def;
+            }
+        }
+        if (!empty($add_temp_cols_parts)) {
+            $sql = "ALTER TABLE `" . $xoopsDB->prefix('tad_themes') . "` " . implode(",\n", $add_temp_cols_parts);
+            self::_execute_sql($sql);
+        }
+
+        // Step 2: Create the new tad_themes_blocks table
         $sql = 'CREATE TABLE `' . $xoopsDB->prefix('tad_themes_blocks') . "` (
-            `theme_id` smallint(6) unsigned NOT NULL AUTO_INCREMENT COMMENT '佈景編號',
+            `theme_id` smallint(6) unsigned NOT NULL COMMENT '佈景編號',
             `block_position` varchar(30) NOT NULL default '' COMMENT '區塊位置',
             `block_config` enum('right','left') NOT NULL DEFAULT 'right' COMMENT '工具按鈕靠左/右',
             `bt_text` varchar(16) NOT NULL COMMENT '區塊標題字體顏色',
@@ -437,539 +425,134 @@ class Update
             `bt_radius` enum('0','1') NOT NULL DEFAULT '1' COMMENT '區塊標題圓角',
             PRIMARY KEY (`theme_id`,`block_position`)
         ) ENGINE=MyISAM ;";
-        $xoopsDB->queryF($sql);
+        self::_execute_sql($sql);
 
-        $sql = 'select `theme_id`,`block_config`,`bt_text`, `bt_text_padding`, `bt_bg_color`, `bt_bg_img`, `bt_bg_repeat`, `bt_radius` from `' . $xoopsDB->prefix('tad_themes') . '` order by `theme_id`';
-        $result = $xoopsDB->queryF($sql);
+        // Step 3: Migrate data
+        $block_position = ['leftBlock', 'rightBlock', 'centerBlock', 'centerLeftBlock', 'centerRightBlock', 'centerBottomBlock', 'centerBottomLeftBlock', 'centerBottomRightBlock', 'footerLeftBlock', 'footerCenterBlock', 'footerRightBlock'];
+        $sql_select     = 'select `theme_id`,`block_config`,`bt_text`, `bt_text_padding`, `bt_bg_color`, `bt_bg_img`, `bt_bg_repeat`, `bt_radius` from `' . $xoopsDB->prefix('tad_themes') . '` order by `theme_id`';
+        $result         = $xoopsDB->queryF($sql_select);
         while (list($theme_id, $block_config, $bt_text, $bt_text_padding, $bt_bg_color, $bt_bg_img, $bt_bg_repeat, $bt_radius) = $xoopsDB->fetchRow($result)) {
             foreach ($block_position as $position) {
-                $sql = 'insert into `' . $xoopsDB->prefix('tad_themes_blocks') . "` (`theme_id` , `block_position` , `block_config` , `bt_text` , `bt_text_padding`, `bt_text_size` , `bt_bg_color` , `bt_bg_img` , `bt_bg_repeat` , `bt_radius`) values('$theme_id' , '{$position}' , '$block_config' , '$bt_text' , '$bt_text_padding', '16px' , '$bt_bg_color' , '$bt_bg_img' , '$bt_bg_repeat' , '$bt_radius')";
-                $xoopsDB->queryF($sql);
+                $sql_insert = 'insert into `' . $xoopsDB->prefix('tad_themes_blocks') . "` (`theme_id` , `block_position` , `block_config` , `bt_text` , `bt_text_padding`, `bt_text_size` , `bt_bg_color` , `bt_bg_img` , `bt_bg_repeat` , `bt_radius`) values('{$theme_id}' , '{$position}' , '{$block_config}' , '{$bt_text}' , '{$bt_text_padding}', '16px' , '{$bt_bg_color}' , '{$bt_bg_img}' , '{$bt_bg_repeat}' , '{$bt_radius}')";
+                self::_execute_sql($sql_insert);
             }
         }
 
-        $sql = 'ALTER TABLE `' . $xoopsDB->prefix('tad_themes') . '` DROP `block_config`, DROP `bt_text`, DROP `bt_text_padding`, DROP `bt_bg_color`, DROP `bt_bg_img`, DROP `bt_bg_repeat`, DROP `bt_radius`;';
-        $xoopsDB->queryF($sql);
-
-        $sql = 'select `col_name`, `col_sn`, `sort`, `kind`, `file_name`, `file_type`, `file_size`, `description`, `counter`, `original_filename`, `hash_filename`, `sub_dir` from `' . $xoopsDB->prefix('tad_themes_files_center') . "` where `col_name`='bt_bg'";
-        $result = $xoopsDB->queryF($sql);
-
-        while (list($col_name, $col_sn, $sort, $kind, $file_name, $file_type, $file_size, $description, $counter, $original_filename, $hash_filename, $sub_dir) = $xoopsDB->fetchRow($result)) {
-            foreach ($block_position as $position) {
-                $sql = 'insert into `' . $xoopsDB->prefix('tad_themes_files_center') . "` (`col_name`, `col_sn`, `sort`, `kind`, `file_name`, `file_type`, `file_size`, `description`, `counter`, `original_filename`, `hash_filename`, `sub_dir`) values('{$col_name}_{$position}' , '{$col_sn}' , '$sort' , '$kind' , '$file_name', '$file_type' , '$file_size' , '$description' , '$counter' , '$original_filename' , '$hash_filename'  , '$sub_dir' )";
-                $xoopsDB->queryF($sql);
-            }
+        // Step 4: Drop temporary columns from tad_themes
+        $drop_cols_parts = [];
+        foreach ($temp_cols as $col => $def) {
+            $drop_cols_parts[] = "DROP `{$col}`";
         }
-        $sql = 'delete `' . $xoopsDB->prefix('tad_themes_files_center') . "` where `col_name`='bt_bg'";
-        $xoopsDB->queryF($sql);
-
-        $sql = 'ALTER TABLE `' . $xoopsDB->prefix('tad_themes') . "` CHANGE `navbar_pos` `navbar_pos` varchar(255) NOT NULL default 'default'";
-        $xoopsDB->queryF($sql);
-
-        $sql = 'update `' . $xoopsDB->prefix('tad_themes') . "` set `navbar_pos`='default' where `navbar_pos`='not-use'";
-        $xoopsDB->queryF($sql);
+        $sql_drop = 'ALTER TABLE `' . $xoopsDB->prefix('tad_themes') . '` ' . implode(', ', $drop_cols_parts);
+        self::_execute_sql($sql_drop);
     }
 
-    //新增 theme_width 欄位
-    public static function chk_chk14()
+    private static function _run_data_migrations()
     {
         global $xoopsDB;
-        $sql = 'select count(`base_color`) from ' . $xoopsDB->prefix('tad_themes');
+
+        // From fix_config2_file_url
+        $sql    = 'SELECT `theme_id`, `bg_img`, `logo_img`, `navlogo_img`, `navbar_img` FROM ' . $xoopsDB->prefix('tad_themes') . " where left(`bg_img`, 4)='http' or left(`logo_img`, 4)='http' or left(`navlogo_img`, 4)='http' or left(`navbar_img`, 4)='http'";
         $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
+        while (list($theme_id, $bg_img, $logo_img, $navlogo_img, $navbar_img) = $xoopsDB->fetchRow($result)) {
+            $bg_img      = basename($bg_img);
+            $logo_img    = basename($logo_img);
+            $navlogo_img = basename($navlogo_img);
+            $navbar_img  = basename($navbar_img);
+            $sql_update  = 'update ' . $xoopsDB->prefix('tad_themes') . " set `bg_img`='{$bg_img}',`logo_img`='{$logo_img}',`navlogo_img`='{$navlogo_img}',`navbar_img`='{$navbar_img}' where `theme_id`='$theme_id'";
+            self::_execute_sql($sql_update);
         }
 
-        return true;
-    }
-
-    public static function go_update14()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes') . "
-  ADD `base_color` varchar(255) NOT NULL default 'transparent' COMMENT '頁面內容背景色'  after `crb_width`;
-  ";
-        $xoopsDB->queryF($sql);
-    }
-
-    //新增 navbar_img 欄位
-    public static function chk_chk15()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`navbar_img`) from ' . $xoopsDB->prefix('tad_themes');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
+        // From go_update_logo_right
+        $updates = [
+            'logo_right_zone'              => 'logo_right',
+            'logo_right_zone_fa_content'   => 'logo_right_fa_content',
+            'logo_right_zone_menu_content' => 'logo_right_menu_content',
+            'logo_right_zone_block'        => 'logo_right_block',
+            'logo_right_zone_html_content' => 'logo_right_html_content',
+        ];
+        foreach ($updates as $new_name => $old_name) {
+            $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `name`='{$new_name}' where `name`='{$old_name}'";
+            self::_execute_sql($sql);
         }
 
-        return true;
-    }
-
-    public static function go_update15()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes') . "
-  ADD `navbar_img` varchar(255) NOT NULL default 'transparent' COMMENT 'navbar背景圖'  after `navbar_icon`;
-  ";
-        $xoopsDB->queryF($sql);
-    }
-
-    //新增區塊內容設定欄位
-    public static function chk_chk16()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`block_style`) from ' . $xoopsDB->prefix('tad_themes_blocks');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
+        // From update_logo_bg_type
+        $sql_select = "select theme_id from " . $xoopsDB->prefix('tad_themes') . " where theme_name='school2019'";
+        $result     = $xoopsDB->queryF($sql_select);
+        if ($result && $xoopsDB->getRowsNum($result) > 0) {
+            list($theme_id) = $xoopsDB->fetchRow($result);
+            $sql_update     = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `type`='bg_file' where (`name`='logo_bg' or `name`='logo_bg2' or `name`='footer_img') and `type` = 'file' and `theme_id`='{$theme_id}'";
+            self::_execute_sql($sql_update);
         }
 
-        return true;
-    }
-
-    public static function go_update16()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes_blocks') . "
-    ADD `block_style` text NOT NULL COMMENT '',
-    ADD `block_title_style` text NOT NULL COMMENT '',
-    ADD `block_content_style` text NOT NULL COMMENT '';
-    ";
-        $xoopsDB->queryF($sql);
-
-        $sql = 'update ' . $xoopsDB->prefix('tad_themes_blocks') . " set block_title_style='border:none;height:40px;line-height:40px;margin-bottom:10px;'";
-        $xoopsDB->queryF($sql);
-    }
-
-    //新增唯一索引
-    public static function chk_chk17()
-    {
-        global $xoopsDB;
-        $sql = 'show keys from ' . $xoopsDB->prefix('tad_themes') . " where Key_name='theme_name'";
-        $result = $xoopsDB->query($sql);
-        $data = $xoopsDB->fetchArray($result);
-        if (empty($data)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public static function go_update17()
-    {
-        global $xoopsDB;
-
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes') . ' ADD UNIQUE `theme_name` (`theme_name`)';
-        $xoopsDB->queryF($sql);
-    }
-
-    public static function chk_chk18()
-    {
-        global $xoopsDB;
-        $sql = 'select count(*) from ' . $xoopsDB->prefix('tad_themes') . " where `theme_kind`='bootstrap'";
-        $result = $xoopsDB->queryF($sql);
-        if (empty($result)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public static function go_update18()
-    {
-        global $xoopsDB;
-        $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `theme_kind`='bootstrap3' where `theme_kind`='bootstrap'";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-
-        return true;
-    }
-
-    //修正col_sn欄位
-    public static function chk_files_center()
-    {
-        global $xoopsDB;
-        $sql = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
-  WHERE table_name = '" . $xoopsDB->prefix('tad_themes_files_center') . "' AND COLUMN_NAME = 'col_sn'";
-        $result = $xoopsDB->query($sql);
-        list($type) = $xoopsDB->fetchRow($result);
-        if ('smallint' === $type) {
-            return true;
-        }
-
-        return false;
-    }
-
-    //新增 logo_center 欄位
-    public static function chk_chk19()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`logo_center`) from ' . $xoopsDB->prefix('tad_themes');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public static function go_update19()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes') . " ADD `logo_center` enum('0','1') NOT NULL default '0' after `logo_left`";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
-
-    //新增 link_cate_name 欄位
-    public static function chk_chk20()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`link_cate_name`) from ' . $xoopsDB->prefix('tad_themes_menu');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public static function go_update20()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes_menu') . " ADD `link_cate_name` varchar(255) NOT NULL default '', ADD
-  `link_cate_sn` smallint(5) unsigned NOT NULL default 0";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
-
-    //新增 read_group 欄位
-    public static function chk_chk22()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`read_group`) from ' . $xoopsDB->prefix('tad_themes_menu');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public static function go_update22()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes_menu') . " ADD `read_group` varchar(255) NOT NULL default '1,2,3'";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
-
-    //嚴格模式修正
-    public static function chk_chk23()
-    {
-        global $xoopsDB;
-
-        $sql = "SELECT COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name = '" . $xoopsDB->prefix('tad_themes_files_center') . "' AND COLUMN_NAME = 'col_id'";
-
-        $result = $xoopsDB->query($sql);
-        list($COLUMN_DEFAULT) = $xoopsDB->fetchRow($result);
-        if (null === $COLUMN_DEFAULT or 'NULL' === $COLUMN_DEFAULT) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public static function go_update23()
-    {
-        global $xoopsDB;
-
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes_data_center') . " CHANGE `col_id` `col_id` varchar(100) NOT NULL DEFAULT '' COMMENT '辨識字串' AFTER `data_sort`";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
-
-    //新增 cb_width 欄位
-    public static function chk_chk24()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`cb_width`) from ' . $xoopsDB->prefix('tad_themes');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public static function go_update24()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes') . " ADD `cb_width` varchar(255) NOT NULL default '' AFTER `lb_width`";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-
-        $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `cb_width` = (`theme_width` - `lb_width` - `rb_width`) where theme_kind!='mix'";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-
-        $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `cb_width` = (12 - `lb_width` - `rb_width`) where theme_kind='mix'";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
-
-    //新移除 membersonly、mainmenu 等無用欄位
-    public static function chk_chk25()
-    {
-        global $xoopsDB;
-        $sql = 'select count(membersonly) from ' . $xoopsDB->prefix('tad_themes_menu');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    //移除 membersonly、mainmenu 等無用欄位
-    public static function go_update25()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE `' . $xoopsDB->prefix('tad_themes_menu') . '` DROP `membersonly`, DROP `mainmenu`;';
-        $xoopsDB->queryF($sql);
-    }
-
-    //執行更新
-    public static function go_update_files_center()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE `' . $xoopsDB->prefix('tad_themes_files_center') . '` CHANGE `col_sn` `col_sn` mediumint(9) unsigned NOT NULL default 0';
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 3, $xoopsDB->error());
-
-        return true;
-    }
-
-    //刪除錯誤的重複欄位及樣板檔
-    public static function chk_tad_themes_block()
-    {
-        global $xoopsDB;
-        //die(var_export($xoopsConfig));
-        require XOOPS_ROOT_PATH . '/modules/tad_themes/xoops_version.php';
-
-        //先找出該有的區塊以及對應樣板
-        foreach ($modversion['blocks'] as $i => $block) {
-            $show_func = $block['show_func'];
-            $tpl_file_arr[$show_func] = $block['template'];
-            $tpl_desc_arr[$show_func] = $block['description'];
-        }
-
-        //找出目前所有的樣板檔
-        $sql = "SELECT `bid`,`name`,`visible`,`show_func`,`template` FROM `" . $xoopsDB->prefix('newblocks') . "`  WHERE `dirname` = 'tad_themes' ORDER BY `func_num`";
-        $result = $xoopsDB->query($sql);
-        while (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result)) {
-            //假如現有的區塊和樣板對不上就刪掉
-            if ($template != $tpl_file_arr[$show_func]) {
-                $sql = 'delete from ' . $xoopsDB->prefix('newblocks') . " where bid='{$bid}'";
-                $xoopsDB->queryF($sql);
-
-                //連同樣板以及樣板實體檔案也要刪掉
-                $sql = "delete from " . $xoopsDB->prefix('tplfile') . " as a
-                left join " . $xoopsDB->prefix('tplsource') . "  as b on a.tpl_id=b.tpl_id
-                where a.tpl_refid='$bid' and a.tpl_module='tad_themes' and a.tpl_type='block'";
-                $xoopsDB->queryF($sql);
-            } else {
-                $sql = 'update ' . $xoopsDB->prefix('tplfile') . "
-                set tpl_file='{$template}' , tpl_desc='{$tpl_desc_arr[$show_func]}'
-                where tpl_refid='{$bid}'";
-                $xoopsDB->queryF($sql);
-            }
-        }
-    }
-
-    //新增 tad_themes_data_center 資料表
-    public static function chk_chk21()
-    {
-        global $xoopsDB;
-        $sql = 'select count(*) from ' . $xoopsDB->prefix('tad_themes_data_center');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public static function go_update21()
-    {
-        global $xoopsDB;
-        $sql = "CREATE TABLE `" . $xoopsDB->prefix('tad_themes_data_center') . "` (
-        `mid` mediumint(9) unsigned NOT NULL  COMMENT '模組編號',
-        `col_name` varchar(100) NOT NULL default '' COMMENT '欄位名稱',
-        `col_sn` mediumint(9) unsigned NOT NULL COMMENT '欄位編號',
-        `data_name` varchar(100) NOT NULL default '' COMMENT '資料名稱',
-        `data_value` text NOT NULL COMMENT '儲存值',
-        `data_sort` mediumint(9) unsigned NOT NULL  COMMENT '排序',
-        PRIMARY KEY  (`mid`,`col_name`,`col_sn`,`data_name`,`data_sort`)
-        )  ENGINE=MyISAM";
-        $xoopsDB->queryF($sql);
-    }
-
-    //加入id以及時間欄位
-    public static function chk_data_center()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`col_id`) from ' . $xoopsDB->prefix('tad_themes_data_center');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    //執行更新
-    public static function go_update_data_center()
-    {
-        global $xoopsDB;
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes_data_center') . "
-            ADD `col_id` varchar(100) NOT NULL DEFAULT '' COMMENT '辨識字串',
-            ADD `update_time` datetime NOT NULL COMMENT '更新時間'";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 3, $xoopsDB->error() . ':' . __FILE__ . ':' . __LINE__);
-
-        return true;
-    }
-
-    //移除區塊的流水號
-    public static function chk_chk26()
-    {
-        global $xoopsDB;
-
-        $sql = "SELECT EXTRA FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name = '" . $xoopsDB->prefix('tad_themes_blocks') . "' AND COLUMN_NAME = 'theme_id'";
-
-        $result = $xoopsDB->query($sql);
-        list($EXTRA) = $xoopsDB->fetchRow($result);
-        if ('auto_increment' === $EXTRA) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public static function go_update26()
-    {
-        global $xoopsDB;
-
-        $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes_blocks') . " CHANGE  `theme_id` `theme_id` smallint(6) unsigned NOT NULL COMMENT '佈景編號' FIRST;
-        ";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 30, $xoopsDB->error());
-    }
-
-    //加入id以及時間欄位
-    public static function chk_chk27()
-    {
-        global $xoopsDB;
-        $sql = 'select count(`bg_size`) from ' . $xoopsDB->prefix('tad_themes');
-        $result = $xoopsDB->query($sql);
-        if (empty($result)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    //執行更新
-    public static function go_update27()
-    {
-        global $xoopsDB;
-        $sql = "ALTER TABLE " . $xoopsDB->prefix('tad_themes') . " ADD `bg_size` varchar(255) DEFAULT '' COMMENT '背景縮放'";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/tad_themes/admin/index.php', 3, $xoopsDB->error() . ':' . __FILE__ . ':' . __LINE__);
-
-        $sql = "select theme_id,bg_repeat from " . $xoopsDB->prefix('tad_themes') . " ";
-        $result = $xoopsDB->queryF($sql);
-        while (list($theme_id, $bg_repeat) = $xoopsDB->fetchRow($result)) {
-            if (strpos($bg_repeat, 'cover') !== false) {
-                $sql = "update " . $xoopsDB->prefix('tad_themes') . " set bg_repeat='no-repeat', bg_size='cover' where theme_id='$theme_id'";
-                $xoopsDB->queryF($sql);
-            } elseif (strpos($bg_repeat, 'contain') !== false) {
-                $sql = "update " . $xoopsDB->prefix('tad_themes') . " set bg_repeat='no-repeat', bg_size='contain' where theme_id='$theme_id'";
-                $xoopsDB->queryF($sql);
-            } else {
-                $sql = "update " . $xoopsDB->prefix('tad_themes') . " set bg_size='auto' where theme_id='$theme_id'";
-                $xoopsDB->queryF($sql);
-            }
-
-        }
-
-        $sql = "select `theme_id`, `name`, `value` from " . $xoopsDB->prefix('tad_themes_config2') . " where `name`='logo_bg_repeat' or `name`='logo_bg2_repeat'";
+        // From update_bg_size
+        $sql    = "select `theme_id`, `name`, `value` from " . $xoopsDB->prefix('tad_themes_config2') . " where `name`='logo_bg_repeat' or `name`='logo_bg2_repeat'";
         $result = $xoopsDB->queryF($sql);
         while (list($theme_id, $name, $value) = $xoopsDB->fetchRow($result)) {
             $size_name = str_replace('repeat', 'size', $name);
             if (strpos($value, 'cover') !== false) {
-                $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `value`='no-repeat' where theme_id='$theme_id' and `name`='{$name}'";
-                $xoopsDB->queryF($sql);
-                $sql = "replace into " . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`) values('$theme_id', '{$size_name}', 'text', 'cover')";
-                $xoopsDB->queryF($sql);
+                self::_execute_sql("update " . $xoopsDB->prefix('tad_themes_config2') . " set `value`='no-repeat' where theme_id='$theme_id' and `name`='{$name}'");
+                self::_execute_sql("replace into " . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`) values('$theme_id', '{$size_name}', 'text', 'cover')");
             } elseif (strpos($value, 'contain') !== false) {
-                $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `value`='no-repeat' where theme_id='$theme_id' and `name`='{$name}'";
-                $xoopsDB->queryF($sql);
-                $sql = "replace into " . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`) values('$theme_id', '{$size_name}', 'text', 'contain')";
-                $xoopsDB->queryF($sql);
+                self::_execute_sql("update " . $xoopsDB->prefix('tad_themes_config2') . " set `value`='no-repeat' where theme_id='$theme_id' and `name`='{$name}'");
+                self::_execute_sql("replace into " . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`) values('$theme_id', '{$size_name}', 'text', 'contain')");
             } else {
-                $sql = "replace into " . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`) values('$theme_id', '{$size_name}', 'text', 'auto')";
-                $xoopsDB->queryF($sql);
+                self::_execute_sql("replace into " . $xoopsDB->prefix('tad_themes_config2') . " (`theme_id`, `name`, `type`, `value`) values('$theme_id', '{$size_name}', 'text', 'auto')");
             }
-
         }
-
-        return true;
     }
 
-    //加入id以及時間欄位
-    public static function chk_chk28()
+    //
+    // OTHER PUBLIC METHODS (can be called directly if needed)
+    //
+
+    public static function add_bt_bg()
     {
         global $xoopsDB;
-        $sql = 'select count(*) from ' . $xoopsDB->prefix('tad_themes_config2') . " where `name` LIKE '%logo_bg%' AND `type` = 'file'";
-        $result = $xoopsDB->query($sql);
+        $sql         = "SELECT COUNT(*) FROM `" . $xoopsDB->prefix('tad_themes_files_center') . "` WHERE `col_name`='bt_bg' AND `col_sn`=0";
+        $result      = $xoopsDB->query($sql);
         list($count) = $xoopsDB->fetchRow($result);
-        if (!empty($count)) {
-            return true;
+
+        if ($count > 0) {
+            return;
         }
 
-        return false;
+        $sql = "INSERT INTO `" . $xoopsDB->prefix('tad_themes_files_center') . "` (`col_name`, `col_sn`, `sort`, `kind`, `file_name`, `file_type`, `file_size`, `description`, `counter`, `original_filename`, `hash_filename`, `sub_dir`, `upload_date`, `uid`, `tag`) VALUES
+        ('bt_bg', 0, 1, 'img', 'blue.gif', 'image/gif', 1352, '', 0, 'blue.gif', 'a4583cc3581d4f4cc2c5b2c0b06efd50.gif', '/school2022/bt_bg', NOW(), 1, ''),
+        ('bt_bg', 0, 2, 'img', 'green.gif', 'image/gif', 1411, '', 0, 'green.gif', '7b065e1e65f668bef7abcf9743a653d3.gif', '/school2022/bt_bg', NOW(), 1, ''),
+        ('bt_bg', 0, 3, 'img', 'orange.gif', 'image/gif', 1406, '', 0, 'orange.gif', '054624aff9d090f4197a0b517fdc02a8.gif', '/school2022/bt_bg', NOW(), 1, ''),
+        ('bt_bg', 0, 4, 'img', 'red.gif', 'image/gif', 1403, '', 0, 'red.gif', '9c30777ba181c72c738e7364a455f643.gif', '/school2022/bt_bg', NOW(), 1, '')";
+        self::_execute_sql($sql);
     }
 
-    //執行更新
-    public static function go_update28()
+    public static function chk_tad_themes_block()
     {
         global $xoopsDB;
+        require XOOPS_ROOT_PATH . '/modules/tad_themes/xoops_version.php';
 
-        $sql = "select theme_id from " . $xoopsDB->prefix('tad_themes') . " where theme_name='school2019'";
-        $result = $xoopsDB->queryF($sql);
-        list($theme_id) = $xoopsDB->fetchRow($result);
+        $tpl_file_arr = [];
+        $tpl_desc_arr = [];
+        foreach ($modversion['blocks'] as $i => $block) {
+            $show_func                = $block['show_func'];
+            $tpl_file_arr[$show_func] = $block['template'];
+            $tpl_desc_arr[$show_func] = $block['description'];
+        }
 
-        $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `type`='bg_file' where (`name`='logo_bg' or `name`='logo_bg2' or `name`='footer_img') and `type` = 'file' and `theme_id`='{$theme_id}'";
-        $xoopsDB->queryF($sql);
-    }
+        $sql    = "SELECT `bid`, `name`, `visible`,`show_func`,`template` FROM `" . $xoopsDB->prefix('newblocks') . "`  WHERE `dirname` = 'tad_themes' ORDER BY `func_num`";
+        $result = $xoopsDB->query($sql);
+        while (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result)) {
+            if (!isset($tpl_file_arr[$show_func]) || $template != $tpl_file_arr[$show_func]) {
+                $sql_del_block = 'delete from ' . $xoopsDB->prefix('newblocks') . " where bid='{$bid}'";
+                self::_execute_sql($sql_del_block);
 
-    //修正 logo 允許負值
-    public static function go_update_logo()
-    {
-        global $xoopsDB;
-
-        $sql = "ALTER TABLE " . $xoopsDB->prefix('tad_themes') . "
-            CHANGE `logo_top` `logo_top` smallint(5) NOT NULL DEFAULT '0' COMMENT 'Logo離上方距離' AFTER `bg_repeat`,
-            CHANGE `logo_right` `logo_right` smallint(5) NOT NULL DEFAULT '0' COMMENT 'Logo離右邊距離' AFTER `logo_top`,
-            CHANGE `logo_bottom` `logo_bottom` smallint(5) NOT NULL DEFAULT '0' COMMENT 'Logo離下方距離' AFTER `logo_right`,
-            CHANGE `logo_left` `logo_left` smallint(5) NOT NULL DEFAULT '0' COMMENT 'Logo離左邊距離' AFTER `logo_bottom`";
-        $xoopsDB->queryF($sql);
-    }
-
-    //修正 logo_right
-    public static function go_update_logo_right()
-    {
-        global $xoopsDB;
-
-        $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `name`='logo_right_zone' where `name`='logo_right' and `type`='custom_zone'";
-        $xoopsDB->queryF($sql) or die($sql);
-        $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `name`='logo_right_zone_fa_content' where `name`='logo_right_fa_content' and `type`='text'";
-        $xoopsDB->queryF($sql) or die($sql);
-        $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `name`='logo_right_zone_menu_content' where `name`='logo_right_menu_content' and `type`='text'";
-        $xoopsDB->queryF($sql) or die($sql);
-        $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `name`='logo_right_zone_block' where `name`='logo_right_block' and `type`='text'";
-        $xoopsDB->queryF($sql) or die($sql);
-        $sql = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `name`='logo_right_zone_html_content' where `name`='logo_right_html_content' and `type`='text'";
-        $xoopsDB->queryF($sql) or die($sql);
+                $sql_del_tpl = "delete from " . $xoopsDB->prefix('tplfile') . " where tpl_refid='{$bid}' and tpl_module='tad_themes' and tpl_type='block'";
+                self::_execute_sql($sql_del_tpl);
+            } else {
+                $sql_update_tpl = 'update ' . $xoopsDB->prefix('tplfile') . "
+                set tpl_file=" . $xoopsDB->quote($template) . " , tpl_desc=" . $xoopsDB->quote($tpl_desc_arr[$show_func]) . "
+                where tpl_refid='{$bid}'";
+                self::_execute_sql($sql_update_tpl);
+            }
+        }
     }
 }

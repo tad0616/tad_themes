@@ -28,6 +28,8 @@
             <button type="submit" name="op" value="import_style" class="btn btn-info"><{$smarty.const._MA_TADTHEMES_IMPORT_STYLE}></button>
         </td>
     </tr>
+    <{*
+    <{if $themes}>
     <tr>
         <td colspan=2>
             <select name="from_theme_id" class="form-control form-select">
@@ -40,6 +42,8 @@
             <button type="submit" name="op" value="copy_theme" class="btn btn-warning"><{$smarty.const._MA_TADTHEMES_COPY_THEME}></button>
         </td>
     </tr>
+    <{/if}>
+    *}>
     <tr>
         <td colspan=2>
             <input type="file" class="form-control" name="config_zip">

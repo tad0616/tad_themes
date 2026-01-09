@@ -178,6 +178,8 @@ define('_MA_TADTHEMES_CONFIG_PATH', '已成功存至 %s');
 define('_MA_TADTHEMES_APPLY_OK', '已成功套用 %s');
 define('_MA_TADTHEMES_DEL_OK', '已成功刪除 %s');
 define('_MA_TADTHEMES_IMPORT', '匯入佈景風格檔');
+define('_MA_TADTHEMES_CHANGE', '暫時切換佈景為：');
+define('_MA_TADTHEMES_CHANGE_DESC', '切換佈景只對您有效，其他人仍是看到預設佈景 (%s)。<i class="fa-solid fa-angles-right"></i><a href="main.php?op=copy_theme&from_theme_id=%s">可點此將 %s 的設定匯入 %s</a>。<i class="fa-solid fa-angles-right"></i>若設定完成，亦可<a href="main.php?op=default_theme&theme_name=%s">點此將 %s 設為預設佈景</a>。');
 define('_MA_TADTHEMES_APPLY', '套用');
 define('_MA_TADTHEMES_MANAGER', '管理佈景設定檔');
 define('_MA_TADTHEMES_IMPORT_OK', '已成功匯入 %s，接著可套用之試試');
@@ -229,7 +231,7 @@ define('_MA_TADTHEMES_EDIT_MENU_KW_DEVICE', '設備借用');
 
 define('_MA_TADTHEMES_DOWNLOAD', '下載');
 define('_MA_TADTHEMES_DL_FAIL', '「%s」下載失敗！');
-define('_MA_TADTHEMES_COPY_THEME', '匯入指定佈景至此佈景');
+define('_MA_TADTHEMES_COPY_THEME', '複製左側佈景設定至此佈景');
 define('_MA_TADTHEMES_COPY', '複製');
 
 define('_MA_TADTHEMES_CONFIG_PATH_ERROR', '存至 %s 失敗！');

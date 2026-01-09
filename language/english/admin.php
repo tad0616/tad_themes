@@ -177,6 +177,8 @@ define('_MA_TADTHEMES_CONFIG_PATH', 'Successfully saved to %s');
 define('_MA_TADTHEMES_APPLY_OK', 'Successfully applied %s');
 define('_MA_TADTHEMES_DEL_OK', 'Successfully deleted %s');
 define('_MA_TADTHEMES_IMPORT', 'Import theme Profile');
+define('_MA_TADTHEMES_CHANGE', 'Temporarily switch to the following theme:');
+define('_MA_TADTHEMES_CHANGE_DESC', 'Switching themes affects only you; other users will still see the default theme (%s). <br>You can <a href="main.php?op=copy_theme&from_theme_id=%s">click here to import %s\'s settings into %s</a>.<br>Once configured, you may also <a href="main.php?op=default_theme&theme_name=%s">click here to set %s as the default theme</a>.');
 define('_MA_TADTHEMES_APPLY', 'Apply');
 define('_MA_TADTHEMES_MANAGER', 'Manage theme Profile');
 define('_MA_TADTHEMES_IMPORT_OK', '% s has been successfully imported, and you can try to apply it');

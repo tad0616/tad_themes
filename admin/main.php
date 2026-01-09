@@ -24,19 +24,42 @@ require_once dirname(__DIR__) . '/function.php';
  */
 
 /*-----------執行動作判斷區---------- */
-$op                = Request::getString('op');
-$theme_id          = Request::getInt('theme_id');
-$type              = Request::getString('type', 'config2');
-$theme_name        = Request::getString('theme_name');
-$theme_config_name = Request::getString('theme_config_name');
-$mode              = Request::getString('mode');
-$module_sn         = Request::getInt('module_sn');
-$style_param       = Request::getString('style_param');
-$from_theme_id     = Request::getInt('from_theme_id');
-$config2_file      = Request::getString('config2_file');
+$op                 = Request::getString('op');
+$theme_id           = Request::getInt('theme_id');
+$type               = Request::getString('type', 'config2');
+$theme_name         = Request::getString('theme_name');
+$theme_config_name  = Request::getString('theme_config_name');
+$mode               = Request::getString('mode');
+$module_sn          = Request::getInt('module_sn');
+$style_param        = Request::getString('style_param');
+$from_theme_id      = Request::getInt('from_theme_id');
+$config2_file       = Request::getString('config2_file');
+$xoops_theme_select = Request::getString('xoops_theme_select');
 
 switch ($op) {
     /*---判斷動作請貼在下方--- */
+    //預設佈景
+    case 'default_theme':
+        if ($theme_name) {
+            xoops_setConfigOption('theme_set', $theme_name);
+            $_SESSION['xoopsUserTheme'] = $theme_name;
+
+            $sql = 'UPDATE `' . $xoopsDB->prefix('config') . "` SET conf_value='$theme_name' WHERE conf_name='theme_set'";
+            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        }
+
+        header("location: " . \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'));
+        exit;
+
+    //切換佈景
+    case 'change_theme':
+        if ($xoops_theme_select) {
+            xoops_setConfigOption('theme_set', $xoops_theme_select);
+            $_SESSION['xoopsUserTheme'] = $xoops_theme_select;
+        }
+
+        header("location: " . \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'));
+        exit;
 
     //新增資料
     case 'insert_tad_themes':
@@ -150,7 +173,7 @@ require_once __DIR__ . '/footer.php';
 //tad_themes編輯表單(default 或 apply)
 function tad_themes_form($mode = '')
 {
-    global $xoopsConfig, $xoopsTpl, $xoTheme, $TadDataCenter, $config2_files_arr, $xoopsDB;
+    global $xoopsConfig, $xoopsTpl, $xoTheme, $TadDataCenter, $xoopsDB;
 
     $xoTheme->addScript('modules/tadtools/jquery.sticky/jquery.sticky.js');
     //抓取預設值
@@ -166,6 +189,8 @@ function tad_themes_form($mode = '')
     if (empty($theme_id)) {
         $mode = $mode == '' ? 'default' : $mode;
         Tools::auto_import_theme($mode);
+        header('location: main.php');
+        exit;
     }
 
     $SweetAlert = new SweetAlert();
@@ -297,27 +322,27 @@ function tad_themes_form($mode = '')
     $FormValidator = new FormValidator('#myForm', true);
     $FormValidator->render();
 
-    $TadUpFilesBg = TadUpFilesBg();
+    $TadUpFilesBg = Tools::getTadUpFilesObj('bg', $theme_name);
     $xoopsTpl->assign('upform_bg', $TadUpFilesBg->upform(false, 'bg', null, false));
 
     $TadUpFilesBg->set_col('bg', $theme_id);
     $xoopsTpl->assign('all_bg', $TadUpFilesBg->get_file_for_smarty());
 
-    $TadUpFilesSlide = TadUpFilesSlide();
+    $TadUpFilesSlide = Tools::getTadUpFilesObj('slide', $theme_name);
     $TadUpFilesSlide->set_col('slide', $theme_id);
     $xoopsTpl->assign('upform_slide', $TadUpFilesSlide->upform(true, 'slide', null, true));
 
-    $TadUpFilesLogo = TadUpFilesLogo();
+    $TadUpFilesLogo = Tools::getTadUpFilesObj('logo', $theme_name);
     $TadUpFilesLogo->set_col('logo', $theme_id);
     $xoopsTpl->assign('all_logo', $TadUpFilesLogo->get_file_for_smarty());
     $xoopsTpl->assign('upform_logo', $TadUpFilesLogo->upform(true, 'logo', null, false));
 
-    $TadUpFilesNavLogo = TadUpFilesNavLogo();
+    $TadUpFilesNavLogo = Tools::getTadUpFilesObj('navlogo', $theme_name);
     $TadUpFilesNavLogo->set_col('navlogo', $theme_id);
     $xoopsTpl->assign('all_navlogo', $TadUpFilesNavLogo->get_file_for_smarty());
     $xoopsTpl->assign('upform_navlogo', $TadUpFilesNavLogo->upform(false, 'navlogo', null, false));
 
-    $TadUpFilesNavBg = TadUpFilesNavBg();
+    $TadUpFilesNavBg = Tools::getTadUpFilesObj('nav_bg', $theme_name);
     $TadUpFilesNavBg->set_col('navbar_img', $theme_id);
     $xoopsTpl->assign('all_navbar_img', $TadUpFilesNavBg->get_file_for_smarty());
     $xoopsTpl->assign('upform_navbar_img', $TadUpFilesNavBg->upform(false, 'navbar_img', null, false));
@@ -338,7 +363,7 @@ function tad_themes_form($mode = '')
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2/thumbs");
 
     $custom_tabs_data = $all_config2 = [];
-    foreach ($config2_files_arr as $config2_name => $config2_data) {
+    foreach (Tools::$config2_files_arr as $config2_name => $config2_data) {
         // 讀入額外設定並產生變數
 
         list($config2, $pass_arr) = mk_config2($theme_id, $theme_name, $config2_name);
@@ -362,7 +387,7 @@ function tad_themes_form($mode = '')
     Utility::test($custom_tabs_data, 'custom_tabs_data', 'dd');
 
     $xoopsTpl->assign('custom_tabs_data', $custom_tabs_data);
-    $xoopsTpl->assign('config2_files_arr', $config2_files_arr);
+    $xoopsTpl->assign('config2_files_arr', Tools::$config2_files_arr);
 
     $MColorPicker = new MColorPicker('.color-picker');
     $MColorPicker->render('bootstrap');
@@ -470,11 +495,50 @@ function tad_themes_form($mode = '')
     $themes_arr = $xoopsConfig['theme_set_allowed'];
     $themes     = array_diff($themes_arr, [$theme_name]);
     foreach ($themes as $theme) {
-        $id              = get_theme_id($theme);
+        $id              = Tools::get_theme_id($theme);
         $new_themes[$id] = $theme;
     }
 
     $xoopsTpl->assign('themes', $new_themes);
+
+    // 取得 themes 目錄下所有以 school 開頭的目錄
+    $school_themes = [];
+
+    $theme_set_allowed_arr = $xoopsConfig['theme_set_allowed'];
+
+    $themes_dir = XOOPS_ROOT_PATH . '/themes/';
+    if (is_dir($themes_dir)) {
+        if ($dh = opendir($themes_dir)) {
+            while (($file = readdir($dh)) !== false) {
+                if (substr($file, 0, 1) === '.') {
+                    continue;
+                }
+                if (is_dir($themes_dir . $file) && preg_match('/^school/i', $file)) {
+                    $school_themes[] = $file;
+                    if (!in_array($file, $theme_set_allowed_arr)) {
+                        $theme_set_allowed_arr[] = $file;
+                    }
+
+                }
+            }
+            closedir($dh);
+        }
+    }
+
+    $theme_set_allowed = serialize($theme_set_allowed_arr);
+
+    $sql = 'UPDATE `' . $xoopsDB->prefix('config') . "` SET conf_value='$theme_set_allowed' WHERE conf_name='theme_set_allowed'";
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
+    $xoopsTpl->assign('school_themes', $school_themes);
+
+    $sql             = 'SELECT conf_value FROM `' . $xoopsDB->prefix('config') . "` WHERE conf_name='theme_set'";
+    $result          = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    list($theme_set) = $xoopsDB->fetchRow($result);
+    $xoopsTpl->assign('theme_set', $theme_set);
+
+    $theme_set_id = Tools::get_theme_id($theme_set);
+    $xoopsTpl->assign('theme_set_id', $theme_set_id);
 
 }
 
@@ -499,7 +563,7 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
         $config2_dbv = get_config2_dbv($theme_id);
 
         foreach ($theme_config as $k => $config) {
-            $TadUpFiles_config2 = TadUpFiles_config2();
+            $TadUpFiles_config2 = Tools::getTadUpFilesObj('config2');
             $config_name        = $config['name'];
             if (isset($config2_dbv[$config_name])) {
                 $value = ($config['type'] == 'checkbox' or $config['type'] == 'custom_zone') ? json_decode($config2_dbv[$config_name], true) : $myts->htmlSpecialChars($config2_dbv[$config_name]);
@@ -518,7 +582,7 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
             $config2[$k]['images']  = isset($config['images']) ? $config['images'] : null;
 
             if ('file' === $config['type'] or 'bg_file' === $config['type']) {
-                import_img($config['default'], "config2_{$config_name}", $theme_id, '');
+                Tools::import_img($config['default'], "config2_{$config_name}", $theme_id, '');
                 $TadUpFiles_config2->set_col("config2_{$config_name}", $theme_id);
                 $config2[$k]['form'] = $TadUpFiles_config2->upform(false, "config2_{$config_name}", null, false);
                 $config2[$k]['list'] = $TadUpFiles_config2->get_file_for_smarty();
@@ -1007,26 +1071,26 @@ function insert_tad_themes()
 
     $TadDataCenter->set_col('theme_id', $theme_id);
     $TadDataCenter->saveData();
-    $TadUpFilesSlide = TadUpFilesSlide();
+    $TadUpFilesSlide = Tools::getTadUpFilesObj('slide', $theme_name);
     $TadUpFilesSlide->set_col('slide', $theme_id);
     $TadUpFilesSlide->upload_file('slide', 1920, null, null, '', true);
-    $TadUpFilesBg = TadUpFilesBg();
+    $TadUpFilesBg = Tools::getTadUpFilesObj('bg', $theme_name);
     $TadUpFilesBg->set_col('bg', $theme_id);
     $TadUpFilesBg->upload_file('bg', 2048, null, null, '', true);
-    $TadUpFilesLogo = TadUpFilesLogo();
+    $TadUpFilesLogo = Tools::getTadUpFilesObj('logo', $theme_name);
     $TadUpFilesLogo->set_col('logo', $theme_id);
     $TadUpFilesLogo->upload_file('logo', 2048, null, null, '', true);
-    $TadUpFilesNavLogo = TadUpFilesNavLogo();
+    $TadUpFilesNavLogo = Tools::getTadUpFilesObj('navlogo', $theme_name);
     $TadUpFilesNavLogo->set_col('navlogo', $theme_id);
     $TadUpFilesNavLogo->upload_file('navlogo', null, null, null, '', true);
-    $TadUpFilesNavBg = TadUpFilesNavBg();
+    $TadUpFilesNavBg = Tools::getTadUpFilesObj('nav_bg', $theme_name);
     $TadUpFilesNavBg->set_col('navbar_img', $theme_id);
     $TadUpFilesNavBg->upload_file('navbar_img', null, null, null, '', true);
     //儲存區塊設定
     Tools::save_blocks($theme_id);
 
     //儲存額外設定值
-    save_config2($theme_id, $_POST['config2'], 'post');
+    Tools::save_config2($theme_id, $_POST['config2'], 'post');
 
     return $theme_id;
 }
@@ -1034,7 +1098,7 @@ function insert_tad_themes()
 //更新tad_themes某一筆資料
 function update_tad_themes($theme_id = '', $theme_name = '')
 {
-    global $xoopsDB, $TadDataCenter, $config2_files;
+    global $xoopsDB, $TadDataCenter;
 
     foreach ($_POST as $key => $value) {
         $$key = $value;
@@ -1069,7 +1133,8 @@ function update_tad_themes($theme_id = '', $theme_name = '')
             $rb_width    = 'auto';
         }
     }
-    update_tadtools_setup($theme_name, $theme_kind);
+
+    Tools::update_tadtools_setup($theme_name, $theme_kind);
 
     $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set
     `theme_name` = '{$theme_name}' ,
@@ -1127,29 +1192,29 @@ function update_tad_themes($theme_id = '', $theme_name = '')
 
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}");
 
-    $TadUpFilesSlide = TadUpFilesSlide();
+    $TadUpFilesSlide = Tools::getTadUpFilesObj('slide', $theme_name);
     $TadUpFilesSlide->set_col('slide', $theme_id);
     $TadUpFilesSlide->upload_file('slide', 1920, null, null, '', true);
 
-    $TadUpFilesBg = TadUpFilesBg();
+    $TadUpFilesBg = Tools::getTadUpFilesObj('bg', $theme_name);
     $TadUpFilesBg->set_col('bg', $theme_id);
     $bg_img = $TadUpFilesBg->upload_file('bg', 2048, null, null, '', true);
     if ($bg_img) {
         update_theme('bg_img', $bg_img, $theme_id);
     }
-    $TadUpFilesLogo = TadUpFilesLogo();
+    $TadUpFilesLogo = Tools::getTadUpFilesObj('logo', $theme_name);
     $TadUpFilesLogo->set_col('logo', $theme_id);
     $logo_img = $TadUpFilesLogo->upload_file('logo', 2048, null, null, '', true);
     if ($logo_img) {
         update_theme('logo_img', $logo_img, $theme_id);
     }
-    $TadUpFilesNavLogo = TadUpFilesNavLogo();
+    $TadUpFilesNavLogo = Tools::getTadUpFilesObj('navlogo', $theme_name);
     $TadUpFilesNavLogo->set_col('navlogo', $theme_id);
     $navlogo_img = $TadUpFilesNavLogo->upload_file('navlogo', null, null, null, '', true);
     if ($navlogo_img) {
         update_theme('navlogo_img', $navlogo_img, $theme_id);
     }
-    $TadUpFilesNavBg = TadUpFilesNavBg();
+    $TadUpFilesNavBg = Tools::getTadUpFilesObj('nav_bg', $theme_name);
     $TadUpFilesNavBg->set_col('navbar_img', $theme_id);
     $navbar_img = $TadUpFilesNavBg->upload_file('navbar_img', null, null, null, '', true);
     if ($navbar_img) {
@@ -1160,14 +1225,14 @@ function update_tad_themes($theme_id = '', $theme_name = '')
     Tools::save_blocks($theme_id);
 
     //儲存額外設定值
-    save_config2($theme_id, $_POST['config2'], 'post');
+    Tools::save_config2($theme_id, $_POST['config2'], 'post');
 
     // 匯出主設定檔
     export_config($theme_id, $theme_config_name, true);
 
     // 找出區塊
-    $blocks = get_all_blocks();
-
+    // $blocks        = get_all_blocks();
+    $config2_files = array_keys(Tools::$config2_files_arr);
     // 匯出額外設定
     foreach ($config2_files as $config2_file) {
         export_config2($theme_id, $config2_file, true, $theme_config_name, $theme_name, $theme_name);
@@ -1231,7 +1296,7 @@ function get_tad_themes($theme_id = '')
 //刪除tad_themes某筆資料資料
 function delete_tad_themes($theme_id = '')
 {
-    global $xoopsDB, $xoopsConfig, $block_position_title, $config2_files;
+    global $xoopsDB, $xoopsConfig;
     $sql = 'DELETE FROM `' . $xoopsDB->prefix('tad_themes') . '`
     WHERE `theme_id` = ?';
     Utility::query($sql, 'i', [$theme_id]) or Utility::web_error($sql, __FILE__, __LINE__);
@@ -1250,42 +1315,46 @@ function delete_tad_themes($theme_id = '')
     // Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}_bak");
 
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide/thumbs");
-    $TadUpFilesSlide = TadUpFilesSlide();
+    $TadUpFilesSlide = Tools::getTadUpFilesObj('slide', $theme_name);
     $TadUpFilesSlide->set_col('slide', $theme_id);
     $TadUpFilesSlide->del_files();
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/slide");
 
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg/thumbs");
-    $TadUpFilesBg = TadUpFilesBg();
+    $TadUpFilesBg = Tools::getTadUpFilesObj('bg', $theme_name);
     $TadUpFilesBg->set_col('bg', $theme_id);
     $TadUpFilesBg->del_files();
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bg");
 
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/logo/thumbs");
-    $TadUpFilesLogo = TadUpFilesLogo();
+    $TadUpFilesLogo = Tools::getTadUpFilesObj('logo', $theme_name);
     $TadUpFilesLogo->set_col('logo', $theme_id);
     $TadUpFilesLogo->del_files();
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/logo");
 
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navlogo/thumbs");
-    $TadUpFilesNavLogo = TadUpFilesNavLogo();
+    $TadUpFilesNavLogo = Tools::getTadUpFilesObj('navlogo', $theme_name);
     $TadUpFilesNavLogo->set_col('navlogo', $theme_id);
     $TadUpFilesNavLogo->del_files();
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navlogo");
 
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/nav_bg/thumbs");
-    $TadUpFilesNavBg = TadUpFilesNavBg();
+    $TadUpFilesNavBg = Tools::getTadUpFilesObj('nav_bg', $theme_name);
     $TadUpFilesNavBg->set_col('nav_bg', $theme_id);
     $TadUpFilesNavBg->del_files();
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/navbar_img");
 
+    $TadUpFilesBt_bg = Tools::getTadUpFilesObj("bt_bg", $theme_name);
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg/thumbs");
+    $TadUpFilesBt_bg = Tools::getTadUpFilesObj('bt_bg', $theme_name);
+    $TadUpFilesBt_bg->set_col('bt_bg', $theme_id);
+    $TadUpFilesBt_bg->del_files();
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg");
 
     Tools::del_theme_json($theme_name);
 
-    $TadUpFilesBt_bg = TadUpFilesBt_bg();
-    foreach ($block_position_title as $position => $title) {
+    $TadUpFilesBt_bg = Tools::getTadUpFilesObj("bt_bg", $theme_name);
+    foreach (Tools::$block_position_title as $position => $title) {
         Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg_{$position}/thumbs");
         $TadUpFilesBt_bg->set_col("bt_bg_{$position}", $theme_id);
         $TadUpFilesBt_bg->del_files();
@@ -1294,12 +1363,13 @@ function delete_tad_themes($theme_id = '')
 
     //額外佈景設定
     Utility::delete_directory(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2/thumbs");
-    $TadUpFiles_config2 = TadUpFiles_config2();
+    $TadUpFiles_config2 = Tools::getTadUpFilesObj('config2');
 
     if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php")) {
         require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/{$xoopsConfig['language']}/main.php";
     }
 
+    $config2_files = array_keys(Tools::$config2_files_arr);
     foreach ($config2_files as $config2) {
         if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php")) {
             require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2}.php";
@@ -1348,7 +1418,7 @@ function get_config2_dbv($theme_id = '')
 //取得區塊設定
 function get_blocks_values($theme_id = '', $block_position = '')
 {
-    global $xoopsDB, $xoopsConfig, $block_position_title;
+    global $xoopsDB, $xoopsConfig;
 
     $theme_name    = $xoopsConfig['theme_set'];
     $config_enable = [];
@@ -1366,7 +1436,7 @@ function get_blocks_values($theme_id = '', $block_position = '')
         }
     }
 
-    $bt_bg_img = !empty($bt_bg_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/bt_bg/{$bt_bg_img}" : '';
+    // $bt_bg_img = !empty($bt_bg_img) ? XOOPS_URL . "/uploads/tad_themes/{$theme_name}/bt_bg/{$bt_bg_img}" : '';
 
     $and_block_position = !empty($block_position) ? 'AND `block_position` = ?' : '';
     $sql                = 'SELECT *
@@ -1385,9 +1455,13 @@ function get_blocks_values($theme_id = '', $block_position = '')
         $mydb[$block_position] = $all;
     }
 
+    $TadUpFilesBt_bg = Tools::getTadUpFilesObj("bt_bg", $theme_name);
+    $TadUpFilesBt_bg->set_col("bt_bg", 0);
+    $def_bt_bg = $TadUpFilesBt_bg->get_file();
+
     $i      = 0;
     $values = [];
-    foreach ($block_position_title as $position => $title) {
+    foreach (Tools::$block_position_title as $position => $title) {
         $values[$i]['theme_id']            = isset($mydb[$position]) ? $mydb[$position]['theme_id'] : '';
         $values[$i]['block_position']      = $position;
         $values[$i]['block_config']        = !isset($mydb[$position]['block_config']) ? $block_config : $mydb[$position]['block_config'];
@@ -1403,10 +1477,14 @@ function get_blocks_values($theme_id = '', $block_position = '')
         $values[$i]['block_content_style'] = !isset($mydb[$position]['block_content_style']) ? $block_content_style : $mydb[$position]['block_content_style'];
         $values[$i]['title']               = $title;
 
-        $TadUpFilesBt_bg = TadUpFilesBt_bg();
+        $TadUpFilesBt_bg = Tools::getTadUpFilesObj("bt_bg", $theme_name);
 
         $TadUpFilesBt_bg->set_col("bt_bg_{$position}", $theme_id);
-        $values[$i]['all_bt_bg']    = $TadUpFilesBt_bg->get_file_for_smarty();
+        $values[$i]['all_bt_bg'] = $TadUpFilesBt_bg->get_file();
+        if (empty($values[$i]['all_bt_bg'])) {
+            // $TadUpFilesBt_bg->set_col("bt_bg", $theme_id);
+            $values[$i]['all_bt_bg'] = $def_bt_bg;
+        }
         $values[$i]['upform_bt_bg'] = $TadUpFilesBt_bg->upform(false, "bt_bg_{$position}", null, false);
         $i++;
     }
@@ -1514,7 +1592,7 @@ function export_config($theme_id = '', $theme_config_name = '', $main_theme = fa
         $navlogo_img_default = basename($config_enable['navlogo_img']['default']);
 
         if (!empty($theme_config_name)) {
-            copy_image($from_theme_name, $to_theme_name, $theme_config_name, "nav_logo", $navlogo_img_default);
+            copy_image($from_theme_name, $to_theme_name, $theme_config_name, "navlogo", $navlogo_img_default);
         }
     }
 
@@ -1931,11 +2009,6 @@ function export_config2($theme_id = '', $config2_file = 'config2', $main_theme =
             header("Content-Disposition: attachment; filename={$config2_file}.php");
         }
 
-        // 載入佈景語系
-        // if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/tchinese_utf8/main.php")) {
-        //     require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/tchinese_utf8/main.php";
-        // }
-
         $all_content = '<?php' . "\n";
         if (file_exists(XOOPS_ROOT_PATH . '/themes/' . $theme_name . '/bg_config.php')) {
             $all_content .= 'require XOOPS_ROOT_PATH . \'/themes/' . $theme_name . '/bg_config.php\';' . "\n";
@@ -2036,7 +2109,7 @@ function export_config2($theme_id = '', $config2_file = 'config2', $main_theme =
 // 儲存設定
 function save_config($theme_id = '', $theme_config_name = '')
 {
-    global $xoopsConfig, $config2_files;
+    global $xoopsConfig;
 
     if (empty($theme_config_name)) {
         $theme_config_name = date('YmdHis');
@@ -2052,10 +2125,16 @@ function save_config($theme_id = '', $theme_config_name = '')
         Utility::mk_dir($theme_config_image_path);
     }
 
+    // 載入佈景語系
+    if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/tchinese_utf8/main.php")) {
+        require XOOPS_ROOT_PATH . "/themes/{$theme_name}/language/tchinese_utf8/main.php";
+    }
+
     // 匯出主設定檔
     $msg = export_config($theme_id, $theme_config_name);
 
     // 匯出額外設定
+    $config2_files = array_keys(Tools::$config2_files_arr);
     foreach ($config2_files as $config2_file) {
         $msg .= export_config2($theme_id, $config2_file, false, $theme_config_name, $theme_name, $theme_name);
     }
@@ -2237,7 +2316,7 @@ function copy_data($from_theme, $from_theme_id, $to_theme, $to_theme_id, $col_na
         $sql    = "SELECT * FROM `" . $xoopsDB->prefix('tad_themes_files_center') . "` WHERE `col_name` = '{$col_name}' AND `col_sn` = '{$from_theme_id}' ORDER BY `sort` ASC";
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         while ($data = $xoopsDB->fetchArray($result)) {
-            // import_file(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$from_theme}/{$data['sub_dir']}/{$data['file_name']}", $col_name, $to_theme_id, null, null, $data['description'], true, false);
+            // Tools::import_file(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$from_theme}/{$data['sub_dir']}/{$data['file_name']}", $col_name, $to_theme_id, null, null, $data['description'], true, false);
             $col_sn  = $to_theme_id;
             $sub_dir = "/{$to_theme}/{$col_dir}";
             $sql     = "INSERT INTO `" . $xoopsDB->prefix('tad_themes_files_center') . "` ( `col_name`, `col_sn`, `sort`, `kind`, `file_name`, `file_type`, `file_size`, `description`, `counter`, `original_filename`, `hash_filename`, `sub_dir`, `upload_date`, `uid`, `tag`) VALUES ( '{$data['col_name']}', '{$col_sn}', '{$data['sort']}', '{$data['kind']}', '{$data['file_name']}', '{$data['file_type']}', '{$data['file_size']}', '{$data['description']}', '{$data['counter']}', '{$data['original_filename']}', '{$data['hash_filename']}', '{$sub_dir}', '{$data['upload_date']}', '{$data['uid']}', '{$data['tag']}')";
@@ -2249,7 +2328,7 @@ function copy_data($from_theme, $from_theme_id, $to_theme, $to_theme_id, $col_na
         $sql    = "SELECT * FROM `" . $xoopsDB->prefix('tad_themes') . "` WHERE `theme_id` = '{$from_theme_id}'";
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         $data   = $xoopsDB->fetchArray($result);
-        $sql    = "UPDATE `" . $xoopsDB->prefix('tad_themes') . "` SET `theme_type` = '{$data['theme_type']}', `theme_width` = '{$data['theme_width']}', `lb_width` = '{$data['lb_width']}', `cb_width` = '{$data['cb_width']}', `rb_width` = '{$data['rb_width']}', `clb_width` = '{$data['clb_width']}', `crb_width` = '{$data['crb_width']}', `base_color` = '{$data['base_color']}', `lb_color` = '{$data['lb_color']}', `cb_color` = '{$data['cb_color']}', `rb_color` = '{$data['rb_color']}', `margin_top` = '{$data['margin_top']}', `margin_bottom` = '{$data['margin_bottom']}', `bg_img` = '{$data['bg_img']}', `logo_img` = '{$data['logo_img']}', `logo_position` = '{$data['logo_position']}', `navlogo_img` = '{$data['navlogo_img']}', `bg_attachment` = '{$data['bg_attachment']}', `bg_color` = '{$data['bg_color']}', `bg_position` = '{$data['bg_position']}', `bg_repeat` = '{$data['bg_repeat']}', `logo_top` = '{$data['logo_top']}', `logo_right` = '{$data['logo_right']}', `logo_bottom` = '{$data['logo_bottom']}', `logo_left` = '{$data['logo_left']}', `logo_center` = '{$data['logo_center']}', `theme_enable` = '{$data['theme_enable']}', `slide_width` = '{$data['slide_width']}', `slide_height` = '{$data['slide_height']}', `font_size` = '{$data['font_size']}', `font_color` = '{$data['font_color']}', `link_color` = '{$data['link_color']}', `hover_color` = '{$data['hover_color']}', `navbar_pos` = '{$data['navbar_pos']}', `navbar_bg_top` = '{$data['navbar_bg_top']}', `navbar_bg_bottom` = '{$data['navbar_bg_bottom']}', `navbar_hover` = '{$data['navbar_hover']}', `navbar_color` = '{$data['navbar_color']}', `navbar_color_hover` = '{$data['navbar_color_hover']}', `navbar_img` = '{$data['navbar_img']}', `block_config` = '{$data['block_config']}', `bt_text` = '{$data['bt_text']}', `bt_text_padding` = '{$data['bt_text_padding']}', `bt_bg_color` = '{$data['bt_bg_color']}', `bt_bg_img` = '{$data['bt_bg_img']}', `bt_bg_repeat` = '{$data['bt_bg_repeat']}', `bt_radius` = '{$data['bt_radius']}', `bg_size` = '{$data['bg_size']}' WHERE `theme_id` = '{$to_theme_id}'";
+        $sql    = "UPDATE `" . $xoopsDB->prefix('tad_themes') . "` SET `theme_type` = '{$data['theme_type']}', `theme_width` = '{$data['theme_width']}', `lb_width` = '{$data['lb_width']}', `cb_width` = '{$data['cb_width']}', `rb_width` = '{$data['rb_width']}', `clb_width` = '{$data['clb_width']}', `crb_width` = '{$data['crb_width']}', `base_color` = '{$data['base_color']}', `lb_color` = '{$data['lb_color']}', `cb_color` = '{$data['cb_color']}', `rb_color` = '{$data['rb_color']}', `margin_top` = '{$data['margin_top']}', `margin_bottom` = '{$data['margin_bottom']}', `bg_img` = '{$data['bg_img']}', `logo_img` = '{$data['logo_img']}', `logo_position` = '{$data['logo_position']}', `navlogo_img` = '{$data['navlogo_img']}', `bg_attachment` = '{$data['bg_attachment']}', `bg_color` = '{$data['bg_color']}', `bg_position` = '{$data['bg_position']}', `bg_repeat` = '{$data['bg_repeat']}', `logo_top` = '{$data['logo_top']}', `logo_right` = '{$data['logo_right']}', `logo_bottom` = '{$data['logo_bottom']}', `logo_left` = '{$data['logo_left']}', `bg_size` = '{$data['bg_size']}', `logo_center` = '{$data['logo_center']}', `theme_enable` = '{$data['theme_enable']}', `slide_width` = '{$data['slide_width']}', `slide_height` = '{$data['slide_height']}', `font_size` = '{$data['font_size']}', `font_color` = '{$data['font_color']}', `link_color` = '{$data['link_color']}', `hover_color` = '{$data['hover_color']}', `theme_kind` = '{$data['theme_kind']}', `navbar_pos` = '{$data['navbar_pos']}', `navbar_bg_top` = '{$data['navbar_bg_top']}', `navbar_bg_bottom` = '{$data['navbar_bg_bottom']}', `navbar_hover` = '{$data['navbar_hover']}', `navbar_color` = '{$data['navbar_color']}', `navbar_color_hover` = '{$data['navbar_color_hover']}', `navbar_icon` = '{$data['navbar_icon']}', `navbar_img` = '{$data['navbar_img']}' WHERE `theme_id` = '{$to_theme_id}'";
         $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
         $sql    = "SELECT * FROM `" . $xoopsDB->prefix('tad_themes_blocks') . "` WHERE `theme_id` = '{$from_theme_id}'";
@@ -2260,6 +2339,55 @@ function copy_data($from_theme, $from_theme_id, $to_theme, $to_theme_id, $col_na
             $block_content_style = $xoopsDB->escape($data['block_content_style']);
             $sql                 = "UPDATE `" . $xoopsDB->prefix('tad_themes_blocks') . "` SET `block_config` = '{$data['block_config']}', `bt_text` = '{$data['bt_text']}', `bt_text_padding` = '{$data['bt_text_padding']}', `bt_text_size` = '{$data['bt_text_size']}', `bt_bg_color` = '{$data['bt_bg_color']}', `bt_bg_img` = '{$data['bt_bg_img']}', `bt_bg_repeat` = '{$data['bt_bg_repeat']}', `bt_radius` = '{$data['bt_radius']}', `block_style` = '{$block_style}', `block_title_style` = '{$block_title_style}', `block_content_style` = '{$block_content_style}' WHERE `theme_id` = '{$to_theme_id}' and `block_position` = '{$data['block_position']}'";
             $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        }
+
+        $from_config2 = [];
+        $sql          = 'SELECT * FROM `' . $xoopsDB->prefix('tad_themes_config2') . '` WHERE `theme_id` = ?';
+        $result       = Utility::query($sql, 'i', [$from_theme_id]) or Utility::web_error($sql, __FILE__, __LINE__);
+        while (false !== ($all = $xoopsDB->fetchArray($result))) {
+            $col                = $all['name'];
+            $from_config2[$col] = $all['value'];
+        }
+
+        $to_config2 = [];
+        $sql        = 'SELECT * FROM `' . $xoopsDB->prefix('tad_themes_config2') . '` WHERE `theme_id` = ?';
+        $result     = Utility::query($sql, 'i', [$to_theme_id]) or Utility::web_error($sql, __FILE__, __LINE__);
+        while (false !== ($all = $xoopsDB->fetchArray($result))) {
+            $col              = $all['name'];
+            $to_config2[$col] = $all['value'];
+        }
+
+        // $new_to_config2 = [];
+        foreach ($from_config2 as $col => $val) {
+            if (isset($to_config2[$col])) {
+                // $new_to_config2[$col] = $val;
+                // $val = $xoopsDB->escape($val);
+                Tools::update_theme_config2($col, $val, $to_theme_id);
+            }
+        }
+
+        if ($to_theme == 'school2022') {
+            Tools::update_theme_config2('top_enable', 0, $to_theme_id);
+            Tools::update_theme_config2('middle_enable', 0, $to_theme_id);
+            Tools::update_theme_config2('bottom_enable', 0, $to_theme_id);
+            Tools::update_theme_config2('no_mouse_over', 1, $to_theme_id);
+            if (empty($from_config2['footer_padding'])) {
+                Tools::update_theme_config2('footer_padding', '30px', $to_theme_id);
+            }
+            if (empty($from_config2['footer_height'])) {
+                Tools::update_theme_config2('footer_height', '100px', $to_theme_id);
+            }
+
+            if (in_array($from_theme, ['school2012', 'school2013', 'school2014', 'school2015'])) {
+                Tools::update_theme_config2('bottom_display_type', 'not_full');
+                Tools::update_theme_config2('content_display_type', 'not_full');
+                Tools::update_theme_config2('footer_display_type', 'not_full');
+                Tools::update_theme_config2('logo_display_type', 'not_full');
+                Tools::update_theme_config2('middle_display_type', 'not_full');
+                Tools::update_theme_config2('nav_display_type', 'bg_full');
+                Tools::update_theme_config2('slide_display_type', 'not_full');
+                Tools::update_theme_config2('top_display_type', 'not_full');
+            }
         }
     }
 }
@@ -2273,7 +2401,7 @@ function copy_theme($from_theme_id)
     }
 
     $theme_name = $xoopsConfig['theme_set'];
-    $theme_id   = get_theme_id($theme_name);
+    $theme_id   = Tools::get_theme_id($theme_name);
 
     $from_theme      = get_tad_themes($from_theme_id);
     $from_theme_name = $from_theme['theme_name'];

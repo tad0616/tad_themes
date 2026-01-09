@@ -36,6 +36,33 @@
     <{$chang_css|default:''}>
 </script>
 
+<form action="main.php" method="post" class="my-3">
+    <div class="row">
+        <div class="col-auto">
+            <div class="input-group">
+                <div class="input-group-prepend input-group-addon">
+                    <span class="input-group-text"><{$smarty.const._MA_TADTHEMES_CHANGE}></span>
+                </div>
+                <select name="xoops_theme_select" id="xoops_theme_select" class="form-control form-select">
+                    <option value=""></option>
+                    <{foreach from=$school_themes item=school_theme_name}>
+                        <option value="<{$school_theme_name|default:''}>"><{$school_theme_name|default:''}></option>
+                    <{/foreach}>
+                </select>
+                <div class="input-group-append input-group-btn">
+                    <button type="submit" name="op" value="change_theme" class="btn btn-primary">切換</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-auto">
+            <{if $theme_set!=$theme_name}>
+                <{$smarty.const._MA_TADTHEMES_CHANGE_DESC|sprintf:$theme_set:$theme_set_id:$theme_set:$theme_name:$theme_name:$theme_name}>
+            <{/if}>
+        </div>
+
+    </div>
+</form>
+
 <div class="container-fluid">
     <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" role="form" class="form-horizontal">
         <div class="row">
