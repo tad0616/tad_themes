@@ -572,14 +572,15 @@ function mk_config2($theme_id = '', $theme_name = '', $config2_file = '')
                 $value = '';
             }
 
-            $config2[$k]['name']    = $config_name;
-            $config2[$k]['text']    = $config['text'];
-            $config2[$k]['desc']    = $config['desc'];
-            $config2[$k]['type']    = $config['type'];
-            $config2[$k]['value']   = $value;
-            $config2[$k]['default'] = $config['default'];
-            $config2[$k]['options'] = isset($config['options']) ? $config['options'] : null;
-            $config2[$k]['images']  = isset($config['images']) ? $config['images'] : null;
+            $config2[$k]['name']     = $config_name;
+            $config2[$k]['text']     = $config['text'];
+            $config2[$k]['desc']     = $config['desc'];
+            $config2[$k]['type']     = $config['type'];
+            $config2[$k]['contrast'] = $config['contrast'];
+            $config2[$k]['value']    = $value;
+            $config2[$k]['default']  = $config['default'];
+            $config2[$k]['options']  = isset($config['options']) ? $config['options'] : null;
+            $config2[$k]['images']   = isset($config['images']) ? $config['images'] : null;
 
             if ('file' === $config['type'] or 'bg_file' === $config['type']) {
                 Tools::import_img($config['default'], "config2_{$config_name}", $theme_id, '');
@@ -2371,22 +2372,39 @@ function copy_data($from_theme, $from_theme_id, $to_theme, $to_theme_id, $col_na
             Tools::update_theme_config2('middle_enable', 0, $to_theme_id);
             Tools::update_theme_config2('bottom_enable', 0, $to_theme_id);
             Tools::update_theme_config2('no_mouse_over', 1, $to_theme_id);
+            Tools::update_theme_config2('logo_cols', '12-0', $to_theme_id);
+            Tools::update_theme_config2('page_shadow', '["t","b","l","r"]', $to_theme_id);
+            Tools::update_theme_config2('slide_border_radius', '0px', $to_theme_id);
+            Tools::update_theme_config2('slide_kind', '', $to_theme_id);
+            Tools::update_theme_config2('footer_content_bgcolor', $from_config2['footer_bgcolor'], $to_theme_id);
+            Tools::update_theme_config2('footer_side_bgcolor', $from_config2['footer_bgcolor'], $to_theme_id);
+            Tools::update_theme_config2('page_style', '', $to_theme_id);
+
+            if (empty($data['logo_img'])) {
+                Tools::update_theme_config2('logo_enable', '0', $to_theme_id);
+            }
             if (empty($from_config2['footer_padding'])) {
                 Tools::update_theme_config2('footer_padding', '30px', $to_theme_id);
             }
             if (empty($from_config2['footer_height'])) {
                 Tools::update_theme_config2('footer_height', '100px', $to_theme_id);
             }
+            if (empty($from_config2['font_family'])) {
+                Tools::update_theme_config2('font_family', '"Noto Sans TC", "Noto Serif TC", Iansui', $to_theme_id);
+            }
+            if ($from_config2['nav_shadow'] == '1') {
+                Tools::update_theme_config2('nav_shadow', '["b"]', $to_theme_id);
+            }
 
-            if (in_array($from_theme, ['school2012', 'school2013', 'school2014', 'school2015'])) {
-                Tools::update_theme_config2('bottom_display_type', 'not_full');
-                Tools::update_theme_config2('content_display_type', 'not_full');
-                Tools::update_theme_config2('footer_display_type', 'not_full');
-                Tools::update_theme_config2('logo_display_type', 'not_full');
-                Tools::update_theme_config2('middle_display_type', 'not_full');
-                Tools::update_theme_config2('nav_display_type', 'bg_full');
-                Tools::update_theme_config2('slide_display_type', 'not_full');
-                Tools::update_theme_config2('top_display_type', 'not_full');
+            if ($from_theme != 'school2022') {
+                Tools::update_theme_config2('bottom_display_type', 'not_full', $to_theme_id);
+                Tools::update_theme_config2('content_display_type', 'not_full', $to_theme_id);
+                Tools::update_theme_config2('footer_display_type', 'not_full', $to_theme_id);
+                Tools::update_theme_config2('logo_display_type', 'not_full', $to_theme_id);
+                Tools::update_theme_config2('middle_display_type', 'not_full', $to_theme_id);
+                Tools::update_theme_config2('nav_display_type', 'bg_full', $to_theme_id);
+                Tools::update_theme_config2('slide_display_type', 'not_full', $to_theme_id);
+                Tools::update_theme_config2('top_display_type', 'not_full', $to_theme_id);
             }
         }
     }

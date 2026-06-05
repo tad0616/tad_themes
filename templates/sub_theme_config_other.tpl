@@ -12,7 +12,8 @@
                 <input type="text" name="<{$config.name}>" value="<{$config.value}>" class="form-control">
             <{elseif $config.type=="color"}>
                 <div class="input-group">
-                    <input type="text" name="<{$config.name}>" id="<{$config.name}>" value="<{$config.value}>" class="form-control color-picker"  data-hex="true">
+                    <input type="text" name="<{$config.name}>" id="<{$config.name}>" value="<{$config.value}>" class="form-control color-picker"  data-hex="true" onchange="ContrastRatio('<{$config.name}>_contrast', '<{$config.contrast}>');">
+                    <{if $config.contrast}><span class="input-group-text" id="<{$config.name}>_contrast"></span><{/if}>
                 </div>
             <{elseif $config.type=="array"}>
                 <textarea name="<{$config.name}>" class="form-control" rows=4 style="font-size:0.8em;"><{$config.value}></textarea>

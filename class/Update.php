@@ -161,7 +161,7 @@ class Update
             self::_execute_sql($sql);
         }
         if (self::_column_exists('tad_themes', 'cb_width')) {
-            $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `cb_width` = (`theme_width` - `lb_width` - `rb_width`) where theme_kind!='mix'";
+            $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `cb_width` = (`theme_width` - `lb_width` - `rb_width`) where theme_kind!='mix' and `lb_width`!='auto' and `rb_width`!='auto'";
             self::_execute_sql($sql);
             $sql = 'update ' . $xoopsDB->prefix('tad_themes') . " set `cb_width` = (12 - `lb_width` - `rb_width`) where theme_kind='mix'";
             self::_execute_sql($sql);

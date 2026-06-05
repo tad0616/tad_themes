@@ -1,3 +1,8 @@
+Tad Themes 8.4 (Released 2026-06-05)
+====================================
+1. Supports AAA accessibility
+2. Added various color contrast options
+
 Tad Themes 8.3 (Released 2026-01-09)
 ====================================
 1. Added quick theme switching functionality

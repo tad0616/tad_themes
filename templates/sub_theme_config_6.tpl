@@ -74,8 +74,6 @@
                     <{$smarty.const._MA_TADTHEMES_NAVBAR_ICON_BLACK}>
                 </label>
             </div>
-        <{else}>
-            <input type="hidden" name="navbar_icon" id="navbar_icon" value="<{$navbar_icon|default:''}>">
         <{/if}>
     </div>
 <{else}>
@@ -92,7 +90,8 @@
             </label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top|default:''}>" class="form-control color-picker <{$validate.navbar_bg_top}>" data-hex="true">
+                    <input type="text" name="navbar_bg_top" id="navbar_bg_top" value="<{$navbar_bg_top|default:''}>" class="form-control color-picker <{$validate.navbar_bg_top}>" data-hex="true" onchange="ContrastRatio('navbar_bg_top_contrast', 'navbar_color');">
+                    <span class="input-group-text" id="navbar_bg_top_contrast"></span>
                 </div>
             </div>
         <{else}>
@@ -105,7 +104,8 @@
             </label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom|default:''}>" class="form-control color-picker <{$validate.navbar_bg_bottom}>" data-hex="true">
+                    <input type="text" name="navbar_bg_bottom" id="navbar_bg_bottom" value="<{$navbar_bg_bottom|default:''}>" class="form-control color-picker <{$validate.navbar_bg_bottom}>" data-hex="true" onchange="ContrastRatio('navbar_bg_bottom_contrast', 'navbar_color');">
+                    <span class="input-group-text" id="navbar_bg_bottom_contrast"></span>
                 </div>
             </div>
         <{else}>
@@ -127,7 +127,8 @@
             </label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input type="text" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover|default:''}>" class="form-control color-picker <{$validate.navbar_color_hover}>" data-hex="true">
+                    <input type="text" name="navbar_color_hover" id="navbar_color_hover" value="<{$navbar_color_hover|default:''}>" class="form-control color-picker <{$validate.navbar_color_hover}>" data-hex="true" onchange="ContrastRatio('navbar_color_hover_contrast', 'navbar_hover');">
+                    <span class="input-group-text" id="navbar_color_hover_contrast"></span>
                 </div>
             </div>
         <{else}>
@@ -139,7 +140,8 @@
             </label>
             <div class="col-sm-4">
                 <div class="input-group">
-                    <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover|default:''}>" class="form-control color-picker <{$validate.navbar_hover}>" data-hex="true">
+                    <input type="text" name="navbar_hover" id="navbar_hover" value="<{$navbar_hover|default:''}>" class="form-control color-picker <{$validate.navbar_hover}>" data-hex="true" onchange="ContrastRatio('navbar_hover_contrast', 'navbar_color_hover');">
+                    <span class="input-group-text" id="navbar_hover_contrast"></span>
                 </div>
             </div>
         <{else}>

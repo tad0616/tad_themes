@@ -46,7 +46,8 @@
     <div class="col-sm-2">
         <{if $enable.base_color|default:false}>
             <div class="input-group">
-                <input type="text" name="base_color" id="base_color" value="<{$base_color|default:''}>" class="form-control color-picker <{$validate.base_color}>"  onChange="change_css();" data-hex="true">
+                <input type="text" name="base_color" id="base_color" value="<{$base_color|default:''}>" class="form-control color-picker <{$validate.base_color}>"  onChange="change_css();" data-hex="true" onchange="ContrastRatio('base_color_contrast', 'font_color');">
+                <span class="input-group-text" id="base_color_contrast"></span>
             </div>
         <{else}>
             <input type="hidden" name="base_color" id="base_color" value="<{$base_color|default:''}>">
@@ -63,7 +64,8 @@
         </label>
         <div class="col-sm-2">
             <div class="input-group">
-                <input type="text" name="lb_color" id="lb_color" value="<{$lb_color|default:''}>" class="form-control color-picker <{$validate.lb_color}>"  onChange="change_css();" data-hex="true">
+                <input type="text" name="lb_color" id="lb_color" value="<{$lb_color|default:''}>" class="form-control color-picker <{$validate.lb_color}>"  onChange="change_css();" data-hex="true" onchange="ContrastRatio('lb_color_contrast', 'font_color');">
+                <span class="input-group-text" id="lb_color_contrast"></span>
             </div>
         </div>
     <{else}>
@@ -77,7 +79,8 @@
         </label>
         <div class="col-sm-2">
             <div class="input-group">
-                <input type="text" name="cb_color" id="cb_color" value="<{$cb_color|default:''}>" class="form-control color-picker <{$validate.cb_color}>"  onChange="change_css();" data-hex="true">
+                <input type="text" name="cb_color" id="cb_color" value="<{$cb_color|default:''}>" class="form-control color-picker <{$validate.cb_color}>"  onChange="change_css();" data-hex="true" onchange="ContrastRatio('cb_color_contrast', 'font_color');">
+                <span class="input-group-text" id="cb_color_contrast"></span>
             </div>
         </div>
     <{else}>
@@ -89,7 +92,8 @@
         <label class="col-sm-2 col-form-label text-sm-right text-sm-end control-label"><{$smarty.const._MA_TADTHEMES_RB_COLOR}></label>
         <div class="col-sm-2">
             <div class="input-group">
-                <input type="text" name="rb_color" id="rb_color" value="<{$rb_color|default:''}>" class="form-control color-picker <{$validate.rb_color}>"  onChange="change_css();" data-hex="true">
+                <input type="text" name="rb_color" id="rb_color" value="<{$rb_color|default:''}>" class="form-control color-picker <{$validate.rb_color}>"  onChange="change_css();" data-hex="true" onchange="ContrastRatio('rb_color_contrast', 'font_color');">
+                <span class="input-group-text" id="rb_color_contrast"></span>
             </div>
         </div>
     <{else}>
@@ -200,7 +204,8 @@
         </label>
         <div class="col-sm-2">
             <div class="input-group">
-                <input type="text" name="font_color" id="font_color" value="<{$font_color|default:''}>" class="form-control color-picker <{$validate.font_color}>"  onChange="change_css();" data-hex="true">
+                <input type="text" name="font_color" id="font_color" value="<{$font_color|default:''}>" class="form-control color-picker <{$validate.font_color}>"  onChange="change_css();" data-hex="true" onchange="ContrastRatio('font_color_contrast', 'base_color');">
+                <span class="input-group-text" id="font_color_contrast"></span>
             </div>
         </div>
     <{else}>
@@ -214,7 +219,8 @@
         </label>
         <div class="col-sm-2">
             <div class="input-group">
-                <input type="text" name="link_color" id="link_color" value="<{$link_color|default:''}>" class="form-control color-picker <{$validate.link_color}>"  onChange="change_css();" data-hex="true">
+                <input type="text" name="link_color" id="link_color" value="<{$link_color|default:''}>" class="form-control color-picker <{$validate.link_color}>"  onChange="change_css();" data-hex="true" onchange="ContrastRatio('link_color_contrast', 'base_color');">
+                <span class="input-group-text" id="link_color_contrast"></span>
             </div>
         </div>
     <{else}>
@@ -228,7 +234,8 @@
         </label>
         <div class="col-sm-2">
             <div class="input-group">
-                <input type="text" name="hover_color" id="hover_color" value="<{$hover_color|default:''}>" class="form-control color-picker <{$validate.hover_color}>"  onChange="change_css();" data-hex="true">
+                <input type="text" name="hover_color" id="hover_color" value="<{$hover_color|default:''}>" class="form-control color-picker <{$validate.hover_color}>"  onChange="change_css();" data-hex="true" onchange="ContrastRatio('hover_color_contrast', 'base_color');">
+                <span class="input-group-text" id="hover_color_contrast"></span>
             </div>
         </div>
     <{else}>

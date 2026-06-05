@@ -57,7 +57,8 @@
                             </label>
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                    <input type="text" name="bt_text[<{$block.block_position}>]" id="bt_text_<{$block.block_position}>" value="<{$block.bt_text}>" class="form-control color-picker <{$validate.bt_text}>" data-hex="true">
+                                    <input type="text" name="bt_text[<{$block.block_position}>]" id="bt_text_<{$block.block_position}>" value="<{$block.bt_text}>" class="form-control color-picker <{$validate.bt_text}>" data-hex="true" onchange="ContrastRatio('bt_text_<{$block.block_position}>_contrast', 'bt_bg_color_<{$block.block_position}>');">
+                                    <span class="input-group-text" id="bt_text_<{$block.block_position}>_contrast"></span>
                                 </div>
                             </div>
                         <{else}>
@@ -71,7 +72,8 @@
                             </label>
                             <div class="col-sm-4">
                                 <div class="input-group">
-                                    <input type="text" name="bt_bg_color[<{$block.block_position}>]" id="bt_bg_color_<{$block.block_position}>" value="<{$block.bt_bg_color}>" class="form-control color-picker <{$validate.bt_bg_color}>" data-hex="true">
+                                    <input type="text" name="bt_bg_color[<{$block.block_position}>]" id="bt_bg_color_<{$block.block_position}>" value="<{$block.bt_bg_color}>" class="form-control color-picker <{$validate.bt_bg_color}>" data-hex="true" onchange="ContrastRatio('bt_bg_color_<{$block.block_position}>_contrast', 'bt_text_<{$block.block_position}>');">
+                                    <span class="input-group-text" id="bt_bg_color_<{$block.block_position}>_contrast"></span>
                                 </div>
                             </div>
                         <{else}>
