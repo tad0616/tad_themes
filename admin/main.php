@@ -13,6 +13,10 @@ use XoopsModules\Tad_themes\ZipDirectory;
 $xoopsOption['template_main'] = 'tad_themes_adm_main.tpl';
 require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
+$sys_adm = isset($xoopsUser) && \is_object($xoopsUser) ? $xoopsUser->isAdmin() : false;
+if (!$sys_adm) {
+    exit;
+}
 
 /*
 一般佈景執行流程：
@@ -41,11 +45,12 @@ switch ($op) {
     //預設佈景
     case 'default_theme':
         if ($theme_name) {
+            $theme_name = Utility::check_string($theme_name);
             xoops_setConfigOption('theme_set', $theme_name);
             $_SESSION['xoopsUserTheme'] = $theme_name;
 
-            $sql = 'UPDATE `' . $xoopsDB->prefix('config') . "` SET conf_value='$theme_name' WHERE conf_name='theme_set'";
-            $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+            $sql = 'UPDATE `' . $xoopsDB->prefix('config') . "` SET conf_value=? WHERE conf_name='theme_set'";
+            Utility::query($sql, 's', [$theme_name]) or Utility::web_error($sql, __FILE__, __LINE__);
         }
 
         header("location: " . \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'));
@@ -1939,11 +1944,12 @@ function export_config2($theme_id = '', $config2_file = 'config2', $main_theme =
 {
     global $xoopsConfig, $xoopsDB;
 
-    $theme_name = $to_theme_name ? $to_theme_name : $xoopsConfig['theme_set'];
+    $theme_name   = $to_theme_name ? $to_theme_name : $xoopsConfig['theme_set'];
+    $theme_name   = Utility::check_string($theme_name);
+    $config2_file = Utility::check_string($config2_file);
 
     if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php")) {
         require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php";
-        // Utility::dd($theme_config);
         if (empty($theme_config)) {
             return;
         }
@@ -2275,32 +2281,26 @@ function delete_theme_config($theme_name, $theme_config_name, $theme_id)
 // 下載指定設定檔
 function download_zip($theme_name, $theme_config_name, $theme_id)
 {
-    $FromDir = str_replace(['|', '%', ' ', '<', '>'], '', XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/{$theme_config_name}");
-    $zipname = str_replace(['|', '%', ' ', '<', '>'], '', XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/{$theme_name}-{$theme_config_name}.zip");
+    if (!preg_match('/^[A-Za-z0-9_-]+$/', $theme_name) || !preg_match('/^[A-Za-z0-9_-]+$/', $theme_config_name)) {
+        redirect_header($_SERVER['PHP_SELF'] . '?theme_id=' . (int) $theme_id, 3, '參數錯誤！');
+        exit;
+    }
+
+    $FromDir = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/{$theme_config_name}";
+    $zipname = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/{$theme_name}-{$theme_config_name}.zip";
     $zipurl  = XOOPS_URL . "/uploads/tad_themes/{$theme_name}/setup/{$theme_name}-{$theme_config_name}.zip";
 
     if (file_exists($zipname)) {
         unlink($zipname);
     }
 
-    shell_exec("zip -r -j $zipname $FromDir");
-
-    if (file_exists($zipname)) {
-        header("location: $zipurl");
+    $zipDirectory = new ZipDirectory();
+    if ($zipDirectory->zipDirectory($FromDir, $zipname)) {
+        header("Location: $zipurl");
         exit;
-    } else {
-        // 使用範例
-        $zipDirectory = new ZipDirectory();
-        // $sourcePath   = 'path/to/your/directory'; // 要壓縮的目錄路徑
-        // $outputPath   = 'path/to/output.zip';     // 輸出的 ZIP 檔案路徑
-
-        if ($zipDirectory->zipDirectory($FromDir, $zipname)) {
-            header("Location: $zipurl");
-            exit;
-        } else {
-            redirect_header($_SERVER['PHP_SELF'] . "?theme_name={$theme_name}&theme_id={$theme_id}", 3, '壓縮失敗！');
-        }
     }
+
+    redirect_header($_SERVER['PHP_SELF'] . '?theme_id=' . (int) $theme_id, 3, '壓縮失敗！');
 }
 
 function copy_data($from_theme, $from_theme_id, $to_theme, $to_theme_id, $col_name = '')
