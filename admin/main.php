@@ -2204,10 +2204,13 @@ function get_remote_file($theme_name, $module_name, $file_link, $update_sn, $mod
 
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/$theme_name/setup/");
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/$theme_name/setup/{$module_name}/");
-    copyemz($file_link, $new_file, $update_sn);
-
-    if (!is_file($new_file)) {
-        redirect_header($_SERVER['PHP_SELF'] . '?tad_adm_tpl=clean', 3, sprintf(_MA_TADTHEMES_DL_FAIL, $file_link));
+    $error = '';
+    if (!copyemz($file_link, $new_file, $update_sn, $error)) {
+        $message = sprintf(_MA_TADTHEMES_DL_FAIL, $file_link);
+        if ($error !== '') {
+            $message .= ' ' . $error;
+        }
+        redirect_header($_SERVER['PHP_SELF'] . '?tad_adm_tpl=clean', 3, $message);
     }
 
     $zip = new DunZip2($new_file);
@@ -2216,60 +2219,166 @@ function get_remote_file($theme_name, $module_name, $file_link, $update_sn, $mod
     $zip->close($new_file);
 }
 
-function copyemz($file1, $file2, $update_sn = '')
+function is_public_remote_host($host)
+{
+    if (filter_var($host, FILTER_VALIDATE_IP)) {
+        return (bool) filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
+    }
+
+    $records = dns_get_record($host, DNS_A + DNS_AAAA);
+    if (empty($records)) {
+        return false;
+    }
+
+    foreach ($records as $record) {
+        $ip = isset($record['ip']) ? $record['ip'] : (isset($record['ipv6']) ? $record['ipv6'] : '');
+        if ($ip && filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+function is_trusted_remote_url($url, $trusted_source)
+{
+    $url = trim($url);
+    if ($url === '') {
+        return false;
+    }
+
+    $parts = parse_url($url);
+    if ($parts === false || empty($parts['scheme']) || empty($parts['host'])) {
+        return false;
+    }
+
+    if (strtolower($parts['scheme']) !== 'https') {
+        return false;
+    }
+
+    $trusted = parse_url($trusted_source);
+    if ($trusted === false || empty($trusted['scheme']) || empty($trusted['host'])) {
+        return false;
+    }
+
+    if (strtolower($parts['scheme']) !== strtolower($trusted['scheme']) || strtolower($parts['host']) !== strtolower($trusted['host'])) {
+        return false;
+    }
+
+    if (isset($trusted['port']) && (!isset($parts['port']) || $parts['port'] !== $trusted['port'])) {
+        return false;
+    }
+
+    return is_public_remote_host($parts['host']);
+}
+
+function copyemz($file1, $file2, $update_sn = '', &$error = '')
 {
     global $xoopsConfig;
     $TadAmModuleConfig = Utility::getXoopsModuleConfig('tad_adm');
     $ver               = (int) str_replace('.', '', substr(XOOPS_VERSION, 6, 5));
     $add_count_url     = $TadAmModuleConfig['source'] . "/modules/tad_modules/api.php?update_sn={$update_sn}&from=" . XOOPS_URL . "&sitename={$xoopsConfig['sitename']}&theme={$xoopsConfig['theme_set']}&version=$ver&language={$xoopsConfig['language']}";
 
-    $url = $file1;
-    if (function_exists('curl_init')) {
-        $ch      = curl_init();
-        $timeout = 5;
+    if (!is_trusted_remote_url($file1, $TadAmModuleConfig['source'])) {
+        $error = '來源網址不在信任清單或格式不正確。';
+        return false;
+    }
+    if (!is_trusted_remote_url($add_count_url, $TadAmModuleConfig['source'])) {
+        $error = '統計回報網址無效。';
+        return false;
+    }
 
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    $url      = $file1;
+    $timeout  = 5;
+    $contentx = false;
+
+    if (function_exists('curl_init')) {
+        $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
         $contentx = curl_exec($ch);
+        if ($contentx === false) {
+            $error = '下載失敗: ' . curl_error($ch);
+        }
         curl_close($ch);
 
-        $ch      = curl_init();
-        $timeout = 5;
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $add_count_url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
         $count = curl_exec($ch);
         curl_close($ch);
-        // die('curl');
     } elseif (function_exists('file_get_contents')) {
-        $contentx = file_get_contents($url);
-        $count    = file_get_contents($add_count_url);
-        // die('file_get_contents');
-    } else {
-        $handle   = fopen($url, 'rb');
-        $contentx = stream_get_contents($handle);
-        fclose($handle);
+        $context = stream_context_create([
+            'http' => [
+                'method'          => 'GET',
+                'timeout'         => $timeout,
+                'follow_location' => false,
+            ],
+            'ssl'  => [
+                'verify_peer'      => true,
+                'verify_peer_name' => true,
+            ],
+        ]);
 
-        $handle = fopen($add_count_url, 'rb');
-        $count  = stream_get_contents($handle);
-        fclose($handle);
+        $contentx = @file_get_contents($url, false, $context);
+        if ($contentx === false) {
+            $error = '下載失敗 (file_get_contents)。';
+        }
+        $count = @file_get_contents($add_count_url, false, $context);
+    } else {
+        $context = stream_context_create([
+            'http' => [
+                'timeout' => $timeout,
+            ],
+            'ssl'  => [
+                'verify_peer'      => true,
+                'verify_peer_name' => true,
+            ],
+        ]);
+
+        $handle = @fopen($url, 'rb', false, $context);
+        if ($handle !== false) {
+            $contentx = stream_get_contents($handle);
+            fclose($handle);
+        } else {
+            $error = '下載失敗 (fopen)。';
+        }
+
+        $count  = false;
+        $handle = @fopen($add_count_url, 'rb', false, $context);
+        if ($handle !== false) {
+            $count = stream_get_contents($handle);
+            fclose($handle);
+        }
+    }
+
+    if ($contentx === false) {
+        if ($error === '') {
+            $error = '下載內容為空。';
+        }
+        return false;
     }
 
     $openedfile = fopen($file2, 'wb');
+    if ($openedfile === false) {
+        $error = '無法建立本地檔案。';
+        return false;
+    }
+
     fwrite($openedfile, $contentx);
     fclose($openedfile);
-    if (false === $contentx) {
-        $status = false;
-    } else {
-        $status = true;
-    }
-    return $status;
+
+    return true;
 }
 
 // 刪除指定設定檔
