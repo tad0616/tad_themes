@@ -40,7 +40,16 @@ $logo_height   = Request::getInt('logo_height');
 switch ($op) {
 
     case 'del_logo':
-        unlink(XOOPS_ROOT_PATH . "/uploads/logo/{$logo}");
+        $logo     = basename($logo);
+        $logo_dir = XOOPS_ROOT_PATH . '/uploads/logo';
+        $target   = $logo_dir . '/' . $logo;
+        if ($logo !== '' && $logo === basename($logo) && is_file($target)) {
+            $realLogoDir = realpath($logo_dir);
+            $realTarget  = realpath($target);
+            if ($realLogoDir !== false && $realTarget !== false && strpos($realTarget, $realLogoDir) === 0) {
+                unlink($realTarget);
+            }
+        }
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
