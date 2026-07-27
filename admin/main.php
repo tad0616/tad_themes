@@ -102,8 +102,12 @@ switch ($op) {
         redirect_header($_SERVER['PHP_SELF'], 3, $msg);
         break;
 
-    //刪除資料
+    //刪除資料 (僅接受 POST 並檢查 XOOPS token)
     case 'delete_theme_config':
+        if ("POST" !== $_SERVER['REQUEST_METHOD'] || !isset($GLOBALS['xoopsSecurity']) || !$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
+            exit;
+        }
         delete_theme_config($theme_name, $theme_config_name, $theme_id);
         break;
 
@@ -123,13 +127,21 @@ switch ($op) {
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
 
-    //套用資料
+    //套用資料 (僅接受 POST 並檢查 XOOPS token)
     case 'apply_config':
+        if ("POST" !== $_SERVER['REQUEST_METHOD'] || !isset($GLOBALS['xoopsSecurity']) || !$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
+            exit;
+        }
         apply_config($theme_id, $theme_name, $theme_config_name);
         break;
 
-    //下載資料
+    //下載資料 (僅接受 POST 並檢查 XOOPS token)
     case 'download_zip':
+        if ("POST" !== $_SERVER['REQUEST_METHOD'] || !isset($GLOBALS['xoopsSecurity']) || !$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
+            exit;
+        }
         // 不能存，因為下載的有時並不是現在的佈景
         // save_config($theme_id, $theme_config_name);
         download_zip($theme_name, $theme_config_name, $theme_id);
@@ -200,6 +212,8 @@ function tad_themes_form($mode = '')
 
     $SweetAlert = new SweetAlert();
     $SweetAlert->render("delete_tad_themes_config", "main.php?op=delete_tad_themes&mode=default&theme_id=", 'theme_id');
+    // 將 XOOPS 權杖輸出到 template，讓表單使用
+    $xoopsTpl->assign('xoops_token', $GLOBALS['xoopsSecurity']->getTokenHTML());
 
     $theme_name = $xoopsConfig['theme_set'];
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}");
@@ -485,7 +499,7 @@ function tad_themes_form($mode = '')
     DataList::render();
     $xoopsTpl->assign('theme_config_list', $theme_config_list);
 
-    $SweetAlert->render("delete_theme_config", "main.php?op=delete_theme_config&theme_name=$theme_name&theme_id=$theme_id&theme_config_name=", 'theme_config_name');
+    // delete_theme_config 改成以 POST 處理，前端已改用表單提交
 
     $url = "https://campus-xoops.tn.edu.tw/modules/tad_modules/style.php?theme=$theme_name";
 
@@ -2392,10 +2406,9 @@ function delete_theme_config($theme_name, $theme_config_name, $theme_id)
 // 下載指定設定檔
 function download_zip($theme_name, $theme_config_name, $theme_id)
 {
-    if (!preg_match('/^[A-Za-z0-9_-]+$/', $theme_name) || !preg_match('/^[A-Za-z0-9_-]+$/', $theme_config_name)) {
-        redirect_header($_SERVER['PHP_SELF'] . '?theme_id=' . (int) $theme_id, 3, '參數錯誤！');
-        exit;
-    }
+
+    $theme_name        = Utility::check_string($theme_name);
+    $theme_config_name = Utility::check_string($theme_config_name);
 
     $FromDir = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/{$theme_config_name}";
     $zipname = XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/setup/{$theme_name}-{$theme_config_name}.zip";

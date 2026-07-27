@@ -57,9 +57,30 @@
             <td><{$title|default:''}></td>
             <td style="font-size: 0.678em;"><{$date|default:''}></td>
             <td>
-                <a href="javascript:delete_theme_config('<{$title|default:''}>')" class="btn btn-sm btn-xs btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
-                <a href="main.php?op=download_zip&theme_config_name=<{$title|default:''}>&theme_id=<{$theme_id|default:''}>&theme_name=<{$theme_name|default:''}>" class="btn btn-sm btn-xs btn-success"><{$smarty.const._MA_TADTHEMES_DOWNLOAD}></a>
-                <a href="main.php?op=apply_config&theme_config_name=<{$title|default:''}>&theme_id=<{$theme_id|default:''}>&theme_name=<{$theme_name|default:''}>" class="btn btn-sm btn-xs btn-info"><{$smarty.const._MA_TADTHEMES_APPLY}></a>
+                <form method="post" action="main.php" style="display:inline-block; margin-right:6px;">
+                    <{$xoops_token}>
+                    <input type="hidden" name="op" value="delete_theme_config">
+                    <input type="hidden" name="theme_config_name" value="<{$title|default:''}>" />
+                    <input type="hidden" name="theme_id" value="<{$theme_id|default:''}>" />
+                    <input type="hidden" name="theme_name" value="<{$theme_name|default:''}>" />
+                    <button type="submit" class="btn btn-sm btn-xs btn-danger" onclick="return confirm('<{$smarty.const._TAD_DEL}>?');"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></button>
+                </form>
+                <form method="post" action="main.php" style="display:inline-block; margin-right:6px;">
+                    <{$xoops_token}>
+                    <input type="hidden" name="op" value="download_zip">
+                    <input type="hidden" name="theme_config_name" value="<{$title|default:''}>" />
+                    <input type="hidden" name="theme_id" value="<{$theme_id|default:''}>" />
+                    <input type="hidden" name="theme_name" value="<{$theme_name|default:''}>" />
+                    <button type="submit" class="btn btn-sm btn-xs btn-success"><{$smarty.const._MA_TADTHEMES_DOWNLOAD}></button>
+                </form>
+                <form method="post" action="main.php" style="display:inline-block;">
+                    <{$xoops_token}>
+                    <input type="hidden" name="op" value="apply_config">
+                    <input type="hidden" name="theme_config_name" value="<{$title|default:''}>" />
+                    <input type="hidden" name="theme_id" value="<{$theme_id|default:''}>" />
+                    <input type="hidden" name="theme_name" value="<{$theme_name|default:''}>" />
+                    <button type="submit" class="btn btn-sm btn-xs btn-info"><{$smarty.const._MA_TADTHEMES_APPLY}></button>
+                </form>
             </td>
         </tr>
     <{/foreach}>
