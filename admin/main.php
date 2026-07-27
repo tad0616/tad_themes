@@ -1948,7 +1948,9 @@ function export_config2($theme_id = '', $config2_file = 'config2', $main_theme =
     $theme_name   = Utility::check_string($theme_name);
     $config2_file = Utility::check_string($config2_file);
 
-    if (file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php")) {
+    $config2_file_arr = array_keys(Tools::$config2_files_arr);
+
+    if (in_array($config2_file, $config2_file_arr) && file_exists(XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php")) {
         require XOOPS_ROOT_PATH . "/themes/{$theme_name}/{$config2_file}.php";
         if (empty($theme_config)) {
             return;
