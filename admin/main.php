@@ -49,8 +49,27 @@ switch ($op) {
             xoops_setConfigOption('theme_set', $theme_name);
             $_SESSION['xoopsUserTheme'] = $theme_name;
 
-            $sql = 'UPDATE `' . $xoopsDB->prefix('config') . "` SET conf_value=? WHERE conf_name='theme_set'";
+            $sql = 'UPDATE `' . $xoopsDB->prefix('config') . "` SET `conf_value`=? WHERE `conf_name`='theme_set'";
             Utility::query($sql, 's', [$theme_name]) or Utility::web_error($sql, __FILE__, __LINE__);
+
+            $sql = 'UPDATE `' . $xoopsDB->prefix('users') . "` SET `theme`=?";
+            Utility::query($sql, 's', [$theme_name]) or Utility::web_error($sql, __FILE__, __LINE__);
+
+            if ($theme_name == 'school2022') {
+                $bt = 'bootstrap5';
+            } elseif ($theme_name == 'school2019') {
+                $bt = 'bootstrap4';
+            } elseif ($theme_name == 'school2015' or $theme_name == 'school2014' or $theme_name == 'school2013') {
+                $bt = 'bootstrap3';
+            } else {
+                $bt = 'bootstrap5';
+            }
+
+            $sql = 'UPDATE `' . $xoopsDB->prefix('tadtools_setup') . "` SET `tt_bootstrap_color`=?,`tt_theme_kind`=? WHERE `conf_name`=?";
+            Utility::query($sql, 'ss', [$bt, $bt, $theme_name]) or Utility::web_error($sql, __FILE__, __LINE__);
+
+            $sql = 'UPDATE `' . $xoopsDB->prefix('tad_themes') . "` SET `theme_kind`=? WHERE `theme_name`=?";
+            Utility::query($sql, 'ss', [$bt, $theme_name]) or Utility::web_error($sql, __FILE__, __LINE__);
         }
 
         header("location: " . \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'));
@@ -1304,12 +1323,14 @@ function get_tad_themes($theme_id = '')
         $where = "WHERE `theme_id` = '{$theme_id}'";
     }
 
-    $sql    = 'SELECT * FROM `' . $xoopsDB->prefix('tad_themes') . '` ' . $where;
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_themes') . '` ' . $where;
+    Utility::test($sql, 'sql', 'die');
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $data   = $xoopsDB->fetchArray($result);
     $TadDataCenter->set_col('theme_id', $theme_id);
     $data['navbar_px'] = $TadDataCenter->getData('navbar_px', 0);
     $data['navbar_py'] = $TadDataCenter->getData('navbar_py', 0);
+    Utility::test($data, 'data', 'dd');
     return $data;
 }
 

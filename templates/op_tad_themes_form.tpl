@@ -163,15 +163,15 @@
                     <button type="submit" name="op" value="<{$op|default:''}>" class="btn btn-primary btn-lg btn-block border border-light border-4" style="box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.5);">
                         <i class="fa fa-save" aria-hidden="true"></i> <{$smarty.const._TAD_SAVE}>
                     </button>
-                </div>
+                    </form>
+                    <div class="alert alert-info" style="margin: 30px 0px;">
+                        <{if $theme_kind!="bootstrap" and $theme_kind!="bootstrap3" and $theme_kind!="bootstrap4" and $theme_kind!="bootstrap5"}>
+                            <{$smarty.const._MA_TADTHEMES_NOTICE}>
+                        <{/if}>
+                        <{include file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_form.tpl"}>
+                    </div>
 
-                <div class="alert alert-info" style="margin: 30px 0px;">
-                    <{if $theme_kind!="bootstrap" and $theme_kind!="bootstrap3" and $theme_kind!="bootstrap4" and $theme_kind!="bootstrap5"}>
-                        <{$smarty.const._MA_TADTHEMES_NOTICE}>
-                    <{/if}>
-                    <{include file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_form.tpl"}>
                 </div>
             </div>
         </div>
-    </form>
 </div>
