@@ -9,12 +9,14 @@ function tad_themes_top_menu($options)
 {
     global $xoopsDB;
     $block = [];
-    if ($options[0]) {
-        $sql = 'SELECT `menuid`, `itemname`, `itemurl`, `target`, `icon`
+    if (!empty($options[0])) {
+        // IN (?) 只能綁一個值，需依選單數量產生對應的佔位符
+        $menuids = array_map('intval', explode(',', $options[0]));
+        $sql     = 'SELECT `menuid`, `itemname`, `itemurl`, `target`, `icon`
         FROM `' . $xoopsDB->prefix('tad_themes_menu') . '`
-        WHERE `menuid` IN (?)
+        WHERE `menuid` IN (' . implode(',', array_fill(0, count($menuids), '?')) . ')
         ORDER BY `position`';
-        $result = Utility::query($sql, 's', [$options[0]]) or die($sql);
+        $result = Utility::query($sql, str_repeat('i', count($menuids)), $menuids) or Utility::web_error($sql, __FILE__, __LINE__);
 
         $menu = [];
         $i = 1;
@@ -22,7 +24,8 @@ function tad_themes_top_menu($options)
         $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
         $url = XOOPS_URL . '/uploads/tad_themes/menu_icons';
 
-        while (list($menuid, $itemname, $itemurl, $target, $icon) = $xoopsDB->fetchRow($result)) {
+        while ($row = $xoopsDB->fetchRow($result)) {
+            list($menuid, $itemname, $itemurl, $target, $icon) = $row;
             $menu[$menuid]['itemname'] = $itemname;
             $menu[$menuid]['itemurl'] = $itemurl;
             $menu[$menuid]['target'] = $target;
@@ -67,9 +70,7 @@ if (!function_exists('block_menu_options')) {
     {
         global $xoopsDB;
 
-        if (!empty($selected)) {
-            $sc = explode(',', $selected);
-        }
+        $sc = empty($selected) ? [] : explode(',', $selected);
 
         $js = '<script>
     function bbv(){
@@ -80,7 +81,8 @@ if (!function_exists('block_menu_options')) {
         $result = Utility::query($sql);
 
         $option = '';
-        while (list($menuid, $itemname) = $xoopsDB->fetchRow($result)) {
+        while ($row = $xoopsDB->fetchRow($result)) {
+            list($menuid, $itemname) = $row;
             $js .= "if(document.getElementById('c{$menuid}').checked){
             arr[i] = document.getElementById('c{$menuid}').value;
             i++;

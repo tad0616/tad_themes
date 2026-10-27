@@ -13,7 +13,7 @@ function vertical_menu($options)
     global $xoopsDB, $xoTheme;
     $xoTheme->addStylesheet('modules/tadtools/css/vertical_menu.css');
 
-    $in = empty($options[0]) ? "`status`='1' AND `of_level`=0" : "`menuid` IN({$options[0]})";
+    $in = empty($options[0]) ? "`status`='1' AND `of_level`=0" : '`menuid` IN(' . implode(',', array_map('intval', explode(',', $options[0]))) . ')';
 
     $sql = 'SELECT `menuid`, `itemname`, `itemurl`, `target`, `icon`, `position`
         FROM `' . $xoopsDB->prefix('tad_themes_menu') . '`
@@ -26,7 +26,8 @@ function vertical_menu($options)
     $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
     $url = XOOPS_URL . '/uploads/tad_themes/menu_icons';
     $i   = 1;
-    while (list($menuid, $itemname, $itemurl, $target, $bootstrap_icon, $position) = $xoopsDB->fetchRow($result)) {
+    while ($row = $xoopsDB->fetchRow($result)) {
+        list($menuid, $itemname, $itemurl, $target, $bootstrap_icon, $position) = $row;
         if (empty($itemname) or empty($itemurl)) {
             continue;
         }
@@ -48,9 +49,9 @@ function vertical_menu($options)
 
     $block['menu']   = $menu;
     $block['jquery'] = Utility::get_jquery();
-    $block['pin']    = $options[1];
+    $block['pin']    = $options[1] ?? 0;
 
-    if ('1' == $options[1]) {
+    if ('1' == $block['pin']) {
         $JqueryPin = new JqueryPin();
         $JqueryPin->render('.vertical_menu');
     }
@@ -63,8 +64,8 @@ function vertical_menu_edit($options)
 {
     $block_menu_options = block_menu_options($options[0]);
 
-    $checked1 = 1 == $options[1] ? 'checked' : '';
-    $checked0 = 0 == $options[1] ? 'checked' : '';
+    $checked1 = 1 == ($options[1] ?? 0) ? 'checked' : '';
+    $checked0 = 0 == ($options[1] ?? 0) ? 'checked' : '';
 
     $form = "
     {$block_menu_options['js']}
@@ -94,9 +95,7 @@ if (!function_exists('block_menu_options')) {
     {
         global $xoopsDB;
 
-        if (!empty($selected)) {
-            $sc = explode(',', $selected);
-        }
+        $sc = empty($selected) ? [] : explode(',', $selected);
 
         $js = '<script>
     function bbv(){
@@ -108,7 +107,8 @@ if (!function_exists('block_menu_options')) {
         $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
         $option = '';
-        while (list($menuid, $itemname, $status, $of_level) = $xoopsDB->fetchRow($result)) {
+        while ($row = $xoopsDB->fetchRow($result)) {
+            list($menuid, $itemname, $status, $of_level) = $row;
             $js .= "if(document.getElementById('c{$menuid}').checked){
             arr[i] = document.getElementById('c{$menuid}').value;
             i++;

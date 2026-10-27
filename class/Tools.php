@@ -276,7 +276,8 @@ class Tools
         $sql    = 'SELECT `name`, `value` FROM `' . $xoopsDB->prefix('tad_themes_config2') . "` WHERE `theme_id`='$theme_id' AND (`type`='bg_file' OR `type`='file')";
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
-        while (list($name, $value) = $xoopsDB->fetchRow($result)) {
+        while ($row = $xoopsDB->fetchRow($result)) {
+            list($name, $value) = $row;
             if ($value) {
                 $sql = 'UPDATE `' . $xoopsDB->prefix('tad_themes_files_center') . "` SET `col_name`='config2_{$name}', `sort`=1 WHERE `col_sn`='$theme_id' AND `col_name`='config2' AND `file_name`='$value'";
                 $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
@@ -292,7 +293,7 @@ class Tools
         $sql    = 'SELECT `theme_id` FROM `' . $xoopsDB->prefix('tad_themes') . '` WHERE `theme_name` =?';
         $result = Utility::query($sql, 's', [$theme_name]) or Utility::web_error($sql, __FILE__, __LINE__);
 
-        list($theme_id) = $xoopsDB->fetchRow($result);
+        $theme_id = $xoopsDB->fetchRow($result)[0] ?? null;
 
         return $theme_id;
     }
@@ -472,7 +473,8 @@ class Tools
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
         $db_files_amount = 0;
-        while (list($files_sn, $original_filename) = $xoopsDB->fetchRow($result)) {
+        while ($row = $xoopsDB->fetchRow($result)) {
+            list($files_sn, $original_filename) = $row;
             $db_files[$files_sn] = $original_filename;
             $db_files_amount++;
         }
@@ -532,7 +534,7 @@ class Tools
         WHERE `tt_theme` = ?';
         $result = Utility::query($sql, 's', [$theme]) or Utility::web_error($sql, __FILE__, __LINE__);
 
-        list($old_tt_theme_kind) = $xoopsDB->fetchRow($result);
+        $old_tt_theme_kind = $xoopsDB->fetchRow($result)[0] ?? null;
 
         if ($theme_kind !== $old_tt_theme_kind) {
             $sql = 'REPLACE INTO `' . $xoopsDB->prefix('tadtools_setup') . '`

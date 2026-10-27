@@ -27,7 +27,10 @@ if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
 
 $adminObject = \Xmf\Module\Admin::getInstance();
 
+// XOOPS 2.7 的 xoops_cp_header() 會把 theme_set 改成後台佈景，需還原為前台佈景（2.5.11 無此行為，還原亦無害）
+$front_theme_set = $xoopsConfig['theme_set'];
 xoops_cp_header();
+$xoopsConfig['theme_set'] = $front_theme_set;
 
 // Define Stylesheet and JScript
 $xoTheme->addStylesheet('modules/tadtools/css/iconize.css');

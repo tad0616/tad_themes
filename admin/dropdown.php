@@ -285,7 +285,7 @@ function get_max_sort($of_level = '')
     $sql    = 'SELECT MAX(`position`) FROM `' . $xoopsDB->prefix('tad_themes_menu') . '` WHERE `of_level`=?';
     $result = Utility::query($sql, 'i', [$of_level]) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    list($sort) = $xoopsDB->fetchRow($result);
+    $sort = $xoopsDB->fetchRow($result)[0] ?? null;
 
     return ++$sort;
 }
@@ -378,7 +378,8 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '
 
     $SweetAlert = new SweetAlert();
 
-    while (list($menuid, $of_level, $itemname, $position, $itemurl, $status, $target, $icon, $link_cate_name, $link_cate_sn) = $xoopsDB->fetchRow($result)) {
+    while ($row = $xoopsDB->fetchRow($result)) {
+        list($menuid, $of_level, $itemname, $position, $itemurl, $status, $target, $icon, $link_cate_name, $link_cate_sn) = $row;
         if (strpos($icon, 'fab ') === false) {
             $icon = "fa {$icon}";
         }
@@ -535,7 +536,8 @@ function get_tad_all_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '',
     $sql    = 'SELECT `menuid`, `of_level`, `itemname` FROM `' . $xoopsDB->prefix('tad_themes_menu') . '` WHERE `of_level` =? ORDER BY `position`';
     $result = Utility::query($sql, 'i', [$of_level]) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    while (list($menuid, $of_level, $itemname) = $xoopsDB->fetchRow($result)) {
+    while ($row = $xoopsDB->fetchRow($result)) {
+        list($menuid, $of_level, $itemname) = $row;
         if ('1' == $no_self and $this_menuid == $menuid) {
             continue;
         }
@@ -567,7 +569,7 @@ function auto_import()
     $sql    = 'SELECT `menuid` FROM `' . $xoopsDB->prefix('tad_themes_menu') . '` WHERE `link_cate_name`=?';
     $result = Utility::query($sql, 's', ['mainmenu']) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    list($menuid) = $xoopsDB->fetchRow($result);
+    $menuid = $xoopsDB->fetchRow($result)[0] ?? null;
 
     if (empty($menuid)) {
         $position = get_max_sort(0);
@@ -580,7 +582,8 @@ function auto_import()
         $sql    = 'SELECT `name`, `dirname` FROM `' . $xoopsDB->prefix('modules') . '` WHERE `isactive`=1 AND `hasmain`=1 ORDER BY `weight`';
         $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
-        while (list($name, $dirname) = $xoopsDB->fetchRow($result)) {
+        while ($row = $xoopsDB->fetchRow($result)) {
+            list($name, $dirname) = $row;
             $position = get_max_sort($of_level);
             $sql      = 'INSERT INTO `' . $xoopsDB->prefix('tad_themes_menu') . '` (`of_level`, `position`, `itemname`, `itemurl`, `status`, `icon`) VALUES (?, ?, ?, ?, 1, ?)';
             Utility::query($sql, 'issss', [$of_level, $position, $name, XOOPS_URL . '/modules/' . $dirname . '/', '']) or Utility::web_error($sql, __FILE__, __LINE__);
@@ -596,7 +599,7 @@ function import_edit()
     $sql    = 'SELECT `menuid` FROM `' . $xoopsDB->prefix('tad_themes_menu') . '` WHERE `link_cate_name` = ?';
     $result = Utility::query($sql, 's', ['editemnu']) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    list($of_level) = $xoopsDB->fetchRow($result);
+    $of_level = $xoopsDB->fetchRow($result)[0] ?? null;
 
     if (empty($of_level)) {
         $position = get_max_sort(0);
@@ -648,7 +651,8 @@ function import_edit()
     $sql    = 'SELECT `dirname` FROM `' . $xoopsDB->prefix('modules') . '` WHERE `isactive`=1 AND `hasmain`=1 ORDER BY `weight`';
     $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    while (list($dirname) = $xoopsDB->fetchRow($result)) {
+    while ($row = $xoopsDB->fetchRow($result)) {
+        list($dirname) = $row;
         if (in_array($dirname, $mod_arr)) {
             $position = get_max_sort($of_level);
             if (in_array($dirname, $old_items_arr)) {

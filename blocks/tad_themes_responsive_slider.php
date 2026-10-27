@@ -19,41 +19,38 @@ function tad_themes_responsive_slider($options)
         return;
     }
 
-    foreach ($data as $k => $v) {
-        $$k = $v;
-    }
-    if ($slide_width > 0) {
+    if ($data['slide_width'] > 0) {
         return;
     }
 
     $block = '';
 
-    if (!empty($logo_img)) {
-        if ('page' === $logo_position) {
+    if (!empty($data['logo_img'])) {
+        if ('page' === $data['logo_position']) {
             $block = '';
         } else {
             $logo_place = '';
-            if (!empty($logo_top)) {
-                $logo_place .= "top:{$logo_top}px;";
+            if (!empty($data['logo_top'])) {
+                $logo_place .= "top:{$data['logo_top']}px;";
             }
 
-            if (!empty($logo_bottom)) {
-                $logo_place .= "bottom:{$logo_bottom}px;";
+            if (!empty($data['logo_bottom'])) {
+                $logo_place .= "bottom:{$data['logo_bottom']}px;";
             }
 
-            if ('1' == $logo_center) {
+            if ('1' == $data['logo_center']) {
                 $logo_place .= 'margin-left: auto; margin-right: auto; left: 0; right: 0;';
             } else {
-                if (!empty($logo_right)) {
-                    $logo_place .= "right:{$logo_right}px;";
+                if (!empty($data['logo_right'])) {
+                    $logo_place .= "right:{$data['logo_right']}px;";
                 }
 
-                if (!empty($logo_left)) {
-                    $logo_place .= "left:{$logo_left}px;";
+                if (!empty($data['logo_left'])) {
+                    $logo_place .= "left:{$data['logo_left']}px;";
                 }
             }
 
-            $block = "<a href='" . XOOPS_URL . "' title='{$xoopsConfig['sitename']}'><img src='" . XOOPS_URL . "/uploads/tad_themes/{$xoopsConfig['theme_set']}/logo/{$logo_img}' alt='{$xoopsConfig['sitename']}' style='position:absolute; z-index:3;{$logo_place}'></a>";
+            $block = "<a href='" . XOOPS_URL . "' title='{$xoopsConfig['sitename']}'><img src='" . XOOPS_URL . "/uploads/tad_themes/{$xoopsConfig['theme_set']}/logo/{$data['logo_img']}' alt='{$xoopsConfig['sitename']}' style='position:absolute; z-index:3;{$logo_place}'></a>";
         }
     }
 
@@ -64,11 +61,14 @@ function tad_themes_responsive_slider($options)
 
     $slide_images = 0;
     $title = $date = '';
-    while (false !== ($data = $xoopsDB->fetchArray($result))) {
-        foreach ($data as $k => $v) {
-            $$k = $v;
-            //$this->assign($k,$$k);
-        }
+    while ($data = $xoopsDB->fetchArray($result)) {
+        $files_sn     = $data['files_sn'];
+        $file_name    = $data['file_name'];
+        $description  = $data['description'];
+        $slide_width  = $data['slide_width'];
+        $slide_height = $data['slide_height'];
+        $url          = XOOPS_URL;
+        $slide_target = '';
         $slide_images++;
 
         if ($description) {
@@ -112,12 +112,12 @@ function tad_themes_responsive_slider($options)
     $sql = 'SELECT a.`value` FROM `' . $xoopsDB->prefix('tad_themes_config2') . '` AS a LEFT JOIN `' . $xoopsDB->prefix('tad_themes') . '` AS b ON a.`theme_id`=b.`theme_id` WHERE a.`name`=? AND b.`theme_name`=?';
     $result = Utility::query($sql, 'ss', ['slide_timeout', $xoopsConfig['theme_set']]) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    list($slide_timeout) = $xoopsDB->fetchRow($result);
+    $slide_timeout = $xoopsDB->fetchRow($result)[0] ?? null;
 
     $sql = 'SELECT a.`value` FROM `' . $xoopsDB->prefix('tad_themes_config2') . '` AS a LEFT JOIN `' . $xoopsDB->prefix('tad_themes') . '` AS b ON a.`theme_id`=b.`theme_id` WHERE a.`name`=? AND b.`theme_name`=?';
     $result = Utility::query($sql, 'ss', ['slide_nav', $xoopsConfig['theme_set']]);
 
-    list($slide_nav) = $xoopsDB->fetchRow($result);
+    $slide_nav = $xoopsDB->fetchRow($result)[0] ?? null;
 
     $block .= $ResponsiveSlides->render('tad_themes_ResponsiveSlides', null, $slide_timeout, $slide_nav);
 

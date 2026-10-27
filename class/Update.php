@@ -169,7 +169,8 @@ class Update
         if (self::_column_exists('tad_themes', 'bg_size')) {
             $sql    = "select theme_id,bg_repeat from " . $xoopsDB->prefix('tad_themes') . " where bg_size = '' OR bg_size IS NULL";
             $result = $xoopsDB->queryF($sql);
-            while (list($theme_id, $bg_repeat) = $xoopsDB->fetchRow($result)) {
+            while ($row = $xoopsDB->fetchRow($result)) {
+                list($theme_id, $bg_repeat) = $row;
                 if (strpos($bg_repeat, 'cover') !== false) {
                     $sql_update = "update " . $xoopsDB->prefix('tad_themes') . " set bg_repeat='no-repeat', bg_size='cover' where theme_id='$theme_id'";
                 } elseif (strpos($bg_repeat, 'contain') !== false) {
@@ -270,7 +271,7 @@ class Update
 
         $sql        = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '" . $xoopsDB->prefix('tad_themes_files_center') . "' AND COLUMN_NAME = 'col_sn'";
         $result     = $xoopsDB->query($sql);
-        list($type) = $xoopsDB->fetchRow($result);
+        $type = $xoopsDB->fetchRow($result)[0] ?? null;
         if ($type === 'smallint') {
             $alter_parts[] = 'CHANGE `col_sn` `col_sn` mediumint(9) unsigned NOT NULL default 0';
         }
@@ -319,7 +320,7 @@ class Update
             $sql    = 'SELECT COLUMN_DEFAULT FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = "' . $xoopsDB->prefix('tad_themes_data_center') . '" AND COLUMN_NAME = "col_id"';
             $result = $xoopsDB->query($sql);
             if ($result) {
-                list($default) = $xoopsDB->fetchRow($result);
+                $default = $xoopsDB->fetchRow($result)[0] ?? null;
                 if ($default === null || $default === 'NULL') {
                     $alter_parts[] = "CHANGE `col_id` `col_id` varchar(100) NOT NULL DEFAULT '' COMMENT '辨識字串' AFTER `data_sort`";
                 }
@@ -378,7 +379,7 @@ class Update
             $sql    = "SELECT EXTRA FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name = '" . $xoopsDB->prefix('tad_themes_blocks') . "' AND COLUMN_NAME = 'theme_id'";
             $result = $xoopsDB->query($sql);
             if ($result) {
-                list($EXTRA) = $xoopsDB->fetchRow($result);
+                $EXTRA = $xoopsDB->fetchRow($result)[0] ?? null;
                 if ('auto_increment' === $EXTRA) {
                     $sql_alter = 'ALTER TABLE ' . $xoopsDB->prefix('tad_themes_blocks') . " CHANGE `theme_id` `theme_id` smallint(6) unsigned NOT NULL COMMENT '佈景編號' FIRST";
                     self::_execute_sql($sql_alter);
@@ -431,7 +432,8 @@ class Update
         $block_position = ['leftBlock', 'rightBlock', 'centerBlock', 'centerLeftBlock', 'centerRightBlock', 'centerBottomBlock', 'centerBottomLeftBlock', 'centerBottomRightBlock', 'footerLeftBlock', 'footerCenterBlock', 'footerRightBlock'];
         $sql_select     = 'select `theme_id`,`block_config`,`bt_text`, `bt_text_padding`, `bt_bg_color`, `bt_bg_img`, `bt_bg_repeat`, `bt_radius` from `' . $xoopsDB->prefix('tad_themes') . '` order by `theme_id`';
         $result         = $xoopsDB->queryF($sql_select);
-        while (list($theme_id, $block_config, $bt_text, $bt_text_padding, $bt_bg_color, $bt_bg_img, $bt_bg_repeat, $bt_radius) = $xoopsDB->fetchRow($result)) {
+        while ($row = $xoopsDB->fetchRow($result)) {
+            list($theme_id, $block_config, $bt_text, $bt_text_padding, $bt_bg_color, $bt_bg_img, $bt_bg_repeat, $bt_radius) = $row;
             foreach ($block_position as $position) {
                 $sql_insert = 'insert into `' . $xoopsDB->prefix('tad_themes_blocks') . "` (`theme_id` , `block_position` , `block_config` , `bt_text` , `bt_text_padding`, `bt_text_size` , `bt_bg_color` , `bt_bg_img` , `bt_bg_repeat` , `bt_radius`) values('{$theme_id}' , '{$position}' , '{$block_config}' , '{$bt_text}' , '{$bt_text_padding}', '16px' , '{$bt_bg_color}' , '{$bt_bg_img}' , '{$bt_bg_repeat}' , '{$bt_radius}')";
                 self::_execute_sql($sql_insert);
@@ -454,7 +456,8 @@ class Update
         // From fix_config2_file_url
         $sql    = 'SELECT `theme_id`, `bg_img`, `logo_img`, `navlogo_img`, `navbar_img` FROM ' . $xoopsDB->prefix('tad_themes') . " where left(`bg_img`, 4)='http' or left(`logo_img`, 4)='http' or left(`navlogo_img`, 4)='http' or left(`navbar_img`, 4)='http'";
         $result = $xoopsDB->query($sql);
-        while (list($theme_id, $bg_img, $logo_img, $navlogo_img, $navbar_img) = $xoopsDB->fetchRow($result)) {
+        while ($row = $xoopsDB->fetchRow($result)) {
+            list($theme_id, $bg_img, $logo_img, $navlogo_img, $navbar_img) = $row;
             $bg_img      = basename($bg_img);
             $logo_img    = basename($logo_img);
             $navlogo_img = basename($navlogo_img);
@@ -480,7 +483,7 @@ class Update
         $sql_select = "select theme_id from " . $xoopsDB->prefix('tad_themes') . " where theme_name='school2019'";
         $result     = $xoopsDB->queryF($sql_select);
         if ($result && $xoopsDB->getRowsNum($result) > 0) {
-            list($theme_id) = $xoopsDB->fetchRow($result);
+            $theme_id = $xoopsDB->fetchRow($result)[0] ?? null;
             $sql_update     = "update " . $xoopsDB->prefix('tad_themes_config2') . " set `type`='bg_file' where (`name`='logo_bg' or `name`='logo_bg2' or `name`='footer_img') and `type` = 'file' and `theme_id`='{$theme_id}'";
             self::_execute_sql($sql_update);
         }
@@ -488,7 +491,8 @@ class Update
         // From update_bg_size
         $sql    = "select `theme_id`, `name`, `value` from " . $xoopsDB->prefix('tad_themes_config2') . " where `name`='logo_bg_repeat' or `name`='logo_bg2_repeat'";
         $result = $xoopsDB->queryF($sql);
-        while (list($theme_id, $name, $value) = $xoopsDB->fetchRow($result)) {
+        while ($row = $xoopsDB->fetchRow($result)) {
+            list($theme_id, $name, $value) = $row;
             $size_name = str_replace('repeat', 'size', $name);
             if (strpos($value, 'cover') !== false) {
                 self::_execute_sql("update " . $xoopsDB->prefix('tad_themes_config2') . " set `value`='no-repeat' where theme_id='$theme_id' and `name`='{$name}'");
@@ -511,7 +515,7 @@ class Update
         global $xoopsDB;
         $sql         = "SELECT COUNT(*) FROM `" . $xoopsDB->prefix('tad_themes_files_center') . "` WHERE `col_name`='bt_bg' AND `col_sn`=0";
         $result      = $xoopsDB->query($sql);
-        list($count) = $xoopsDB->fetchRow($result);
+        $count = $xoopsDB->fetchRow($result)[0] ?? null;
 
         if ($count > 0) {
             return;
@@ -540,7 +544,8 @@ class Update
 
         $sql    = "SELECT `bid`, `name`, `visible`,`show_func`,`template` FROM `" . $xoopsDB->prefix('newblocks') . "`  WHERE `dirname` = 'tad_themes' ORDER BY `func_num`";
         $result = $xoopsDB->query($sql);
-        while (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result)) {
+        while ($row = $xoopsDB->fetchRow($result)) {
+            list($bid, $name, $visible, $show_func, $template) = $row;
             if (!isset($tpl_file_arr[$show_func]) || $template != $tpl_file_arr[$show_func]) {
                 $sql_del_block = 'delete from ' . $xoopsDB->prefix('newblocks') . " where bid='{$bid}'";
                 self::_execute_sql($sql_del_block);

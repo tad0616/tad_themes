@@ -26,7 +26,8 @@ function chk_cate_path($menuid, $to_menuid)
     $sql = 'SELECT `menuid` FROM `' . $xoopsDB->prefix('tad_themes_menu') . '` WHERE `of_level`=?';
     $result = Utility::query($sql, 'i', [$menuid]) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    while (list($sub_menuid) = $xoopsDB->fetchRow($result)) {
+    while ($row = $xoopsDB->fetchRow($result)) {
+        list($sub_menuid) = $row;
         if (chk_cate_path($sub_menuid, $to_menuid)) {
             return true;
         }

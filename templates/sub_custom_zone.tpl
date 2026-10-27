@@ -72,14 +72,14 @@
                     </span>
                 </div>
                 <select name="<{$conf_name|default:''}>_bid" class="form-control">
-                    <option value="" <{if $bid|default:'' == ""}>selected<{/if}>></option>
+                    <option value="" <{if $config.bid|default:'' == ""}>selected<{/if}>></option>
                     <{foreach from=$blocks key=mod_name item=mod_blocks}>
                         <optgroup label="<{$mod_name|default:''}>">
                             <{foreach from=$mod_blocks key=bid item=block}>
                                 <option value="<{$bid|default:''}>" <{if $bid|default:'' == $config.bid}>selected<{/if}>>
-                                    <{if $block.name|strpos:$smarty.const._MA_TADTHEMES_BLOCKS_CUSTOM !== false}>
+                                    <{if $block.name|strstr:$smarty.const._MA_TADTHEMES_BLOCKS_CUSTOM !== false}>
                                         <{$block.title}><{$block.name|replace:$smarty.const._MA_TADTHEMES_BLOCKS_CUSTOM:''}>
-                                    <{elseif $block.title|strpos:$block.name !== false}>
+                                    <{elseif $block.title|strstr:$block.name !== false}>
                                         <{$block.name}>
                                     <{else}>
                                         <{$block.name}> (<{$block.title}>)
@@ -92,9 +92,9 @@
                 <div class="input-group-append input-group-btn">
                     <{if $config.bid|default:false}>
                         <{if $adv_bids|is_array && $config.bid|in_array:$adv_bids}>
-                            <a href="<{$xoops|default:''}>/modules/tad_blocks/index.php?op=block_form&bid=<{$config.bid}>" target="_blank" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
+                            <a href="<{$xoops_url}>/modules/tad_blocks/index.php?op=block_form&bid=<{$config.bid}>" target="_blank" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
                         <{else}>
-                            <a href="<{$xoops|default:''}>/modules/system/admin.php?fct=blocksadmin&op=edit&bid=<{$config.bid}>" target="_blank" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
+                            <a href="<{$xoops_url}>/modules/system/admin.php?fct=blocksadmin&op=edit&bid=<{$config.bid}>" target="_blank" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
                         <{/if}>
                     <{/if}>
                 </div>

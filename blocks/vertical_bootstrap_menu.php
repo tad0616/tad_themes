@@ -9,7 +9,7 @@ if (!class_exists('XoopsModules\Tadtools\Utility')) {
 function vertical_bootstrap_menu($options)
 {
     global $xoopsDB;
-    $in = empty($options[0]) ? "`status`='1' and `of_level`=0" : "`menuid` in({$options[0]})";
+    $in = empty($options[0]) ? "`status`='1' and `of_level`=0" : '`menuid` in(' . implode(',', array_map('intval', explode(',', $options[0]))) . ')';
 
     $sql = 'SELECT `menuid`, `itemname`, `itemurl`, `target`, `icon`, `position`
         FROM `' . $xoopsDB->prefix('tad_themes_menu') . '`
@@ -22,7 +22,8 @@ function vertical_bootstrap_menu($options)
     $dir = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
     $url = XOOPS_URL . '/uploads/tad_themes/menu_icons';
     $i = 1;
-    while (list($menuid, $itemname, $itemurl, $target, $bootstrap_icon, $position) = $xoopsDB->fetchRow($result)) {
+    while ($row = $xoopsDB->fetchRow($result)) {
+        list($menuid, $itemname, $itemurl, $target, $bootstrap_icon, $position) = $row;
         if (empty($itemname) or empty($itemurl)) {
             continue;
         }
@@ -38,7 +39,7 @@ function vertical_bootstrap_menu($options)
             $icon = "{$url}/{$menuid}_64.png";
         }
 
-        $menu[$menuid]['icon'] = $icon;
+        $menu[$i]['icon'] = $icon;
         $i++;
     }
     $block['menu'] = $menu;
@@ -72,9 +73,7 @@ if (!function_exists('block_menu_options')) {
     {
         global $xoopsDB;
 
-        if (!empty($selected)) {
-            $sc = explode(',', $selected);
-        }
+        $sc = empty($selected) ? [] : explode(',', $selected);
 
         $js = '<script>
         function bbv(){
@@ -87,7 +86,8 @@ if (!function_exists('block_menu_options')) {
         $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
         $option = '';
-        while (list($menuid, $itemname, $status) = $xoopsDB->fetchRow($result)) {
+        while ($row = $xoopsDB->fetchRow($result)) {
+            list($menuid, $itemname, $status) = $row;
             $js .= "if(document.getElementById('c{$menuid}').checked){
                 arr[i] = document.getElementById('c{$menuid}').value;
                 i++;
