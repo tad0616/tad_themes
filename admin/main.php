@@ -4,7 +4,6 @@ use XoopsModules\Tadtools\DataList;
 use XoopsModules\Tadtools\EasyResponsiveTabs;
 use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\MColorPicker;
-use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tad_adm\DunZip2;
 use XoopsModules\Tad_themes\Tools;
@@ -77,6 +76,10 @@ switch ($op) {
 
     //切換佈景
     case 'change_theme':
+        if ("POST" !== $_SERVER['REQUEST_METHOD'] || !isset($GLOBALS['xoopsSecurity']) || !$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
+            exit;
+        }
         if ($xoops_theme_select) {
             xoops_setConfigOption('theme_set', $xoops_theme_select);
             $_SESSION['xoopsUserTheme'] = $xoops_theme_select;
@@ -87,19 +90,23 @@ switch ($op) {
 
     //新增資料
     case 'insert_tad_themes':
+        if ("POST" !== $_SERVER['REQUEST_METHOD'] || !isset($GLOBALS['xoopsSecurity']) || !$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
+            exit;
+        }
         $theme_id = insert_tad_themes();
         header("location: " . \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'));
         exit;
 
     //更新資料
     case 'update_tad_themes':
+        if ("POST" !== $_SERVER['REQUEST_METHOD'] || !isset($GLOBALS['xoopsSecurity']) || !$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
+            exit;
+        }
         update_tad_themes($theme_id, $theme_name);
         Tools::del_theme_json($theme_name);
-        if (isset($_COOKIE['themeTab_baseURI'])) {
-            header("location: {$_COOKIE['themeTab_baseURI']}");
-        } else {
-            header("location: " . \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'));
-        }
+        header('Location: main.php');
         exit;
 
     //輸入表格
@@ -109,6 +116,10 @@ switch ($op) {
 
     //刪除資料
     case 'delete_tad_themes':
+        if ("POST" !== $_SERVER['REQUEST_METHOD'] || !isset($GLOBALS['xoopsSecurity']) || !$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
+            exit;
+        }
         delete_tad_themes($theme_id);
         // config2_json_file($theme_id);
         Tools::del_theme_json($theme_name);
@@ -117,6 +128,10 @@ switch ($op) {
 
     //儲存風格檔
     case 'save_config':
+        if ("POST" !== $_SERVER['REQUEST_METHOD'] || !isset($GLOBALS['xoopsSecurity']) || !$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
+            exit;
+        }
         $msg = save_config($theme_id, $theme_config_name);
         redirect_header($_SERVER['PHP_SELF'], 3, $msg);
         break;
@@ -132,6 +147,10 @@ switch ($op) {
 
     //匯入資料
     case 'import_config':
+        if ("POST" !== $_SERVER['REQUEST_METHOD'] || !isset($GLOBALS['xoopsSecurity']) || !$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
+            exit;
+        }
         import_config($theme_id, $theme_name);
         // config2_json_file($theme_id);
         Tools::del_theme_json($theme_name);
@@ -140,6 +159,10 @@ switch ($op) {
 
     //匯入遠端資料
     case 'import_style':
+        if ("POST" !== $_SERVER['REQUEST_METHOD'] || !isset($GLOBALS['xoopsSecurity']) || !$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
+            exit;
+        }
         import_style($theme_id, $theme_name, $style_param);
         // config2_json_file($theme_id);
         Tools::del_theme_json($theme_name);
@@ -234,8 +257,6 @@ function tad_themes_form($mode = '')
         exit;
     }
 
-    $SweetAlert = new SweetAlert();
-    $SweetAlert->render("delete_tad_themes_config", "main.php?op=delete_tad_themes&mode=default&theme_id=", 'theme_id');
     // 將 XOOPS 權杖輸出到 template，讓表單使用
     $xoopsTpl->assign('xoops_token', $GLOBALS['xoopsSecurity']->getTokenHTML());
 
@@ -515,7 +536,7 @@ function tad_themes_form($mode = '')
         $result2 = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
         while ($row = $xoopsDB->fetchRow($result2)) {
-            list($bid) = $row;
+            list($bid)  = $row;
             $adv_bids[] = $bid;
         }
     }
@@ -580,8 +601,8 @@ function tad_themes_form($mode = '')
 
     $xoopsTpl->assign('school_themes', $school_themes);
 
-    $sql             = 'SELECT conf_value FROM `' . $xoopsDB->prefix('config') . "` WHERE conf_name='theme_set'";
-    $result          = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql       = 'SELECT conf_value FROM `' . $xoopsDB->prefix('config') . "` WHERE conf_name='theme_set'";
+    $result    = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $theme_set = $xoopsDB->fetchRow($result)[0] ?? null;
     $xoopsTpl->assign('theme_set', $theme_set);
 
@@ -1461,7 +1482,7 @@ function get_config2_dbv($theme_id = '')
     //`theme_id`, `name`, `type`, `value`
     while ($row = $xoopsDB->fetchRow($result)) {
         list($name, $value) = $row;
-        $values[$name] = $value;
+        $values[$name]      = $value;
     }
 
     return $values;
@@ -1510,13 +1531,13 @@ function get_blocks_values($theme_id = '', $block_position = '')
     $i      = 0;
     $values = [];
     foreach (Tools::$block_position_title as $position => $title) {
-        $values[$i]['theme_id']            = isset($mydb[$position]) ? $mydb[$position]['theme_id'] : '';
-        $values[$i]['block_position']      = $position;
+        $values[$i]['theme_id']       = isset($mydb[$position]) ? $mydb[$position]['theme_id'] : '';
+        $values[$i]['block_position'] = $position;
         // 資料庫沒有值時，用佈景預設值（可能依位置個別設定，同 Tools::save_blocks()）
         foreach (['block_config', 'bt_text', 'bt_text_padding', 'bt_text_size', 'bt_bg_color', 'bt_bg_img', 'bt_bg_repeat', 'bt_radius', 'block_style', 'block_title_style', 'block_content_style'] as $col) {
             $values[$i][$col] = $mydb[$position][$col] ?? $config_enable[$col][$position]['default'] ?? $config_enable[$col]['default'] ?? '';
         }
-        $values[$i]['title']               = $title;
+        $values[$i]['title'] = $title;
 
         $TadUpFilesBt_bg = Tools::getTadUpFilesObj("bt_bg", $theme_name);
 
@@ -2246,7 +2267,7 @@ function get_remote_file($theme_name, $module_name, $file_link, $update_sn, $mod
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/$theme_name/setup/");
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/$theme_name/setup/{$module_name}/");
     $error = '';
-    if (!copyemz($file_link, $new_file, $update_sn, $error)) {
+    if (!\copyemz($file_link, $new_file, $update_sn, $error)) {
         $message = sprintf(_MA_TADTHEMES_DL_FAIL, $file_link);
         if ($error !== '') {
             $message .= ' ' . $error;
@@ -2318,7 +2339,14 @@ function copyemz($file1, $file2, $update_sn = '', &$error = '')
     global $xoopsConfig;
     $TadAmModuleConfig = Utility::getXoopsModuleConfig('tad_adm');
     $ver               = (int) str_replace('.', '', substr(XOOPS_VERSION, 6, 5));
-    $add_count_url     = $TadAmModuleConfig['source'] . "/modules/tad_modules/api.php?update_sn={$update_sn}&from=" . XOOPS_URL . "&sitename={$xoopsConfig['sitename']}&theme={$xoopsConfig['theme_set']}&version=$ver&language={$xoopsConfig['language']}";
+    $add_count_url     = $TadAmModuleConfig['source'] . '/modules/tad_modules/api.php?' . http_build_query([
+        'update_sn' => $update_sn,
+        'from'      => XOOPS_URL,
+        'sitename'  => $xoopsConfig['sitename'],
+        'theme'     => $xoopsConfig['theme_set'],
+        'version'   => $ver,
+        'language'  => $xoopsConfig['language'],
+    ], '', '&', PHP_QUERY_RFC3986);
 
     if (!is_trusted_remote_url($file1, $TadAmModuleConfig['source'])) {
         $error = '來源網址不在信任清單或格式不正確。';
@@ -2330,14 +2358,15 @@ function copyemz($file1, $file2, $update_sn = '', &$error = '')
     }
 
     $url      = $file1;
-    $timeout  = 5;
+    $connect_timeout = 10;
+    $timeout         = 60;
     $contentx = false;
 
     if (function_exists('curl_init')) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $connect_timeout);
         curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
@@ -2345,14 +2374,20 @@ function copyemz($file1, $file2, $update_sn = '', &$error = '')
         $contentx = curl_exec($ch);
         if ($contentx === false) {
             $error = '下載失敗: ' . curl_error($ch);
+        } else {
+            $http_status = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            if ($http_status < 200 || $http_status >= 300) {
+                $error    = "下載失敗 (HTTP {$http_status})。";
+                $contentx = false;
+            }
         }
         curl_close($ch);
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $add_count_url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $connect_timeout);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $connect_timeout);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
@@ -2364,6 +2399,7 @@ function copyemz($file1, $file2, $update_sn = '', &$error = '')
                 'method'          => 'GET',
                 'timeout'         => $timeout,
                 'follow_location' => false,
+                'ignore_errors'   => true,
             ],
             'ssl'  => [
                 'verify_peer'      => true,
@@ -2372,14 +2408,23 @@ function copyemz($file1, $file2, $update_sn = '', &$error = '')
         ]);
 
         $contentx = @file_get_contents($url, false, $context);
+        $http_status = 0;
+        if (isset($http_response_header[0]) && preg_match('/^HTTP\/\S+\s+([0-9]{3})/', $http_response_header[0], $matches)) {
+            $http_status = (int) $matches[1];
+        }
         if ($contentx === false) {
             $error = '下載失敗 (file_get_contents)。';
+        } elseif ($http_status < 200 || $http_status >= 300) {
+            $error    = "下載失敗 (HTTP {$http_status})。";
+            $contentx = false;
         }
         $count = @file_get_contents($add_count_url, false, $context);
     } else {
         $context = stream_context_create([
             'http' => [
-                'timeout' => $timeout,
+                'timeout'         => $timeout,
+                'follow_location' => false,
+                'ignore_errors'   => true,
             ],
             'ssl'  => [
                 'verify_peer'      => true,
@@ -2390,7 +2435,15 @@ function copyemz($file1, $file2, $update_sn = '', &$error = '')
         $handle = @fopen($url, 'rb', false, $context);
         if ($handle !== false) {
             $contentx = stream_get_contents($handle);
+            $http_status = 0;
+            if (isset($http_response_header[0]) && preg_match('/^HTTP\/\S+\s+([0-9]{3})/', $http_response_header[0], $matches)) {
+                $http_status = (int) $matches[1];
+            }
             fclose($handle);
+            if ($http_status < 200 || $http_status >= 300) {
+                $error    = "下載失敗 (HTTP {$http_status})。";
+                $contentx = false;
+            }
         } else {
             $error = '下載失敗 (fopen)。';
         }
@@ -2416,8 +2469,13 @@ function copyemz($file1, $file2, $update_sn = '', &$error = '')
         return false;
     }
 
-    fwrite($openedfile, $contentx);
+    $written = fwrite($openedfile, $contentx);
     fclose($openedfile);
+    if ($written !== strlen($contentx)) {
+        $error = '本地檔案寫入不完整。';
+        @unlink($file2);
+        return false;
+    }
 
     return true;
 }

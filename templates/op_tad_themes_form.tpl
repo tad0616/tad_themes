@@ -37,6 +37,7 @@
 </script>
 
 <form action="main.php" method="post" class="my-3">
+    <{$xoops_token}>
     <div class="row">
         <div class="col-auto">
             <div class="input-group">
@@ -65,12 +66,13 @@
 
 <div class="container-fluid">
     <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" role="form" class="form-horizontal">
+        <{$xoops_token}>
         <div class="row">
             <div class="col-sm-8">
                 <h1>
                     <{$theme_name|default:''}><{$smarty.const._MA_TAD_THEMES_FORM}>
 
-                    <a href="javascript:delete_tad_themes_config(<{$theme_id|default:''}>)" class="btn btn-danger"><{$smarty.const._MA_TADTHEMES_TO_DEFAULT}></a>
+                    <button type="submit" name="op" value="delete_tad_themes" formaction="main.php?mode=default" class="btn btn-danger" onclick="return confirm('<{$smarty.const._MA_TADTHEMES_TO_DEFAULT}>?');"><{$smarty.const._MA_TADTHEMES_TO_DEFAULT}></button>
                 </h1>
                 <div class="alert alert-info">
                     <{$smarty.const._MA_TADTHEMES_CHANGE_KIND_DESC}>
@@ -163,14 +165,13 @@
                     <button type="submit" name="op" value="<{$op|default:''}>" class="btn btn-primary btn-lg btn-block border border-light border-4" style="box-shadow: 2px 2px 5px 1px rgba(0,0,0,0.5);">
                         <i class="fa fa-save" aria-hidden="true"></i> <{$smarty.const._TAD_SAVE}>
                     </button>
-                    </form>
-                    <div class="alert alert-info" style="margin: 30px 0px;">
-                        <{if $theme_kind!="bootstrap" and $theme_kind!="bootstrap3" and $theme_kind!="bootstrap4" and $theme_kind!="bootstrap5"}>
-                            <{$smarty.const._MA_TADTHEMES_NOTICE}>
-                        <{/if}>
-                        <{include file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_form.tpl"}>
-                    </div>
-
+                </div>
+                </form>
+                <div class="alert alert-info" style="margin: 30px 0px;">
+                    <{if $theme_kind!="bootstrap" and $theme_kind!="bootstrap3" and $theme_kind!="bootstrap4" and $theme_kind!="bootstrap5"}>
+                        <{$smarty.const._MA_TADTHEMES_NOTICE}>
+                    <{/if}>
+                    <{include file="$xoops_rootpath/modules/tad_themes/templates/sub_theme_config_form.tpl"}>
                 </div>
             </div>
         </div>

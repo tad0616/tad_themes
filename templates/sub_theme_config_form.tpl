@@ -1,10 +1,8 @@
 <h2><{$smarty.const._MA_TADTHEMES_MANAGER}></h2>
-<input type="hidden" name="theme_name" value="<{$theme_name|default:''}>">
-<input type="hidden" name="theme_id" value="<{$theme_id|default:''}>">
 <table class="table" style="width: auto;">
     <tr>
         <td colspan=2>
-            <input name="theme_config_name" class="form-control" placeholder="<{$smarty.const._MA_TADTHEMES_CONFIG_NAME}>" list="theme_config_list">
+            <input name="theme_config_name" form="save_theme_config_form" class="form-control" placeholder="<{$smarty.const._MA_TADTHEMES_CONFIG_NAME}>" list="theme_config_list">
 
             <datalist id="theme_config_list">
                 <{foreach from=$theme_config_list item=title}>
@@ -13,19 +11,31 @@
             </datalist>
         </td>
         <td>
-            <button type="submit" name="op" value="save_config" class="btn btn-primary"><{$smarty.const._MA_TADTHEMES_SAVE}></button>
+            <form method="post" action="main.php" id="save_theme_config_form">
+                <{$xoops_token}>
+                <input type="hidden" name="op" value="save_config">
+                <input type="hidden" name="theme_id" value="<{$theme_id|default:''}>">
+                <input type="hidden" name="theme_name" value="<{$theme_name|default:''}>">
+                <button type="submit" class="btn btn-primary"><{$smarty.const._MA_TADTHEMES_SAVE}></button>
+            </form>
         </td>
     </tr>
     <tr>
         <td colspan=2>
-            <select name="style_param" class="form-control form-select">
+            <select name="style_param" form="import_style_form" class="form-control form-select">
                 <{foreach from=$style_arr key=module_name item=style}>
                     <option value="<{$module_name|default:''}>;<{$style.file_link}>;<{$style.update_sn}>;<{$style.module_sn}>"><{$module_name|default:''}> <{$style.new_last_update|date_format:"%Y-%m-%d"}></option>
                 <{/foreach}>
             </select>
         </td>
         <td>
-            <button type="submit" name="op" value="import_style" class="btn btn-info"><{$smarty.const._MA_TADTHEMES_IMPORT_STYLE}></button>
+            <form method="post" action="main.php" id="import_style_form">
+                <{$xoops_token}>
+                <input type="hidden" name="op" value="import_style">
+                <input type="hidden" name="theme_id" value="<{$theme_id|default:''}>">
+                <input type="hidden" name="theme_name" value="<{$theme_name|default:''}>">
+                <button type="submit" class="btn btn-info"><{$smarty.const._MA_TADTHEMES_IMPORT_STYLE}></button>
+            </form>
         </td>
     </tr>
     <{*
@@ -46,10 +56,16 @@
     *}>
     <tr>
         <td colspan=2>
-            <input type="file" class="form-control" name="config_zip">
+            <input type="file" class="form-control" name="config_zip" form="import_config_form">
         </td>
         <td>
-            <button type="submit" name="op" value="import_config" class="btn btn-success"><{$smarty.const._MA_TADTHEMES_IMPORT}></button>
+            <form method="post" action="main.php" id="import_config_form" enctype="multipart/form-data">
+                <{$xoops_token}>
+                <input type="hidden" name="op" value="import_config">
+                <input type="hidden" name="theme_id" value="<{$theme_id|default:''}>">
+                <input type="hidden" name="theme_name" value="<{$theme_name|default:''}>">
+                <button type="submit" class="btn btn-success"><{$smarty.const._MA_TADTHEMES_IMPORT}></button>
+            </form>
         </td>
     </tr>
     <{foreach from=$theme_config_list key=date item=title}>
