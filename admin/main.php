@@ -2346,6 +2346,41 @@ function is_trusted_remote_url($url, $trusted_source)
     return is_public_remote_host($parts['host']);
 }
 
+// 取得可用的 CA 憑證包路徑（php.ini 已設定則回傳空字串，沿用系統設定）
+function get_ca_bundle_path()
+{
+    foreach (['curl.cainfo', 'openssl.cafile'] as $ini) {
+        $path = (string) ini_get($ini);
+        if ($path !== '' && is_file($path)) {
+            return '';
+        }
+    }
+
+    if (function_exists('openssl_get_cert_locations')) {
+        $locations = openssl_get_cert_locations();
+        if (!empty($locations['default_cert_file']) && is_file($locations['default_cert_file'])) {
+            return '';
+        }
+    }
+
+    $candidates = [
+        XOOPS_ROOT_PATH . '/cacert.pem',
+        XOOPS_ROOT_PATH . '/uploads/cacert.pem',
+        XOOPS_ROOT_PATH . '/modules/tad_themes/cacert.pem',
+        XOOPS_ROOT_PATH . '/modules/tadtools/cacert.pem',
+    ];
+    if (defined('XOOPS_TRUST_PATH')) {
+        $candidates[] = XOOPS_TRUST_PATH . '/cacert.pem';
+    }
+    foreach ($candidates as $file) {
+        if (is_file($file)) {
+            return $file;
+        }
+    }
+
+    return '';
+}
+
 function copyemz($file1, $file2, $update_sn = '', &$error = '')
 {
     global $xoopsConfig;
@@ -2373,9 +2408,15 @@ function copyemz($file1, $file2, $update_sn = '', &$error = '')
     $connect_timeout = 10;
     $timeout         = 60;
     $contentx = false;
+    $cafile   = get_ca_bundle_path();
 
     if (function_exists('curl_init')) {
         $ch = curl_init();
+        if ($cafile) {
+            curl_setopt($ch, CURLOPT_CAINFO, $cafile);
+        } elseif (defined('CURLSSLOPT_NATIVE_CA') && DIRECTORY_SEPARATOR === '\\') {
+            curl_setopt($ch, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
+        }
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $connect_timeout);
@@ -2396,6 +2437,11 @@ function copyemz($file1, $file2, $update_sn = '', &$error = '')
         curl_close($ch);
 
         $ch = curl_init();
+        if ($cafile) {
+            curl_setopt($ch, CURLOPT_CAINFO, $cafile);
+        } elseif (defined('CURLSSLOPT_NATIVE_CA') && DIRECTORY_SEPARATOR === '\\') {
+            curl_setopt($ch, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
+        }
         curl_setopt($ch, CURLOPT_URL, $add_count_url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $connect_timeout);
@@ -2416,7 +2462,7 @@ function copyemz($file1, $file2, $update_sn = '', &$error = '')
             'ssl'  => [
                 'verify_peer'      => true,
                 'verify_peer_name' => true,
-            ],
+            ] + ($cafile ? ['cafile' => $cafile] : []),
         ]);
 
         $contentx = @file_get_contents($url, false, $context);
@@ -2441,7 +2487,7 @@ function copyemz($file1, $file2, $update_sn = '', &$error = '')
             'ssl'  => [
                 'verify_peer'      => true,
                 'verify_peer_name' => true,
-            ],
+            ] + ($cafile ? ['cafile' => $cafile] : []),
         ]);
 
         $handle = @fopen($url, 'rb', false, $context);
