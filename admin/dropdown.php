@@ -19,11 +19,28 @@ $menuid   = Request::getInt('menuid');
 $of_level = Request::getInt('of_level');
 $status   = Request::getInt('status', 1);
 
+// 會異動資料的動作必須帶有效 Token（連結以 GET 帶入，故驗證後不清除）
+$token_ops = ['update_tad_themes_menu', 'insert_tad_themes_menu', 'delete_tad_themes_menu', 'save_sort', 'import', 'import_edit', 'tad_themes_menu_status', 'del_pic'];
+if (in_array($op, $token_ops, true) && !$GLOBALS['xoopsSecurity']->check(false)) {
+    redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
+}
+
+// 同一頁共用一組 Token，避免產生過多 session 資料
+function menu_token()
+{
+    static $token = null;
+    if (null === $token) {
+        $token = $GLOBALS['xoopsSecurity']->createToken();
+    }
+
+    return $token;
+}
+
 switch ($op) {
     //更新資料
     case 'update_tad_themes_menu':
         update_tad_themes_menu($menuid);
-        Tools::del_theme_json($theme_name);
+        Tools::del_theme_json($xoopsConfig['theme_set']);
         header("location: {$_SERVER['PHP_SELF']}#{$menuid}");
         exit;
 
@@ -206,6 +223,7 @@ function tad_themes_menu_form($of_level = '0', $menuid = '', $mode = 'return')
         <div class='text-center'>
             <input type='hidden' name='menuid' value='{$menuid}'>
             <input type='hidden' name='status' value='{$status}'>
+            <input type='hidden' name='XOOPS_TOKEN_REQUEST' value='" . menu_token() . "'>
             <input type='hidden' name='op' value='{$op}'>
             <input type='hidden' name='position' value='{$position}'>
             <button type='button' id='submit' class='btn btn-primary'>" . _TAD_SAVE . '</button>
@@ -340,6 +358,7 @@ function list_tad_themes_menu($add_of_level = '', $menuid = '')
     $jquery = Utility::get_jquery(true);
 
     $xoopsTpl->assign('jquery', $jquery);
+    $xoopsTpl->assign('xoops_token_value', menu_token());
     $xoopsTpl->assign('all', $all);
     $xoopsTpl->assign('option', $option);
     $xoopsTpl->assign('add_item', sprintf(_MA_TADTHEMES_ADDITEM, _MA_TADTHEMES_ROOT));
@@ -388,7 +407,8 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '
 
         $add_img = ($level >= 3) ? '' : "<a href='{$_SERVER['PHP_SELF']}?op=add_tad_themes_menu&of_level={$menuid}' class='edit_dropdown' data-fancybox-type='iframe' style='font-size: {$icon_size}rem; margin: 2px 10px;'><i class='fa fa-plus-circle text-success' aria-hidden='true' title='" . sprintf(_MA_TADTHEMES_ADDITEM, $itemname) . "'></i></a>";
 
-        $status_tool = ('1' == $status) ? "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=0' class='btn $btn_xs btn-warning'>" . _TAD_UNABLE . '</a>' : "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=1' class='btn $btn_xs btn-info'>" . _TAD_ENABLE . '</a>';
+        $token       = menu_token();
+        $status_tool = ('1' == $status) ? "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=0&XOOPS_TOKEN_REQUEST={$token}' class='btn $btn_xs btn-warning'>" . _TAD_UNABLE . '</a>' : "<a href='{$_SERVER['PHP_SELF']}?op=tad_themes_menu_status&menuid=$menuid&status=1&XOOPS_TOKEN_REQUEST={$token}' class='btn $btn_xs btn-info'>" . _TAD_ENABLE . '</a>';
 
         $status_color  = ('1' == $status) ? '' : "style='background-color:#D0D0D0'";
         $status_color2 = ('1' == $status) ? '' : 'background-color:#D0D0D0';
@@ -400,12 +420,12 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '
 
         $icon = '';
         if (file_exists("{$dir}/{$menuid}_32.png")) {
-            $SweetAlert->render("delete_tad_themes_icon", "dropdown.php?op=del_pic&type=icon&menuid=", 'menuid');
+            $SweetAlert->render("delete_tad_themes_icon", "dropdown.php?op=del_pic&XOOPS_TOKEN_REQUEST={$token}&type=icon&menuid=", 'menuid');
             $icon = "<a href='{$url}/{$menuid}_32.png' class='edit_dropdown'><img src=\"{$url}/{$menuid}_32.png\"></a><a href=\"javascript:delete_tad_themes_icon($menuid);\"><img src='../images/delete.png'></a>";
         }
         $banner = '';
         if (file_exists("{$banner_dir}/{$menuid}_thumb.png")) {
-            $SweetAlert->render("delete_tad_themes_banner", "dropdown.php?op=del_pic&type=banner&menuid=", 'menuid');
+            $SweetAlert->render("delete_tad_themes_banner", "dropdown.php?op=del_pic&XOOPS_TOKEN_REQUEST={$token}&type=banner&menuid=", 'menuid');
             $banner = "<a href='{$banner_url}/{$menuid}.png' class='edit_dropdown'><img src=\"{$banner_url}/{$menuid}_thumb.png\"></a><a href=\"javascript:delete_tad_themes_banner( $menuid);\"><img src='../images/delete.png'></a>";
         }
 
@@ -413,7 +433,7 @@ function get_tad_level_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '
         $sub_opt = get_tad_level_menu($menuid, $level, $v, $this_menuid, $add_of_level, $sort);
         $span    = $sub_opt ? 'folder' : 'file';
 
-        $SweetAlert->render("delete_tad_themes_menu", "dropdown.php?op=delete_tad_themes_menu&menuid=", 'menuid');
+        $SweetAlert->render("delete_tad_themes_menu", "dropdown.php?op=delete_tad_themes_menu&XOOPS_TOKEN_REQUEST={$token}&menuid=", 'menuid');
 
         $content = "
         <td style='padding-left:{$left}px; $status_color2' >
@@ -692,6 +712,8 @@ function del_pic($type, $menuid)
         $dir   = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_banner';
         $file1 = "{$dir}/{$menuid}.png";
         $file2 = "{$dir}/{$menuid}_thumb.png";
+    } else {
+        return;
     }
 
     if (file_exists($file1)) {

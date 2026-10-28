@@ -2381,6 +2381,15 @@ function get_ca_bundle_path()
     return '';
 }
 
+function parse_http_status($headers)
+{
+    if (is_array($headers) && isset($headers[0]) && is_string($headers[0]) && preg_match('/^HTTP\/\S+\s+([0-9]{3})/', $headers[0], $matches)) {
+        return (int) $matches[1];
+    }
+
+    return 0;
+}
+
 function copyemz($file1, $file2, $update_sn = '', &$error = '')
 {
     global $xoopsConfig;
@@ -2434,7 +2443,9 @@ function copyemz($file1, $file2, $update_sn = '', &$error = '')
                 $contentx = false;
             }
         }
-        curl_close($ch);
+        if (PHP_VERSION_ID < 80000) {
+            curl_close($ch);
+        }
 
         $ch = curl_init();
         if ($cafile) {
@@ -2450,7 +2461,9 @@ function copyemz($file1, $file2, $update_sn = '', &$error = '')
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
         $count = curl_exec($ch);
-        curl_close($ch);
+        if (PHP_VERSION_ID < 80000) {
+            curl_close($ch);
+        }
     } elseif (function_exists('file_get_contents')) {
         $context = stream_context_create([
             'http' => [
@@ -2466,10 +2479,8 @@ function copyemz($file1, $file2, $update_sn = '', &$error = '')
         ]);
 
         $contentx = @file_get_contents($url, false, $context);
-        $http_status = 0;
-        if (isset($http_response_header[0]) && preg_match('/^HTTP\/\S+\s+([0-9]{3})/', $http_response_header[0], $matches)) {
-            $http_status = (int) $matches[1];
-        }
+        $headers     = function_exists('http_get_last_response_headers') ? http_get_last_response_headers() : ($http_response_header ?? []);
+        $http_status = parse_http_status($headers);
         if ($contentx === false) {
             $error = '下載失敗 (file_get_contents)。';
         } elseif ($http_status < 200 || $http_status >= 300) {
@@ -2493,10 +2504,8 @@ function copyemz($file1, $file2, $update_sn = '', &$error = '')
         $handle = @fopen($url, 'rb', false, $context);
         if ($handle !== false) {
             $contentx = stream_get_contents($handle);
-            $http_status = 0;
-            if (isset($http_response_header[0]) && preg_match('/^HTTP\/\S+\s+([0-9]{3})/', $http_response_header[0], $matches)) {
-                $http_status = (int) $matches[1];
-            }
+            $meta        = stream_get_meta_data($handle);
+            $http_status = parse_http_status($meta['wrapper_data'] ?? []);
             fclose($handle);
             if ($http_status < 200 || $http_status >= 300) {
                 $error    = "下載失敗 (HTTP {$http_status})。";

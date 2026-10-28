@@ -3,8 +3,8 @@
 </style>
 
 <p>
-    <a href="dropdown.php?op=import" class="btn btn-info"><{$smarty.const._MA_TADTHEMES_IMPORT_MENU}></a>
-    <a href="dropdown.php?op=import_edit" class="btn btn-primary"><{$smarty.const._MA_TADTHEMES_IMPORT_EDIT_MENU}></a>
+    <a href="dropdown.php?op=import&XOOPS_TOKEN_REQUEST=<{$xoops_token_value}>" class="btn btn-info"><{$smarty.const._MA_TADTHEMES_IMPORT_MENU}></a>
+    <a href="dropdown.php?op=import_edit&XOOPS_TOKEN_REQUEST=<{$xoops_token_value}>" class="btn btn-primary"><{$smarty.const._MA_TADTHEMES_IMPORT_EDIT_MENU}></a>
     <a href="#" onclick="jQuery('#tbl').treetable('expandAll'); return false;" class="btn btn-success"><{$smarty.const._MA_TADTHEMES_EXPAND_ALL}></a>
     <a href="#" onclick="jQuery('#tbl').treetable('collapseAll'); return false;" class="btn btn-warning"><{$smarty.const._MA_TADTHEMES_COLLAPSE_ALL}></a>
 </p>
