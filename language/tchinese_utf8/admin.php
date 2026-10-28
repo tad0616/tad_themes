@@ -100,6 +100,8 @@ define('_MA_TADTHEMES_ITEMNAME', '選項名稱');
 define('_MA_TADTHEMES_ITEMURL', '選項網址');
 define('_MA_TADTHEMES_ADDITEM', '在「%s」底下建立一個選項');
 define('_MA_TADTHEMES_SAVE_SORT', '拉動排序');
+define('_MA_TADTHEMES_SORT_CHANGED', '選單順序或階層已變更，尚未儲存，請按「儲存」才會生效。');
+define('_MA_TADTHEMES_SORT_LEAVE', '選單順序尚未儲存，確定要放棄並繼續嗎？');
 define('_MA_TADTHEMES_ROOT', '根目錄');
 define('_MA_TADTHEMES_WEB_MENU', '主選單');
 define('_MA_TADTHEMES_EDIT_MENU', '編輯功能');

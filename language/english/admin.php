@@ -99,6 +99,8 @@ define('_MA_TADTHEMES_ITEMNAME', 'Item Name');
 define('_MA_TADTHEMES_ITEMURL', 'Item URL');
 define('_MA_TADTHEMES_ADDITEM', 'Add item in %s');
 define('_MA_TADTHEMES_SAVE_SORT', 'Drag sort');
+define('_MA_TADTHEMES_SORT_CHANGED', 'The menu order or hierarchy has changed but is not saved yet. Click "Save" to apply.');
+define('_MA_TADTHEMES_SORT_LEAVE', 'The menu order has not been saved. Discard changes and continue?');
 define('_MA_TADTHEMES_ROOT', 'Root');
 define('_MA_TADTHEMES_WEB_MENU', 'Menu');
 define('_MA_TADTHEMES_EDIT_MENU', 'Various editing functions');
