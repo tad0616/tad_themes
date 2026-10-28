@@ -1,3 +1,14 @@
+Tad Themes 8.6 (Released 2026-10-28)
+====================================
+1. Quickly upgrade the theme while modifying user theme settings, TadTools theme settings, and basic theme settings
+2. Fixed an issue where the theme’s Bootstrap version was incorrectly detected under specific conditions
+3. Support for XOOPS 2.7.4 (PHP 8.5, Smarty 4):
+4. Enhanced security
+5. Adjusted the structure of the theme settings form
+6. Changed the “Restore Defaults” button to a form button with a token
+7. Removed the theme settings confirmation window and replaced it with a SweetAlert2 confirmation window, replacing `confirm()`
+8. Enhanced remote theme downloads (importing styles)
+
 Tad Themes 8.5 (Released 2026-07-27)
 ====================================
 1. Fixed various security issues
