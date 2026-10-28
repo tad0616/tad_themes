@@ -79,7 +79,7 @@
                     <input type="hidden" name="theme_config_name" value="<{$title|default:''}>" />
                     <input type="hidden" name="theme_id" value="<{$theme_id|default:''}>" />
                     <input type="hidden" name="theme_name" value="<{$theme_name|default:''}>" />
-                    <button type="submit" class="btn btn-sm btn-xs btn-danger" onclick="return confirm('<{$smarty.const._TAD_DEL}>?');"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></button>
+                    <button type="submit" class="btn btn-sm btn-xs btn-danger delete-theme-config"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></button>
                 </form>
                 <form method="post" action="main.php" style="display:inline-block; margin-right:6px;">
                     <{$xoops_token}>
@@ -102,6 +102,22 @@
     <{/foreach}>
 </table>
 
+<script>
+document.addEventListener('click', function (event) {
+    var button = event.target.closest('.delete-theme-config');
+    if (!button) {
+        return;
+    }
+
+    event.preventDefault();
+    var form = button.form;
+    Swal.fire(<{$delete_confirm_options}>).then(function (result) {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    });
+});
+</script>
 
 <script>
 $(document).ready(function() {

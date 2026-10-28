@@ -4,6 +4,7 @@ use XoopsModules\Tadtools\DataList;
 use XoopsModules\Tadtools\EasyResponsiveTabs;
 use XoopsModules\Tadtools\FormValidator;
 use XoopsModules\Tadtools\MColorPicker;
+use XoopsModules\Tadtools\SweetAlert2;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tad_adm\DunZip2;
 use XoopsModules\Tad_themes\Tools;
@@ -259,6 +260,17 @@ function tad_themes_form($mode = '')
 
     // 將 XOOPS 權杖輸出到 template，讓表單使用
     $xoopsTpl->assign('xoops_token', $GLOBALS['xoopsSecurity']->getTokenHTML());
+
+    $SweetAlert2 = new SweetAlert2();
+    $SweetAlert2->render();
+    $xoopsTpl->assign('delete_confirm_options', json_encode([
+        'icon'              => 'warning',
+        'title'             => _TAD_DEL_CONFIRM_TITLE,
+        'text'              => _TAD_DEL_CONFIRM_TEXT,
+        'showCancelButton'  => true,
+        'confirmButtonText' => _TAD_DEL_CONFIRM_BTN,
+        'cancelButtonText'  => _TAD_CANCEL,
+    ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP));
 
     $theme_name = $xoopsConfig['theme_set'];
     Utility::mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}");
