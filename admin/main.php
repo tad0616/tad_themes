@@ -44,6 +44,10 @@ switch ($op) {
     /*---判斷動作請貼在下方--- */
     //預設佈景
     case 'default_theme':
+        if ("POST" !== $_SERVER['REQUEST_METHOD'] || !isset($GLOBALS['xoopsSecurity']) || !$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
+            exit;
+        }
         if ($theme_name) {
             $theme_name = Utility::check_string($theme_name);
             xoops_setConfigOption('theme_set', $theme_name);
@@ -72,7 +76,7 @@ switch ($op) {
             Utility::query($sql, 'ss', [$bt, $theme_name]) or Utility::web_error($sql, __FILE__, __LINE__);
         }
 
-        header("location: " . \Xmf\Request::getString('HTTP_REFERER', '', 'SERVER'));
+        header('Location: main.php');
         exit;
 
     //切換佈景
@@ -192,6 +196,10 @@ switch ($op) {
 
     //複製佈景
     case 'copy_theme':
+        if ("POST" !== $_SERVER['REQUEST_METHOD'] || !isset($GLOBALS['xoopsSecurity']) || !$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header($_SERVER['PHP_SELF'], 3, _TAD_PERMISSION_DENIED);
+            exit;
+        }
         copy_theme($from_theme_id);
         // config2_json_file($theme_id);
         Tools::del_theme_json($theme_name);

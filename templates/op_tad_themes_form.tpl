@@ -57,7 +57,11 @@
         </div>
         <div class="col-auto">
             <{if $theme_set!=$theme_name}>
-                <{$smarty.const._MA_TADTHEMES_CHANGE_DESC|sprintf:$theme_set:$theme_set_id:$theme_set:$theme_name:$theme_name:$theme_name}>
+                <p><{$smarty.const._MA_TADTHEMES_CHANGE_DESC|sprintf:$theme_set}></p>
+                <input type="hidden" name="theme_name" value="<{$theme_name|default:''}>">
+                <input type="hidden" name="from_theme_id" value="<{$theme_set_id|default:''}>">
+                <button type="submit" name="op" value="copy_theme" class="btn btn-warning"><{$smarty.const._MA_TADTHEMES_COPY_THEME}></button>
+                <button type="submit" name="op" value="default_theme" class="btn btn-secondary"><{$smarty.const._MA_TADTHEMES_SET_DEFAULT_THEME}></button>
             <{/if}>
         </div>
 
