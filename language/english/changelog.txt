@@ -1,4 +1,4 @@
-Tad Themes 8.6 (Released 2026-10-28)
+Tad Themes 8.6 (Released 2026-10-29)
 ====================================
 1. Quickly upgrade the theme while modifying user theme settings, TadTools theme settings, and basic theme settings
 2. Fixed an issue where the theme’s Bootstrap version was incorrectly detected under specific conditions
