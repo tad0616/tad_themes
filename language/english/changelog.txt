@@ -8,6 +8,9 @@ Tad Themes 8.6 (Released 2026-10-28)
 6. Changed the “Restore Defaults” button to a form button with a token
 7. Removed the theme settings confirmation window and replaced it with a SweetAlert2 confirmation window, replacing `confirm()`
 8. Enhanced remote theme downloads (importing styles)
+9. PHP 8.5 compatibility: Switched to `http_get_last_response_headers()` to avoid calling the deprecated `curl_close()`
+10. Menu Management (dropdown.php): Interface enhancements; replaced TreeTable with SortableJS: Items can now be dragged to reorder and adjust hierarchy (up to 3 levels); changes are submitted only after clicking “Save”; deleted the previous confirmation dialog and replaced it with SweetAlert2
+11. Enhanced security for menu management: Modification operations now use POST + Token; output escaping (to prevent XSS); filtering of links using dangerous protocols; icon/target whitelisting; validation of image format and size for uploads; prohibition of moving items under their own descendants; deletion of items along with their descendants and image removal; sorting/dragging restricted to same-site POST via AJAX
 
 Tad Themes 8.5 (Released 2026-07-27)
 ====================================

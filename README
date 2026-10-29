@@ -9,7 +9,7 @@ Tad Themes 8.6 (2026-10-28 釋出)
 7.刪除佈景設定改用 SweetAlert2 確認視窗，取代 confirm()
 8.強化遠端佈景下載（匯入樣式）
 9.相容 PHP 8.5：改用 http_get_last_response_headers()，避免呼叫已棄用的 curl_close()
-12.選單管理（dropdown.php）介面美化，並以 SortableJS 取代 TreeTable：可拖曳調整順序與階層（最多 3 層），變更後按「儲存」才一次送出；刪除改用 SweetAlert2 確認
+10.選單管理（dropdown.php）介面美化，並以 SortableJS 取代 TreeTable：可拖曳調整順序與階層（最多 3 層），變更後按「儲存」才一次送出；刪除改用 SweetAlert2 確認
 11.選單管理資安強化：異動操作改為 POST + Token、輸出跳脫（防 XSS）、連結過濾危險協定、圖示/目標白名單、上傳圖片驗證格式與大小、禁止移到自己的子孫底下、刪除連同子孫與圖片清除、排序/拖曳 AJAX 限同站 POST
 
 Tad Themes 8.5 (2026-07-27 釋出)
