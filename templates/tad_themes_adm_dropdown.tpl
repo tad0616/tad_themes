@@ -89,7 +89,7 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        var MAX_DEPTH = 3;
+        var MAX_DEPTH = 5;
         var confirmOptions = <{$delete_confirm_options|default:'{}'}>;
         var $root = $('#tt_root');
         var dirty = false;

@@ -2,6 +2,7 @@
 xoops_loadLanguage('admin_common', 'tadtools');
 
 //需加入模組語系
+define('_MA_TADTHEMES_AUTO_SUBMENU', 'Auto-generated submenu');
 define('_MA_TADTHEMES_THEME_BASE', 'Theme Setup');
 define('_MA_TADTHEMES_THEME_KIND', 'Theme Kind');
 define('_MA_TADTHEMES_THEME_KIND_BOOTSTRAP3', '（XOOPS bootstrap3 themes)');

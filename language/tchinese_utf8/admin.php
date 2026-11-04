@@ -2,6 +2,7 @@
 xoops_loadLanguage('admin_common', 'tadtools');
 
 //需加入模組語系
+define('_MA_TADTHEMES_AUTO_SUBMENU', '自動產生子選單');
 define('_MA_TADTHEMES_THEME_BASE', '基本版面');
 define('_MA_TADTHEMES_THEME_KIND', '佈景類型');
 define('_MA_TADTHEMES_THEME_KIND_BOOTSTRAP4', '（bootstrap 4 響應式佈景，適用在網站及行動裝置上並自動調整版面，全版按比例分為12欄。）');

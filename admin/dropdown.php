@@ -493,7 +493,7 @@ function get_tad_level_menu($of_level = 0, $level = 0)
 
     $option = '';
 
-    $sql    = 'SELECT `menuid`,`of_level`,`itemname`,`position`,`itemurl`,`status`,`target`,`icon` FROM `' . $xoopsDB->prefix('tad_themes_menu') . '` WHERE `of_level`=? ORDER BY `position`';
+    $sql    = 'SELECT `menuid`,`of_level`,`itemname`,`position`,`itemurl`,`status`,`target`,`icon`,`link_cate_name` FROM `' . $xoopsDB->prefix('tad_themes_menu') . '` WHERE `of_level`=? ORDER BY `position`';
     $result = Utility::query($sql, 'i', [$of_level]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $dir        = XOOPS_ROOT_PATH . '/uploads/tad_themes/menu_icons';
@@ -502,7 +502,7 @@ function get_tad_level_menu($of_level = 0, $level = 0)
     $banner_url = XOOPS_URL . '/uploads/tad_themes/menu_banner';
 
     while ($row = $xoopsDB->fetchRow($result)) {
-        list($menuid, $parent_id, $itemname, $position, $itemurl, $status, $target, $icon) = $row;
+        list($menuid, $parent_id, $itemname, $position, $itemurl, $status, $target, $icon, $link_cate_name) = $row;
         $menuid  = (int) $menuid;
         $enabled = 1 == $status;
 
@@ -510,6 +510,7 @@ function get_tad_level_menu($of_level = 0, $level = 0)
         $icon_class = (false === strpos($icon_class, 'fab ')) ? "fa {$icon_class}" : $icon_class;
         $name_h     = h($itemname);
         $safe_url   = safe_menu_url($itemurl);
+        $auto_submenu_badge = '' !== $link_cate_name ? "<span class='tt-badge tt-badge-info' title='" . h(_MA_TADTHEMES_AUTO_SUBMENU) . "'>" . h(_MA_TADTHEMES_AUTO_SUBMENU) . '</span>' : '';
 
         $item = "<i class='{$icon_class}'></i> <span class='tt-name'>{$name_h}</span>";
         if ($safe_url && '#' !== $safe_url) {
@@ -523,7 +524,7 @@ function get_tad_level_menu($of_level = 0, $level = 0)
             $target_icon = "<span class='tt-badge tt-badge-success'>popup</span>";
         }
 
-        $add_btn = ($level >= 3) ? '' : "<a href='dropdown.php?op=add_tad_themes_menu&of_level={$menuid}' class='btn $btn_xs btn-outline-success btn-default edit_dropdown' data-fancybox-type='iframe' title='" . h(sprintf(_MA_TADTHEMES_ADDITEM, $itemname)) . "'><i class='fa fa-plus' aria-hidden='true'></i></a>";
+        $add_btn = ($level >= 5) ? '' : "<a href='dropdown.php?op=add_tad_themes_menu&of_level={$menuid}' class='btn $btn_xs btn-outline-success btn-default edit_dropdown' data-fancybox-type='iframe' title='" . h(sprintf(_MA_TADTHEMES_ADDITEM, $itemname)) . "'><i class='fa fa-plus' aria-hidden='true'></i></a>";
 
         $status_btn = $enabled
         ? "<button type='button' class='btn $btn_xs btn-warning menu-action' data-op='tad_themes_menu_status' data-menuid='{$menuid}' data-status='0'><i class='fa fa-eye-slash' aria-hidden='true'></i> " . _TAD_UNABLE . '</button>'
@@ -542,14 +543,14 @@ function get_tad_level_menu($of_level = 0, $level = 0)
             $banner_html = "<span class='tt-thumb'><a href='{$banner_url}/{$menuid}.png' target='_blank' rel='noopener'><img src='{$banner_url}/{$menuid}_thumb.png' alt='banner'></a><button type='button' class='tt-thumb-del menu-action' data-op='del_pic' data-type='banner' data-menuid='{$menuid}' title='" . _TAD_DEL . "'>&times;</button></span>";
         }
 
-        // 第 3 層（$level 已加 1 後為 3）不再開放子層，其餘層級一律輸出子清單，才能把項目拖進空的父項
-        $sub_opt = $level >= 3 ? '' : get_tad_level_menu($menuid, $level);
+        // 第 5 層（$level 已加 1 後為 5）不再開放子層，其餘層級一律輸出子清單，才能把項目拖進空的父項
+        $sub_opt = $level >= 5 ? '' : get_tad_level_menu($menuid, $level);
 
         $content = "
         <div class='tt-col-name'>
             <span class='tt-toggle' title='toggle'><i class='fa fa-caret-down' aria-hidden='true'></i></span>
             <span class='tt-handle' title='" . _MA_TADTHEMES_SAVE_SORT . "'><i class='fa fa-arrows' aria-hidden='true'></i></span>
-            <span id='menuid_{$menuid}' style='font-size:{$font_size}rem;'>{$item}</span>
+            <span id='menuid_{$menuid}' style='font-size:{$font_size}rem;'>{$item} {$auto_submenu_badge}</span>
             {$target_icon}
         </div>
         <div class='tt-col-status'>
@@ -664,7 +665,7 @@ function get_tad_all_menu($of_level = 0, $level = 0, $v = '', $this_menuid = '',
     global $xoopsDB;
 
     $level = intval($level);
-    if ($level >= 2) {
+    if ($level >= 4) {
         return;
     }
 
@@ -702,7 +703,7 @@ function save_tree()
         return false;
     }
 
-    $max_depth = 3;
+    $max_depth = 5;
     $rows      = [];
     $stack     = [[$tree, 0, 1]];
     while ($stack) {
