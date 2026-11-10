@@ -6,10 +6,9 @@
             <{foreach from=$block.menu item=menu key=i}>
                 <{if $menu.itemname|default:false}>
                     <li>
-                        <a style="border-left:5px solid <{$menu.color|escape:'html'}>;" href="<{$menu.itemurl|escape:'html'}>"<{if $menu.target|default:'' != ''}> target="<{$menu.target|escape:'html'}>"<{/if}><{if $menu.target|default:'' == '_blank'}> rel="noopener noreferrer"<{/if}>>
+                        <a style="border-left:5px solid <{$menu.color|escape:'html'}>;" href="<{$menu.itemurl|escape:'html'}>" title="<{$menu.title|default:$menu.itemname|escape:'html'}>"<{if $menu.target|default:'' != ''}> target="<{$menu.target|escape:'html'}>"<{/if}><{if $menu.target|default:'' == '_blank'}> rel="noopener noreferrer"<{/if}>>
                             <{if $menu.bootstrap_icon|default:'' != ''}><i class="<{if $menu.bootstrap_icon|substr:0:3=='fa-'}>fa <{/if}><{$menu.bootstrap_icon|escape:'html'}>" aria-hidden="true"></i><{/if}>
                             <span class="vbm-text"><{$menu.itemname|escape:'html'}></span>
-                            <{if $menu.target|default:'' == '_blank'}><span class="visually-hidden"><{$smarty.const._MB_TADTHEMES_NEW_WINDOW|escape:'html'}></span><{/if}>
                         </a>
                     </li>
                 <{/if}>

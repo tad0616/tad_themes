@@ -40,12 +40,41 @@ function vertical_bootstrap_menu($options)
         }
 
         $menu[$i]['icon'] = $icon;
+        $menu[$i]['title'] = vertical_bootstrap_menu_title((string) $itemname, (string) $itemurl, (string) $target);
         $i++;
     }
     $block['menu'] = $menu;
     $block['jquery'] = Utility::get_jquery();
     //die(var_dump($block));
     return $block;
+}
+
+//產生連結的 title（無障礙：標示檔案格式與另開新視窗）
+if (!function_exists('vertical_bootstrap_menu_title')) {
+    function vertical_bootstrap_menu_title(string $itemname, string $itemurl, string $target): string
+    {
+        // 需要標示格式的檔案副檔名
+        $file_exts = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'odt', 'ods', 'odp', 'rtf', 'txt', 'csv', 'zip', 'rar', '7z', 'mp3', 'mp4'];
+
+        $notes = [];
+        $path = parse_url($itemurl, PHP_URL_PATH);
+        if (is_string($path) && '' !== $path) {
+            $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+            if (in_array($ext, $file_exts, true)) {
+                $notes[] = sprintf(_MB_TADTHEMES_FILE_FORMAT, strtoupper($ext));
+            }
+        }
+
+        if ('_blank' === $target) {
+            $notes[] = _MB_TADTHEMES_NEW_WINDOW;
+        }
+
+        if (empty($notes)) {
+            return $itemname;
+        }
+
+        return sprintf(_MB_TADTHEMES_TITLE_FORMAT, $itemname, implode(_MB_TADTHEMES_TITLE_SEP, $notes));
+    }
 }
 
 //區塊編輯函式 (tad_themes_top_menu_edit)
