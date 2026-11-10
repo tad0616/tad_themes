@@ -176,7 +176,7 @@ switch ($op) {
     case 'save_tree':
         $ok = save_tree();
         Tools::del_theme_json($xoopsConfig['theme_set']);
-        redirect_header('dropdown.php', 2, $ok ? _TAD_SORTED : _TAD_SORT_FAIL);
+        redirect_header('dropdown.php', 2, $ok  ?_TAD_SORTED : _TAD_SORT_FAIL);
         exit;
 
     //修改項目
@@ -487,8 +487,8 @@ function list_tad_themes_menu()
 function get_tad_level_menu($of_level = 0, $level = 0)
 {
     global $xoopsDB;
-    $btn_xs    = 4 == $_SESSION['bootstrap'] ? 'btn-sm' : 'btn-xs';
-    $font_size = 1.2 - ($level * 0.15);
+    $btn_xs    = $_SESSION['bootstrap'] > 3 ? 'btn-sm' : 'btn-xs';
+    $font_size = 1.2 - ($level * 0.1);
     $level += 1;
 
     $option = '';
@@ -503,13 +503,13 @@ function get_tad_level_menu($of_level = 0, $level = 0)
 
     while ($row = $xoopsDB->fetchRow($result)) {
         list($menuid, $parent_id, $itemname, $position, $itemurl, $status, $target, $icon, $link_cate_name) = $row;
-        $menuid  = (int) $menuid;
-        $enabled = 1 == $status;
+        $menuid                                                                                             = (int) $menuid;
+        $enabled                                                                                            = 1 == $status;
 
-        $icon_class = safe_menu_icon($icon);
-        $icon_class = (false === strpos($icon_class, 'fab ')) ? "fa {$icon_class}" : $icon_class;
-        $name_h     = h($itemname);
-        $safe_url   = safe_menu_url($itemurl);
+        $icon_class         = safe_menu_icon($icon);
+        $icon_class         = (false === strpos($icon_class, 'fab ')) ? "fa {$icon_class}" : $icon_class;
+        $name_h             = h($itemname);
+        $safe_url           = safe_menu_url($itemurl);
         $auto_submenu_badge = '' !== $link_cate_name ? "<span class='tt-badge tt-badge-info' title='" . h(_MA_TADTHEMES_AUTO_SUBMENU) . "'>" . h(_MA_TADTHEMES_AUTO_SUBMENU) . '</span>' : '';
 
         $item = "<i class='{$icon_class}'></i> <span class='tt-name'>{$name_h}</span>";
@@ -524,7 +524,7 @@ function get_tad_level_menu($of_level = 0, $level = 0)
             $target_icon = "<span class='tt-badge tt-badge-success'>popup</span>";
         }
 
-        $add_btn = ($level >= 5) ? '' : "<a href='dropdown.php?op=add_tad_themes_menu&of_level={$menuid}' class='btn $btn_xs btn-outline-success btn-default edit_dropdown' data-fancybox-type='iframe' title='" . h(sprintf(_MA_TADTHEMES_ADDITEM, $itemname)) . "'><i class='fa fa-plus' aria-hidden='true'></i></a>";
+        $add_btn = ($level >= 5) ? '' : "<a href='dropdown.php?op=add_tad_themes_menu&of_level={$menuid}' class='btn $btn_xs btn-info edit_dropdown' data-fancybox-type='iframe' title='" . h(sprintf(_MA_TADTHEMES_ADDITEM, $itemname)) . "'><i class='fa fa-plus' aria-hidden='true'></i></a>";
 
         $status_btn = $enabled
         ? "<button type='button' class='btn $btn_xs btn-warning menu-action' data-op='tad_themes_menu_status' data-menuid='{$menuid}' data-status='0'><i class='fa fa-eye-slash' aria-hidden='true'></i> " . _TAD_UNABLE . '</button>'
@@ -739,7 +739,7 @@ function save_tree()
 
     foreach ($rows as $id => $info) {
         list($parent, $position) = $info;
-        $sql = 'UPDATE `' . $xoopsDB->prefix('tad_themes_menu') . '` SET `of_level` = ?, `position` = ? WHERE `menuid` = ?';
+        $sql                     = 'UPDATE `' . $xoopsDB->prefix('tad_themes_menu') . '` SET `of_level` = ?, `position` = ? WHERE `menuid` = ?';
         Utility::query($sql, 'iii', [$parent, $position, $id]) or Utility::web_error($sql, __FILE__, __LINE__);
     }
 
@@ -769,8 +769,8 @@ function auto_import()
 
         while ($row = $xoopsDB->fetchRow($result)) {
             list($name, $dirname) = $row;
-            $position = get_max_sort($of_level);
-            $sql      = 'INSERT INTO `' . $xoopsDB->prefix('tad_themes_menu') . '` (`of_level`, `position`, `itemname`, `itemurl`, `status`, `icon`) VALUES (?, ?, ?, ?, 1, ?)';
+            $position             = get_max_sort($of_level);
+            $sql                  = 'INSERT INTO `' . $xoopsDB->prefix('tad_themes_menu') . '` (`of_level`, `position`, `itemname`, `itemurl`, `status`, `icon`) VALUES (?, ?, ?, ?, 1, ?)';
             Utility::query($sql, 'issss', [$of_level, $position, $name, XOOPS_URL . '/modules/' . $dirname . '/', '']) or Utility::web_error($sql, __FILE__, __LINE__);
         }
     }
