@@ -83,19 +83,19 @@ class Tools
     {
         // Check inputs
         if (!is_int($min_brightness)) {
-            throw new Exception("$min_brightness is not an integer");
+            throw new \Exception("$min_brightness is not an integer");
         }
 
         if (!is_int($spec)) {
-            throw new Exception("$spec is not an integer");
+            throw new \Exception("$spec is not an integer");
         }
 
         if ($spec < 2 or $spec > 10) {
-            throw new Exception("$spec is out of range");
+            throw new \Exception("$spec is out of range");
         }
 
         if ($min_brightness < 0 or $min_brightness > 255) {
-            throw new Exception("$min_brightness is out of range");
+            throw new \Exception("$min_brightness is out of range");
         }
 
         $hash   = md5($text); //Gen hash of text
@@ -263,7 +263,7 @@ class Tools
         self::import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg", 'bt_bg', $theme_id, '');
         self::import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/config2", 'config2', $theme_id, '');
         foreach (self::$block_position_title as $position => $ttt) {
-            self::import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg_{$position}", 'bt_bg_{$position}', $theme_id, '');
+            self::import_img(XOOPS_ROOT_PATH . "/uploads/tad_themes/{$theme_name}/bt_bg_{$position}", "bt_bg_{$position}", $theme_id, '');
 
         }
 

@@ -18,7 +18,7 @@ $op            = Request::getString('op');
 $title         = Request::getString('title');
 $color         = Request::getString('color', '#00a3a8');
 $border_color  = Request::getString('border_color', '#ffffff');
-$name          = Request::getString('name');
+$name          = basename(Request::getString('name'));
 $bg_color      = Request::getString('bg_color');
 $logo          = Request::getString('logo');
 $shadow_color  = Request::getString('shadow_color', '#000000');
@@ -101,11 +101,12 @@ function tad_themes_logo_form()
         $fc = json_decode($_SESSION['font_config'], true);
     }
 
-    $pic = isset($_GET['name']) ? XOOPS_URL . "/uploads/tmp_logo/{$_GET['name']}.png" : '';
+    $raw_name = isset($_GET['name']) ? basename((string) $_GET['name']) : '';
+    $pic      = $raw_name !== '' ? XOOPS_URL . '/uploads/tmp_logo/' . rawurlencode($raw_name) . '.png' : '';
 
     $xoopsTpl->assign('pic', $pic);
 
-    $name = isset($_GET['name']) ? $_GET['name'] : '';
+    $name = htmlspecialchars($raw_name, ENT_QUOTES, 'UTF-8');
     $xoopsTpl->assign('name', $name);
 
     $title = isset($fc['title']) ? $fc['title'] : '';
